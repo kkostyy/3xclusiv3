@@ -81,18 +81,8 @@ body::before {
   width: 200%; height: 200%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   opacity: var(--grain-op);
-  pointer-events: none;
-  z-index: 1000;
-  animation: grain 0.5s steps(2) infinite;
-}
-
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -3%); }
-  30% { transform: translate(3%, -1%); }
-  50% { transform: translate(-1%, 2%); }
-  70% { transform: translate(2%, 3%); }
-  90% { transform: translate(-3%, 1%); }
+  pointer-events: none !important;
+  z-index: -1;
 }
 
 /* ── THIN LINES BACKGROUND ── */
@@ -1191,12 +1181,79 @@ body::after {
   transform: translateX(-50%) translateY(0);
 }
 
+
+/* ═══ EXTRA STYLES ═══ */
+/* Wishlist heart */
+.card-wish { position:absolute; top:10px; left:10px; background:none; border:none; cursor:pointer; font-size:18px; line-height:1; padding:2px; }
+/* Size view */
+.size-form { padding:0 24px 100px; }
+.size-input-group { margin-bottom:20px; }
+.size-label { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.4em; text-transform:uppercase; color:var(--text-2); margin-bottom:8px; display:block; }
+.size-input { width:100%; background:var(--bg-2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:20px; padding:14px 16px; border-radius:12px; outline:none; transition:border-color .3s; }
+.size-input:focus { border-color:var(--border-h); }
+.size-result { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:28px 24px; text-align:center; margin-top:24px; }
+.size-result-num { font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; color:var(--accent); line-height:1; }
+.size-result-label { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.5em; color:var(--text-2); text-transform:uppercase; margin-top:8px; }
+.size-result-range { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text-2); margin-top:12px; }
+/* Referral */
+.ref-view { padding:0 24px 100px; }
+.ref-stat-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.ref-stat { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:20px 16px; }
+.ref-stat-val { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--text); line-height:1; }
+.ref-stat-key { font-family:'Jost',sans-serif; font-size:8px; font-weight:200; letter-spacing:.35em; color:var(--text-3); text-transform:uppercase; margin-top:6px; }
+.tier-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.tier-check { font-size:14px; }
+.tier-label { font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:.2em; color:var(--text-2); flex:1; }
+.tier-pct { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--accent); }
+.tier-row.done .tier-label { color:var(--text); }
+/* Notifications */
+.notif-view { padding:0 24px 100px; }
+.notif-card { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; cursor:pointer; transition:background .3s; }
+.notif-card:hover { background:var(--surface); }
+.notif-icon { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--text-3); }
+.notif-info { flex:1; }
+.notif-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); }
+.notif-sub { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; color:var(--text-3); text-transform:uppercase; margin-top:4px; }
+.notif-toggle { width:36px; height:20px; background:var(--border); border-radius:10px; position:relative; transition:background .3s; }
+.notif-toggle.on { background:var(--accent); }
+.notif-toggle::after { content:''; position:absolute; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left .3s; }
+.notif-toggle.on::after { left:19px; }
+.notif-toggle:not(.on)::after { left:3px; }
+/* Chat / support */
+.chat-view { padding:0 24px 100px; }
+.chat-intro { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text-2); line-height:1.6; margin-bottom:24px; }
+.chat-input-wrap { display:flex; gap:10px; margin-top:16px; }
+.chat-input { flex:1; background:var(--bg-2); border:1px solid var(--border); color:var(--text); font-family:'Jost',sans-serif; font-size:13px; font-weight:200; padding:12px 16px; border-radius:12px; outline:none; resize:none; min-height:80px; transition:border-color .3s; }
+.chat-input:focus { border-color:var(--border-h); }
+/* Order detail / price adjustment */
+.order-price-adj { background:var(--accent-2); border:1px solid var(--accent); border-radius:10px; padding:14px; margin-top:12px; }
+.order-price-adj-title { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.35em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+.order-price-adj-amount { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text); }
+.order-price-adj-reason { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-2); margin-top:4px; }
+.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+.btn-accept { background:var(--accent); color:var(--bg); border:none; border-radius:10px; padding:10px; font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; text-transform:uppercase; cursor:pointer; }
+.btn-reject { background:none; color:var(--text-2); border:1px solid var(--border); border-radius:10px; padding:10px; font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; text-transform:uppercase; cursor:pointer; }
+/* Review stars */
+.stars-row { display:flex; gap:8px; margin:16px 0; }
+.star-btn { font-size:28px; cursor:pointer; opacity:.3; transition:opacity .2s; background:none; border:none; }
+.star-btn.on { opacity:1; }
+/* Delivery zones */
+.zone-card { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:10px; }
+.zone-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); margin-bottom:6px; }
+.zone-area { font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:.15em; color:var(--text-3); margin-bottom:10px; }
+.zone-meta { display:flex; gap:16px; }
+.zone-cost { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); }
+.zone-time { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; color:var(--text-2); align-self:center; }
+/* Nav extra tab */
+.nav-more { position:relative; }
+/* Wishlist empty */
+.wish-empty { padding:60px 24px; text-align:center; }
 </style>
+
 </head>
 <body>
 
 <div class="wrap">
-
   <!-- HEADER -->
   <header class="hd">
     <div class="logo-block">
@@ -1204,7 +1261,6 @@ body::after {
       <div class="logo">3xclusiv<sup>33</sup></div>
     </div>
     <div style="display:flex;align-items:center;gap:20px">
-      <!-- theme toggle -->
       <div class="theme-toggle" id="themeToggle">
         <div class="theme-toggle-track">
           <span class="theme-label l">L</span>
@@ -1212,7 +1268,6 @@ body::after {
           <span class="theme-label d">D</span>
         </div>
       </div>
-      <!-- cart -->
       <div class="cart-trigger" id="cartTrigger">
         <span class="cart-trigger-text">корзина</span>
         <span class="cart-badge" id="cartBadge">—</span>
@@ -1220,11 +1275,7 @@ body::after {
     </div>
   </header>
 
-  <div class="rule">
-    <div class="rule-line"></div>
-    <div class="rule-char">✦</div>
-    <div class="rule-line"></div>
-  </div>
+  <div class="rule"><div class="rule-line"></div><div class="rule-char">✦</div><div class="rule-line"></div></div>
 
   <!-- CATALOG VIEW -->
   <div class="view on" id="vCatalog">
@@ -1235,38 +1286,69 @@ body::after {
       <button class="filter-item" data-cat="accessories">Аксессуары</button>
     </div>
     <div class="grid" id="productGrid">
-      <div class="load">
-        <div class="load-glyph">∞</div>
-        <div class="load-text">загрузка архива</div>
-      </div>
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка архива</div></div>
+    </div>
+  </div>
+
+  <!-- WISHLIST VIEW -->
+  <div class="view" id="vWishlist">
+    <div class="sec-head"><div class="sec-num">❤</div><div class="sec-title">избранное</div></div>
+    <div class="grid" id="wishGrid">
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
     </div>
   </div>
 
   <!-- ORDERS VIEW -->
   <div class="view" id="vOrders">
-    <div class="sec-head">
-      <div class="sec-num">02</div>
-      <div class="sec-title">мои заказы</div>
-    </div>
+    <div class="sec-head"><div class="sec-num">02</div><div class="sec-title">мои заказы</div></div>
     <div class="orders-list" id="ordersList">
-      <div class="load">
-        <div class="load-glyph">∞</div>
-        <div class="load-text">загрузка</div>
-      </div>
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
     </div>
   </div>
 
   <!-- PROFILE VIEW -->
   <div class="view" id="vProfile">
-    <div class="sec-head">
-      <div class="sec-num">03</div>
-      <div class="sec-title">профиль</div>
-    </div>
+    <div class="sec-head"><div class="sec-num">03</div><div class="sec-title">профиль</div></div>
     <div class="profile-wrap" id="profileWrap">
-      <div class="load">
-        <div class="load-glyph">∞</div>
-        <div class="load-text">загрузка</div>
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
+    </div>
+    <!-- Profile sub-sections -->
+    <div id="vSize" style="display:none">
+      <div class="sec-head" style="padding-top:8px"><div class="sec-title">подбор размера</div></div>
+      <div class="size-form">
+        <div class="size-input-group">
+          <label class="size-label">рост (см)</label>
+          <input class="size-input" type="number" id="sizeHeight" placeholder="170" min="140" max="220">
+        </div>
+        <div class="size-input-group">
+          <label class="size-label">вес (кг)</label>
+          <input class="size-input" type="number" id="sizeWeight" placeholder="65" min="30" max="200">
+        </div>
+        <button class="action-primary" onclick="calcSize()"><span>определить размер</span></button>
+        <div id="sizeResult"></div>
       </div>
+    </div>
+    <div id="vReferral" style="display:none">
+      <div class="sec-head" style="padding-top:8px"><div class="sec-title">реферальная программа</div></div>
+      <div class="ref-view" id="refContent"></div>
+    </div>
+    <div id="vNotifications" style="display:none">
+      <div class="sec-head" style="padding-top:8px"><div class="sec-title">уведомления о новинках</div></div>
+      <div class="notif-view" id="notifContent"></div>
+    </div>
+    <div id="vChat" style="display:none">
+      <div class="sec-head" style="padding-top:8px"><div class="sec-title">написать продавцу</div></div>
+      <div class="chat-view">
+        <p class="chat-intro">Есть вопрос по заказу или товару? Напишите — ответим в Telegram.</p>
+        <div class="chat-input-wrap">
+          <textarea class="chat-input" id="chatText" placeholder="Ваше сообщение..."></textarea>
+        </div>
+        <button class="action-primary" style="margin-top:12px" onclick="sendSupport()"><span>отправить</span></button>
+      </div>
+    </div>
+    <div id="vDelivery" style="display:none">
+      <div class="sec-head" style="padding-top:8px"><div class="sec-title">зоны доставки</div></div>
+      <div style="padding:0 24px 100px" id="deliveryContent"></div>
     </div>
   </div>
 
@@ -1274,24 +1356,13 @@ body::after {
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn on" id="navCat">
-    <span class="nav-sym">I</span>
-    <span class="nav-label">Каталог</span>
-  </button>
-  <button class="nav-btn" id="navOrd">
-    <span class="nav-sym">II</span>
-    <span class="nav-label">Заказы</span>
-  </button>
-  <button class="nav-btn" id="navPro">
-    <span class="nav-sym">III</span>
-    <span class="nav-label">Профиль</span>
-  </button>
+  <button class="nav-btn on" id="navCat"><span class="nav-sym">I</span><span class="nav-label">Каталог</span></button>
+  <button class="nav-btn" id="navWish"><span class="nav-sym">❤</span><span class="nav-label">Избранное</span></button>
+  <button class="nav-btn" id="navOrd"><span class="nav-sym">II</span><span class="nav-label">Заказы</span></button>
+  <button class="nav-btn" id="navPro"><span class="nav-sym">III</span><span class="nav-label">Профиль</span></button>
 </nav>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- OVERLAY -->
 <div class="overlay" id="overlay"></div>
 
 <!-- DETAIL PANEL -->
@@ -1311,113 +1382,182 @@ body::after {
   </div>
 </div>
 
+<!-- CHECKOUT PANEL -->
+<div class="panel" id="checkoutPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">оформление заказа</div></div>
+  <div class="panel-body">
+    <div id="checkoutStep1">
+      <div class="size-input-group">
+        <label class="size-label">имя и фамилия</label>
+        <input class="size-input" id="coName" placeholder="Иван Иванов">
+      </div>
+      <div class="size-input-group">
+        <label class="size-label">telegram username (без @)</label>
+        <input class="size-input" id="coUsername" placeholder="username">
+      </div>
+      <div class="size-input-group">
+        <label class="size-label">телефон (Эстония)</label>
+        <input class="size-input" id="coPhone" placeholder="5xxxxxxx" type="tel">
+      </div>
+      <div class="size-input-group">
+        <label class="size-label">район встречи</label>
+        <input class="size-input" id="coAddress" placeholder="Kesklinn, Lasnamäe...">
+        <div id="savedAddrsHint" style="margin-top:8px"></div>
+      </div>
+      <button class="action-primary" onclick="submitOrder()"><span>подтвердить заказ</span></button>
+      <button class="action-ghost" onclick="closePanel()">отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW PANEL -->
+<div class="panel" id="reviewPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">оставить отзыв</div></div>
+  <div class="panel-body">
+    <div id="reviewBody"></div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
 const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); }
 
-const userId   = tg?.initDataUnsafe?.user?.id   || null;
-const userName = tg?.initDataUnsafe?.user?.first_name || 'Гость';
-
-const API = window.location.hostname === 'localhost'
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:8080'
-  : 'https://your-backend.vercel.app'; // ← замените после деплоя
+  : 'https://3xclusiv3-production.up.railway.app';
+
+let userId   = null;
+let userName = 'Гость';
+let userProfile = null;
+
+function initApp() {
+  userId   = tg?.initDataUnsafe?.user?.id   || null;
+  userName = tg?.initDataUnsafe?.user?.first_name || 'Гость';
+
+  if (userId) {
+    fetch(`${API}/api/is_admin/${userId}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.is_admin) {
+          window.location.replace('https://3xclusiv33.vercel.app/admin.html');
+          return;
+        }
+        startMiniApp();
+      })
+      .catch(() => startMiniApp());
+  } else {
+    startMiniApp();
+  }
+}
+
+function startMiniApp() {
+  updateBadge();
+  loadProducts();
+  if (userId) loadWishlistIds();
+}
+
+// initApp вызывается в конце файла после определения всех функций
 
 // ═══ THEME ═══
 let isDark = localStorage.getItem('th_3x') !== 'light';
-
 function applyTheme(dark) {
   isDark = dark;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   localStorage.setItem('th_3x', dark ? 'dark' : 'light');
-  if (tg) {
-    tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8');
-    tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8');
-  }
+  if (tg) { tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8'); tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8'); }
 }
-
 applyTheme(isDark);
-
 document.getElementById('themeToggle').addEventListener('click', () => applyTheme(!isDark));
 
 // ═══ TOAST ═══
 let toastTimer;
-function toast(msg, dur = 2200) {
+function toast(msg, dur=2200) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('on');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('on'), dur);
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), dur);
 }
 
 // ═══ CART STATE ═══
 let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
 let allProducts = [];
+let wishIds = new Set();
 let activeCat = 'all';
 
 function saveCart() { localStorage.setItem('cart_3x', JSON.stringify(cart)); }
-function cartCount() { return Object.values(cart).reduce((s, i) => s + i.qty, 0); }
-function cartTotal() { return Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0); }
-
+function cartCount() { return Object.values(cart).reduce((s,i) => s+i.qty, 0); }
+function cartTotal() { return Object.values(cart).reduce((s,i) => s+i.price*i.qty, 0); }
 function updateBadge() {
   const n = cartCount();
   document.getElementById('cartBadge').textContent = n > 0 ? n : '—';
 }
-
 function addToCart(product) {
   if (cart[product.id]) cart[product.id].qty++;
-  else cart[product.id] = { ...product, qty: 1 };
-  saveCart(); updateBadge();
-  toast('добавлено в корзину');
+  else cart[product.id] = {...product, qty:1};
+  saveCart(); updateBadge(); toast('добавлено в корзину');
+}
+
+// ═══ WISHLIST IDS ═══
+async function loadWishlistIds() {
+  if (!userId) return;
+  try {
+    const r = await fetch(`${API}/api/wishlist/${userId}`);
+    const items = await r.json();
+    wishIds = new Set(items.map(p => p.id));
+  } catch {}
+}
+
+async function toggleWish(pid, e) {
+  e && e.stopPropagation();
+  if (!userId) { toast('откройте через telegram'); return; }
+  try {
+    const r = await fetch(`${API}/api/wishlist/toggle`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({telegram_id: userId, product_id: pid})
+    });
+    const data = await r.json();
+    if (data.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
+    else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
+    renderGrid();
+  } catch { toast('ошибка'); }
 }
 
 // ═══ PANELS ═══
 let activePanel = null;
-
 function openPanel(id) {
   if (activePanel) closePanel();
   activePanel = id;
   document.getElementById('overlay').classList.add('on');
   document.getElementById(id).classList.add('on');
 }
-
 function closePanel() {
   if (!activePanel) return;
   document.getElementById('overlay').classList.remove('on');
   document.getElementById(activePanel).classList.remove('on');
   activePanel = null;
 }
-
 document.getElementById('overlay').addEventListener('click', closePanel);
 
 // ═══ CART PANEL ═══
-document.getElementById('cartTrigger').addEventListener('click', () => {
-  renderCartPanel();
-  openPanel('cartPanel');
-});
+document.getElementById('cartTrigger').addEventListener('click', () => { renderCartPanel(); openPanel('cartPanel'); });
 
 function renderCartPanel() {
   const items = Object.values(cart);
-  const body  = document.getElementById('cartBody');
-  const foot  = document.getElementById('cartFoot');
-
+  const body = document.getElementById('cartBody');
+  const foot = document.getElementById('cartFoot');
   if (!items.length) {
-    body.innerHTML = `<div class="empty-state">
-      <div class="empty-glyph">○</div>
-      <div class="empty-text">корзина пуста</div>
-    </div>`;
-    foot.innerHTML = '';
-    return;
+    body.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">корзина пуста</div></div>`;
+    foot.innerHTML = ''; return;
   }
-
   body.innerHTML = items.map(item => `
     <div class="cart-row">
-      <div class="cart-thumb">${item.photo ? `<img src="${item.photo}" alt="">` : glyphFor(item.category)}</div>
+      <div class="cart-thumb">${item.photo_id ? `<img src="https://api.telegram.org/file/bot${BOT_FILE_TOKEN}/${item.photo_id}" onerror="this.style.display='none'">` : glyphFor(item.category)}</div>
       <div class="cart-info">
         <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-sub">${(item.price * item.qty).toFixed(2)} €</div>
+        <div class="cart-item-sub">${(item.price*item.qty).toFixed(2)} €</div>
         <div class="qty-ctl">
           <button class="qty-btn" onclick="chQty(${item.id},-1)">−</button>
           <span class="qty-num">${item.qty}</span>
@@ -1425,18 +1565,12 @@ function renderCartPanel() {
         </div>
       </div>
       <button class="rm-btn" onclick="rmItem(${item.id})">убрать</button>
-    </div>
-  `).join('');
-
-  foot.innerHTML = `
-    <div class="cart-foot">
-      <div class="cart-total-row">
-        <span class="total-label">итого</span>
-        <span class="total-sum">${cartTotal().toFixed(2)} €</span>
-      </div>
-      <button class="action-primary" onclick="checkout()"><span>оформить заказ</span></button>
-      <button class="action-ghost" onclick="clearCart()">очистить корзину</button>
-    </div>`;
+    </div>`).join('');
+  foot.innerHTML = `<div class="cart-foot">
+    <div class="cart-total-row"><span class="total-label">итого</span><span class="total-sum">${cartTotal().toFixed(2)} €</span></div>
+    <button class="action-primary" onclick="openCheckout()"><span>оформить заказ</span></button>
+    <button class="action-ghost" onclick="clearCartFn()">очистить корзину</button>
+  </div>`;
 }
 
 function chQty(pid, d) {
@@ -1445,39 +1579,75 @@ function chQty(pid, d) {
   if (cart[pid].qty <= 0) delete cart[pid];
   saveCart(); updateBadge(); renderCartPanel();
 }
+function rmItem(pid) { delete cart[pid]; saveCart(); updateBadge(); renderCartPanel(); }
+function clearCartFn() { cart = {}; saveCart(); updateBadge(); renderCartPanel(); toast('корзина очищена'); }
 
-function rmItem(pid) {
-  delete cart[pid];
-  saveCart(); updateBadge(); renderCartPanel();
-}
-
-function clearCart() {
-  cart = {}; saveCart(); updateBadge(); renderCartPanel();
-  toast('корзина очищена');
-}
-
-function checkout() {
+// ═══ CHECKOUT ═══
+function openCheckout() {
   if (!cartCount()) return;
-  if (tg) {
-    tg.sendData(JSON.stringify({
-      action: 'checkout',
-      user_id: userId,
-      items: Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name })),
-      total: cartTotal()
-    }));
-    closePanel();
-    toast('заказ передан в бот');
-  } else {
-    toast('откройте через telegram');
+  closePanel();
+  // Load saved addresses hint
+  if (userId) {
+    fetch(`${API}/api/addresses/${userId}`).then(r=>r.json()).then(addrs => {
+      const hint = document.getElementById('savedAddrsHint');
+      if (addrs.length) {
+        hint.innerHTML = addrs.map(a =>
+          `<button onclick="document.getElementById('coAddress').value='${a.address}'" style="margin:4px;padding:6px 12px;background:var(--bg-3);border:1px solid var(--border);border-radius:20px;color:var(--text-2);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.2em;cursor:pointer">${a.label}</button>`
+        ).join('');
+      }
+    }).catch(()=>{});
   }
+  // Pre-fill username from Telegram
+  if (tg?.initDataUnsafe?.user) {
+    const u = tg.initDataUnsafe.user;
+    if (u.first_name) document.getElementById('coName').value = (u.first_name + ' ' + (u.last_name||'')).trim();
+    if (u.username) document.getElementById('coUsername').value = u.username;
+  }
+  openPanel('checkoutPanel');
+}
+
+async function submitOrder() {
+  if (!userId) { toast('откройте через telegram'); return; }
+  const name = document.getElementById('coName').value.trim();
+  const username = document.getElementById('coUsername').value.trim().replace('@','');
+  const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g,'').replace(/^\+?372/,'');
+  const address = document.getElementById('coAddress').value.trim();
+
+  if (!name || name.split(' ').length < 2) { toast('введите имя и фамилию'); return; }
+  if (!username || username.length < 5) { toast('введите username (мин 5 символов)'); return; }
+  if (!/^[3-8]\d{7}$/.test(phone)) { toast('введите эстонский номер (8 цифр)'); return; }
+  if (!address) { toast('введите район встречи'); return; }
+
+  const items = Object.values(cart).map(i => ({id:i.id, qty:i.qty, price:i.price, name:i.name}));
+  
+  // Get referral discount
+  let discount = 0;
+  if (userProfile) discount = userProfile.discount || 0;
+  const rawTotal = cartTotal();
+  const finalTotal = rawTotal * (1 - discount/100);
+
+  try {
+    const r = await fetch(`${API}/api/checkout`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({user_id:userId, items, total:finalTotal, name, username, phone, address})
+    });
+    const data = await r.json();
+    if (data.ok) {
+      cart = {}; saveCart(); updateBadge();
+      closePanel();
+      toast(`✅ заказ #${data.order_id} оформлен!`, 4000);
+      // Auto-save address
+      fetch(`${API}/api/addresses`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({telegram_id:userId, label:address.substring(0,20), address})
+      }).catch(()=>{});
+    } else { toast('ошибка оформления'); }
+  } catch { toast('ошибка соединения'); }
 }
 
 // ═══ CATALOG ═══
-const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
-
-function glyphFor(cat) {
-  return { clothes: 'I', shoes: 'II', accessories: 'III' }[cat] || '∞';
-}
+const catLabel = {clothes:'одежда', shoes:'обувь', accessories:'аксессуары'};
+function glyphFor(cat) { return {clothes:'I', shoes:'II', accessories:'III'}[cat] || '∞'; }
 
 async function loadProducts() {
   try {
@@ -1486,50 +1656,44 @@ async function loadProducts() {
     allProducts = await res.json();
   } catch {
     allProducts = [
-      { id:1, name:'Манто из шерсти',      price:189, category:'clothes',     description:'Объёмное пальто с асимметричным кроем. Деконструированный силуэт.', photo:null, is_available:1 },
-      { id:2, name:'Брюки Tabi',            price:124, category:'clothes',     description:'Свободные брюки из плотного хлопка с заниженной талией.', photo:null, is_available:1 },
-      { id:3, name:'Ботинки Artisanal',     price:265, category:'shoes',       description:'Ручная работа. Кожаная подошва. Неровная строчка — намеренно.', photo:null, is_available:1 },
-      { id:4, name:'Оксфорды Split Toe',    price:195, category:'shoes',       description:'Разделённый носок. Кожа телёнка. Ограниченный тираж.', photo:null, is_available:0 },
-      { id:5, name:'Кольцо No. 22',         price:38,  category:'accessories', description:'Нержавеющая сталь. Намеренно без покрытия.', photo:null, is_available:1 },
-      { id:6, name:'Шарф Decortiqué',       price:56,  category:'accessories', description:'Обработанные края. Натуральная шерсть.', photo:null, is_available:1 },
+      {id:1,name:'Манто из шерсти',price:189,category:'clothes',description:'Объёмное пальто.',photo_id:null,is_available:1},
+      {id:2,name:'Брюки Tabi',price:124,category:'clothes',description:'Свободные брюки.',photo_id:null,is_available:1},
+      {id:3,name:'Ботинки Artisanal',price:265,category:'shoes',description:'Ручная работа.',photo_id:null,is_available:1},
+      {id:4,name:'Кольцо No. 22',price:38,category:'accessories',description:'Нержавеющая сталь.',photo_id:null,is_available:1},
     ];
   }
   renderGrid();
 }
 
-function renderGrid() {
-  const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
+function renderGrid(products) {
+  const list = (products || (activeCat==='all' ? allProducts : allProducts.filter(p=>p.category===activeCat)));
   const grid = document.getElementById('productGrid');
-
   if (!list.length) {
-    grid.innerHTML = `<div class="load" style="grid-column:1/-1">
-      <div class="empty-glyph" style="font-size:48px">○</div>
-      <div class="load-text">нет изделий</div>
-    </div>`;
+    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-glyph" style="font-size:48px">○</div><div class="load-text">нет изделий</div></div>`;
     return;
   }
-
-  grid.innerHTML = list.map(p => `
-    <div class="card ${!p.is_available ? 'void' : ''}" onclick="openDetail(${p.id})">
+  grid.innerHTML = list.map(p => {
+    const inWish = wishIds.has(p.id);
+    return `<div class="card ${!p.is_available?'void':''}" onclick="openDetail(${p.id})">
       <div class="card-visual">
-        ${p.photo ? `<img src="${p.photo}" alt="${p.name}" loading="lazy">` : `<span class="card-glyph">${glyphFor(p.category)}</span>`}
+        <span class="card-glyph">${glyphFor(p.category)}</span>
         ${!p.is_available ? `<div class="card-void">архив</div>` : ''}
-        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo:${JSON.stringify(p.photo||'')}})">+</button>` : ''}
+        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''})">+</button>` : ''}
+        <button class="card-wish" onclick="toggleWish(${p.id},event)">${inWish?'❤️':'🤍'}</button>
       </div>
       <div class="card-body">
-        <div class="card-cat">${catLabel[p.category] || p.category}</div>
+        <div class="card-cat">${catLabel[p.category]||p.category}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-price">${p.price.toFixed(2)} €</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
-// filter
 document.getElementById('filterBar').addEventListener('click', e => {
   const btn = e.target.closest('.filter-item');
   if (!btn) return;
-  document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.filter-item').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   activeCat = btn.dataset.cat;
   renderGrid();
@@ -1537,33 +1701,73 @@ document.getElementById('filterBar').addEventListener('click', e => {
 
 // ═══ PRODUCT DETAIL ═══
 function openDetail(pid) {
-  const p = allProducts.find(x => x.id === pid);
+  const p = allProducts.find(x=>x.id===pid);
   if (!p) return;
+  const inWish = wishIds.has(p.id);
   document.getElementById('detailBody').innerHTML = `
-    <div class="detail-img-wrap">
-      ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<span class="detail-glyph">${glyphFor(p.category)}</span>`}
-    </div>
+    <div class="detail-img-wrap"><span class="detail-glyph">${glyphFor(p.category)}</span></div>
     <div class="detail-meta">
-      <div class="detail-cat">${catLabel[p.category] || p.category} / ${p.id.toString().padStart(4, '0')}</div>
+      <div class="detail-cat">${catLabel[p.category]||p.category} / ${String(p.id).padStart(4,'0')}</div>
       <div class="detail-name">${p.name}</div>
       <div class="detail-price">${p.price.toFixed(2)} €</div>
-      ${p.description ? `<div class="detail-desc">${p.description}</div>` : ''}
-      ${p.is_available
-        ? `<button class="action-primary" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo:${JSON.stringify(p.photo||'')}}); closePanel()"><span>в корзину</span></button>`
-        : `<button class="action-primary" disabled><span>нет в наличии</span></button>`
-      }
+      ${p.description?`<div class="detail-desc">${p.description}</div>`:''}
+      <div style="display:flex;gap:10px;margin-bottom:12px">
+        ${p.is_available
+          ? `<button class="action-primary" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''});closePanel()"><span>в корзину</span></button>`
+          : `<button class="action-primary" style="flex:1" disabled><span>нет в наличии</span></button>`}
+        <button onclick="toggleWish(${p.id})" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:0 16px;font-size:20px;cursor:pointer">${inWish?'❤️':'🤍'}</button>
+      </div>
     </div>`;
   openPanel('detailPanel');
 }
 
+// ═══ WISHLIST VIEW ═══
+async function loadWishlist() {
+  const grid = document.getElementById('wishGrid');
+  if (!userId) {
+    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-text">откройте через telegram</div></div>`;
+    return;
+  }
+  try {
+    const r = await fetch(`${API}/api/wishlist/${userId}`);
+    const items = await r.json();
+    wishIds = new Set(items.map(p=>p.id));
+    if (!items.length) {
+      grid.innerHTML = `<div class="wish-empty" style="grid-column:1/-1"><div class="empty-glyph">🤍</div><div class="empty-text">избранное пусто</div></div>`;
+      return;
+    }
+    grid.innerHTML = items.map(p => `
+      <div class="card" onclick="openDetail(${p.id})">
+        <div class="card-visual">
+          <span class="card-glyph">${glyphFor(p.category)}</span>
+          <button class="card-wish" onclick="toggleWishAndRemove(${p.id},event)">❤️</button>
+          ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''})">+</button>`:''}
+        </div>
+        <div class="card-body">
+          <div class="card-cat">${catLabel[p.category]||p.category}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-price">${p.price.toFixed(2)} €</div>
+        </div>
+      </div>`).join('');
+  } catch {
+    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-text">ошибка загрузки</div></div>`;
+  }
+}
+
+async function toggleWishAndRemove(pid, e) {
+  e && e.stopPropagation();
+  await toggleWish(pid);
+  loadWishlist();
+}
+
 // ═══ ORDERS ═══
 const STATUS = {
-  searching:  { t: 'в поиске', active: true,  pct: 10,  s: [1,0,0,0,0] },
-  ordered:    { t: 'заказано', active: true,  pct: 30,  s: [1,1,0,0,0] },
-  in_transit: { t: 'в пути',   active: true,  pct: 60,  s: [1,1,1,0,0] },
-  arrived:    { t: 'прибыл',   active: true,  pct: 85,  s: [1,1,1,1,0] },
-  delivered:  { t: 'получен',  active: false, pct: 100, s: [1,1,1,1,1] },
-  cancelled:  { t: 'отменён',  active: false, pct: 0,   s: [0,0,0,0,0] },
+  searching:  {t:'в поиске',  active:true,  pct:10},
+  ordered:    {t:'заказано',  active:true,  pct:30},
+  in_transit: {t:'в пути',    active:true,  pct:60},
+  arrived:    {t:'прибыл',    active:true,  pct:85},
+  delivered:  {t:'получен',   active:false, pct:100},
+  cancelled:  {t:'отменён',   active:false, pct:0},
 };
 
 async function loadOrders() {
@@ -1580,31 +1784,96 @@ async function loadOrders() {
       return;
     }
     const cards = orders.map(o => {
-      const st  = STATUS[o.status] || { t: o.status, active: false, pct: 0 };
-      const cls = st.active ? 'is-active' : (o.status === 'delivered' ? 'is-done' : '');
-      return `<div class="order-card ${cls}">
-        <div class="order-card-visual">
-          <div class="order-card-badge">${st.t}</div>
-          <div class="order-card-num">${String(o.id).slice(-2).padStart(2,'0')}</div>
-        </div>
-        <div class="order-card-body">
-          <div class="order-card-amount">${o.total_price.toFixed(2)} €</div>
-          <div class="order-card-meta">${o.created_at?.slice(0,10) || ''}</div>
-          <div class="order-card-bar">
-            <div class="order-card-bar-fill" style="width:${st.pct}%"></div>
+      const st = STATUS[o.status] || {t:o.status, active:false, pct:0};
+      const cls = st.active ? 'is-active' : (o.status==='delivered'?'is-done':'');
+      const items = (o.items||[]).map(i=>`<div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;color:var(--text-2);padding:3px 0">${i.name} × ${i.qty} — ${(i.price*i.qty).toFixed(2)} €</div>`).join('');
+      // Price adjustment
+      let adjBlock = '';
+      if (o.adjusted_price) {
+        adjBlock = `<div class="order-price-adj">
+          <div class="order-price-adj-title">⚠ изменение цены</div>
+          <div class="order-price-adj-amount">${(+o.adjusted_price).toFixed(2)} €</div>
+          <div class="order-price-adj-reason">${o.adjustment_reason||''}</div>
+          <div class="btn-row">
+            <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
+            <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить заказ</button>
           </div>
+        </div>`;
+      }
+      // Review button
+      let reviewBtn = '';
+      if (o.status === 'delivered') {
+        reviewBtn = `<button onclick="openReview(${o.id})" style="margin-top:10px;background:none;border:1px solid var(--border);color:var(--text-2);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:8px 16px;border-radius:20px;cursor:pointer;width:100%">оставить отзыв</button>`;
+      }
+      return `<div class="order-card ${cls}" style="margin-bottom:10px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="order-card-badge" style="position:static">${st.t}</div>
+          <div class="order-card-amount">${(+o.total_price).toFixed(2)} €</div>
         </div>
+        <div class="order-card-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
+        <div style="margin:10px 0">${items}</div>
+        <div class="order-card-bar"><div class="order-card-bar-fill" style="width:${st.pct}%"></div></div>
+        ${adjBlock}
+        ${reviewBtn}
       </div>`;
     }).join('');
-    el.innerHTML = `<div class="orders-grid">${cards}</div>`;
+    el.innerHTML = `<div style="padding:0 14px 100px">${cards}</div>`;
   } catch {
     el.innerHTML = `<div class="empty-state"><div class="empty-text">не удалось загрузить</div></div>`;
   }
 }
 
+async function priceDecision(orderId, action) {
+  if (!userId) return;
+  try {
+    await fetch(`${API}/api/orders/${orderId}/price_decision`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({telegram_id:userId, action})
+    });
+    toast(action==='accept' ? '✅ цена принята' : '❌ заказ отменён', 3000);
+    loadOrders();
+  } catch { toast('ошибка'); }
+}
+
+// ═══ REVIEW ═══
+let reviewOrderId = null;
+let reviewStars = 0;
+
+function openReview(orderId) {
+  reviewOrderId = orderId;
+  reviewStars = 0;
+  document.getElementById('reviewBody').innerHTML = `
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:8px">Заказ #${orderId}</div>
+    <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--text-2);text-transform:uppercase;margin-bottom:4px">оценка</div>
+    <div class="stars-row" id="starsRow">
+      ${[1,2,3,4,5].map(n=>`<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}
+    </div>
+    <textarea class="chat-input" id="reviewComment" placeholder="Комментарий (необязательно)..." style="margin-top:12px;min-height:80px"></textarea>
+    <button class="action-primary" style="margin-top:12px" onclick="submitReview()"><span>отправить отзыв</span></button>`;
+  openPanel('reviewPanel');
+}
+
+function setStar(n) {
+  reviewStars = n;
+  document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('on', i<n));
+}
+
+async function submitReview() {
+  if (!userId || !reviewOrderId) return;
+  if (!reviewStars) { toast('выберите оценку'); return; }
+  const comment = document.getElementById('reviewComment')?.value || '';
+  try {
+    await fetch(`${API}/api/reviews`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({telegram_id:userId, order_id:reviewOrderId, rating:reviewStars, comment})
+    });
+    closePanel(); toast('✅ отзыв сохранён', 3000);
+  } catch { toast('ошибка'); }
+}
+
 // ═══ PROFILE ═══
 async function loadProfile() {
-  const el  = document.getElementById('profileWrap');
+  const el = document.getElementById('profileWrap');
   const usr = tg?.initDataUnsafe?.user;
   if (!usr) {
     el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">откройте через telegram</div></div>`;
@@ -1614,66 +1883,214 @@ async function loadProfile() {
   try {
     const r = await fetch(`${API}/api/user/${usr.id}`);
     db = await r.json();
+    userProfile = db;
   } catch {}
 
-  const monogram = usr.first_name?.[0]?.toUpperCase() || '?';
+  const monogram = usr.first_name?.[0]?.toUpperCase()||'?';
 
-  el.innerHTML = `
+  // Кнопка админа — показываем если is_admin
+  let adminBlock = '';
+  try {
+    const ar = await fetch(`${API}/api/is_admin/${usr.id}`);
+    const ad = await ar.json();
+    if (ad.is_admin) {
+      adminBlock = `<div onclick="window.location.href='https://3xclusiv33.vercel.app/admin.html'" style="margin:0 0 16px;padding:16px;background:var(--accent-2);border:1px solid var(--accent);border-radius:14px;text-align:center;cursor:pointer"><div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.5em;text-transform:uppercase;color:var(--accent)">⚙️ панель администратора</div></div>`;
+    }
+  } catch {}
+
+  el.innerHTML = adminBlock + `
     <div class="profile-ident">
       <div class="profile-monogram">${monogram}</div>
       <div class="profile-name-block">
-        <div class="profile-name">${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}</div>
-        <div class="profile-handle">${usr.username ? '@'+usr.username : 'id ' + usr.id}</div>
+        <div class="profile-name">${usr.first_name}${usr.last_name?' '+usr.last_name:''}</div>
+        <div class="profile-handle">${usr.username?'@'+usr.username:'id'+usr.id}</div>
       </div>
     </div>
     <div class="stat-grid">
-      <div class="stat-cell">
-        <div class="stat-val">${db?.orders || 0}</div>
-        <div class="stat-key">заказов</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-val">${db?.referrals || 0}</div>
-        <div class="stat-key">рефералов</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-val">${db?.discount || 0}<span style="font-size:16px">%</span></div>
-        <div class="stat-key">скидка</div>
-      </div>
+      <div class="stat-cell"><div class="stat-val">${db?.orders||0}</div><div class="stat-key">заказов</div></div>
+      <div class="stat-cell"><div class="stat-val">${db?.referrals||0}</div><div class="stat-key">рефералов</div></div>
+      <div class="stat-cell"><div class="stat-val">${db?.discount||0}<span style="font-size:16px">%</span></div><div class="stat-key">скидка</div></div>
     </div>
-    ${db?.ref_link ? `
-    <div class="ref-block" onclick="copyRef('${db.ref_link}')">
-      <div class="ref-label">реферальная ссылка</div>
-      <div class="ref-link">${db.ref_link}</div>
-    </div>` : ''}
-  `;
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 0 16px">
+      <button onclick="showProfileSection('vSize')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">📏 размер</button>
+      <button onclick="showProfileSection('vReferral')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">🔗 рефералы</button>
+      <button onclick="showProfileSection('vNotifications')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">🔔 уведомления</button>
+      <button onclick="showProfileSection('vChat')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">💬 продавец</button>
+      <button onclick="showProfileSection('vDelivery');loadDelivery()" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer;grid-column:1/-1">🚚 зоны доставки</button>
+    </div>`;
+}
+
+function showProfileSection(id) {
+  ['vSize','vReferral','vNotifications','vChat','vDelivery'].forEach(v => {
+    document.getElementById(v).style.display = v===id ? 'block' : 'none';
+  });
+  document.getElementById('profileWrap').style.display = 'none';
+  if (id==='vReferral') loadReferral();
+  if (id==='vNotifications') loadNotifications();
+}
+
+function hideProfileSection() {
+  ['vSize','vReferral','vNotifications','vChat','vDelivery'].forEach(v => {
+    document.getElementById(v).style.display = 'none';
+  });
+  document.getElementById('profileWrap').style.display = 'block';
+}
+
+// ═══ SIZE ═══
+async function calcSize() {
+  const h = parseFloat(document.getElementById('sizeHeight').value);
+  const w = parseFloat(document.getElementById('sizeWeight').value);
+  if (!h||!w||h<100||h>250||w<20||w>300) { toast('введите корректные данные'); return; }
+  try {
+    const r = await fetch(`${API}/api/size?height=${h}&weight=${w}`);
+    const data = await r.json();
+    document.getElementById('sizeResult').innerHTML = `
+      <div class="size-result">
+        <div class="size-result-num">${data.size}</div>
+        <div class="size-result-label">рекомендуемый размер</div>
+        <div class="size-result-range">рост ${data.height_range} · вес ${data.weight_range}</div>
+      </div>`;
+  } catch { toast('ошибка'); }
+}
+
+// ═══ REFERRAL ═══
+async function loadReferral() {
+  const el = document.getElementById('refContent');
+  if (!userId) { el.innerHTML = '<div class="empty-text">откройте через telegram</div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/user/${userId}`);
+    const db = await r.json();
+    const tiers = [{n:1,pct:3},{n:2,pct:5},{n:5,pct:10},{n:10,pct:15}];
+    const tiersHtml = tiers.map(t => {
+      const done = db.referrals >= t.n;
+      return `<div class="tier-row ${done?'done':''}">
+        <span class="tier-check">${done?'✅':'⬜'}</span>
+        <span class="tier-label">${t.n} ${t.n===1?'друг':'друзей'}</span>
+        <span class="tier-pct">${t.pct}%</span>
+      </div>`;
+    }).join('');
+    el.innerHTML = `
+      <div class="ref-stat-row">
+        <div class="ref-stat"><div class="ref-stat-val">${db.referrals}</div><div class="ref-stat-key">приглашено</div></div>
+        <div class="ref-stat"><div class="ref-stat-val">${db.discount}%</div><div class="ref-stat-key">ваша скидка</div></div>
+      </div>
+      <div style="margin-bottom:20px">${tiersHtml}</div>
+      ${db.next_tier ? `<div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;letter-spacing:.2em;color:var(--text-2);margin-bottom:16px">ещё ${db.next_tier.need} чел. → ${db.next_tier.pct}%</div>` : ''}
+      <div class="ref-block" onclick="copyRef('${db.ref_link}')">
+        <div class="ref-label">реферальная ссылка</div>
+        <div class="ref-link">${db.ref_link}</div>
+      </div>`;
+  } catch { el.innerHTML = '<div class="empty-text">ошибка загрузки</div>'; }
 }
 
 function copyRef(link) {
-  navigator.clipboard?.writeText(link).then(() => toast('ссылка скопирована'));
+  navigator.clipboard?.writeText(link).then(()=>toast('ссылка скопирована'));
+}
+
+// ═══ NOTIFICATIONS ═══
+async function loadNotifications() {
+  const el = document.getElementById('notifContent');
+  if (!userId) { el.innerHTML = '<div class="empty-text">откройте через telegram</div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/notifications/${userId}`);
+    const data = await r.json();
+    const subs = new Set(data.subscribed);
+    const cats = [
+      {id:'clothes', name:'Одежда', icon:'👕'},
+      {id:'shoes', name:'Обувь', icon:'👟'},
+      {id:'accessories', name:'Аксессуары', icon:'👜'},
+    ];
+    el.innerHTML = cats.map(c => {
+      const on = subs.has(c.id);
+      return `<div class="notif-card" onclick="toggleNotif('${c.id}',this)">
+        <div class="notif-icon">${c.icon}</div>
+        <div class="notif-info">
+          <div class="notif-name">${c.name}</div>
+          <div class="notif-sub">${on?'подписаны':'не подписаны'}</div>
+        </div>
+        <div class="notif-toggle ${on?'on'}" id="ntog-${c.id}"></div>
+      </div>`;
+    }).join('');
+  } catch { el.innerHTML = '<div class="empty-text">ошибка загрузки</div>'; }
+}
+
+async function toggleNotif(cat, card) {
+  if (!userId) return;
+  try {
+    const r = await fetch(`${API}/api/notifications/toggle`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({telegram_id:userId, category:cat})
+    });
+    const data = await r.json();
+    const tog = document.getElementById(`ntog-${cat}`);
+    const sub = card.querySelector('.notif-sub');
+    tog.classList.toggle('on', data.subscribed);
+    sub.textContent = data.subscribed ? 'подписаны' : 'не подписаны';
+    toast(data.subscribed ? `✅ подписаны на ${cat}` : `🔕 отписались`);
+  } catch { toast('ошибка'); }
+}
+
+// ═══ SUPPORT ═══
+async function sendSupport() {
+  if (!userId) { toast('откройте через telegram'); return; }
+  const text = document.getElementById('chatText').value.trim();
+  if (!text) { toast('введите сообщение'); return; }
+  try {
+    await fetch(`${API}/api/support`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({telegram_id:userId, name:userName, text})
+    });
+    document.getElementById('chatText').value = '';
+    toast('✅ сообщение отправлено', 3000);
+  } catch { toast('ошибка'); }
+}
+
+// ═══ DELIVERY ═══
+function loadDelivery() {
+  const zones = [
+    {name:'🏙 Таллин — Центр', area:'Kesklinn, Põhja-Tallinn, Kalamaja', cost:'0 €', time:'В день заказа'},
+    {name:'🏘 Таллин — Периферия', area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', cost:'0 €', time:'В день заказа'},
+    {name:'🚌 Харьюмаа', area:'Маарду, Саку, Кейла, Виймси', cost:'2 €', time:'1–2 дня'},
+    {name:'🚗 Другие регионы', area:'Тарту, Пярну, Нарва и другие', cost:'5 €', time:'2–3 дня'},
+  ];
+  document.getElementById('deliveryContent').innerHTML = zones.map(z => `
+    <div class="zone-card">
+      <div class="zone-name">${z.name}</div>
+      <div class="zone-area">${z.area}</div>
+      <div class="zone-meta">
+        <div class="zone-cost">${z.cost}</div>
+        <div class="zone-time">${z.time}</div>
+      </div>
+    </div>`).join('') + '<p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-2);font-size:14px;margin-top:16px">Оплата наличными при встрече с продавцом</p>';
 }
 
 // ═══ NAVIGATION ═══
 let curView = 'catalog';
 
 function switchView(v) {
-  const map = { catalog: 'vCatalog', orders: 'vOrders', profile: 'vProfile' };
-  const nav = { catalog: 'navCat',   orders: 'navOrd',  profile: 'navPro'  };
+  const map = {catalog:'vCatalog', wishlist:'vWishlist', orders:'vOrders', profile:'vProfile'};
+  const nav = {catalog:'navCat', wishlist:'navWish', orders:'navOrd', profile:'navPro'};
   Object.keys(map).forEach(k => {
-    document.getElementById(map[k]).classList.toggle('on', k === v);
-    document.getElementById(nav[k]).classList.toggle('on', k === v);
+    document.getElementById(map[k]).classList.toggle('on', k===v);
+    document.getElementById(nav[k]).classList.toggle('on', k===v);
   });
   curView = v;
-  if (v === 'orders')  loadOrders();
-  if (v === 'profile') loadProfile();
+  hideProfileSection();
+  if (v==='orders') loadOrders();
+  if (v==='profile') loadProfile();
+  if (v==='wishlist') loadWishlist();
 }
 
-document.getElementById('navCat').addEventListener('click', () => switchView('catalog'));
-document.getElementById('navOrd').addEventListener('click', () => switchView('orders'));
-document.getElementById('navPro').addEventListener('click', () => switchView('profile'));
+document.getElementById('navCat').addEventListener('click', ()=>switchView('catalog'));
+document.getElementById('navWish').addEventListener('click', ()=>switchView('wishlist'));
+document.getElementById('navOrd').addEventListener('click', ()=>switchView('orders'));
+document.getElementById('navPro').addEventListener('click', ()=>switchView('profile'));
 
-// ═══ START ═══
-updateBadge();
-loadProducts();
+const BOT_FILE_TOKEN = '';
+
+// Запуск после загрузки всех функций
+if (tg) { tg.ready(); tg.expand(); setTimeout(initApp, 200); }
+else { setTimeout(initApp, 0); }
 </script>
 </body>
 </html>
