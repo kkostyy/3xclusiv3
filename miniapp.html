@@ -1,1381 +1,207 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>3XCLUSIV33</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@100;200;300;400&display=swap" rel="stylesheet">
 <style>
-
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — MAISON MARGIELA DECODED
-   ═══════════════════════════════════════════ */
-
-:root {
-  --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-[data-theme="dark"] {
-  --bg:        #0c0c0b;
-  --bg-2:      #111110;
-  --bg-3:      #191917;
-  --surface:   #161614;
-  --border:    rgba(255,255,255,0.06);
-  --border-h:  rgba(255,255,255,0.12);
-  --text:      #e8e4dc;
-  --text-2:    rgba(232,228,220,0.45);
-  --text-3:    rgba(232,228,220,0.18);
-  --accent:    #d4c4a0;
-  --accent-2:  rgba(212,196,160,0.08);
-  --accent-3:  rgba(212,196,160,0.04);
-  --grain-op:  0.045;
-  --ornament:  rgba(212,196,160,0.2);
-  --shadow:    0 24px 80px rgba(0,0,0,0.6);
-  --panel-bg:  #0f0f0e;
-}
-
-[data-theme="light"] {
-  --bg:        #f5f0e8;
-  --bg-2:      #ede7db;
-  --bg-3:      #e6dfd2;
-  --surface:   #f0ebe2;
-  --border:    rgba(0,0,0,0.07);
-  --border-h:  rgba(0,0,0,0.14);
-  --text:      #1c1a16;
-  --text-2:    rgba(28,26,22,0.45);
-  --text-3:    rgba(28,26,22,0.2);
-  --accent:    #5c4a28;
-  --accent-2:  rgba(92,74,40,0.07);
-  --accent-3:  rgba(92,74,40,0.03);
-  --grain-op:  0.025;
-  --ornament:  rgba(92,74,40,0.25);
-  --shadow:    0 24px 80px rgba(0,0,0,0.1);
-  --panel-bg:  #ede7db;
-}
-
-/* ── RESET & BASE ── */
-*, *::before, *::after {
-  margin: 0; padding: 0; box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html { height: 100%; }
-
-body {
-  font-family: 'Jost', 'Helvetica Neue', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background var(--transition), color var(--transition);
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── GRAIN TEXTURE ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: -50%;
-  width: 200%; height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: var(--grain-op);
-  pointer-events: none !important;
-  z-index: -1;
-}
-
-/* ── THIN LINES BACKGROUND ── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px);
-  background-size: 100% 80px;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.4;
-}
-
-.wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-/* ═══ HEADER ═══ */
-.hd {
-  padding: 28px 24px 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  position: relative;
-}
-
-.logo-block { position: relative; }
-
-.logo-eyebrow {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  transition: color var(--transition);
-}
-
-.logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: var(--text);
-  line-height: 1;
-  transition: color var(--transition);
-  position: relative;
-}
-
-.logo sup {
-  font-size: 10px;
-  font-weight: 100;
-  letter-spacing: 0.2em;
-  vertical-align: super;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
-/* THEME TOGGLE — typographic, no icon */
-.theme-toggle {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding: 4px 0;
-}
-
-.theme-toggle-track {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.theme-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  transition: opacity 0.3s, color var(--transition);
-}
-
-.theme-label.l { color: var(--text-2); }
-.theme-label.d { color: var(--text-2); }
-
-[data-theme="light"] .theme-label.l { color: var(--text); }
-[data-theme="dark"]  .theme-label.d { color: var(--text); }
-
-.theme-pip {
-  width: 24px;
-  height: 1px;
-  background: var(--border-h);
-  position: relative;
-  transition: background var(--transition);
-}
-
-.theme-pip::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  transition: left var(--transition), background var(--transition);
-}
-
-[data-theme="dark"]  .theme-pip::after { left: 0; }
-[data-theme="light"] .theme-pip::after { left: 19px; }
-
-.cart-trigger {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
-  cursor: pointer;
-  padding: 4px 0 4px 16px;
-  position: relative;
-}
-
-.cart-trigger-text {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
-  color: var(--text-2);
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-.cart-trigger:hover .cart-trigger-text { color: var(--text); }
-
-.cart-badge {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--accent);
-  line-height: 1;
-  min-width: 16px;
-  text-align: right;
-}
-
-/* ═══ DIVIDER ═══ */
-.rule {
-  display: flex;
-  align-items: center;
-  padding: 20px 24px;
-  gap: 14px;
-}
-.rule-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-  transition: background var(--transition);
-}
-.rule-char {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 11px;
-  color: var(--ornament);
-  letter-spacing: 0.5em;
-  font-style: italic;
-  transition: color var(--transition);
-}
-
-/* ═══ CATEGORY FILTER ═══ */
-.filter {
-  padding: 0 24px 20px;
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.filter::-webkit-scrollbar { display: none; }
-
-.filter-item {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 8px 14px 8px 0;
-  white-space: nowrap;
-  transition: color 0.3s;
-  position: relative;
-}
-
-.filter-item::after {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  left: 0;
-  right: 14px;
-  height: 1px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.filter-item.on { color: var(--text); }
-.filter-item.on::after { transform: scaleX(1); }
-
-/* ═══ PRODUCT GRID ═══ */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 0 14px;
-  margin: 0 0 80px;
-}
-
-.card {
-  background: var(--bg-2);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  transition: background var(--transition), transform 0.25s, box-shadow 0.25s;
-}
-
-.card:hover { background: var(--surface); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-.card:active { transform: scale(0.97); }
-
-.card-visual {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--bg-3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border-radius: 14px 14px 0 0;
-  transition: background var(--transition);
-}
-
-.card-visual img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.card-glyph {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 40px;
-  color: var(--text-3);
-  font-style: italic;
-  transition: color var(--transition);
-}
-
-/* "sold out" ribbon — deconstructed */
-.card-void {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  color: var(--text-2);
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border-h);
-  padding-bottom: 2px;
-}
-
-.card-add {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 28px; height: 28px;
-  border: 1px solid var(--border-h);
-  background: var(--bg);
-  color: var(--text-2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 100;
-  transition: all 0.25s;
-  opacity: 0;
-  border-radius: 50%;
-}
-
-.card:hover .card-add { opacity: 1; }
-.card-add:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-.card-add:active { transform: scale(0.9); }
-
-.card-body {
-  padding: 14px 14px 18px;
-}
-
-.card-cat {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  margin-bottom: 5px;
-  transition: color var(--transition);
-}
-
-.card-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.35;
-  color: var(--text);
-  margin-bottom: 8px;
-  transition: color var(--transition);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-price {
-  font-family: 'Jost', sans-serif;
-  font-size: 12px;
-  font-weight: 200;
-  letter-spacing: 0.15em;
-  color: var(--accent);
-  transition: color var(--transition);
-}
-
-/* Unavailable card */
-.card.void { opacity: 0.35; pointer-events: none; }
-
-/* ═══ LOADER ═══ */
-.load {
-  grid-column: 1/-1;
-  padding: 80px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.load-glyph {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-style: italic;
-  color: var(--text-3);
-  animation: breathe 2s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%, 100% { opacity: 0.2; transform: scale(0.95); }
-  50%       { opacity: 0.8; transform: scale(1.05); }
-}
-
-.load-text {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.5em;
-  color: var(--text-3);
-  text-transform: uppercase;
-}
-
-/* ═══ BOTTOM NAV ═══ */
-.nav {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  max-width: 480px;
-  margin: 0 auto;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  border-radius: 20px 20px 0 0;
-  display: flex;
-  z-index: 50;
-  padding-bottom: env(safe-area-inset-bottom);
-  transition: background var(--transition), border-color var(--transition);
-  box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
-}
-
-.nav-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 14px 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--text-3);
-  transition: color 0.3s;
-  position: relative;
-}
-
-.nav-btn.on { color: var(--text); }
-
-.nav-btn::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 20%; right: 20%;
-  height: 1px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-btn.on::before { transform: scaleX(1); }
-
-.nav-sym {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-style: italic;
-  line-height: 1;
-}
-
-.nav-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-}
-
-/* ═══ VIEWS ═══ */
-.view { display: none; }
-.view.on { display: block; }
-
-/* ── SECTION HEADING ── */
-.sec-head {
-  padding: 0 24px 24px;
-  position: relative;
-}
-
-.sec-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: var(--text-3);
-  line-height: 1;
-  font-style: italic;
-  position: absolute;
-  top: -8px;
-  right: 20px;
-  transition: color var(--transition);
-}
-
-.sec-title {
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  transition: color var(--transition), border-color var(--transition);
-}
-
-/* ═══ ORDERS VIEW ═══ */
-.orders-list {
-  padding: 0 14px 100px;
-}
-
-.orders-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-/* ── ORDER CARD (same shape as product card) ── */
-.order-card {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: default;
-  transition: background var(--transition), transform 0.25s, box-shadow 0.25s;
-  position: relative;
-}
-
-.order-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-
-/* визуальная шапка карточки — заменяет фото */
-.order-card-visual {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--bg-3);
-  border-radius: 14px 14px 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  position: relative;
-  overflow: hidden;
-  transition: background var(--transition);
-}
-
-/* большой italic-номер как фоновый глиф */
-.order-card-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 52px;
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1;
-  color: var(--text-3);
-  transition: color var(--transition);
-}
-
-.order-card.is-active .order-card-visual {
-  background: var(--accent-2);
-}
-.order-card.is-active .order-card-num { color: var(--accent); opacity: 0.6; }
-
-/* статус-бейдж поверх визуала */
-.order-card-badge {
-  position: absolute;
-  top: 10px; left: 10px;
-  font-family: 'Jost', sans-serif;
-  font-size: 7px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  background: var(--bg);
-  border: 1px solid var(--border-h);
-  padding: 4px 8px;
-  border-radius: 20px;
-  transition: all var(--transition);
-}
-
-.order-card.is-active .order-card-badge {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-2);
-}
-
-.order-card.is-done .order-card-badge {
-  opacity: 0.5;
-}
-
-/* тело карточки */
-.order-card-body {
-  padding: 12px 14px 16px;
-}
-
-.order-card-amount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 300;
-  color: var(--text);
-  margin-bottom: 3px;
-  transition: color var(--transition);
-}
-
-.order-card-meta {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.2em;
-  color: var(--text-3);
-  margin-bottom: 12px;
-  transition: color var(--transition);
-}
-
-/* мини прогресс-полоска */
-.order-card-bar {
-  height: 2px;
-  background: var(--border);
-  border-radius: 1px;
-  overflow: hidden;
-  transition: background var(--transition);
-}
-
-.order-card-bar-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 1px;
-  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background var(--transition);
-  opacity: 0.7;
-}
-
-.order-card.is-done .order-card-bar-fill { opacity: 0.35; }
-
-.empty-state {
-  padding: 80px 24px;
-  text-align: center;
-}
-
-.empty-glyph {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 60px;
-  font-style: italic;
-  color: var(--text-3);
-  line-height: 1;
-  margin-bottom: 16px;
-  transition: color var(--transition);
-}
-
-.empty-text {
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  transition: color var(--transition);
-}
-
-/* ═══ PROFILE VIEW ═══ */
-.profile-wrap {
-  padding: 0 24px 100px;
-}
-
-.profile-ident {
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
-  padding: 0 0 24px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 32px;
-  transition: border-color var(--transition);
-}
-
-.profile-monogram {
-  width: 56px; height: 56px;
-  border: 1px solid var(--border-h);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 300;
-  color: var(--accent);
-  flex-shrink: 0;
-  transition: color var(--transition), border-color var(--transition);
-}
-
-.profile-name-block {}
-
-.profile-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 24px;
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1.1;
-  margin-bottom: 4px;
-  transition: color var(--transition);
-}
-
-.profile-handle {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  color: var(--text-3);
-  transition: color var(--transition);
-}
-
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.stat-cell {
-  background: var(--bg-2);
-  padding: 18px 14px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  transition: background var(--transition), border-color var(--transition);
-}
-
-.stat-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 6px;
-  transition: color var(--transition);
-}
-
-.stat-key {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.35em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  transition: color var(--transition);
-}
-
-.ref-block {
-  border: 1px solid var(--border);
-  padding: 20px;
-  cursor: pointer;
-  transition: border-color 0.3s, background var(--transition);
-  position: relative;
-  border-radius: 14px;
-}
-
-.ref-block::before {
-  content: 'COPY';
-  position: absolute;
-  top: 20px; right: 20px;
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  color: var(--text-3);
-  transition: color 0.3s;
-}
-
-.ref-block:hover { border-color: var(--border-h); background: var(--surface); }
-.ref-block:hover::before { color: var(--accent); }
-
-.ref-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  transition: color var(--transition);
-}
-
-.ref-link {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  font-style: italic;
-  color: var(--text-2);
-  word-break: break-all;
-  line-height: 1.5;
-  transition: color var(--transition);
-}
-
-/* ═══ PANELS (slide-up) ═══ */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s;
-}
-.overlay.on { opacity: 1; pointer-events: all; }
-
-.panel {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  max-width: 480px;
-  margin: 0 auto;
-  background: var(--panel-bg);
-  border-top: 1px solid var(--border);
-  border-radius: 20px 20px 0 0;
-  z-index: 101;
-  transform: translateY(100%);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background var(--transition);
-  max-height: 88vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.panel.on { transform: translateY(0); }
-
-.panel-drag {
-  width: 36px;
-  height: 4px;
-  background: var(--border-h);
-  margin: 14px auto 0;
-  border-radius: 2px;
-  transition: background var(--transition);
-}
-
-.panel-head {
-  padding: 24px 24px 20px;
-  border-bottom: 1px solid var(--border);
-  transition: border-color var(--transition);
-}
-
-.panel-title {
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  transition: color var(--transition);
-}
-
-.panel-body { padding: 24px; }
-
-/* ── CART PANEL ── */
-.cart-row {
-  display: grid;
-  grid-template-columns: 52px 1fr auto;
-  gap: 14px;
-  align-items: start;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-  animation: fadein 0.3s ease;
-  transition: border-color var(--transition);
-}
-
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.cart-thumb {
-  width: 52px; height: 68px;
-  background: var(--bg-2);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-style: italic;
-  color: var(--text-3);
-  flex-shrink: 0;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: background var(--transition), color var(--transition);
-}
-
-.cart-thumb img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-
-.cart-info {}
-
-.cart-item-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--text);
-  margin-bottom: 4px;
-  line-height: 1.3;
-  transition: color var(--transition);
-}
-
-.cart-item-sub {
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  margin-bottom: 10px;
-  transition: color var(--transition);
-}
-
-.qty-ctl {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.qty-btn {
-  border: 1px solid var(--border);
-  background: var(--bg-2);
-  color: var(--text-2);
-  width: 26px; height: 26px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 100;
-  border-radius: 50%;
-  transition: all 0.25s;
-}
-
-.qty-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-.qty-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  color: var(--text);
-  min-width: 16px;
-  text-align: center;
-  transition: color var(--transition);
-}
-
-.rm-btn {
-  background: none; border: none;
-  color: var(--text-3);
-  cursor: pointer;
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  transition: color 0.25s;
-  padding-top: 2px;
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-}
-
-.rm-btn:hover { color: var(--text); }
-
-.cart-foot {
-  padding: 20px 0 0;
-}
-
-.cart-total-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.total-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  transition: color var(--transition);
-}
-
-.total-sum {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 300;
-  color: var(--text);
-  transition: color var(--transition);
-}
-
-/* ── PRIMARY ACTION ── */
-.action-primary {
-  width: 100%;
-  border: 1px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 200;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.action-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 12px;
-}
-
-.action-primary span {
-  position: relative;
-  z-index: 1;
-  transition: color 0.4s;
-}
-
-.action-primary:hover::before { transform: translateY(0); }
-.action-primary:hover span { color: var(--bg); }
-.action-primary:active { opacity: 0.8; }
-.action-primary:disabled { opacity: 0.2; pointer-events: none; }
-
-.action-ghost {
-  width: 100%;
-  border: none;
-  background: transparent;
-  color: var(--text-3);
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  padding: 12px;
-  cursor: pointer;
-  transition: color 0.3s;
-  margin-top: 8px;
-  border-radius: 12px;
-}
-
-.action-ghost:hover { color: var(--text-2); }
-
-/* ── PRODUCT DETAIL ── */
-.detail-img-wrap {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--bg-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 -24px;
-  width: calc(100% + 48px);
-  overflow: hidden;
-  transition: background var(--transition);
-}
-
-.detail-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-
-.detail-glyph {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 72px;
-  font-style: italic;
-  color: var(--text-3);
-  transition: color var(--transition);
-}
-
-.detail-meta {
-  padding: 24px 0 0;
-}
-
-.detail-cat {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.45em;
-  color: var(--text-3);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  transition: color var(--transition);
-}
-
-.detail-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1.2;
-  margin-bottom: 10px;
-  transition: color var(--transition);
-}
-
-.detail-price {
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  font-weight: 200;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  margin-bottom: 20px;
-  transition: color var(--transition);
-}
-
-.detail-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.7;
-  color: var(--text-2);
-  margin-bottom: 28px;
-  transition: color var(--transition);
-}
-
-/* ═══ TOAST ═══ */
-.toast {
-  position: fixed;
-  top: 32px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-16px);
-  font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--bg);
-  background: var(--text);
-  padding: 10px 20px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 500;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space: nowrap;
-}
-
-.toast.on {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-
-/* ═══ EXTRA STYLES ═══ */
-/* Wishlist heart */
-.card-wish { position:absolute; top:10px; left:10px; background:none; border:none; cursor:pointer; font-size:18px; line-height:1; padding:2px; }
-/* Size view */
-.size-form { padding:0 24px 100px; }
-.size-input-group { margin-bottom:20px; }
-.size-label { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.4em; text-transform:uppercase; color:var(--text-2); margin-bottom:8px; display:block; }
-.size-input { width:100%; background:var(--bg-2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:20px; padding:14px 16px; border-radius:12px; outline:none; transition:border-color .3s; }
-.size-input:focus { border-color:var(--border-h); }
-.size-result { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:28px 24px; text-align:center; margin-top:24px; }
-.size-result-num { font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; color:var(--accent); line-height:1; }
-.size-result-label { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.5em; color:var(--text-2); text-transform:uppercase; margin-top:8px; }
-.size-result-range { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text-2); margin-top:12px; }
-/* Referral */
-.ref-view { padding:0 24px 100px; }
-.ref-stat-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
-.ref-stat { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:20px 16px; }
-.ref-stat-val { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--text); line-height:1; }
-.ref-stat-key { font-family:'Jost',sans-serif; font-size:8px; font-weight:200; letter-spacing:.35em; color:var(--text-3); text-transform:uppercase; margin-top:6px; }
-.tier-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
-.tier-check { font-size:14px; }
-.tier-label { font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:.2em; color:var(--text-2); flex:1; }
-.tier-pct { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--accent); }
-.tier-row.done .tier-label { color:var(--text); }
-/* Notifications */
-.notif-view { padding:0 24px 100px; }
-.notif-card { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; cursor:pointer; transition:background .3s; }
-.notif-card:hover { background:var(--surface); }
-.notif-icon { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--text-3); }
-.notif-info { flex:1; }
-.notif-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); }
-.notif-sub { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; color:var(--text-3); text-transform:uppercase; margin-top:4px; }
-.notif-toggle { width:36px; height:20px; background:var(--border); border-radius:10px; position:relative; transition:background .3s; }
-.notif-toggle.on { background:var(--accent); }
-.notif-toggle::after { content:''; position:absolute; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left .3s; }
-.notif-toggle.on::after { left:19px; }
-.notif-toggle:not(.on)::after { left:3px; }
-/* Chat / support */
-.chat-view { padding:0 24px 100px; }
-.chat-intro { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text-2); line-height:1.6; margin-bottom:24px; }
-.chat-input-wrap { display:flex; gap:10px; margin-top:16px; }
-.chat-input { flex:1; background:var(--bg-2); border:1px solid var(--border); color:var(--text); font-family:'Jost',sans-serif; font-size:13px; font-weight:200; padding:12px 16px; border-radius:12px; outline:none; resize:none; min-height:80px; transition:border-color .3s; }
-.chat-input:focus { border-color:var(--border-h); }
-/* Order detail / price adjustment */
-.order-price-adj { background:var(--accent-2); border:1px solid var(--accent); border-radius:10px; padding:14px; margin-top:12px; }
-.order-price-adj-title { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.35em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
-.order-price-adj-amount { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text); }
-.order-price-adj-reason { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-2); margin-top:4px; }
-.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
-.btn-accept { background:var(--accent); color:var(--bg); border:none; border-radius:10px; padding:10px; font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; text-transform:uppercase; cursor:pointer; }
-.btn-reject { background:none; color:var(--text-2); border:1px solid var(--border); border-radius:10px; padding:10px; font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; text-transform:uppercase; cursor:pointer; }
-/* Review stars */
-.stars-row { display:flex; gap:8px; margin:16px 0; }
-.star-btn { font-size:28px; cursor:pointer; opacity:.3; transition:opacity .2s; background:none; border:none; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:rgba(0,0,0,0.1); }
+body { font-family:'Helvetica Neue',sans-serif; background:#0c0c0b; color:#e8e4dc; min-height:100vh; }
+.header { padding:20px 16px 12px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); }
+.logo { font-size:22px; font-weight:300; letter-spacing:0.05em; }
+.cart-btn { background:rgba(212,196,160,0.1); border:1px solid rgba(212,196,160,0.3); color:#d4c4a0; padding:8px 14px; border-radius:20px; font-size:13px; cursor:pointer; }
+.tabs { display:flex; border-bottom:1px solid rgba(255,255,255,0.08); }
+.tab { flex:1; padding:12px 0; text-align:center; font-size:11px; letter-spacing:0.2em; color:rgba(232,228,220,0.4); cursor:pointer; border:none; background:none; text-transform:uppercase; }
+.tab.on { color:#d4c4a0; border-bottom:2px solid #d4c4a0; }
+.view { display:none; padding:16px; padding-bottom:80px; }
+.view.on { display:block; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; cursor:pointer; }
+.card-img { aspect-ratio:3/4; background:#1a1a18; display:flex; align-items:center; justify-content:center; font-size:40px; color:rgba(232,228,220,0.15); position:relative; }
+.card-body { padding:12px; }
+.card-cat { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.3); text-transform:uppercase; margin-bottom:4px; }
+.card-name { font-size:14px; font-weight:300; margin-bottom:6px; line-height:1.3; }
+.card-price { font-size:12px; color:#d4c4a0; }
+.card-add { position:absolute; bottom:8px; right:8px; width:32px; height:32px; background:#d4c4a0; color:#0c0c0b; border:none; border-radius:50%; font-size:20px; line-height:32px; text-align:center; cursor:pointer; }
+.wish-btn { position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.5); border:none; border-radius:50%; width:30px; height:30px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.filter { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.filter-btn { padding:7px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:20px; font-size:11px; letter-spacing:0.2em; color:rgba(232,228,220,0.5); cursor:pointer; background:none; text-transform:uppercase; }
+.filter-btn.on { border-color:#d4c4a0; color:#d4c4a0; background:rgba(212,196,160,0.08); }
+.empty { text-align:center; padding:60px 20px; color:rgba(232,228,220,0.3); font-size:14px; }
+.order-card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px; margin-bottom:12px; }
+.order-status { display:inline-block; padding:4px 10px; border-radius:20px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; background:rgba(212,196,160,0.1); color:#d4c4a0; margin-bottom:10px; }
+.order-total { font-size:20px; font-weight:300; margin-bottom:6px; }
+.order-meta { font-size:11px; color:rgba(232,228,220,0.4); margin-bottom:10px; }
+.order-items { font-size:12px; color:rgba(232,228,220,0.5); line-height:1.8; }
+.profile-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.monogram { width:52px; height:52px; border-radius:50%; background:rgba(212,196,160,0.1); border:1px solid rgba(212,196,160,0.3); display:flex; align-items:center; justify-content:center; font-size:24px; color:#d4c4a0; }
+.profile-name { font-size:20px; font-weight:300; }
+.profile-handle { font-size:11px; color:rgba(232,228,220,0.4); margin-top:3px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+.stat { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px 10px; text-align:center; }
+.stat-val { font-size:28px; font-weight:300; }
+.stat-key { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.4); text-transform:uppercase; margin-top:4px; }
+.menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.menu-item { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px; text-align:center; cursor:pointer; font-size:12px; color:rgba(232,228,220,0.6); letter-spacing:0.1em; }
+.admin-btn { background:rgba(212,196,160,0.1); border:1px solid #d4c4a0; border-radius:10px; padding:16px; text-align:center; cursor:pointer; color:#d4c4a0; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:16px; width:100%; }
+.nav { position:fixed; bottom:0; left:0; right:0; background:#0c0c0b; border-top:1px solid rgba(255,255,255,0.08); display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.nav-btn { flex:1; padding:14px 0; text-align:center; border:none; background:none; cursor:pointer; color:rgba(232,228,220,0.3); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; }
+.nav-btn.on { color:#d4c4a0; }
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100; display:none; }
+.overlay.on { display:block; }
+.panel { position:fixed; bottom:0; left:0; right:0; background:#111110; border-top:1px solid rgba(255,255,255,0.1); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.3s; max-height:85vh; overflow-y:auto; }
+.panel.on { transform:translateY(0); }
+.panel-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); margin:12px auto; border-radius:2px; }
+.panel-title { font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(232,228,220,0.4); padding:0 20px 16px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.panel-body { padding:20px; }
+.cart-item { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.cart-item-name { font-size:15px; font-weight:300; margin-bottom:4px; }
+.cart-item-price { font-size:12px; color:#d4c4a0; }
+.qty-ctrl { display:flex; align-items:center; gap:10px; margin-top:8px; }
+.qty-btn { width:28px; height:28px; border:1px solid rgba(255,255,255,0.15); background:none; color:#e8e4dc; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.qty-num { font-size:16px; min-width:20px; text-align:center; }
+.rm-btn { font-size:10px; letter-spacing:0.2em; color:rgba(232,228,220,0.3); background:none; border:none; cursor:pointer; text-transform:uppercase; align-self:start; margin-top:4px; }
+.total-row { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+.total-label { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(232,228,220,0.4); }
+.total-val { font-size:24px; font-weight:300; }
+.btn { width:100%; padding:16px; border:1px solid #d4c4a0; background:none; color:#d4c4a0; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; border-radius:10px; cursor:pointer; margin-bottom:10px; }
+.btn-ghost { width:100%; padding:12px; border:none; background:none; color:rgba(232,228,220,0.3); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
+.inp { width:100%; background:#161614; border:1px solid rgba(255,255,255,0.1); color:#e8e4dc; font-size:15px; padding:14px 16px; border-radius:10px; outline:none; margin-bottom:14px; }
+.inp-label { font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:rgba(232,228,220,0.4); margin-bottom:6px; display:block; }
+select.inp { cursor:pointer; }
+.detail-glyph { font-size:60px; color:rgba(232,228,220,0.1); }
+.detail-cat { font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(232,228,220,0.3); margin-bottom:8px; }
+.detail-name { font-size:26px; font-weight:300; margin-bottom:8px; line-height:1.2; }
+.detail-price { font-size:16px; color:#d4c4a0; margin-bottom:16px; }
+.detail-desc { font-size:15px; color:rgba(232,228,220,0.5); line-height:1.6; margin-bottom:20px; }
+.detail-img { width:100%; aspect-ratio:3/4; background:#1a1a18; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:20px; overflow:hidden; }
+.detail-img img { width:100%; height:100%; object-fit:cover; }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-20px); background:#e8e4dc; color:#0c0c0b; padding:10px 20px; border-radius:20px; font-size:12px; opacity:0; transition:all 0.3s; z-index:200; white-space:nowrap; pointer-events:none; }
+.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
+.star-btn { font-size:28px; cursor:pointer; opacity:0.3; transition:opacity 0.2s; background:none; border:none; padding:4px; }
 .star-btn.on { opacity:1; }
-/* Delivery zones */
-.zone-card { background:var(--bg-2); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:10px; }
-.zone-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); margin-bottom:6px; }
-.zone-area { font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:.15em; color:var(--text-3); margin-bottom:10px; }
-.zone-meta { display:flex; gap:16px; }
-.zone-cost { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); }
-.zone-time { font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:.3em; color:var(--text-2); align-self:center; }
-/* Nav extra tab */
-.nav-more { position:relative; }
-/* Wishlist empty */
-.wish-empty { padding:60px 24px; text-align:center; }
+.stars-row { display:flex; gap:4px; margin:12px 0; }
+.sub-view { display:none; }
+.sub-view.on { display:block; }
+.back-btn { display:flex; align-items:center; gap:8px; background:none; border:none; color:rgba(232,228,220,0.5); font-size:12px; letter-spacing:0.2em; cursor:pointer; text-transform:uppercase; margin-bottom:16px; padding:0; }
+.ref-stat { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.ref-stat-cell { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px; }
+.ref-stat-val { font-size:32px; font-weight:300; }
+.ref-stat-key { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.4); text-transform:uppercase; margin-top:4px; }
+.tier { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.notif-item { display:flex; align-items:center; gap:14px; padding:14px; background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; margin-bottom:8px; cursor:pointer; }
+.notif-icon { font-size:24px; }
+.notif-info { flex:1; }
+.notif-name { font-size:15px; font-weight:300; }
+.notif-sub { font-size:10px; color:rgba(232,228,220,0.4); margin-top:2px; letter-spacing:0.15em; }
+.toggle { width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; position:relative; transition:background 0.3s; flex-shrink:0; }
+.toggle.on { background:#d4c4a0; }
+.toggle::after { content:''; position:absolute; top:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:left 0.3s; }
+.toggle.on::after { left:21px; }
+.toggle:not(.on)::after { left:3px; }
+.zone-card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; margin-bottom:8px; }
+.zone-name { font-size:14px; font-weight:300; margin-bottom:4px; }
+.zone-area { font-size:11px; color:rgba(232,228,220,0.4); margin-bottom:8px; }
+.zone-meta { display:flex; gap:16px; font-size:12px; }
+.zone-cost { color:#d4c4a0; }
+.zone-time { color:rgba(232,228,220,0.4); }
+.price-adj { background:rgba(212,196,160,0.08); border:1px solid rgba(212,196,160,0.3); border-radius:10px; padding:14px; margin-top:12px; }
+.price-adj-title { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:#d4c4a0; margin-bottom:8px; }
+.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.btn-accept { background:#d4c4a0; color:#0c0c0b; border:none; border-radius:8px; padding:10px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; }
+.btn-reject { background:none; color:rgba(232,228,220,0.5); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; }
+.chat-area { width:100%; background:#161614; border:1px solid rgba(255,255,255,0.1); color:#e8e4dc; font-size:14px; padding:14px; border-radius:10px; outline:none; min-height:100px; resize:none; margin-bottom:14px; font-family:inherit; }
 </style>
-
 </head>
 <body>
 
-<div class="wrap">
-  <!-- HEADER -->
-  <header class="hd">
-    <div class="logo-block">
-      <div class="logo-eyebrow">fashion archive</div>
-      <div class="logo">3xclusiv<sup>33</sup></div>
-    </div>
-    <div style="display:flex;align-items:center;gap:20px">
-      <div class="theme-toggle" id="themeToggle">
-        <div class="theme-toggle-track">
-          <span class="theme-label l">L</span>
-          <div class="theme-pip"></div>
-          <span class="theme-label d">D</span>
-        </div>
-      </div>
-      <div class="cart-trigger" id="cartTrigger">
-        <span class="cart-trigger-text">корзина</span>
-        <span class="cart-badge" id="cartBadge">—</span>
-      </div>
-    </div>
-  </header>
+<div class="header">
+  <div class="logo">3xclusiv<sup style="font-size:12px;color:#d4c4a0">33</sup></div>
+  <button class="cart-btn" id="cartBtn">корзина <span id="cartCount">—</span></button>
+</div>
 
-  <div class="rule"><div class="rule-line"></div><div class="rule-char">✦</div><div class="rule-line"></div></div>
-
-  <!-- CATALOG VIEW -->
-  <div class="view on" id="vCatalog">
-    <div class="filter" id="filterBar">
-      <button class="filter-item on" data-cat="all">Всё</button>
-      <button class="filter-item" data-cat="clothes">Одежда</button>
-      <button class="filter-item" data-cat="shoes">Обувь</button>
-      <button class="filter-item" data-cat="accessories">Аксессуары</button>
-    </div>
-    <div class="grid" id="productGrid">
-      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка архива</div></div>
-    </div>
+<!-- MAIN VIEWS -->
+<div class="view on" id="vCatalog">
+  <div class="filter" id="filterBar">
+    <button class="filter-btn on" data-cat="all">Всё</button>
+    <button class="filter-btn" data-cat="clothes">Одежда</button>
+    <button class="filter-btn" data-cat="shoes">Обувь</button>
+    <button class="filter-btn" data-cat="accessories">Акс.</button>
   </div>
+  <div class="grid" id="productGrid"><div class="empty">загрузка...</div></div>
+</div>
 
-  <!-- WISHLIST VIEW -->
-  <div class="view" id="vWishlist">
-    <div class="sec-head"><div class="sec-num">❤</div><div class="sec-title">избранное</div></div>
-    <div class="grid" id="wishGrid">
-      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
-    </div>
+<div class="view" id="vWishlist">
+  <div class="grid" id="wishGrid"><div class="empty">загрузка...</div></div>
+</div>
+
+<div class="view" id="vOrders">
+  <div id="ordersList"><div class="empty">загрузка...</div></div>
+</div>
+
+<div class="view" id="vProfile">
+  <!-- Main profile -->
+  <div class="sub-view on" id="spMain">
+    <div id="profileContent"><div class="empty">загрузка...</div></div>
   </div>
-
-  <!-- ORDERS VIEW -->
-  <div class="view" id="vOrders">
-    <div class="sec-head"><div class="sec-num">02</div><div class="sec-title">мои заказы</div></div>
-    <div class="orders-list" id="ordersList">
-      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
-    </div>
+  <!-- Size -->
+  <div class="sub-view" id="spSize">
+    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
+    <label class="inp-label">рост (см)</label>
+    <input class="inp" type="number" id="sH" placeholder="170">
+    <label class="inp-label">вес (кг)</label>
+    <input class="inp" type="number" id="sW" placeholder="65">
+    <button class="btn" onclick="calcSize()">определить размер</button>
+    <div id="sizeRes"></div>
   </div>
-
-  <!-- PROFILE VIEW -->
-  <div class="view" id="vProfile">
-    <div class="sec-head"><div class="sec-num">03</div><div class="sec-title">профиль</div></div>
-    <div class="profile-wrap" id="profileWrap">
-      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
-    </div>
-    <!-- Profile sub-sections -->
-    <div id="vSize" style="display:none">
-      <div class="sec-head" style="padding-top:8px"><div class="sec-title">подбор размера</div></div>
-      <div class="size-form">
-        <div class="size-input-group">
-          <label class="size-label">рост (см)</label>
-          <input class="size-input" type="number" id="sizeHeight" placeholder="170" min="140" max="220">
-        </div>
-        <div class="size-input-group">
-          <label class="size-label">вес (кг)</label>
-          <input class="size-input" type="number" id="sizeWeight" placeholder="65" min="30" max="200">
-        </div>
-        <button class="action-primary" onclick="calcSize()"><span>определить размер</span></button>
-        <div id="sizeResult"></div>
-      </div>
-    </div>
-    <div id="vReferral" style="display:none">
-      <div class="sec-head" style="padding-top:8px"><div class="sec-title">реферальная программа</div></div>
-      <div class="ref-view" id="refContent"></div>
-    </div>
-    <div id="vNotifications" style="display:none">
-      <div class="sec-head" style="padding-top:8px"><div class="sec-title">уведомления о новинках</div></div>
-      <div class="notif-view" id="notifContent"></div>
-    </div>
-    <div id="vChat" style="display:none">
-      <div class="sec-head" style="padding-top:8px"><div class="sec-title">написать продавцу</div></div>
-      <div class="chat-view">
-        <p class="chat-intro">Есть вопрос по заказу или товару? Напишите — ответим в Telegram.</p>
-        <div class="chat-input-wrap">
-          <textarea class="chat-input" id="chatText" placeholder="Ваше сообщение..."></textarea>
-        </div>
-        <button class="action-primary" style="margin-top:12px" onclick="sendSupport()"><span>отправить</span></button>
-      </div>
-    </div>
-    <div id="vDelivery" style="display:none">
-      <div class="sec-head" style="padding-top:8px"><div class="sec-title">зоны доставки</div></div>
-      <div style="padding:0 24px 100px" id="deliveryContent"></div>
-    </div>
+  <!-- Referral -->
+  <div class="sub-view" id="spRef">
+    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
+    <div id="refContent"><div class="empty">загрузка...</div></div>
   </div>
-
-</div><!-- /wrap -->
+  <!-- Notifications -->
+  <div class="sub-view" id="spNotif">
+    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
+    <div id="notifContent"><div class="empty">загрузка...</div></div>
+  </div>
+  <!-- Chat -->
+  <div class="sub-view" id="spChat">
+    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
+    <p style="font-size:14px;color:rgba(232,228,220,0.5);margin-bottom:16px;line-height:1.6">Напишите вопрос — ответим в Telegram.</p>
+    <textarea class="chat-area" id="chatText" placeholder="Ваше сообщение..."></textarea>
+    <button class="btn" onclick="sendSupport()">отправить</button>
+  </div>
+  <!-- Delivery -->
+  <div class="sub-view" id="spDelivery">
+    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
+    <div id="deliveryContent"></div>
+    <p style="font-size:13px;color:rgba(232,228,220,0.4);font-style:italic;margin-top:12px">Оплата наличными при встрече</p>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn on" id="navCat"><span class="nav-sym">I</span><span class="nav-label">Каталог</span></button>
-  <button class="nav-btn" id="navWish"><span class="nav-sym">❤</span><span class="nav-label">Избранное</span></button>
-  <button class="nav-btn" id="navOrd"><span class="nav-sym">II</span><span class="nav-label">Заказы</span></button>
-  <button class="nav-btn" id="navPro"><span class="nav-sym">III</span><span class="nav-label">Профиль</span></button>
+  <button class="nav-btn on" id="nCat" onclick="switchView('catalog')">I<br>Каталог</button>
+  <button class="nav-btn" id="nWish" onclick="switchView('wishlist')">❤<br>Избранное</button>
+  <button class="nav-btn" id="nOrd" onclick="switchView('orders')">II<br>Заказы</button>
+  <button class="nav-btn" id="nPro" onclick="switchView('profile')">III<br>Профиль</button>
 </nav>
 
 <div class="toast" id="toast"></div>
-<div class="overlay" id="overlay"></div>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
 
 <!-- DETAIL PANEL -->
 <div class="panel" id="detailPanel">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">изделие</div></div>
+  <div class="panel-handle"></div>
+  <div class="panel-title">изделие</div>
   <div class="panel-body" id="detailBody"></div>
 </div>
 
 <!-- CART PANEL -->
 <div class="panel" id="cartPanel">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">корзина</div></div>
+  <div class="panel-handle"></div>
+  <div class="panel-title">корзина</div>
   <div class="panel-body">
     <div id="cartBody"></div>
     <div id="cartFoot"></div>
@@ -1384,151 +210,89 @@ body::after {
 
 <!-- CHECKOUT PANEL -->
 <div class="panel" id="checkoutPanel">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">оформление заказа</div></div>
+  <div class="panel-handle"></div>
+  <div class="panel-title">оформление заказа</div>
   <div class="panel-body">
-    <div id="checkoutStep1">
-      <div class="size-input-group">
-        <label class="size-label">имя и фамилия</label>
-        <input class="size-input" id="coName" placeholder="Иван Иванов">
-      </div>
-      <div class="size-input-group">
-        <label class="size-label">telegram username (без @)</label>
-        <input class="size-input" id="coUsername" placeholder="username">
-      </div>
-      <div class="size-input-group">
-        <label class="size-label">телефон (Эстония)</label>
-        <input class="size-input" id="coPhone" placeholder="5xxxxxxx" type="tel">
-      </div>
-      <div class="size-input-group">
-        <label class="size-label">район встречи</label>
-        <input class="size-input" id="coAddress" placeholder="Kesklinn, Lasnamäe...">
-        <div id="savedAddrsHint" style="margin-top:8px"></div>
-      </div>
-      <button class="action-primary" onclick="submitOrder()"><span>подтвердить заказ</span></button>
-      <button class="action-ghost" onclick="closePanel()">отмена</button>
-    </div>
+    <label class="inp-label">имя и фамилия</label>
+    <input class="inp" id="coName" placeholder="Иван Иванов">
+    <label class="inp-label">telegram username</label>
+    <input class="inp" id="coUser" placeholder="username (без @)">
+    <label class="inp-label">телефон (Эстония)</label>
+    <input class="inp" id="coPhone" placeholder="5xxxxxxx" type="tel">
+    <label class="inp-label">район встречи</label>
+    <input class="inp" id="coAddr" placeholder="Kesklinn, Lasnamäe...">
+    <div id="savedAddrs" style="margin-bottom:14px"></div>
+    <button class="btn" onclick="submitOrder()">подтвердить заказ</button>
+    <button class="btn-ghost" onclick="closePanel()">отмена</button>
   </div>
 </div>
 
 <!-- REVIEW PANEL -->
 <div class="panel" id="reviewPanel">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">оставить отзыв</div></div>
-  <div class="panel-body">
-    <div id="reviewBody"></div>
-  </div>
+  <div class="panel-handle"></div>
+  <div class="panel-title">отзыв</div>
+  <div class="panel-body" id="reviewBody"></div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
 const tg = window.Telegram?.WebApp;
+const API = 'https://3xclusiv3-production.up.railway.app';
+let userId = null, userName = 'Гость', userProfile = null;
+let cart = JSON.parse(localStorage.getItem('cart_3x')||'{}');
+let allProducts = [], wishIds = new Set(), activeCat = 'all';
+let activePanel = null, reviewOrderId = null, reviewStars = 0;
 
-const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? 'http://localhost:8080'
-  : 'https://3xclusiv3-production.up.railway.app';
-
-let userId   = null;
-let userName = 'Гость';
-let userProfile = null;
-
-function initApp() {
-  userId   = tg?.initDataUnsafe?.user?.id   || null;
+// INIT
+function init() {
+  if (tg) { tg.ready(); tg.expand(); }
+  userId = tg?.initDataUnsafe?.user?.id || null;
   userName = tg?.initDataUnsafe?.user?.first_name || 'Гость';
-
-  if (userId) {
-    fetch(`${API}/api/is_admin/${userId}`)
-      .then(r => r.json())
-      .then(data => {
-        if (data.is_admin) {
-          window.location.replace('https://3xclusiv33.vercel.app/admin.html');
-          return;
-        }
-        startMiniApp();
-      })
-      .catch(() => startMiniApp());
-  } else {
-    startMiniApp();
-  }
-}
-
-function startMiniApp() {
-  updateBadge();
+  updateCartCount();
   loadProducts();
-  if (userId) loadWishlistIds();
+  if (userId) loadWishIds();
+  if (userId) checkAdmin();
 }
 
-// initApp вызывается в конце файла после определения всех функций
-
-// ═══ THEME ═══
-let isDark = localStorage.getItem('th_3x') !== 'light';
-function applyTheme(dark) {
-  isDark = dark;
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  localStorage.setItem('th_3x', dark ? 'dark' : 'light');
-  if (tg) { tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8'); tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8'); }
+function checkAdmin() {
+  fetch(`${API}/api/is_admin/${userId}`)
+    .then(r=>r.json())
+    .then(d=>{ if(d.is_admin) showAdminBtn(); })
+    .catch(()=>{});
 }
-applyTheme(isDark);
-document.getElementById('themeToggle').addEventListener('click', () => applyTheme(!isDark));
 
-// ═══ TOAST ═══
-let toastTimer;
+function showAdminBtn() {
+  const btn = document.createElement('button');
+  btn.className = 'admin-btn';
+  btn.textContent = '⚙️ Панель администратора';
+  btn.onclick = () => window.location.href = 'https://3xclusiv33.vercel.app/admin.html';
+  document.getElementById('profileContent').prepend(btn);
+}
+
+// TOAST
+let tt;
 function toast(msg, dur=2200) {
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('on');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), dur);
+  clearTimeout(tt); tt = setTimeout(()=>el.classList.remove('on'), dur);
 }
 
-// ═══ CART STATE ═══
-let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
-let allProducts = [];
-let wishIds = new Set();
-let activeCat = 'all';
-
+// CART
 function saveCart() { localStorage.setItem('cart_3x', JSON.stringify(cart)); }
-function cartCount() { return Object.values(cart).reduce((s,i) => s+i.qty, 0); }
-function cartTotal() { return Object.values(cart).reduce((s,i) => s+i.price*i.qty, 0); }
-function updateBadge() {
+function cartCount() { return Object.values(cart).reduce((s,i)=>s+i.qty,0); }
+function cartTotal() { return Object.values(cart).reduce((s,i)=>s+i.price*i.qty,0); }
+function updateCartCount() {
   const n = cartCount();
-  document.getElementById('cartBadge').textContent = n > 0 ? n : '—';
+  document.getElementById('cartCount').textContent = n>0?n:'—';
 }
-function addToCart(product) {
-  if (cart[product.id]) cart[product.id].qty++;
-  else cart[product.id] = {...product, qty:1};
-  saveCart(); updateBadge(); toast('добавлено в корзину');
-}
-
-// ═══ WISHLIST IDS ═══
-async function loadWishlistIds() {
-  if (!userId) return;
-  try {
-    const r = await fetch(`${API}/api/wishlist/${userId}`);
-    const items = await r.json();
-    wishIds = new Set(items.map(p => p.id));
-  } catch {}
+function addToCart(p) {
+  if (cart[p.id]) cart[p.id].qty++;
+  else cart[p.id] = {...p, qty:1};
+  saveCart(); updateCartCount(); toast('добавлено в корзину');
 }
 
-async function toggleWish(pid, e) {
-  e && e.stopPropagation();
-  if (!userId) { toast('откройте через telegram'); return; }
-  try {
-    const r = await fetch(`${API}/api/wishlist/toggle`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({telegram_id: userId, product_id: pid})
-    });
-    const data = await r.json();
-    if (data.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
-    else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
-    renderGrid();
-  } catch { toast('ошибка'); }
-}
-
-// ═══ PANELS ═══
-let activePanel = null;
+// PANELS
 function openPanel(id) {
-  if (activePanel) closePanel();
+  closePanel();
   activePanel = id;
   document.getElementById('overlay').classList.add('on');
   document.getElementById(id).classList.add('on');
@@ -1539,209 +303,184 @@ function closePanel() {
   document.getElementById(activePanel).classList.remove('on');
   activePanel = null;
 }
-document.getElementById('overlay').addEventListener('click', closePanel);
 
-// ═══ CART PANEL ═══
-document.getElementById('cartTrigger').addEventListener('click', () => { renderCartPanel(); openPanel('cartPanel'); });
+// CART PANEL
+document.getElementById('cartBtn').onclick = () => { renderCart(); openPanel('cartPanel'); };
 
-function renderCartPanel() {
+function renderCart() {
   const items = Object.values(cart);
   const body = document.getElementById('cartBody');
   const foot = document.getElementById('cartFoot');
   if (!items.length) {
-    body.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">корзина пуста</div></div>`;
+    body.innerHTML = '<div class="empty">корзина пуста</div>';
     foot.innerHTML = ''; return;
   }
-  body.innerHTML = items.map(item => `
-    <div class="cart-row">
-      <div class="cart-thumb">${item.photo_id ? `<img src="https://api.telegram.org/file/bot${BOT_FILE_TOKEN}/${item.photo_id}" onerror="this.style.display='none'">` : glyphFor(item.category)}</div>
-      <div class="cart-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-sub">${(item.price*item.qty).toFixed(2)} €</div>
-        <div class="qty-ctl">
-          <button class="qty-btn" onclick="chQty(${item.id},-1)">−</button>
-          <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="chQty(${item.id},1)">+</button>
+  body.innerHTML = items.map(i=>`
+    <div class="cart-item">
+      <div>
+        <div class="cart-item-name">${i.name}</div>
+        <div class="cart-item-price">${(i.price*i.qty).toFixed(2)} €</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="chQty(${i.id},-1)">−</button>
+          <span class="qty-num">${i.qty}</span>
+          <button class="qty-btn" onclick="chQty(${i.id},1)">+</button>
         </div>
       </div>
-      <button class="rm-btn" onclick="rmItem(${item.id})">убрать</button>
+      <button class="rm-btn" onclick="rmItem(${i.id})">убрать</button>
     </div>`).join('');
-  foot.innerHTML = `<div class="cart-foot">
-    <div class="cart-total-row"><span class="total-label">итого</span><span class="total-sum">${cartTotal().toFixed(2)} €</span></div>
-    <button class="action-primary" onclick="openCheckout()"><span>оформить заказ</span></button>
-    <button class="action-ghost" onclick="clearCartFn()">очистить корзину</button>
-  </div>`;
+  foot.innerHTML = `
+    <div class="total-row"><span class="total-label">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
+    <button class="btn" onclick="openCheckout()">оформить заказ</button>
+    <button class="btn-ghost" onclick="clearCart()">очистить</button>`;
 }
 
-function chQty(pid, d) {
-  if (!cart[pid]) return;
-  cart[pid].qty += d;
-  if (cart[pid].qty <= 0) delete cart[pid];
-  saveCart(); updateBadge(); renderCartPanel();
+function chQty(id,d) {
+  if (!cart[id]) return;
+  cart[id].qty+=d;
+  if (cart[id].qty<=0) delete cart[id];
+  saveCart(); updateCartCount(); renderCart();
 }
-function rmItem(pid) { delete cart[pid]; saveCart(); updateBadge(); renderCartPanel(); }
-function clearCartFn() { cart = {}; saveCart(); updateBadge(); renderCartPanel(); toast('корзина очищена'); }
+function rmItem(id) { delete cart[id]; saveCart(); updateCartCount(); renderCart(); }
+function clearCart() { cart={}; saveCart(); updateCartCount(); renderCart(); toast('корзина очищена'); }
 
-// ═══ CHECKOUT ═══
+// CHECKOUT
 function openCheckout() {
   if (!cartCount()) return;
   closePanel();
-  // Load saved addresses hint
+  if (tg?.initDataUnsafe?.user) {
+    const u = tg.initDataUnsafe.user;
+    if (u.first_name) document.getElementById('coName').value = (u.first_name+' '+(u.last_name||'')).trim();
+    if (u.username) document.getElementById('coUser').value = u.username;
+  }
   if (userId) {
-    fetch(`${API}/api/addresses/${userId}`).then(r=>r.json()).then(addrs => {
-      const hint = document.getElementById('savedAddrsHint');
+    fetch(`${API}/api/addresses/${userId}`).then(r=>r.json()).then(addrs=>{
       if (addrs.length) {
-        hint.innerHTML = addrs.map(a =>
-          `<button onclick="document.getElementById('coAddress').value='${a.address}'" style="margin:4px;padding:6px 12px;background:var(--bg-3);border:1px solid var(--border);border-radius:20px;color:var(--text-2);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.2em;cursor:pointer">${a.label}</button>`
+        document.getElementById('savedAddrs').innerHTML = addrs.map(a=>
+          `<button onclick="document.getElementById('coAddr').value='${a.address}'" style="margin:3px;padding:6px 12px;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:rgba(232,228,220,0.6);font-size:11px;cursor:pointer">${a.label}</button>`
         ).join('');
       }
     }).catch(()=>{});
-  }
-  // Pre-fill username from Telegram
-  if (tg?.initDataUnsafe?.user) {
-    const u = tg.initDataUnsafe.user;
-    if (u.first_name) document.getElementById('coName').value = (u.first_name + ' ' + (u.last_name||'')).trim();
-    if (u.username) document.getElementById('coUsername').value = u.username;
   }
   openPanel('checkoutPanel');
 }
 
 async function submitOrder() {
-  if (!userId) { toast('откройте через telegram'); return; }
+  if (!userId) { toast('откройте через Telegram'); return; }
   const name = document.getElementById('coName').value.trim();
-  const username = document.getElementById('coUsername').value.trim().replace('@','');
+  const username = document.getElementById('coUser').value.trim().replace('@','');
   const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g,'').replace(/^\+?372/,'');
-  const address = document.getElementById('coAddress').value.trim();
-
-  if (!name || name.split(' ').length < 2) { toast('введите имя и фамилию'); return; }
-  if (!username || username.length < 5) { toast('введите username (мин 5 символов)'); return; }
+  const address = document.getElementById('coAddr').value.trim();
+  if (!name||name.split(' ').length<2) { toast('введите имя и фамилию'); return; }
+  if (!username||username.length<5) { toast('введите username (мин 5 символов)'); return; }
   if (!/^[3-8]\d{7}$/.test(phone)) { toast('введите эстонский номер (8 цифр)'); return; }
-  if (!address) { toast('введите район встречи'); return; }
-
-  const items = Object.values(cart).map(i => ({id:i.id, qty:i.qty, price:i.price, name:i.name}));
-  
-  // Get referral discount
-  let discount = 0;
-  if (userProfile) discount = userProfile.discount || 0;
-  const rawTotal = cartTotal();
-  const finalTotal = rawTotal * (1 - discount/100);
-
+  if (!address) { toast('введите район'); return; }
+  const items = Object.values(cart).map(i=>({id:i.id,qty:i.qty,price:i.price,name:i.name}));
+  const total = cartTotal();
   try {
-    const r = await fetch(`${API}/api/checkout`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({user_id:userId, items, total:finalTotal, name, username, phone, address})
-    });
-    const data = await r.json();
-    if (data.ok) {
-      cart = {}; saveCart(); updateBadge();
-      closePanel();
-      toast(`✅ заказ #${data.order_id} оформлен!`, 4000);
-      // Auto-save address
-      fetch(`${API}/api/addresses`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({telegram_id:userId, label:address.substring(0,20), address})
-      }).catch(()=>{});
-    } else { toast('ошибка оформления'); }
+    const r = await fetch(`${API}/api/checkout`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:userId,items,total,name,username,phone,address})});
+    const d = await r.json();
+    if (d.ok) {
+      cart={}; saveCart(); updateCartCount(); closePanel();
+      toast(`✅ заказ #${d.order_id} оформлен!`,4000);
+    } else toast('ошибка оформления');
   } catch { toast('ошибка соединения'); }
 }
 
-// ═══ CATALOG ═══
-const catLabel = {clothes:'одежда', shoes:'обувь', accessories:'аксессуары'};
-function glyphFor(cat) { return {clothes:'I', shoes:'II', accessories:'III'}[cat] || '∞'; }
+// PRODUCTS
+const catLabel = {clothes:'одежда',shoes:'обувь',accessories:'аксессуары'};
+const catGlyph = {clothes:'👕',shoes:'👟',accessories:'👜'};
 
 async function loadProducts() {
   try {
-    const res = await fetch(`${API}/api/products`);
-    if (!res.ok) throw 0;
-    allProducts = await res.json();
-  } catch {
-    allProducts = [
-      {id:1,name:'Манто из шерсти',price:189,category:'clothes',description:'Объёмное пальто.',photo_id:null,is_available:1},
-      {id:2,name:'Брюки Tabi',price:124,category:'clothes',description:'Свободные брюки.',photo_id:null,is_available:1},
-      {id:3,name:'Ботинки Artisanal',price:265,category:'shoes',description:'Ручная работа.',photo_id:null,is_available:1},
-      {id:4,name:'Кольцо No. 22',price:38,category:'accessories',description:'Нержавеющая сталь.',photo_id:null,is_available:1},
-    ];
-  }
+    const r = await fetch(`${API}/api/products`);
+    allProducts = await r.json();
+  } catch { allProducts = []; }
   renderGrid();
 }
 
-function renderGrid(products) {
-  const list = (products || (activeCat==='all' ? allProducts : allProducts.filter(p=>p.category===activeCat)));
+function renderGrid() {
+  const list = activeCat==='all' ? allProducts : allProducts.filter(p=>p.category===activeCat);
   const grid = document.getElementById('productGrid');
-  if (!list.length) {
-    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-glyph" style="font-size:48px">○</div><div class="load-text">нет изделий</div></div>`;
-    return;
-  }
-  grid.innerHTML = list.map(p => {
-    const inWish = wishIds.has(p.id);
-    return `<div class="card ${!p.is_available?'void':''}" onclick="openDetail(${p.id})">
-      <div class="card-visual">
-        <span class="card-glyph">${glyphFor(p.category)}</span>
-        ${!p.is_available ? `<div class="card-void">архив</div>` : ''}
-        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''})">+</button>` : ''}
-        <button class="card-wish" onclick="toggleWish(${p.id},event)">${inWish?'❤️':'🤍'}</button>
+  if (!list.length) { grid.innerHTML='<div class="empty">нет товаров</div>'; return; }
+  grid.innerHTML = list.map(p=>`
+    <div class="card" onclick="openDetail(${p.id})">
+      <div class="card-img">
+        <span>${catGlyph[p.category]||'🛍'}</span>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb-${p.id}">${wishIds.has(p.id)?'❤️':'🤍'}</button>
+        ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>`:''}
       </div>
       <div class="card-body">
         <div class="card-cat">${catLabel[p.category]||p.category}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-price">${p.price.toFixed(2)} €</div>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
-document.getElementById('filterBar').addEventListener('click', e => {
-  const btn = e.target.closest('.filter-item');
+document.getElementById('filterBar').addEventListener('click', e=>{
+  const btn = e.target.closest('.filter-btn');
   if (!btn) return;
-  document.querySelectorAll('.filter-item').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   activeCat = btn.dataset.cat;
   renderGrid();
 });
 
-// ═══ PRODUCT DETAIL ═══
 function openDetail(pid) {
   const p = allProducts.find(x=>x.id===pid);
   if (!p) return;
-  const inWish = wishIds.has(p.id);
   document.getElementById('detailBody').innerHTML = `
-    <div class="detail-img-wrap"><span class="detail-glyph">${glyphFor(p.category)}</span></div>
-    <div class="detail-meta">
-      <div class="detail-cat">${catLabel[p.category]||p.category} / ${String(p.id).padStart(4,'0')}</div>
-      <div class="detail-name">${p.name}</div>
-      <div class="detail-price">${p.price.toFixed(2)} €</div>
-      ${p.description?`<div class="detail-desc">${p.description}</div>`:''}
-      <div style="display:flex;gap:10px;margin-bottom:12px">
-        ${p.is_available
-          ? `<button class="action-primary" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''});closePanel()"><span>в корзину</span></button>`
-          : `<button class="action-primary" style="flex:1" disabled><span>нет в наличии</span></button>`}
-        <button onclick="toggleWish(${p.id})" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:0 16px;font-size:20px;cursor:pointer">${inWish?'❤️':'🤍'}</button>
-      </div>
+    <div class="detail-img"><span style="font-size:60px">${catGlyph[p.category]||'🛍'}</span></div>
+    <div class="detail-cat">${catLabel[p.category]||p.category}</div>
+    <div class="detail-name">${p.name}</div>
+    <div class="detail-price">${p.price.toFixed(2)} €</div>
+    ${p.description?`<div class="detail-desc">${p.description}</div>`:''}
+    <div style="display:flex;gap:10px">
+      ${p.is_available
+        ?`<button class="btn" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'});closePanel()">в корзину</button>`
+        :`<button class="btn" style="flex:1;opacity:0.3" disabled>нет в наличии</button>`}
+      <button onclick="toggleWish(${p.id})" style="padding:0 16px;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-size:20px;cursor:pointer" id="dwb-${p.id}">${wishIds.has(p.id)?'❤️':'🤍'}</button>
     </div>`;
   openPanel('detailPanel');
 }
 
-// ═══ WISHLIST VIEW ═══
-async function loadWishlist() {
-  const grid = document.getElementById('wishGrid');
-  if (!userId) {
-    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-text">откройте через telegram</div></div>`;
-    return;
-  }
+// WISHLIST
+async function loadWishIds() {
+  if (!userId) return;
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
     wishIds = new Set(items.map(p=>p.id));
-    if (!items.length) {
-      grid.innerHTML = `<div class="wish-empty" style="grid-column:1/-1"><div class="empty-glyph">🤍</div><div class="empty-text">избранное пусто</div></div>`;
-      return;
-    }
-    grid.innerHTML = items.map(p => `
+  } catch {}
+}
+
+async function toggleWish(pid) {
+  if (!userId) { toast('откройте через Telegram'); return; }
+  try {
+    const r = await fetch(`${API}/api/wishlist/toggle`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,product_id:pid})});
+    const d = await r.json();
+    if (d.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
+    else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
+    // Update buttons
+    ['wb-'+pid,'dwb-'+pid].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=d.added?'❤️':'🤍';});
+    if (document.getElementById('vWishlist').classList.contains('on')) loadWishlist();
+  } catch { toast('ошибка'); }
+}
+
+async function loadWishlist() {
+  const grid = document.getElementById('wishGrid');
+  if (!userId) { grid.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/wishlist/${userId}`);
+    const items = await r.json();
+    wishIds = new Set(items.map(p=>p.id));
+    if (!items.length) { grid.innerHTML='<div class="empty">избранное пусто</div>'; return; }
+    grid.innerHTML = items.map(p=>`
       <div class="card" onclick="openDetail(${p.id})">
-        <div class="card-visual">
-          <span class="card-glyph">${glyphFor(p.category)}</span>
-          <button class="card-wish" onclick="toggleWishAndRemove(${p.id},event)">❤️</button>
-          ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo_id:''})">+</button>`:''}
+        <div class="card-img">
+          <span>${catGlyph[p.category]||'🛍'}</span>
+          <button class="wish-btn" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb-${p.id}">❤️</button>
+          ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>`:''}
         </div>
         <div class="card-body">
           <div class="card-cat">${catLabel[p.category]||p.category}</div>
@@ -1749,348 +488,226 @@ async function loadWishlist() {
           <div class="card-price">${p.price.toFixed(2)} €</div>
         </div>
       </div>`).join('');
-  } catch {
-    grid.innerHTML = `<div class="load" style="grid-column:1/-1"><div class="empty-text">ошибка загрузки</div></div>`;
-  }
+  } catch { grid.innerHTML='<div class="empty">ошибка загрузки</div>'; }
 }
 
-async function toggleWishAndRemove(pid, e) {
-  e && e.stopPropagation();
-  await toggleWish(pid);
-  loadWishlist();
-}
-
-// ═══ ORDERS ═══
-const STATUS = {
-  searching:  {t:'в поиске',  active:true,  pct:10},
-  ordered:    {t:'заказано',  active:true,  pct:30},
-  in_transit: {t:'в пути',    active:true,  pct:60},
-  arrived:    {t:'прибыл',    active:true,  pct:85},
-  delivered:  {t:'получен',   active:false, pct:100},
-  cancelled:  {t:'отменён',   active:false, pct:0},
-};
+// ORDERS
+const STATUS = {searching:'в поиске',ordered:'заказано',in_transit:'в пути',arrived:'прибыл',delivered:'получен',cancelled:'отменён'};
+const STATUS_PCT = {searching:10,ordered:30,in_transit:60,arrived:85,delivered:100,cancelled:0};
 
 async function loadOrders() {
   const el = document.getElementById('ordersList');
-  if (!userId) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">откройте через telegram</div></div>`;
-    return;
-  }
+  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
   try {
-    const res = await fetch(`${API}/api/orders/${userId}`);
-    const orders = await res.json();
-    if (!orders.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">заказов пока нет</div></div>`;
-      return;
-    }
-    const cards = orders.map(o => {
-      const st = STATUS[o.status] || {t:o.status, active:false, pct:0};
-      const cls = st.active ? 'is-active' : (o.status==='delivered'?'is-done':'');
-      const items = (o.items||[]).map(i=>`<div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;color:var(--text-2);padding:3px 0">${i.name} × ${i.qty} — ${(i.price*i.qty).toFixed(2)} €</div>`).join('');
-      // Price adjustment
-      let adjBlock = '';
-      if (o.adjusted_price) {
-        adjBlock = `<div class="order-price-adj">
-          <div class="order-price-adj-title">⚠ изменение цены</div>
-          <div class="order-price-adj-amount">${(+o.adjusted_price).toFixed(2)} €</div>
-          <div class="order-price-adj-reason">${o.adjustment_reason||''}</div>
-          <div class="btn-row">
-            <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
-            <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить заказ</button>
-          </div>
-        </div>`;
-      }
-      // Review button
-      let reviewBtn = '';
-      if (o.status === 'delivered') {
-        reviewBtn = `<button onclick="openReview(${o.id})" style="margin-top:10px;background:none;border:1px solid var(--border);color:var(--text-2);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:8px 16px;border-radius:20px;cursor:pointer;width:100%">оставить отзыв</button>`;
-      }
-      return `<div class="order-card ${cls}" style="margin-bottom:10px;padding:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div class="order-card-badge" style="position:static">${st.t}</div>
-          <div class="order-card-amount">${(+o.total_price).toFixed(2)} €</div>
+    const r = await fetch(`${API}/api/orders/${userId}`);
+    const orders = await r.json();
+    if (!orders.length) { el.innerHTML='<div class="empty">заказов пока нет</div>'; return; }
+    el.innerHTML = orders.map(o=>{
+      const st = STATUS[o.status]||o.status;
+      const pct = STATUS_PCT[o.status]||0;
+      const items = (o.items||[]).map(i=>`${i.name} × ${i.qty}`).join(', ');
+      const adjBlock = o.adjusted_price ? `<div class="price-adj">
+        <div class="price-adj-title">⚠ изменение цены</div>
+        <div style="font-size:20px;font-weight:300">${(+o.adjusted_price).toFixed(2)} €</div>
+        <div style="font-size:12px;color:rgba(232,228,220,0.4);margin-top:4px">${o.adjustment_reason||''}</div>
+        <div class="btn-row">
+          <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
+          <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить</button>
         </div>
-        <div class="order-card-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
-        <div style="margin:10px 0">${items}</div>
-        <div class="order-card-bar"><div class="order-card-bar-fill" style="width:${st.pct}%"></div></div>
-        ${adjBlock}
-        ${reviewBtn}
+      </div>` : '';
+      const reviewBtn = o.status==='delivered' ? `<button onclick="openReview(${o.id})" style="margin-top:10px;width:100%;padding:10px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(232,228,220,0.5);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer">оставить отзыв</button>` : '';
+      return `<div class="order-card">
+        <div class="order-status">${st}</div>
+        <div class="order-total">${(+o.total_price).toFixed(2)} €</div>
+        <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
+        <div class="order-items">${items}</div>
+        <div style="margin-top:10px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px"><div style="height:100%;width:${pct}%;background:#d4c4a0;border-radius:2px;opacity:0.6"></div></div>
+        ${adjBlock}${reviewBtn}
       </div>`;
     }).join('');
-    el.innerHTML = `<div style="padding:0 14px 100px">${cards}</div>`;
-  } catch {
-    el.innerHTML = `<div class="empty-state"><div class="empty-text">не удалось загрузить</div></div>`;
-  }
+  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
 }
 
 async function priceDecision(orderId, action) {
   if (!userId) return;
   try {
-    await fetch(`${API}/api/orders/${orderId}/price_decision`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({telegram_id:userId, action})
-    });
-    toast(action==='accept' ? '✅ цена принята' : '❌ заказ отменён', 3000);
+    await fetch(`${API}/api/orders/${orderId}/price_decision`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,action})});
+    toast(action==='accept'?'✅ цена принята':'❌ заказ отменён',3000);
     loadOrders();
   } catch { toast('ошибка'); }
 }
 
-// ═══ REVIEW ═══
-let reviewOrderId = null;
-let reviewStars = 0;
-
+// REVIEW
 function openReview(orderId) {
-  reviewOrderId = orderId;
-  reviewStars = 0;
+  reviewOrderId = orderId; reviewStars = 0;
   document.getElementById('reviewBody').innerHTML = `
-    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:8px">Заказ #${orderId}</div>
-    <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--text-2);text-transform:uppercase;margin-bottom:4px">оценка</div>
-    <div class="stars-row" id="starsRow">
-      ${[1,2,3,4,5].map(n=>`<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}
-    </div>
-    <textarea class="chat-input" id="reviewComment" placeholder="Комментарий (необязательно)..." style="margin-top:12px;min-height:80px"></textarea>
-    <button class="action-primary" style="margin-top:12px" onclick="submitReview()"><span>отправить отзыв</span></button>`;
+    <div style="font-size:18px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
+    <div style="font-size:10px;letter-spacing:0.3em;color:rgba(232,228,220,0.4);text-transform:uppercase;margin-bottom:8px">оценка</div>
+    <div class="stars-row">${[1,2,3,4,5].map(n=>`<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
+    <textarea class="chat-area" id="revComment" placeholder="Комментарий (необязательно)..."></textarea>
+    <button class="btn" onclick="submitReview()">отправить отзыв</button>`;
   openPanel('reviewPanel');
 }
 
 function setStar(n) {
   reviewStars = n;
-  document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('on', i<n));
+  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('on',i<n));
 }
 
 async function submitReview() {
-  if (!userId || !reviewOrderId) return;
+  if (!userId||!reviewOrderId) return;
   if (!reviewStars) { toast('выберите оценку'); return; }
-  const comment = document.getElementById('reviewComment')?.value || '';
   try {
-    await fetch(`${API}/api/reviews`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({telegram_id:userId, order_id:reviewOrderId, rating:reviewStars, comment})
-    });
-    closePanel(); toast('✅ отзыв сохранён', 3000);
+    await fetch(`${API}/api/reviews`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,order_id:reviewOrderId,rating:reviewStars,comment:document.getElementById('revComment')?.value||''})});
+    closePanel(); toast('✅ отзыв сохранён',3000);
   } catch { toast('ошибка'); }
 }
 
-// ═══ PROFILE ═══
+// PROFILE
 async function loadProfile() {
-  const el = document.getElementById('profileWrap');
+  const el = document.getElementById('profileContent');
   const usr = tg?.initDataUnsafe?.user;
-  if (!usr) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">откройте через telegram</div></div>`;
-    return;
-  }
+  if (!usr) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
   let db = null;
-  try {
-    const r = await fetch(`${API}/api/user/${usr.id}`);
-    db = await r.json();
-    userProfile = db;
-  } catch {}
+  try { const r=await fetch(`${API}/api/user/${usr.id}`); db=await r.json(); userProfile=db; } catch {}
 
-  const monogram = usr.first_name?.[0]?.toUpperCase()||'?';
-
-  // Кнопка админа — показываем если is_admin
-  let adminBlock = '';
+  // Check admin
+  let adminHtml = '';
   try {
     const ar = await fetch(`${API}/api/is_admin/${usr.id}`);
     const ad = await ar.json();
-    if (ad.is_admin) {
-      adminBlock = `<div onclick="window.location.href='https://3xclusiv33.vercel.app/admin.html'" style="margin:0 0 16px;padding:16px;background:var(--accent-2);border:1px solid var(--accent);border-radius:14px;text-align:center;cursor:pointer"><div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.5em;text-transform:uppercase;color:var(--accent)">⚙️ панель администратора</div></div>`;
-    }
+    if (ad.is_admin) adminHtml = `<button class="admin-btn" onclick="window.location.href='https://3xclusiv33.vercel.app/admin.html'">⚙️ Панель администратора</button>`;
   } catch {}
 
-  el.innerHTML = adminBlock + `
-    <div class="profile-ident">
-      <div class="profile-monogram">${monogram}</div>
-      <div class="profile-name-block">
-        <div class="profile-name">${usr.first_name}${usr.last_name?' '+usr.last_name:''}</div>
-        <div class="profile-handle">${usr.username?'@'+usr.username:'id'+usr.id}</div>
-      </div>
+  const m = usr.first_name?.[0]?.toUpperCase()||'?';
+  el.innerHTML = adminHtml + `
+    <div class="profile-header">
+      <div class="monogram">${m}</div>
+      <div><div class="profile-name">${usr.first_name}${usr.last_name?' '+usr.last_name:''}</div><div class="profile-handle">${usr.username?'@'+usr.username:'id'+usr.id}</div></div>
     </div>
-    <div class="stat-grid">
-      <div class="stat-cell"><div class="stat-val">${db?.orders||0}</div><div class="stat-key">заказов</div></div>
-      <div class="stat-cell"><div class="stat-val">${db?.referrals||0}</div><div class="stat-key">рефералов</div></div>
-      <div class="stat-cell"><div class="stat-val">${db?.discount||0}<span style="font-size:16px">%</span></div><div class="stat-key">скидка</div></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">${db?.orders||0}</div><div class="stat-key">заказов</div></div>
+      <div class="stat"><div class="stat-val">${db?.referrals||0}</div><div class="stat-key">рефералов</div></div>
+      <div class="stat"><div class="stat-val">${db?.discount||0}%</div><div class="stat-key">скидка</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 0 16px">
-      <button onclick="showProfileSection('vSize')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">📏 размер</button>
-      <button onclick="showProfileSection('vReferral')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">🔗 рефералы</button>
-      <button onclick="showProfileSection('vNotifications')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">🔔 уведомления</button>
-      <button onclick="showProfileSection('vChat')" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer">💬 продавец</button>
-      <button onclick="showProfileSection('vDelivery');loadDelivery()" style="background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--text-2);cursor:pointer;grid-column:1/-1">🚚 зоны доставки</button>
+    <div class="menu-grid">
+      <div class="menu-item" onclick="showSub('spSize')">📏 Размер</div>
+      <div class="menu-item" onclick="showSub('spRef');loadRef()">🔗 Рефералы</div>
+      <div class="menu-item" onclick="showSub('spNotif');loadNotif()">🔔 Уведомления</div>
+      <div class="menu-item" onclick="showSub('spChat')">💬 Продавец</div>
+      <div class="menu-item" onclick="showSub('spDelivery');loadDelivery()" style="grid-column:1/-1">🚚 Зоны доставки</div>
     </div>`;
 }
 
-function showProfileSection(id) {
-  ['vSize','vReferral','vNotifications','vChat','vDelivery'].forEach(v => {
-    document.getElementById(v).style.display = v===id ? 'block' : 'none';
-  });
-  document.getElementById('profileWrap').style.display = 'none';
-  if (id==='vReferral') loadReferral();
-  if (id==='vNotifications') loadNotifications();
+function showSub(id) {
+  document.querySelectorAll('.sub-view').forEach(v=>v.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
 }
 
-function hideProfileSection() {
-  ['vSize','vReferral','vNotifications','vChat','vDelivery'].forEach(v => {
-    document.getElementById(v).style.display = 'none';
-  });
-  document.getElementById('profileWrap').style.display = 'block';
-}
-
-// ═══ SIZE ═══
+// SIZE
 async function calcSize() {
-  const h = parseFloat(document.getElementById('sizeHeight').value);
-  const w = parseFloat(document.getElementById('sizeWeight').value);
-  if (!h||!w||h<100||h>250||w<20||w>300) { toast('введите корректные данные'); return; }
+  const h = parseFloat(document.getElementById('sH').value);
+  const w = parseFloat(document.getElementById('sW').value);
+  if (!h||!w) { toast('введите рост и вес'); return; }
   try {
     const r = await fetch(`${API}/api/size?height=${h}&weight=${w}`);
-    const data = await r.json();
-    document.getElementById('sizeResult').innerHTML = `
-      <div class="size-result">
-        <div class="size-result-num">${data.size}</div>
-        <div class="size-result-label">рекомендуемый размер</div>
-        <div class="size-result-range">рост ${data.height_range} · вес ${data.weight_range}</div>
-      </div>`;
+    const d = await r.json();
+    document.getElementById('sizeRes').innerHTML = `<div style="background:#161614;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;text-align:center;margin-top:16px"><div style="font-size:72px;font-weight:300;color:#d4c4a0">${d.size}</div><div style="font-size:10px;letter-spacing:0.4em;color:rgba(232,228,220,0.4);text-transform:uppercase;margin-top:8px">рекомендуемый размер</div><div style="font-size:13px;color:rgba(232,228,220,0.4);margin-top:10px">рост ${d.height_range} · вес ${d.weight_range}</div></div>`;
   } catch { toast('ошибка'); }
 }
 
-// ═══ REFERRAL ═══
-async function loadReferral() {
+// REFERRAL
+async function loadRef() {
   const el = document.getElementById('refContent');
-  if (!userId) { el.innerHTML = '<div class="empty-text">откройте через telegram</div>'; return; }
+  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
   try {
     const r = await fetch(`${API}/api/user/${userId}`);
-    const db = await r.json();
+    const d = await r.json();
     const tiers = [{n:1,pct:3},{n:2,pct:5},{n:5,pct:10},{n:10,pct:15}];
-    const tiersHtml = tiers.map(t => {
-      const done = db.referrals >= t.n;
-      return `<div class="tier-row ${done?'done':''}">
-        <span class="tier-check">${done?'✅':'⬜'}</span>
-        <span class="tier-label">${t.n} ${t.n===1?'друг':'друзей'}</span>
-        <span class="tier-pct">${t.pct}%</span>
-      </div>`;
-    }).join('');
     el.innerHTML = `
-      <div class="ref-stat-row">
-        <div class="ref-stat"><div class="ref-stat-val">${db.referrals}</div><div class="ref-stat-key">приглашено</div></div>
-        <div class="ref-stat"><div class="ref-stat-val">${db.discount}%</div><div class="ref-stat-key">ваша скидка</div></div>
+      <div class="ref-stat">
+        <div class="ref-stat-cell"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">приглашено</div></div>
+        <div class="ref-stat-cell"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">скидка</div></div>
       </div>
-      <div style="margin-bottom:20px">${tiersHtml}</div>
-      ${db.next_tier ? `<div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;letter-spacing:.2em;color:var(--text-2);margin-bottom:16px">ещё ${db.next_tier.need} чел. → ${db.next_tier.pct}%</div>` : ''}
-      <div class="ref-block" onclick="copyRef('${db.ref_link}')">
-        <div class="ref-label">реферальная ссылка</div>
-        <div class="ref-link">${db.ref_link}</div>
+      ${tiers.map(t=>`<div class="tier"><span style="font-size:16px">${d.referrals>=t.n?'✅':'⬜'}</span><span style="flex:1;font-size:13px;color:rgba(232,228,220,0.6)">${t.n} ${t.n===1?'друг':'друзей'}</span><span style="color:#d4c4a0;font-size:16px">${t.pct}%</span></div>`).join('')}
+      ${d.next_tier?`<div style="font-size:12px;color:rgba(232,228,220,0.4);margin:12px 0">ещё ${d.next_tier.need} чел. → ${d.next_tier.pct}%</div>`:''}
+      <div onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast('ссылка скопирована'))" style="background:#161614;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;margin-top:8px;cursor:pointer">
+        <div style="font-size:9px;letter-spacing:0.35em;color:rgba(232,228,220,0.3);text-transform:uppercase;margin-bottom:8px">нажмите чтобы скопировать</div>
+        <div style="font-size:13px;color:rgba(232,228,220,0.6);word-break:break-all">${d.ref_link}</div>
       </div>`;
-  } catch { el.innerHTML = '<div class="empty-text">ошибка загрузки</div>'; }
+  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
 }
 
-function copyRef(link) {
-  navigator.clipboard?.writeText(link).then(()=>toast('ссылка скопирована'));
-}
-
-// ═══ NOTIFICATIONS ═══
-async function loadNotifications() {
+// NOTIFICATIONS
+async function loadNotif() {
   const el = document.getElementById('notifContent');
-  if (!userId) { el.innerHTML = '<div class="empty-text">откройте через telegram</div>'; return; }
+  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
   try {
     const r = await fetch(`${API}/api/notifications/${userId}`);
-    const data = await r.json();
-    const subs = new Set(data.subscribed);
-    const cats = [
-      {id:'clothes', name:'Одежда', icon:'👕'},
-      {id:'shoes', name:'Обувь', icon:'👟'},
-      {id:'accessories', name:'Аксессуары', icon:'👜'},
-    ];
-    el.innerHTML = cats.map(c => {
-      const on = subs.has(c.id);
-      return `<div class="notif-card" onclick="toggleNotif('${c.id}',this)">
+    const d = await r.json();
+    const subs = new Set(d.subscribed);
+    const cats = [{id:'clothes',name:'Одежда',icon:'👕'},{id:'shoes',name:'Обувь',icon:'👟'},{id:'accessories',name:'Аксессуары',icon:'👜'}];
+    el.innerHTML = cats.map(c=>`
+      <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
         <div class="notif-icon">${c.icon}</div>
-        <div class="notif-info">
-          <div class="notif-name">${c.name}</div>
-          <div class="notif-sub">${on?'подписаны':'не подписаны'}</div>
-        </div>
-        <div class="notif-toggle ${on?'on'}" id="ntog-${c.id}"></div>
-      </div>`;
-    }).join('');
-  } catch { el.innerHTML = '<div class="empty-text">ошибка загрузки</div>'; }
+        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns-${c.id}">${subs.has(c.id)?'подписаны':'не подписаны'}</div></div>
+        <div class="toggle ${subs.has(c.id)?'on':''}" id="nt-${c.id}"></div>
+      </div>`).join('');
+  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
 }
 
 async function toggleNotif(cat, card) {
   if (!userId) return;
   try {
-    const r = await fetch(`${API}/api/notifications/toggle`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({telegram_id:userId, category:cat})
-    });
-    const data = await r.json();
-    const tog = document.getElementById(`ntog-${cat}`);
-    const sub = card.querySelector('.notif-sub');
-    tog.classList.toggle('on', data.subscribed);
-    sub.textContent = data.subscribed ? 'подписаны' : 'не подписаны';
-    toast(data.subscribed ? `✅ подписаны на ${cat}` : `🔕 отписались`);
+    const r = await fetch(`${API}/api/notifications/toggle`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,category:cat})});
+    const d = await r.json();
+    document.getElementById('nt-'+cat).classList.toggle('on',d.subscribed);
+    document.getElementById('ns-'+cat).textContent = d.subscribed?'подписаны':'не подписаны';
+    toast(d.subscribed?'✅ подписаны':'🔕 отписались');
   } catch { toast('ошибка'); }
 }
 
-// ═══ SUPPORT ═══
+// SUPPORT
 async function sendSupport() {
-  if (!userId) { toast('откройте через telegram'); return; }
+  if (!userId) { toast('откройте через Telegram'); return; }
   const text = document.getElementById('chatText').value.trim();
   if (!text) { toast('введите сообщение'); return; }
   try {
-    await fetch(`${API}/api/support`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({telegram_id:userId, name:userName, text})
-    });
-    document.getElementById('chatText').value = '';
-    toast('✅ сообщение отправлено', 3000);
+    await fetch(`${API}/api/support`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,name:userName,text})});
+    document.getElementById('chatText').value='';
+    toast('✅ сообщение отправлено',3000);
   } catch { toast('ошибка'); }
 }
 
-// ═══ DELIVERY ═══
+// DELIVERY
 function loadDelivery() {
   const zones = [
-    {name:'🏙 Таллин — Центр', area:'Kesklinn, Põhja-Tallinn, Kalamaja', cost:'0 €', time:'В день заказа'},
-    {name:'🏘 Таллин — Периферия', area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', cost:'0 €', time:'В день заказа'},
-    {name:'🚌 Харьюмаа', area:'Маарду, Саку, Кейла, Виймси', cost:'2 €', time:'1–2 дня'},
-    {name:'🚗 Другие регионы', area:'Тарту, Пярну, Нарва и другие', cost:'5 €', time:'2–3 дня'},
+    {name:'🏙 Таллин — Центр',area:'Kesklinn, Põhja-Tallinn, Kalamaja',cost:'0 €',time:'В день заказа'},
+    {name:'🏘 Таллин — Периферия',area:'Lasnamäe, Mustamäe, Kristiine, Haabersti',cost:'0 €',time:'В день заказа'},
+    {name:'🚌 Харьюмаа',area:'Маарду, Саку, Кейла, Виймси',cost:'2 €',time:'1–2 дня'},
+    {name:'🚗 Другие регионы',area:'Тарту, Пярну, Нарва',cost:'5 €',time:'2–3 дня'},
   ];
-  document.getElementById('deliveryContent').innerHTML = zones.map(z => `
+  document.getElementById('deliveryContent').innerHTML = zones.map(z=>`
     <div class="zone-card">
       <div class="zone-name">${z.name}</div>
       <div class="zone-area">${z.area}</div>
-      <div class="zone-meta">
-        <div class="zone-cost">${z.cost}</div>
-        <div class="zone-time">${z.time}</div>
-      </div>
-    </div>`).join('') + '<p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-2);font-size:14px;margin-top:16px">Оплата наличными при встрече с продавцом</p>';
+      <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
+    </div>`).join('');
 }
 
-// ═══ NAVIGATION ═══
-let curView = 'catalog';
-
+// NAVIGATION
 function switchView(v) {
-  const map = {catalog:'vCatalog', wishlist:'vWishlist', orders:'vOrders', profile:'vProfile'};
-  const nav = {catalog:'navCat', wishlist:'navWish', orders:'navOrd', profile:'navPro'};
-  Object.keys(map).forEach(k => {
-    document.getElementById(map[k]).classList.toggle('on', k===v);
-    document.getElementById(nav[k]).classList.toggle('on', k===v);
+  ['catalog','wishlist','orders','profile'].forEach(k=>{
+    document.getElementById('v'+k.charAt(0).toUpperCase()+k.slice(1)).classList.toggle('on',k===v);
+    document.getElementById('n'+k.charAt(0).toUpperCase()+k.slice(1)).classList.toggle('on',k===v);
   });
-  curView = v;
-  hideProfileSection();
   if (v==='orders') loadOrders();
-  if (v==='profile') loadProfile();
+  if (v==='profile') { loadProfile(); showSub('spMain'); }
   if (v==='wishlist') loadWishlist();
 }
 
-document.getElementById('navCat').addEventListener('click', ()=>switchView('catalog'));
-document.getElementById('navWish').addEventListener('click', ()=>switchView('wishlist'));
-document.getElementById('navOrd').addEventListener('click', ()=>switchView('orders'));
-document.getElementById('navPro').addEventListener('click', ()=>switchView('profile'));
-
-const BOT_FILE_TOKEN = '';
-
-// Запуск после загрузки всех функций
-if (tg) { tg.ready(); tg.expand(); setTimeout(initApp, 200); }
-else { setTimeout(initApp, 0); }
+// START
+init();
 </script>
 </body>
 </html>
