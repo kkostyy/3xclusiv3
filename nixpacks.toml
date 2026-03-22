@@ -1,0 +1,5 @@
+[variables]
+PYTHONPATH = "/app"
+
+[start]
+cmd = "python /app/main_with_api.py"
