@@ -60,6 +60,21 @@ async def cb_lang_new(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
     await callback.answer(gt("language_set", lang))
 
+# handlers/common.py — добавьте команду /admin
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+
+@router.message(Command("admin"))
+async def cmd_admin(message: Message):
+    if message.from_user.id not in ADMIN_IDS:
+        return
+    kb = InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(
+            text="⚙️ Панель управления",
+            web_app=WebAppInfo(url="https://your-project.vercel.app/admin")
+        )
+    ]])
+    await message.answer("Панель владельца", reply_markup=kb)
+
 
 @router.callback_query(F.data.startswith("lang:"))
 async def cb_lang_change(callback: CallbackQuery, state: FSMContext):
