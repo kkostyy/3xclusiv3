@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "miniapp.html", "use": "@vercel/static" },
+    { "src": "admin.html",   "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/",       "dest": "/miniapp.html" },
+    { "src": "/admin",  "dest": "/admin.html"   },
+    { "src": "/admin/", "dest": "/admin.html"   }
+  ]
+}

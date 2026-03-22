@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>3XCLUSIV33</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM — MAISON MARGIELA DECODED
+   ═══════════════════════════════════════════ */
+
+:root {
+  --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  --bg:        #0c0c0b;
+  --bg-2:      #111110;
+  --bg-3:      #191917;
+  --surface:   #161614;
+  --border:    rgba(255,255,255,0.06);
+  --border-h:  rgba(255,255,255,0.12);
+  --text:      #e8e4dc;
+  --text-2:    rgba(232,228,220,0.45);
+  --text-3:    rgba(232,228,220,0.18);
+  --accent:    #d4c4a0;
+  --accent-2:  rgba(212,196,160,0.08);
+  --accent-3:  rgba(212,196,160,0.04);
+  --grain-op:  0.045;
+  --ornament:  rgba(212,196,160,0.2);
+  --shadow:    0 24px 80px rgba(0,0,0,0.6);
+  --panel-bg:  #0f0f0e;
+}
+
+[data-theme="light"] {
+  --bg:        #f5f0e8;
+  --bg-2:      #ede7db;
+  --bg-3:      #e6dfd2;
+  --surface:   #f0ebe2;
+  --border:    rgba(0,0,0,0.07);
+  --border-h:  rgba(0,0,0,0.14);
+  --text:      #1c1a16;
+  --text-2:    rgba(28,26,22,0.45);
+  --text-3:    rgba(28,26,22,0.2);
+  --accent:    #5c4a28;
+  --accent-2:  rgba(92,74,40,0.07);
+  --accent-3:  rgba(92,74,40,0.03);
+  --grain-op:  0.025;
+  --ornament:  rgba(92,74,40,0.25);
+  --shadow:    0 24px 80px rgba(0,0,0,0.1);
+  --panel-bg:  #ede7db;
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html { height: 100%; }
+
+body {
+  font-family: 'Jost', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: var(--grain-op);
+  pointer-events: none;
+  z-index: 1000;
+  animation: grain 0.5s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  30% { transform: translate(3%, -1%); }
+  50% { transform: translate(-1%, 2%); }
+  70% { transform: translate(2%, 3%); }
+  90% { transform: translate(-3%, 1%); }
+}
+
+/* ── THIN LINES BACKGROUND ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px);
+  background-size: 100% 80px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ═══ HEADER ═══ */
+.hd {
+  padding: 28px 24px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo-block { position: relative; }
+
+.logo-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  transition: color var(--transition);
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  line-height: 1;
+  transition: color var(--transition);
+  position: relative;
+}
+
+.logo sup {
+  font-size: 10px;
+  font-weight: 100;
+  letter-spacing: 0.2em;
+  vertical-align: super;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+/* THEME TOGGLE — typographic, no icon */
+.theme-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding: 4px 0;
+}
+
+.theme-toggle-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: opacity 0.3s, color var(--transition);
+}
+
+.theme-label.l { color: var(--text-2); }
+.theme-label.d { color: var(--text-2); }
+
+[data-theme="light"] .theme-label.l { color: var(--text); }
+[data-theme="dark"]  .theme-label.d { color: var(--text); }
+
+.theme-pip {
+  width: 24px;
+  height: 1px;
+  background: var(--border-h);
+  position: relative;
+  transition: background var(--transition);
+}
+
+.theme-pip::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: left var(--transition), background var(--transition);
+}
+
+[data-theme="dark"]  .theme-pip::after { left: 0; }
+[data-theme="light"] .theme-pip::after { left: 19px; }
+
+.cart-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 0 4px 16px;
+  position: relative;
+}
+
+.cart-trigger-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--text-2);
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.cart-trigger:hover .cart-trigger-text { color: var(--text); }
+
+.cart-badge {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  min-width: 16px;
+  text-align: right;
+}
+
+/* ═══ DIVIDER ═══ */
+.rule {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  gap: 14px;
+}
+.rule-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  transition: background var(--transition);
+}
+.rule-char {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  color: var(--ornament);
+  letter-spacing: 0.5em;
+  font-style: italic;
+  transition: color var(--transition);
+}
+
+/* ═══ CATEGORY FILTER ═══ */
+.filter {
+  padding: 0 24px 20px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter::-webkit-scrollbar { display: none; }
+
+.filter-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 14px 8px 0;
+  white-space: nowrap;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.filter-item::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 14px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filter-item.on { color: var(--text); }
+.filter-item.on::after { transform: scaleX(1); }
+
+/* ═══ PRODUCT GRID ═══ */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 14px;
+  margin: 0 0 80px;
+}
+
+.card {
+  background: var(--bg-2);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  transition: background var(--transition), transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover { background: var(--surface); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.card:active { transform: scale(0.97); }
+
+.card-visual {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  transition: background var(--transition);
+}
+
+.card-visual img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-glyph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  color: var(--text-3);
+  font-style: italic;
+  transition: color var(--transition);
+}
+
+/* "sold out" ribbon — deconstructed */
+.card-void {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--text-2);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-h);
+  padding-bottom: 2px;
+}
+
+.card-add {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px; height: 28px;
+  border: 1px solid var(--border-h);
+  background: var(--bg);
+  color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 100;
+  transition: all 0.25s;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+.card:hover .card-add { opacity: 1; }
+.card-add:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.card-add:active { transform: scale(0.9); }
+
+.card-body {
+  padding: 14px 14px 18px;
+}
+
+.card-cat {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  transition: color var(--transition);
+}
+
+.card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 8px;
+  transition: color var(--transition);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  transition: color var(--transition);
+}
+
+/* Unavailable card */
+.card.void { opacity: 0.35; pointer-events: none; }
+
+/* ═══ LOADER ═══ */
+.load {
+  grid-column: 1/-1;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.load-glyph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-style: italic;
+  color: var(--text-3);
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.2; transform: scale(0.95); }
+  50%       { opacity: 0.8; transform: scale(1.05); }
+}
+
+.load-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+
+/* ═══ BOTTOM NAV ═══ */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
+  transition: background var(--transition), border-color var(--transition);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
+}
+
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-btn.on { color: var(--text); }
+
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-btn.on::before { transform: scaleX(1); }
+
+.nav-sym {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.nav-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+/* ═══ VIEWS ═══ */
+.view { display: none; }
+.view.on { display: block; }
+
+/* ── SECTION HEADING ── */
+.sec-head {
+  padding: 0 24px 24px;
+  position: relative;
+}
+
+.sec-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--text-3);
+  line-height: 1;
+  font-style: italic;
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  transition: color var(--transition);
+}
+
+.sec-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition), border-color var(--transition);
+}
+
+/* ═══ ORDERS VIEW ═══ */
+.orders-list {
+  padding: 0 14px 100px;
+}
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── ORDER CARD (same shape as product card) ── */
+.order-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: default;
+  transition: background var(--transition), transform 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+
+.order-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+
+/* визуальная шапка карточки — заменяет фото */
+.order-card-visual {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--bg-3);
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--transition);
+}
+
+/* большой italic-номер как фоновый глиф */
+.order-card-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--text-3);
+  transition: color var(--transition);
+}
+
+.order-card.is-active .order-card-visual {
+  background: var(--accent-2);
+}
+.order-card.is-active .order-card-num { color: var(--accent); opacity: 0.6; }
+
+/* статус-бейдж поверх визуала */
+.order-card-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 7px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  background: var(--bg);
+  border: 1px solid var(--border-h);
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: all var(--transition);
+}
+
+.order-card.is-active .order-card-badge {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-2);
+}
+
+.order-card.is-done .order-card-badge {
+  opacity: 0.5;
+}
+
+/* тело карточки */
+.order-card-body {
+  padding: 12px 14px 16px;
+}
+
+.order-card-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 3px;
+  transition: color var(--transition);
+}
+
+.order-card-meta {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  transition: color var(--transition);
+}
+
+/* мини прогресс-полоска */
+.order-card-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+  transition: background var(--transition);
+}
+
+.order-card-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 1px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background var(--transition);
+  opacity: 0.7;
+}
+
+.order-card.is-done .order-card-bar-fill { opacity: 0.35; }
+
+.empty-state {
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.empty-glyph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  font-style: italic;
+  color: var(--text-3);
+  line-height: 1;
+  margin-bottom: 16px;
+  transition: color var(--transition);
+}
+
+.empty-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+
+/* ═══ PROFILE VIEW ═══ */
+.profile-wrap {
+  padding: 0 24px 100px;
+}
+
+.profile-ident {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+  transition: border-color var(--transition);
+}
+
+.profile-monogram {
+  width: 56px; height: 56px;
+  border: 1px solid var(--border-h);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.profile-name-block {}
+
+.profile-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 4px;
+  transition: color var(--transition);
+}
+
+.profile-handle {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--text-3);
+  transition: color var(--transition);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.stat-cell {
+  background: var(--bg-2);
+  padding: 18px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.stat-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+  transition: color var(--transition);
+}
+
+.stat-key {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+
+.ref-block {
+  border: 1px solid var(--border);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.3s, background var(--transition);
+  position: relative;
+  border-radius: 14px;
+}
+
+.ref-block::before {
+  content: 'COPY';
+  position: absolute;
+  top: 20px; right: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--text-3);
+  transition: color 0.3s;
+}
+
+.ref-block:hover { border-color: var(--border-h); background: var(--surface); }
+.ref-block:hover::before { color: var(--accent); }
+
+.ref-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  transition: color var(--transition);
+}
+
+.ref-link {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-2);
+  word-break: break-all;
+  line-height: 1.5;
+  transition: color var(--transition);
+}
+
+/* ═══ PANELS (slide-up) ═══ */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.overlay.on { opacity: 1; pointer-events: all; }
+
+.panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  z-index: 101;
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background var(--transition);
+  max-height: 88vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.panel.on { transform: translateY(0); }
+
+.panel-drag {
+  width: 36px;
+  height: 4px;
+  background: var(--border-h);
+  margin: 14px auto 0;
+  border-radius: 2px;
+  transition: background var(--transition);
+}
+
+.panel-head {
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: border-color var(--transition);
+}
+
+.panel-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  transition: color var(--transition);
+}
+
+.panel-body { padding: 24px; }
+
+/* ── CART PANEL ── */
+.cart-row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  animation: fadein 0.3s ease;
+  transition: border-color var(--transition);
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cart-thumb {
+  width: 52px; height: 68px;
+  background: var(--bg-2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--text-3);
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+.cart-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.cart-info {}
+
+.cart-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+  transition: color var(--transition);
+}
+
+.cart-item-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 10px;
+  transition: color var(--transition);
+}
+
+.qty-ctl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--text-2);
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  border-radius: 50%;
+  transition: all 0.25s;
+}
+
+.qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.qty-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--text);
+  min-width: 16px;
+  text-align: center;
+  transition: color var(--transition);
+}
+
+.rm-btn {
+  background: none; border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  transition: color 0.25s;
+  padding-top: 2px;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.rm-btn:hover { color: var(--text); }
+
+.cart-foot {
+  padding: 20px 0 0;
+}
+
+.cart-total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.total-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+
+.total-sum {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text);
+  transition: color var(--transition);
+}
+
+/* ── PRIMARY ACTION ── */
+.action-primary {
+  width: 100%;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.action-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 12px;
+}
+
+.action-primary span {
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s;
+}
+
+.action-primary:hover::before { transform: translateY(0); }
+.action-primary:hover span { color: var(--bg); }
+.action-primary:active { opacity: 0.8; }
+.action-primary:disabled { opacity: 0.2; pointer-events: none; }
+
+.action-ghost {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-3);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  padding: 12px;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-top: 8px;
+  border-radius: 12px;
+}
+
+.action-ghost:hover { color: var(--text-2); }
+
+/* ── PRODUCT DETAIL ── */
+.detail-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 -24px;
+  width: calc(100% + 48px);
+  overflow: hidden;
+  transition: background var(--transition);
+}
+
+.detail-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.detail-glyph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  font-style: italic;
+  color: var(--text-3);
+  transition: color var(--transition);
+}
+
+.detail-meta {
+  padding: 24px 0 0;
+}
+
+.detail-cat {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.45em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  transition: color var(--transition);
+}
+
+.detail-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  transition: color var(--transition);
+}
+
+.detail-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 20px;
+  transition: color var(--transition);
+}
+
+.detail-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin-bottom: 28px;
+  transition: color var(--transition);
+}
+
+/* ═══ TOAST ═══ */
+.toast {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--text);
+  padding: 10px 20px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 500;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.toast.on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div class="logo-block">
+      <div class="logo-eyebrow">fashion archive</div>
+      <div class="logo">3xclusiv<sup>33</sup></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <!-- theme toggle -->
+      <div class="theme-toggle" id="themeToggle">
+        <div class="theme-toggle-track">
+          <span class="theme-label l">L</span>
+          <div class="theme-pip"></div>
+          <span class="theme-label d">D</span>
+        </div>
+      </div>
+      <!-- cart -->
+      <div class="cart-trigger" id="cartTrigger">
+        <span class="cart-trigger-text">корзина</span>
+        <span class="cart-badge" id="cartBadge">—</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="rule">
+    <div class="rule-line"></div>
+    <div class="rule-char">✦</div>
+    <div class="rule-line"></div>
+  </div>
+
+  <!-- CATALOG VIEW -->
+  <div class="view on" id="vCatalog">
+    <div class="filter" id="filterBar">
+      <button class="filter-item on" data-cat="all">Всё</button>
+      <button class="filter-item" data-cat="clothes">Одежда</button>
+      <button class="filter-item" data-cat="shoes">Обувь</button>
+      <button class="filter-item" data-cat="accessories">Аксессуары</button>
+    </div>
+    <div class="grid" id="productGrid">
+      <div class="load">
+        <div class="load-glyph">∞</div>
+        <div class="load-text">загрузка архива</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS VIEW -->
+  <div class="view" id="vOrders">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <div class="sec-title">мои заказы</div>
+    </div>
+    <div class="orders-list" id="ordersList">
+      <div class="load">
+        <div class="load-glyph">∞</div>
+        <div class="load-text">загрузка</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE VIEW -->
+  <div class="view" id="vProfile">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <div class="sec-title">профиль</div>
+    </div>
+    <div class="profile-wrap" id="profileWrap">
+      <div class="load">
+        <div class="load-glyph">∞</div>
+        <div class="load-text">загрузка</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn on" id="navCat">
+    <span class="nav-sym">I</span>
+    <span class="nav-label">Каталог</span>
+  </button>
+  <button class="nav-btn" id="navOrd">
+    <span class="nav-sym">II</span>
+    <span class="nav-label">Заказы</span>
+  </button>
+  <button class="nav-btn" id="navPro">
+    <span class="nav-sym">III</span>
+    <span class="nav-label">Профиль</span>
+  </button>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- DETAIL PANEL -->
+<div class="panel" id="detailPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">изделие</div></div>
+  <div class="panel-body" id="detailBody"></div>
+</div>
+
+<!-- CART PANEL -->
+<div class="panel" id="cartPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">корзина</div></div>
+  <div class="panel-body">
+    <div id="cartBody"></div>
+    <div id="cartFoot"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+const userId   = tg?.initDataUnsafe?.user?.id   || null;
+const userName = tg?.initDataUnsafe?.user?.first_name || 'Гость';
+
+const API = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080'
+  : 'https://your-backend.vercel.app'; // ← замените после деплоя
+
+// ═══ THEME ═══
+let isDark = localStorage.getItem('th_3x') !== 'light';
+
+function applyTheme(dark) {
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  localStorage.setItem('th_3x', dark ? 'dark' : 'light');
+  if (tg) {
+    tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8');
+    tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8');
+  }
+}
+
+applyTheme(isDark);
+
+document.getElementById('themeToggle').addEventListener('click', () => applyTheme(!isDark));
+
+// ═══ TOAST ═══
+let toastTimer;
+function toast(msg, dur = 2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('on'), dur);
+}
+
+// ═══ CART STATE ═══
+let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
+let allProducts = [];
+let activeCat = 'all';
+
+function saveCart() { localStorage.setItem('cart_3x', JSON.stringify(cart)); }
+function cartCount() { return Object.values(cart).reduce((s, i) => s + i.qty, 0); }
+function cartTotal() { return Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0); }
+
+function updateBadge() {
+  const n = cartCount();
+  document.getElementById('cartBadge').textContent = n > 0 ? n : '—';
+}
+
+function addToCart(product) {
+  if (cart[product.id]) cart[product.id].qty++;
+  else cart[product.id] = { ...product, qty: 1 };
+  saveCart(); updateBadge();
+  toast('добавлено в корзину');
+}
+
+// ═══ PANELS ═══
+let activePanel = null;
+
+function openPanel(id) {
+  if (activePanel) closePanel();
+  activePanel = id;
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+function closePanel() {
+  if (!activePanel) return;
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById(activePanel).classList.remove('on');
+  activePanel = null;
+}
+
+document.getElementById('overlay').addEventListener('click', closePanel);
+
+// ═══ CART PANEL ═══
+document.getElementById('cartTrigger').addEventListener('click', () => {
+  renderCartPanel();
+  openPanel('cartPanel');
+});
+
+function renderCartPanel() {
+  const items = Object.values(cart);
+  const body  = document.getElementById('cartBody');
+  const foot  = document.getElementById('cartFoot');
+
+  if (!items.length) {
+    body.innerHTML = `<div class="empty-state">
+      <div class="empty-glyph">○</div>
+      <div class="empty-text">корзина пуста</div>
+    </div>`;
+    foot.innerHTML = '';
+    return;
+  }
+
+  body.innerHTML = items.map(item => `
+    <div class="cart-row">
+      <div class="cart-thumb">${item.photo ? `<img src="${item.photo}" alt="">` : glyphFor(item.category)}</div>
+      <div class="cart-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-sub">${(item.price * item.qty).toFixed(2)} €</div>
+        <div class="qty-ctl">
+          <button class="qty-btn" onclick="chQty(${item.id},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="chQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button class="rm-btn" onclick="rmItem(${item.id})">убрать</button>
+    </div>
+  `).join('');
+
+  foot.innerHTML = `
+    <div class="cart-foot">
+      <div class="cart-total-row">
+        <span class="total-label">итого</span>
+        <span class="total-sum">${cartTotal().toFixed(2)} €</span>
+      </div>
+      <button class="action-primary" onclick="checkout()"><span>оформить заказ</span></button>
+      <button class="action-ghost" onclick="clearCart()">очистить корзину</button>
+    </div>`;
+}
+
+function chQty(pid, d) {
+  if (!cart[pid]) return;
+  cart[pid].qty += d;
+  if (cart[pid].qty <= 0) delete cart[pid];
+  saveCart(); updateBadge(); renderCartPanel();
+}
+
+function rmItem(pid) {
+  delete cart[pid];
+  saveCart(); updateBadge(); renderCartPanel();
+}
+
+function clearCart() {
+  cart = {}; saveCart(); updateBadge(); renderCartPanel();
+  toast('корзина очищена');
+}
+
+function checkout() {
+  if (!cartCount()) return;
+  if (tg) {
+    tg.sendData(JSON.stringify({
+      action: 'checkout',
+      user_id: userId,
+      items: Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name })),
+      total: cartTotal()
+    }));
+    closePanel();
+    toast('заказ передан в бот');
+  } else {
+    toast('откройте через telegram');
+  }
+}
+
+// ═══ CATALOG ═══
+const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+
+function glyphFor(cat) {
+  return { clothes: 'I', shoes: 'II', accessories: 'III' }[cat] || '∞';
+}
+
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API}/api/products`);
+    if (!res.ok) throw 0;
+    allProducts = await res.json();
+  } catch {
+    allProducts = [
+      { id:1, name:'Манто из шерсти',      price:189, category:'clothes',     description:'Объёмное пальто с асимметричным кроем. Деконструированный силуэт.', photo:null, is_available:1 },
+      { id:2, name:'Брюки Tabi',            price:124, category:'clothes',     description:'Свободные брюки из плотного хлопка с заниженной талией.', photo:null, is_available:1 },
+      { id:3, name:'Ботинки Artisanal',     price:265, category:'shoes',       description:'Ручная работа. Кожаная подошва. Неровная строчка — намеренно.', photo:null, is_available:1 },
+      { id:4, name:'Оксфорды Split Toe',    price:195, category:'shoes',       description:'Разделённый носок. Кожа телёнка. Ограниченный тираж.', photo:null, is_available:0 },
+      { id:5, name:'Кольцо No. 22',         price:38,  category:'accessories', description:'Нержавеющая сталь. Намеренно без покрытия.', photo:null, is_available:1 },
+      { id:6, name:'Шарф Decortiqué',       price:56,  category:'accessories', description:'Обработанные края. Натуральная шерсть.', photo:null, is_available:1 },
+    ];
+  }
+  renderGrid();
+}
+
+function renderGrid() {
+  const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
+  const grid = document.getElementById('productGrid');
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="load" style="grid-column:1/-1">
+      <div class="empty-glyph" style="font-size:48px">○</div>
+      <div class="load-text">нет изделий</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(p => `
+    <div class="card ${!p.is_available ? 'void' : ''}" onclick="openDetail(${p.id})">
+      <div class="card-visual">
+        ${p.photo ? `<img src="${p.photo}" alt="${p.name}" loading="lazy">` : `<span class="card-glyph">${glyphFor(p.category)}</span>`}
+        ${!p.is_available ? `<div class="card-void">архив</div>` : ''}
+        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo:${JSON.stringify(p.photo||'')}})">+</button>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${catLabel[p.category] || p.category}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${p.price.toFixed(2)} €</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// filter
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-item');
+  if (!btn) return;
+  document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeCat = btn.dataset.cat;
+  renderGrid();
+});
+
+// ═══ PRODUCT DETAIL ═══
+function openDetail(pid) {
+  const p = allProducts.find(x => x.id === pid);
+  if (!p) return;
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-img-wrap">
+      ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<span class="detail-glyph">${glyphFor(p.category)}</span>`}
+    </div>
+    <div class="detail-meta">
+      <div class="detail-cat">${catLabel[p.category] || p.category} / ${p.id.toString().padStart(4, '0')}</div>
+      <div class="detail-name">${p.name}</div>
+      <div class="detail-price">${p.price.toFixed(2)} €</div>
+      ${p.description ? `<div class="detail-desc">${p.description}</div>` : ''}
+      ${p.is_available
+        ? `<button class="action-primary" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}',photo:${JSON.stringify(p.photo||'')}}); closePanel()"><span>в корзину</span></button>`
+        : `<button class="action-primary" disabled><span>нет в наличии</span></button>`
+      }
+    </div>`;
+  openPanel('detailPanel');
+}
+
+// ═══ ORDERS ═══
+const STATUS = {
+  searching:  { t: 'в поиске', active: true,  pct: 10,  s: [1,0,0,0,0] },
+  ordered:    { t: 'заказано', active: true,  pct: 30,  s: [1,1,0,0,0] },
+  in_transit: { t: 'в пути',   active: true,  pct: 60,  s: [1,1,1,0,0] },
+  arrived:    { t: 'прибыл',   active: true,  pct: 85,  s: [1,1,1,1,0] },
+  delivered:  { t: 'получен',  active: false, pct: 100, s: [1,1,1,1,1] },
+  cancelled:  { t: 'отменён',  active: false, pct: 0,   s: [0,0,0,0,0] },
+};
+
+async function loadOrders() {
+  const el = document.getElementById('ordersList');
+  if (!userId) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">откройте через telegram</div></div>`;
+    return;
+  }
+  try {
+    const res = await fetch(`${API}/api/orders/${userId}`);
+    const orders = await res.json();
+    if (!orders.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">заказов пока нет</div></div>`;
+      return;
+    }
+    const cards = orders.map(o => {
+      const st  = STATUS[o.status] || { t: o.status, active: false, pct: 0 };
+      const cls = st.active ? 'is-active' : (o.status === 'delivered' ? 'is-done' : '');
+      return `<div class="order-card ${cls}">
+        <div class="order-card-visual">
+          <div class="order-card-badge">${st.t}</div>
+          <div class="order-card-num">${String(o.id).slice(-2).padStart(2,'0')}</div>
+        </div>
+        <div class="order-card-body">
+          <div class="order-card-amount">${o.total_price.toFixed(2)} €</div>
+          <div class="order-card-meta">${o.created_at?.slice(0,10) || ''}</div>
+          <div class="order-card-bar">
+            <div class="order-card-bar-fill" style="width:${st.pct}%"></div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    el.innerHTML = `<div class="orders-grid">${cards}</div>`;
+  } catch {
+    el.innerHTML = `<div class="empty-state"><div class="empty-text">не удалось загрузить</div></div>`;
+  }
+}
+
+// ═══ PROFILE ═══
+async function loadProfile() {
+  const el  = document.getElementById('profileWrap');
+  const usr = tg?.initDataUnsafe?.user;
+  if (!usr) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-glyph">○</div><div class="empty-text">откройте через telegram</div></div>`;
+    return;
+  }
+  let db = null;
+  try {
+    const r = await fetch(`${API}/api/user/${usr.id}`);
+    db = await r.json();
+  } catch {}
+
+  const monogram = usr.first_name?.[0]?.toUpperCase() || '?';
+
+  el.innerHTML = `
+    <div class="profile-ident">
+      <div class="profile-monogram">${monogram}</div>
+      <div class="profile-name-block">
+        <div class="profile-name">${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}</div>
+        <div class="profile-handle">${usr.username ? '@'+usr.username : 'id ' + usr.id}</div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-cell">
+        <div class="stat-val">${db?.orders || 0}</div>
+        <div class="stat-key">заказов</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">${db?.referrals || 0}</div>
+        <div class="stat-key">рефералов</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">${db?.discount || 0}<span style="font-size:16px">%</span></div>
+        <div class="stat-key">скидка</div>
+      </div>
+    </div>
+    ${db?.ref_link ? `
+    <div class="ref-block" onclick="copyRef('${db.ref_link}')">
+      <div class="ref-label">реферальная ссылка</div>
+      <div class="ref-link">${db.ref_link}</div>
+    </div>` : ''}
+  `;
+}
+
+function copyRef(link) {
+  navigator.clipboard?.writeText(link).then(() => toast('ссылка скопирована'));
+}
+
+// ═══ NAVIGATION ═══
+let curView = 'catalog';
+
+function switchView(v) {
+  const map = { catalog: 'vCatalog', orders: 'vOrders', profile: 'vProfile' };
+  const nav = { catalog: 'navCat',   orders: 'navOrd',  profile: 'navPro'  };
+  Object.keys(map).forEach(k => {
+    document.getElementById(map[k]).classList.toggle('on', k === v);
+    document.getElementById(nav[k]).classList.toggle('on', k === v);
+  });
+  curView = v;
+  if (v === 'orders')  loadOrders();
+  if (v === 'profile') loadProfile();
+}
+
+document.getElementById('navCat').addEventListener('click', () => switchView('catalog'));
+document.getElementById('navOrd').addEventListener('click', () => switchView('orders'));
+document.getElementById('navPro').addEventListener('click', () => switchView('profile'));
+
+// ═══ START ═══
+updateBadge();
+loadProducts();
+</script>
+</body>
+</html>
