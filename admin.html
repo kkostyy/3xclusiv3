@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>3XCLUSIV33 — Admin</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+
+:root { --tr: 0.5s cubic-bezier(0.16,1,0.3,1); }
+
+[data-theme="dark"] {
+  --bg:      #0a0a09;
+  --bg2:     #101010;
+  --bg3:     #161614;
+  --surface: #131312;
+  --brd:     rgba(255,255,255,0.06);
+  --brdh:    rgba(255,255,255,0.11);
+  --tx:      #e6e2da;
+  --tx2:     rgba(230,226,218,0.42);
+  --tx3:     rgba(230,226,218,0.16);
+  --ac:      #c8b896;
+  --ac2:     rgba(200,184,150,0.08);
+  --red:     #c0392b;
+  --red2:    rgba(192,57,43,0.12);
+  --green:   #27ae60;
+  --green2:  rgba(39,174,96,0.1);
+  --amber:   #d4a017;
+  --amber2:  rgba(212,160,23,0.1);
+  --panel:   #0d0d0c;
+  --grain:   0.04;
+}
+
+[data-theme="light"] {
+  --bg:      #f2ede4;
+  --bg2:     #ebe4d8;
+  --bg3:     #e3dccf;
+  --surface: #ede7db;
+  --brd:     rgba(0,0,0,0.07);
+  --brdh:    rgba(0,0,0,0.13);
+  --tx:      #1a1814;
+  --tx2:     rgba(26,24,20,0.42);
+  --tx3:     rgba(26,24,20,0.18);
+  --ac:      #5a4726;
+  --ac2:     rgba(90,71,38,0.07);
+  --red:     #c0392b;
+  --red2:    rgba(192,57,43,0.08);
+  --green:   #1e8449;
+  --green2:  rgba(30,132,73,0.08);
+  --amber:   #9a6f00;
+  --amber2:  rgba(154,111,0,0.08);
+  --panel:   #ebe4d8;
+  --grain:   0.02;
+}
+
+*,*::before,*::after { margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent; }
+html { height:100%; }
+
+body {
+  font-family:'Jost',sans-serif;
+  background:var(--bg);
+  color:var(--tx);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  transition:background var(--tr),color var(--tr);
+}
+
+/* grain */
+body::before {
+  content:'';position:fixed;inset:-50%;width:200%;height:200%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:var(--grain);pointer-events:none;z-index:999;
+  animation:grain .5s steps(2) infinite;
+}
+@keyframes grain{0%,100%{transform:translate(0,0)}25%{transform:translate(-2%,-2%)}50%{transform:translate(2%,1%)}75%{transform:translate(-1%,3%)}}
+
+.wrap { position:relative;z-index:1;max-width:480px;margin:0 auto; }
+
+/* ═══ HEADER ═══ */
+.hd {
+  padding:24px 20px 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+}
+
+.logo-block {}
+.logo-eye {
+  font-size:8px;font-weight:200;letter-spacing:.45em;
+  color:var(--tx3);text-transform:uppercase;margin-bottom:3px;
+  transition:color var(--tr);
+}
+.logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:300;letter-spacing:.06em;
+  color:var(--tx);line-height:1;transition:color var(--tr);
+}
+.logo sup {
+  font-size:9px;font-weight:100;color:var(--ac);opacity:.65;letter-spacing:.15em;
+  transition:color var(--tr);
+}
+.logo-tag {
+  display:inline-block;
+  font-size:7px;font-weight:200;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--ac);
+  border:1px solid var(--ac);opacity:.5;
+  padding:2px 7px;border-radius:20px;
+  margin-left:8px;vertical-align:middle;
+  transition:color var(--tr),border-color var(--tr);
+}
+
+.hd-right { display:flex;align-items:center;gap:14px; }
+
+/* theme toggle */
+.th-tog {
+  display:flex;align-items:center;gap:7px;
+  cursor:pointer;user-select:none;
+}
+.th-lbl { font-size:8px;font-weight:200;letter-spacing:.3em;color:var(--tx3);transition:color var(--tr); }
+.th-lbl.on { color:var(--tx2); }
+.th-pip { width:22px;height:1px;background:var(--brdh);position:relative;transition:background var(--tr); }
+.th-pip::after {
+  content:'';position:absolute;top:-3px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--ac);transition:left var(--tr),background var(--tr);
+}
+[data-theme="dark"]  .th-pip::after { left:0; }
+[data-theme="light"] .th-pip::after { left:15px; }
+
+/* notif dot */
+.notif-dot {
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 8px var(--red);
+  animation:pulse-red 2s ease-in-out infinite;
+}
+@keyframes pulse-red {
+  0%,100%{box-shadow:0 0 8px var(--red);}
+  50%{box-shadow:0 0 16px var(--red);}
+}
+
+/* ═══ RULE ═══ */
+.rule {
+  display:flex;align-items:center;padding:16px 20px;gap:12px;
+}
+.rl { flex:1;height:1px;background:var(--brd);transition:background var(--tr); }
+.rc {
+  font-family:'Cormorant Garamond',serif;font-size:10px;
+  color:rgba(200,184,150,0.2);letter-spacing:.4em;font-style:italic;
+  transition:color var(--tr);
+}
+
+/* ═══ NAV TABS ═══ */
+.tabs {
+  display:flex;padding:0 20px;
+  border-bottom:1px solid var(--brd);
+  margin-bottom:20px;overflow-x:auto;scrollbar-width:none;
+  transition:border-color var(--tr);
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab {
+  font-size:9px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--tx3);padding:10px 14px 10px 0;
+  cursor:pointer;white-space:nowrap;border:none;background:none;
+  position:relative;transition:color .3s;
+}
+.tab::after {
+  content:'';position:absolute;bottom:-1px;left:0;right:14px;
+  height:1px;background:var(--ac);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.tab.on { color:var(--tx); }
+.tab.on::after { transform:scaleX(1); }
+
+/* badge на таб */
+.tab-badge {
+  display:inline-block;
+  font-size:6px;font-weight:300;
+  background:var(--red);color:#fff;
+  padding:1px 5px;border-radius:10px;
+  margin-left:5px;vertical-align:middle;
+  line-height:1.4;
+}
+
+/* ═══ STAT STRIP ═══ */
+.stat-strip {
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;padding:0 20px 20px;
+}
+.stat-chip {
+  background:var(--bg2);border:1px solid var(--brd);
+  border-radius:14px;padding:14px 12px;
+  transition:background var(--tr),border-color var(--tr);
+}
+.stat-chip-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:300;color:var(--tx);
+  line-height:1;margin-bottom:4px;transition:color var(--tr);
+}
+.stat-chip-key {
+  font-size:7px;font-weight:200;letter-spacing:.3em;
+  color:var(--tx3);text-transform:uppercase;transition:color var(--tr);
+}
+
+/* ═══ VIEWS ═══ */
+.view { display:none; }
+.view.on { display:block; }
+
+/* ═══ ORDERS LIST (admin) ═══ */
+.adm-orders { padding:0 20px 100px; }
+
+.adm-order {
+  background:var(--bg2);border:1px solid var(--brd);
+  border-radius:16px;margin-bottom:10px;overflow:hidden;
+  transition:background var(--tr),border-color var(--tr);
+}
+
+.adm-order-head {
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--brd);
+  transition:border-color var(--tr);
+  cursor:pointer;
+}
+
+.adm-order-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;font-style:italic;
+  color:var(--ac);line-height:1;flex-shrink:0;
+  transition:color var(--tr);
+}
+
+.adm-order-info { flex:1;min-width:0; }
+.adm-order-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:300;color:var(--tx);
+  margin-bottom:2px;transition:color var(--tr);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.adm-order-sub {
+  font-size:8px;font-weight:200;letter-spacing:.2em;
+  color:var(--tx3);transition:color var(--tr);
+}
+
+.adm-order-amount {
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:300;color:var(--tx);
+  flex-shrink:0;transition:color var(--tr);
+}
+
+/* status badge */
+.st-badge {
+  font-size:7px;font-weight:200;letter-spacing:.3em;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;border:1px solid;
+  flex-shrink:0;transition:all var(--tr);
+}
+.st-badge.searching  { color:var(--amber);border-color:var(--amber);background:var(--amber2); }
+.st-badge.ordered    { color:var(--ac);border-color:var(--ac);background:var(--ac2); }
+.st-badge.in_transit { color:var(--ac);border-color:var(--ac);background:var(--ac2); }
+.st-badge.arrived    { color:var(--green);border-color:var(--green);background:var(--green2); }
+.st-badge.delivered  { color:var(--tx3);border-color:var(--brdh);background:transparent; }
+.st-badge.cancelled  { color:var(--red);border-color:var(--red);background:var(--red2); }
+
+/* expanded body */
+.adm-order-body {
+  padding:14px 16px 16px;
+  display:none;
+}
+.adm-order-body.open { display:block; }
+
+.adm-detail-row {
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:6px 0;border-bottom:1px solid var(--brd);
+  transition:border-color var(--tr);
+}
+.adm-detail-row:last-of-type { border-bottom:none; }
+.adm-detail-key {
+  font-size:8px;font-weight:200;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--tx3);transition:color var(--tr);
+}
+.adm-detail-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:300;color:var(--tx2);
+  text-align:right;transition:color var(--tr);
+}
+
+/* статус-переключатель */
+.status-switcher {
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;
+}
+.st-btn {
+  font-size:7px;font-weight:200;letter-spacing:.25em;text-transform:uppercase;
+  padding:6px 12px;border-radius:20px;border:1px solid var(--brd);
+  background:transparent;color:var(--tx3);
+  cursor:pointer;transition:all .25s;
+}
+.st-btn:hover { border-color:var(--brdh);color:var(--tx2); }
+.st-btn.active { border-color:var(--ac);color:var(--ac);background:var(--ac2); }
+
+/* notify btn */
+.notify-btn {
+  width:100%;margin-top:12px;
+  padding:11px;border-radius:12px;
+  border:1px solid var(--brd);background:transparent;
+  font-size:8px;font-weight:200;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--tx2);cursor:pointer;transition:all .3s;
+}
+.notify-btn:hover { border-color:var(--ac);color:var(--ac); }
+
+/* ═══ PRODUCTS ADMIN ═══ */
+.adm-prods { padding:0 20px 100px; }
+
+.adm-prod-row {
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg2);border:1px solid var(--brd);
+  border-radius:14px;padding:12px 14px;
+  margin-bottom:8px;
+  transition:background var(--tr),border-color var(--tr);
+}
+
+.adm-prod-icon {
+  width:44px;height:44px;background:var(--bg3);
+  border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;
+  color:var(--tx3);transition:background var(--tr),color var(--tr);
+}
+
+.adm-prod-info { flex:1;min-width:0; }
+.adm-prod-name {
+  font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;
+  color:var(--tx);margin-bottom:2px;transition:color var(--tr);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.adm-prod-sub {
+  font-size:8px;font-weight:200;letter-spacing:.2em;color:var(--tx3);
+  transition:color var(--tr);
+}
+
+.adm-prod-price {
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;
+  color:var(--ac);flex-shrink:0;transition:color var(--tr);
+}
+
+/* toggle avail */
+.avail-tog {
+  width:34px;height:18px;border-radius:9px;
+  background:var(--brd);border:1px solid var(--brdh);
+  cursor:pointer;position:relative;flex-shrink:0;
+  transition:background .3s;
+}
+.avail-tog::after {
+  content:'';position:absolute;top:2px;left:2px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--tx3);transition:all .3s;
+}
+.avail-tog.on { background:var(--ac);border-color:var(--ac); }
+.avail-tog.on::after { left:18px;background:#fff; }
+
+/* ═══ ANALYTICS ═══ */
+.analytics { padding:0 20px 100px; }
+
+.ana-card {
+  background:var(--bg2);border:1px solid var(--brd);
+  border-radius:16px;padding:18px 18px 20px;
+  margin-bottom:10px;transition:background var(--tr),border-color var(--tr);
+}
+
+.ana-card-title {
+  font-size:8px;font-weight:200;letter-spacing:.45em;
+  text-transform:uppercase;color:var(--tx3);
+  margin-bottom:14px;transition:color var(--tr);
+}
+
+/* mini bar chart */
+.bar-chart { display:flex;align-items:flex-end;gap:6px;height:60px; }
+.bar-col { flex:1;display:flex;flex-direction:column;align-items:center;gap:5px; }
+.bar-fill {
+  width:100%;border-radius:4px 4px 0 0;
+  background:var(--ac);opacity:.55;
+  transition:height .6s cubic-bezier(.16,1,.3,1),background var(--tr);
+  min-height:2px;
+}
+.bar-fill.hi { opacity:.85; }
+.bar-label {
+  font-size:7px;font-weight:200;letter-spacing:.1em;
+  color:var(--tx3);transition:color var(--tr);
+}
+
+/* revenue big number */
+.rev-big {
+  display:flex;align-items:baseline;gap:10px;margin-bottom:6px;
+}
+.rev-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;font-weight:300;color:var(--tx);
+  line-height:1;transition:color var(--tr);
+}
+.rev-currency {
+  font-size:14px;font-weight:200;letter-spacing:.2em;color:var(--ac);
+  transition:color var(--tr);
+}
+.rev-sub {
+  font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--tx3);
+  text-transform:uppercase;transition:color var(--tr);
+}
+
+/* top products */
+.top-item {
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--brd);
+  transition:border-color var(--tr);
+}
+.top-item:last-child { border-bottom:none; }
+.top-rank {
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;
+  color:var(--tx3);width:20px;text-align:right;flex-shrink:0;transition:color var(--tr);
+}
+.top-name { flex:1;font-size:13px;font-weight:200;color:var(--tx2);transition:color var(--tr); }
+.top-bar-wrap { width:60px;height:2px;background:var(--brd);border-radius:1px; }
+.top-bar-val { height:100%;background:var(--ac);border-radius:1px;opacity:.6; }
+.top-cnt {
+  font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;
+  color:var(--ac);flex-shrink:0;transition:color var(--tr);
+}
+
+/* ═══ BOTTOM NAV ═══ */
+.nav {
+  position:fixed;bottom:0;left:0;right:0;
+  max-width:480px;margin:0 auto;
+  background:var(--bg);border-top:1px solid var(--brd);
+  border-radius:20px 20px 0 0;
+  display:flex;z-index:50;
+  padding-bottom:env(safe-area-inset-bottom);
+  box-shadow:0 -8px 32px rgba(0,0,0,.15);
+  transition:background var(--tr),border-color var(--tr);
+}
+.nav-btn {
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:5px;padding:13px 0;border:none;background:none;
+  cursor:pointer;color:var(--tx3);transition:color .3s;position:relative;
+}
+.nav-btn.on { color:var(--tx); }
+.nav-btn::before {
+  content:'';position:absolute;top:0;left:20%;right:20%;
+  height:1px;background:var(--ac);
+  transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.nav-btn.on::before { transform:scaleX(1); }
+.nav-sym { font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;line-height:1; }
+.nav-lbl { font-size:7.5px;font-weight:200;letter-spacing:.3em;text-transform:uppercase; }
+
+/* ═══ OVERLAY + PANEL ═══ */
+.overlay {
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(8px);
+  z-index:100;opacity:0;pointer-events:none;transition:opacity .4s;
+}
+.overlay.on { opacity:1;pointer-events:all; }
+
+.panel {
+  position:fixed;bottom:0;left:0;right:0;
+  max-width:480px;margin:0 auto;
+  background:var(--panel);border-top:1px solid var(--brd);
+  border-radius:20px 20px 0 0;
+  z-index:101;transform:translateY(100%);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),background var(--tr);
+  max-height:85vh;overflow-y:auto;overscroll-behavior:contain;
+}
+.panel.on { transform:translateY(0); }
+.panel-drag {
+  width:36px;height:4px;background:var(--brdh);
+  margin:14px auto 0;border-radius:2px;transition:background var(--tr);
+}
+.panel-head {
+  padding:20px 20px 16px;border-bottom:1px solid var(--brd);
+  transition:border-color var(--tr);
+}
+.panel-title {
+  font-size:9px;font-weight:200;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--tx2);transition:color var(--tr);
+}
+.panel-body { padding:20px; }
+
+/* action btns */
+.act-primary {
+  width:100%;border:1px solid var(--ac);background:transparent;
+  color:var(--ac);font-size:9px;font-weight:200;letter-spacing:.5em;
+  text-transform:uppercase;padding:14px;cursor:pointer;
+  border-radius:12px;position:relative;overflow:hidden;transition:all .3s;
+}
+.act-primary::before {
+  content:'';position:absolute;inset:0;
+  background:var(--ac);transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.act-primary span { position:relative;z-index:1;transition:color .4s; }
+.act-primary:hover::before { transform:translateY(0); }
+.act-primary:hover span { color:var(--bg); }
+
+/* ═══ TOAST ═══ */
+.toast {
+  position:fixed;top:28px;left:50%;
+  transform:translateX(-50%) translateY(-12px);
+  font-size:8px;font-weight:200;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--bg);background:var(--tx);
+  padding:9px 18px;border-radius:20px;
+  opacity:0;pointer-events:none;z-index:600;
+  transition:all .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;
+}
+.toast.on { opacity:1;transform:translateX(-50%) translateY(0); }
+
+/* ═══ ADD PRODUCT FORM ═══ */
+.form-field { margin-bottom:16px; }
+.form-label {
+  display:block;font-size:8px;font-weight:200;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--tx3);margin-bottom:8px;
+  transition:color var(--tr);
+}
+.form-input {
+  width:100%;background:var(--bg3);border:1px solid var(--brd);
+  border-radius:10px;padding:12px 14px;
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;
+  color:var(--tx);outline:none;
+  transition:border-color .3s,background var(--tr),color var(--tr);
+}
+.form-input:focus { border-color:var(--brdh); }
+.form-input::placeholder { color:var(--tx3); }
+
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+
+.form-select {
+  width:100%;background:var(--bg3);border:1px solid var(--brd);
+  border-radius:10px;padding:12px 14px;
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:200;
+  letter-spacing:.15em;color:var(--tx);outline:none;
+  appearance:none;transition:all var(--tr);
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div class="logo-block">
+      <div class="logo-eye">admin panel</div>
+      <div class="logo">3xclusiv<sup>33</sup><span class="logo-tag">owner</span></div>
+    </div>
+    <div class="hd-right">
+      <div class="th-tog" id="thTog">
+        <span class="th-lbl" id="thL">L</span>
+        <div class="th-pip"></div>
+        <span class="th-lbl on" id="thD">D</span>
+      </div>
+      <div class="notif-dot" id="notifDot" title="Новые заказы"></div>
+    </div>
+  </header>
+
+  <div class="rule"><div class="rl"></div><div class="rc">✦</div><div class="rl"></div></div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip" id="statStrip">
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="stNew">—</div>
+      <div class="stat-chip-key">новых</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="stActive">—</div>
+      <div class="stat-chip-key">активных</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="stRevenue">—</div>
+      <div class="stat-chip-key">выручка €</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab on" data-v="orders">Заказы<span class="tab-badge" id="newBadge">0</span></button>
+    <button class="tab" data-v="products">Товары</button>
+    <button class="tab" data-v="analytics">Аналитика</button>
+  </div>
+
+  <!-- ORDERS VIEW -->
+  <div class="view on" id="vOrders">
+    <div class="adm-orders" id="ordersList"></div>
+  </div>
+
+  <!-- PRODUCTS VIEW -->
+  <div class="view" id="vProducts">
+    <div class="adm-prods">
+      <div style="padding:0 0 14px;display:flex;justify-content:flex-end;">
+        <button onclick="openAddProduct()" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid var(--ac);border-radius:20px;padding:7px 16px;cursor:pointer;opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">+ добавить</button>
+      </div>
+      <div id="productsList"></div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS VIEW -->
+  <div class="view" id="vAnalytics">
+    <div class="analytics" id="analyticsBody"></div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn on" data-v="orders" id="navOrders">
+    <span class="nav-sym">I</span>
+    <span class="nav-lbl">Заказы</span>
+  </button>
+  <button class="nav-btn" data-v="products" id="navProducts">
+    <span class="nav-sym">II</span>
+    <span class="nav-lbl">Товары</span>
+  </button>
+  <button class="nav-btn" data-v="analytics" id="navAnalytics">
+    <span class="nav-sym">III</span>
+    <span class="nav-lbl">Аналитика</span>
+  </button>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ORDER DETAIL PANEL -->
+<div class="panel" id="orderPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">детали заказа</div></div>
+  <div class="panel-body" id="orderPanelBody"></div>
+</div>
+
+<!-- ADD PRODUCT PANEL -->
+<div class="panel" id="addPanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">новый товар</div></div>
+  <div class="panel-body">
+    <div class="form-field">
+      <label class="form-label">название</label>
+      <input class="form-input" id="fName" placeholder="Манто из шерсти">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label class="form-label">цена €</label>
+        <input class="form-input" id="fPrice" type="number" placeholder="189">
+      </div>
+      <div class="form-field">
+        <label class="form-label">категория</label>
+        <select class="form-select" id="fCat">
+          <option value="clothes">Одежда</option>
+          <option value="shoes">Обувь</option>
+          <option value="accessories">Аксессуары</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="form-label">описание</label>
+      <textarea class="form-input" id="fDesc" rows="3" placeholder="Асимметричный крой…" style="resize:none;line-height:1.6;"></textarea>
+    </div>
+    <button class="act-primary" onclick="saveProduct()"><span>сохранить</span></button>
+  </div>
+</div>
+
+<script>
+// ═══ INIT ═══
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+const API = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080'
+  : 'https://your-backend.vercel.app';
+
+// ═══ THEME ═══
+let isDark = localStorage.getItem('adm_th') !== 'light';
+
+function applyTheme(d) {
+  isDark = d;
+  document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+  localStorage.setItem('adm_th', d ? 'dark' : 'light');
+  document.getElementById('thL').className = 'th-lbl' + (!d ? ' on' : '');
+  document.getElementById('thD').className = 'th-lbl' + (d  ? ' on' : '');
+  if (tg) { tg.setHeaderColor(d ? '#0a0a09' : '#f2ede4'); tg.setBackgroundColor(d ? '#0a0a09' : '#f2ede4'); }
+}
+applyTheme(isDark);
+document.getElementById('thTog').addEventListener('click', () => applyTheme(!isDark));
+
+// ═══ TOAST ═══
+let _tt;
+function toast(msg, dur = 2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), dur);
+}
+
+// ═══ PANEL ═══
+let activePanel = null;
+function openPanel(id) {
+  if (activePanel) closePanel();
+  activePanel = id;
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+function closePanel() {
+  if (!activePanel) return;
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById(activePanel).classList.remove('on');
+  activePanel = null;
+}
+document.getElementById('overlay').addEventListener('click', closePanel);
+
+// ═══ NAVIGATION ═══
+const viewMap = { orders:'vOrders', products:'vProducts', analytics:'vAnalytics' };
+const navMap  = { orders:'navOrders', products:'navProducts', analytics:'navAnalytics' };
+
+document.querySelectorAll('.tab, .nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const v = btn.dataset.v; if (!v) return;
+    Object.keys(viewMap).forEach(k => {
+      document.getElementById(viewMap[k]).classList.toggle('on', k === v);
+      document.getElementById(navMap[k]).classList.toggle('on', k === v);
+    });
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.v === v));
+    if (v === 'products')  loadProducts();
+    if (v === 'analytics') renderAnalytics();
+  });
+});
+
+// ═══ DEMO DATA ═══
+const DEMO_ORDERS = [
+  { id:128, user_name:'Аlex M.', tg:'@alex_m', total_price:454, status:'searching',  created_at:'2025-11-10', items:[{name:'Манто из шерсти',qty:1,price:189},{name:'Кольцо No.22',qty:1,price:38},{name:'Шарф Decortiqué',qty:1,price:56}] },
+  { id:127, user_name:'Sofia R.', tg:'@sof_r', total_price:265, status:'in_transit', created_at:'2025-11-09', items:[{name:'Ботинки Artisanal',qty:1,price:265}] },
+  { id:126, user_name:'Ivan K.',  tg:'@ivan_k',total_price:124, status:'arrived',    created_at:'2025-11-07', items:[{name:'Брюки Tabi',qty:1,price:124}] },
+  { id:125, user_name:'Mia T.',   tg:'@mia_t', total_price:38,  status:'delivered',  created_at:'2025-11-05', items:[{name:'Кольцо No.22',qty:1,price:38}] },
+  { id:124, user_name:'Dan W.',   tg:'@dan_w', total_price:189, status:'cancelled',  created_at:'2025-11-03', items:[{name:'Манто из шерсти',qty:1,price:189}] },
+];
+
+const DEMO_PRODUCTS = [
+  { id:1, name:'Манто из шерсти',   price:189, category:'clothes',     is_available:1 },
+  { id:2, name:'Брюки Tabi',        price:124, category:'clothes',     is_available:1 },
+  { id:3, name:'Ботинки Artisanal', price:265, category:'shoes',       is_available:1 },
+  { id:4, name:'Оксфорды Split Toe',price:195, category:'shoes',       is_available:0 },
+  { id:5, name:'Кольцо No. 22',     price:38,  category:'accessories', is_available:1 },
+  { id:6, name:'Шарф Decortiqué',   price:56,  category:'accessories', is_available:1 },
+];
+
+const STATUS_CFG = {
+  searching:  { t:'в поиске', cls:'searching'  },
+  ordered:    { t:'заказано', cls:'ordered'    },
+  in_transit: { t:'в пути',   cls:'in_transit' },
+  arrived:    { t:'прибыл',   cls:'arrived'    },
+  delivered:  { t:'получен',  cls:'delivered'  },
+  cancelled:  { t:'отменён',  cls:'cancelled'  },
+};
+const STATUS_STEPS = ['searching','ordered','in_transit','arrived','delivered'];
+const CAT = { clothes:'Одежда', shoes:'Обувь', accessories:'Аксессуары' };
+const GLYPH = { clothes:'I', shoes:'II', accessories:'III' };
+
+// ═══ ORDERS ═══
+let orders = [];
+
+async function loadOrders() {
+  try {
+    const r = await fetch(`${API}/api/admin/orders`);
+    if (!r.ok) throw 0;
+    orders = await r.json();
+  } catch { orders = DEMO_ORDERS; }
+  renderOrders();
+  updateStats();
+}
+
+function renderOrders() {
+  const el = document.getElementById('ordersList');
+  el.innerHTML = orders.map(o => {
+    const st = STATUS_CFG[o.status] || { t: o.status, cls: '' };
+    return `<div class="adm-order" id="ord-${o.id}">
+      <div class="adm-order-head" onclick="toggleOrder(${o.id})">
+        <div class="adm-order-num">${o.id}</div>
+        <div class="adm-order-info">
+          <div class="adm-order-name">${o.user_name || 'Покупатель'}</div>
+          <div class="adm-order-sub">${o.tg || ''} · ${o.created_at?.slice(0,10) || ''}</div>
+        </div>
+        <div class="st-badge ${st.cls}">${st.t}</div>
+        <div class="adm-order-amount">${(+o.total_price).toFixed(2)} €</div>
+      </div>
+      <div class="adm-order-body" id="body-${o.id}">
+        ${(o.items||[]).map(i => `
+          <div class="adm-detail-row">
+            <span class="adm-detail-key">${i.name}</span>
+            <span class="adm-detail-val">${i.qty} × ${(+i.price).toFixed(2)} €</span>
+          </div>`).join('')}
+        <div class="adm-detail-row" style="margin-top:4px">
+          <span class="adm-detail-key">итого</span>
+          <span class="adm-detail-val" style="color:var(--ac)">${(+o.total_price).toFixed(2)} €</span>
+        </div>
+        <div class="status-switcher">
+          ${STATUS_STEPS.map(s => `
+            <button class="st-btn ${o.status===s?'active':''}" onclick="setStatus(${o.id},'${s}')">${STATUS_CFG[s].t}</button>
+          `).join('')}
+          <button class="st-btn ${o.status==='cancelled'?'active':''}" onclick="setStatus(${o.id},'cancelled')" style="color:var(--red);border-color:var(--red)">отменён</button>
+        </div>
+        <button class="notify-btn" onclick="notifyUser(${o.id})">уведомить покупателя</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // badge
+  const newCount = orders.filter(o => o.status === 'searching').length;
+  document.getElementById('newBadge').textContent = newCount;
+  document.getElementById('notifDot').style.display = newCount > 0 ? 'block' : 'none';
+}
+
+function toggleOrder(id) {
+  const body = document.getElementById(`body-${id}`);
+  body.classList.toggle('open');
+}
+
+function setStatus(orderId, status) {
+  const o = orders.find(x => x.id === orderId);
+  if (!o) return;
+  o.status = status;
+  renderOrders();
+  updateStats();
+  toast(`заказ #${orderId} → ${STATUS_CFG[status].t}`);
+  // в реале: fetch(`${API}/api/admin/orders/${orderId}`, { method:'PATCH', body: JSON.stringify({status}) })
+}
+
+function notifyUser(orderId) {
+  toast(`уведомление отправлено — #${orderId}`);
+}
+
+function updateStats() {
+  const newC    = orders.filter(o => o.status === 'searching').length;
+  const activeC = orders.filter(o => !['delivered','cancelled'].includes(o.status)).length;
+  const rev     = orders.filter(o => o.status === 'delivered').reduce((s,o) => s + (+o.total_price), 0);
+  document.getElementById('stNew').textContent     = newC;
+  document.getElementById('stActive').textContent  = activeC;
+  document.getElementById('stRevenue').textContent = rev > 0 ? rev.toFixed(0) : '—';
+  document.getElementById('newBadge').textContent  = newC;
+}
+
+// ═══ PRODUCTS ═══
+let products = [];
+
+async function loadProducts() {
+  try {
+    const r = await fetch(`${API}/api/products`);
+    if (!r.ok) throw 0;
+    products = await r.json();
+  } catch { products = DEMO_PRODUCTS; }
+  renderProducts();
+}
+
+function renderProducts() {
+  const el = document.getElementById('productsList');
+  el.innerHTML = products.map(p => `
+    <div class="adm-prod-row">
+      <div class="adm-prod-icon">${GLYPH[p.category]||'∞'}</div>
+      <div class="adm-prod-info">
+        <div class="adm-prod-name">${p.name}</div>
+        <div class="adm-prod-sub">${CAT[p.category]||p.category}</div>
+      </div>
+      <div class="adm-prod-price">${(+p.price).toFixed(0)} €</div>
+      <div class="avail-tog ${p.is_available?'on':''}" onclick="toggleAvail(${p.id})" title="${p.is_available?'в наличии':'нет'}"></div>
+    </div>`).join('');
+}
+
+function toggleAvail(pid) {
+  const p = products.find(x => x.id === pid);
+  if (!p) return;
+  p.is_available = p.is_available ? 0 : 1;
+  renderProducts();
+  toast(p.is_available ? `${p.name} — в наличии` : `${p.name} — скрыт`);
+}
+
+function openAddProduct() { openPanel('addPanel'); }
+
+function saveProduct() {
+  const name  = document.getElementById('fName').value.trim();
+  const price = parseFloat(document.getElementById('fPrice').value);
+  const cat   = document.getElementById('fCat').value;
+  const desc  = document.getElementById('fDesc').value.trim();
+  if (!name || !price) { toast('заполните название и цену'); return; }
+  const newProd = { id: Date.now(), name, price, category: cat, description: desc, is_available: 1 };
+  products.unshift(newProd);
+  renderProducts();
+  closePanel();
+  toast(`${name} добавлен`);
+  ['fName','fPrice','fDesc'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ═══ ANALYTICS ═══
+function renderAnalytics() {
+  const el = document.getElementById('analyticsBody');
+  const totalRev = orders.filter(o => o.status==='delivered').reduce((s,o)=>s+(+o.total_price),0);
+
+  // weekly mock data
+  const weeks = ['окт 1','окт 2','окт 3','окт 4','ноя 1'];
+  const vals  = [380, 520, 290, 640, 410];
+  const maxV  = Math.max(...vals);
+
+  const bars = vals.map((v,i) => {
+    const pct = Math.round((v/maxV)*100);
+    const hi  = v === maxV ? 'hi' : '';
+    return `<div class="bar-col">
+      <div class="bar-fill ${hi}" style="height:${pct}%"></div>
+      <div class="bar-label">${weeks[i]}</div>
+    </div>`;
+  }).join('');
+
+  // top products
+  const topProds = [
+    { name:'Ботинки Artisanal', cnt:12 },
+    { name:'Манто из шерсти',   cnt:9  },
+    { name:'Брюки Tabi',        cnt:7  },
+    { name:'Кольцо No. 22',     cnt:6  },
+  ];
+  const maxCnt = topProds[0].cnt;
+
+  const topRows = topProds.map((p,i) => `
+    <div class="top-item">
+      <div class="top-rank">${i+1}</div>
+      <div class="top-name">${p.name}</div>
+      <div class="top-bar-wrap"><div class="top-bar-val" style="width:${Math.round(p.cnt/maxCnt*100)}%"></div></div>
+      <div class="top-cnt">${p.cnt}</div>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="ana-card">
+      <div class="ana-card-title">выручка / неделя</div>
+      <div class="bar-chart">${bars}</div>
+    </div>
+    <div class="ana-card">
+      <div class="ana-card-title">общая выручка</div>
+      <div class="rev-big">
+        <div class="rev-num">${totalRev > 0 ? totalRev.toFixed(0) : '1830'}</div>
+        <div class="rev-currency">€</div>
+      </div>
+      <div class="rev-sub">всего получено · ${orders.filter(o=>o.status==='delivered').length || 4} заказа</div>
+    </div>
+    <div class="ana-card">
+      <div class="ana-card-title">топ товаров</div>
+      ${topRows}
+    </div>`;
+}
+
+// ═══ START ═══
+loadOrders();
+</script>
+</body>
+</html>
