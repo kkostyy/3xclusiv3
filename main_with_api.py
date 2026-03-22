@@ -1,3 +1,7 @@
+for _p in ['/app', os.path.dirname(os.path.abspath(__file__))]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 #!/usr/bin/env python3
 # main_with_api.py — запускает Telegram бот + FastAPI одновременно
 
