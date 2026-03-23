@@ -532,28 +532,42 @@ async def admin_get_support(admin_id: int = 0):
 
 # ── Photo proxy ───────────────────────────────────────────────────────────────
 from fastapi.responses import Response
-import httpx
+import asyncio
+import urllib.request
 
 @app.get("/api/photo/{file_id:path}")
 async def proxy_photo(file_id: str):
-    """Proxy Telegram photo by file_id → actual image bytes."""
+    """Proxy Telegram photo by file_id → actual image bytes (no httpx needed)."""
     if not BOT_TOKEN:
         raise HTTPException(status_code=503, detail="No bot token")
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
+        def fetch_sync():
             # 1. Get file path
-            r = await client.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}")
-            data = r.json()
+            with urllib.request.urlopen(
+                f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}",
+                timeout=10
+            ) as r:
+                import json
+                data = json.loads(r.read())
             if not data.get("ok"):
-                raise HTTPException(status_code=404, detail="File not found")
+                return None, None
             file_path = data["result"]["file_path"]
-            # 2. Download file
-            img = await client.get(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}")
+            # 2. Download image
+            with urllib.request.urlopen(
+                f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}",
+                timeout=10
+            ) as r:
+                img_bytes = r.read()
             content_type = "image/jpeg"
             if file_path.endswith(".png"): content_type = "image/png"
             elif file_path.endswith(".webp"): content_type = "image/webp"
-            return Response(content=img.content, media_type=content_type,
-                          headers={"Cache-Control": "public, max-age=86400"})
+            return img_bytes, content_type
+
+        img_bytes, content_type = await asyncio.get_event_loop().run_in_executor(None, fetch_sync)
+        if img_bytes is None:
+            raise HTTPException(status_code=404, detail="File not found")
+        return Response(content=img_bytes, media_type=content_type,
+                       headers={"Cache-Control": "public, max-age=86400"})
     except HTTPException:
         raise
     except Exception as e:
