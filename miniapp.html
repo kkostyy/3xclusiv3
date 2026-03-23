@@ -1,207 +1,375 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>3XCLUSIV33</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:rgba(0,0,0,0.1); }
-body { font-family:'Helvetica Neue',sans-serif; background:#0c0c0b; color:#e8e4dc; min-height:100vh; }
-.header { padding:20px 16px 12px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); }
-.logo { font-size:22px; font-weight:300; letter-spacing:0.05em; }
-.cart-btn { background:rgba(212,196,160,0.1); border:1px solid rgba(212,196,160,0.3); color:#d4c4a0; padding:8px 14px; border-radius:20px; font-size:13px; cursor:pointer; }
-.tabs { display:flex; border-bottom:1px solid rgba(255,255,255,0.08); }
-.tab { flex:1; padding:12px 0; text-align:center; font-size:11px; letter-spacing:0.2em; color:rgba(232,228,220,0.4); cursor:pointer; border:none; background:none; text-transform:uppercase; }
-.tab.on { color:#d4c4a0; border-bottom:2px solid #d4c4a0; }
-.view { display:none; padding:16px; padding-bottom:80px; }
+:root {
+  --bg: #0c0c0b; --bg2: #111110; --bg3: #161614;
+  --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.13);
+  --text: #e8e4dc; --text2: rgba(232,228,220,0.45); --text3: rgba(232,228,220,0.18);
+  --accent: #d4c4a0; --accent2: rgba(212,196,160,0.09);
+  --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="light"] {
+  --bg: #f5f0e8; --bg2: #ede7db; --bg3: #e6dfd2;
+  --border: rgba(0,0,0,0.07); --borderh: rgba(0,0,0,0.14);
+  --text: #1c1a16; --text2: rgba(28,26,22,0.45); --text3: rgba(28,26,22,0.2);
+  --accent: #5c4a28; --accent2: rgba(92,74,40,0.07);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; }
+body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
+
+/* HEADER */
+.hd { padding:24px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
+.logo { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; letter-spacing:0.06em; color:var(--text); line-height:1; }
+.logo sup { font-size:11px; color:var(--accent); font-weight:300; vertical-align:super; }
+.logo-eye { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:3px; }
+.hd-right { display:flex; align-items:center; gap:18px; }
+.theme-tog { display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none; }
+.th-lbl { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); transition:color var(--tr); }
+.th-lbl.on { color:var(--text); }
+.th-pip { width:22px; height:1px; background:var(--borderh); position:relative; }
+.th-pip::after { content:''; position:absolute; top:-2.5px; width:6px; height:6px; border-radius:50%; background:var(--accent); transition:left var(--tr); }
+[data-theme="dark"] .th-pip::after { left:0; }
+[data-theme="light"] .th-pip::after { left:16px; }
+.cart-btn { display:flex; flex-direction:column; align-items:flex-end; gap:2px; cursor:pointer; }
+.cart-lbl { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; }
+.cart-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); line-height:1; }
+
+/* DIVIDER */
+.rule { display:flex; align-items:center; gap:12px; padding:18px 20px; }
+.rule-line { flex:1; height:1px; background:var(--border); }
+.rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--accent); opacity:0.4; font-style:italic; letter-spacing:0.4em; }
+
+/* VIEWS */
+.view { display:none; padding:0 0 90px; }
 .view.on { display:block; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; cursor:pointer; }
-.card-img { aspect-ratio:3/4; background:#1a1a18; display:flex; align-items:center; justify-content:center; font-size:40px; color:rgba(232,228,220,0.15); position:relative; }
-.card-body { padding:12px; }
-.card-cat { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.3); text-transform:uppercase; margin-bottom:4px; }
-.card-name { font-size:14px; font-weight:300; margin-bottom:6px; line-height:1.3; }
-.card-price { font-size:12px; color:#d4c4a0; }
-.card-add { position:absolute; bottom:8px; right:8px; width:32px; height:32px; background:#d4c4a0; color:#0c0c0b; border:none; border-radius:50%; font-size:20px; line-height:32px; text-align:center; cursor:pointer; }
-.wish-btn { position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.5); border:none; border-radius:50%; width:30px; height:30px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.filter { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-.filter-btn { padding:7px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:20px; font-size:11px; letter-spacing:0.2em; color:rgba(232,228,220,0.5); cursor:pointer; background:none; text-transform:uppercase; }
-.filter-btn.on { border-color:#d4c4a0; color:#d4c4a0; background:rgba(212,196,160,0.08); }
-.empty { text-align:center; padding:60px 20px; color:rgba(232,228,220,0.3); font-size:14px; }
-.order-card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px; margin-bottom:12px; }
-.order-status { display:inline-block; padding:4px 10px; border-radius:20px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; background:rgba(212,196,160,0.1); color:#d4c4a0; margin-bottom:10px; }
-.order-total { font-size:20px; font-weight:300; margin-bottom:6px; }
-.order-meta { font-size:11px; color:rgba(232,228,220,0.4); margin-bottom:10px; }
-.order-items { font-size:12px; color:rgba(232,228,220,0.5); line-height:1.8; }
-.profile-header { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); }
-.monogram { width:52px; height:52px; border-radius:50%; background:rgba(212,196,160,0.1); border:1px solid rgba(212,196,160,0.3); display:flex; align-items:center; justify-content:center; font-size:24px; color:#d4c4a0; }
-.profile-name { font-size:20px; font-weight:300; }
-.profile-handle { font-size:11px; color:rgba(232,228,220,0.4); margin-top:3px; }
+
+/* FILTER */
+.filter { display:flex; gap:0; padding:0 20px 18px; overflow-x:auto; scrollbar-width:none; }
+.filter::-webkit-scrollbar { display:none; }
+.fb { background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); padding:7px 12px 7px 0; white-space:nowrap; transition:color 0.3s; position:relative; }
+.fb::after { content:''; position:absolute; bottom:5px; left:0; right:12px; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
+.fb.on { color:var(--text); }
+.fb.on::after { transform:scaleX(1); }
+
+/* GRID */
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px; }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:14px; overflow:hidden; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
+.card:active { transform:scale(0.97); }
+.card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; border-radius:14px 14px 0 0; overflow:hidden; }
+.card-img img { width:100%; height:100%; object-fit:cover; }
+.card-add { position:absolute; bottom:8px; right:8px; width:30px; height:30px; background:var(--accent); color:var(--bg); border:none; border-radius:50%; font-size:18px; line-height:30px; text-align:center; cursor:pointer; font-weight:300; }
+.card-wish { position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.3); border:none; border-radius:50%; width:28px; height:28px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.card-void { position:absolute; bottom:8px; left:8px; font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; border-bottom:1px solid var(--borderh); padding-bottom:1px; }
+.card-body { padding:12px 14px 16px; }
+.card-cat { font-size:8px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:4px; }
+.card-name { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:300; color:var(--text); margin-bottom:6px; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.card-price { font-size:12px; font-weight:200; letter-spacing:0.15em; color:var(--accent); }
+.card.void { opacity:0.35; pointer-events:none; }
+
+/* LOADER */
+.loader { grid-column:1/-1; padding:60px 20px; text-align:center; }
+.loader-sym { font-family:'Cormorant Garamond',serif; font-size:36px; font-style:italic; color:var(--text3); animation:pulse 2s ease-in-out infinite; }
+.loader-txt { font-size:9px; font-weight:200; letter-spacing:0.5em; color:var(--text3); text-transform:uppercase; margin-top:14px; }
+@keyframes pulse { 0%,100%{opacity:0.2;transform:scale(0.95)} 50%{opacity:0.8;transform:scale(1.05)} }
+.empty { padding:60px 20px; text-align:center; }
+.empty-sym { font-family:'Cormorant Garamond',serif; font-size:48px; font-style:italic; color:var(--text3); margin-bottom:12px; }
+.empty-txt { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; }
+
+/* SEC HEAD */
+.sec-head { padding:0 20px 20px; position:relative; }
+.sec-num { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:300; color:var(--text3); font-style:italic; position:absolute; top:-6px; right:16px; }
+.sec-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); padding-bottom:10px; border-bottom:1px solid var(--border); }
+
+/* ORDERS */
+.orders-wrap { padding:0 14px; }
+.order-card { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:10px; }
+.order-badge { display:inline-block; font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text2); background:var(--bg3); border:1px solid var(--borderh); border-radius:20px; padding:4px 10px; margin-bottom:10px; }
+.order-card.is-active .order-badge { color:var(--accent); border-color:var(--accent); background:var(--accent2); }
+.order-amount { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); margin-bottom:4px; }
+.order-meta { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-bottom:10px; }
+.order-items { font-size:11px; font-weight:200; color:var(--text2); line-height:1.8; margin-bottom:10px; }
+.order-bar { height:2px; background:var(--border); border-radius:1px; overflow:hidden; }
+.order-bar-fill { height:100%; background:var(--accent); opacity:0.6; border-radius:1px; transition:width 0.6s; }
+.price-adj { background:var(--accent2); border:1px solid rgba(212,196,160,0.3); border-radius:10px; padding:14px; margin-top:12px; }
+.price-adj-title { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+.price-adj-val { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text); }
+.price-adj-reason { font-size:12px; color:var(--text2); margin-top:4px; }
+.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.btn-accept { background:var(--accent); color:var(--bg); border:none; border-radius:8px; padding:10px; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
+.btn-reject { background:none; color:var(--text2); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
+.review-btn { width:100%; margin-top:10px; padding:9px; background:none; border:1px solid var(--border); border-radius:8px; color:var(--text2); font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
+
+/* PROFILE */
+.profile-wrap { padding:0 20px; }
+.admin-btn { width:100%; padding:16px; background:var(--accent2); border:1px solid var(--accent); border-radius:12px; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; cursor:pointer; margin-bottom:16px; text-align:center; }
+.profile-id { display:flex; align-items:flex-end; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border); margin-bottom:24px; }
+.monogram { width:52px; height:52px; border-radius:50%; background:var(--bg2); border:1px solid var(--borderh); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--accent); flex-shrink:0; }
+.profile-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); }
+.profile-handle { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-top:3px; }
 .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
-.stat { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px 10px; text-align:center; }
-.stat-val { font-size:28px; font-weight:300; }
-.stat-key { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.4); text-transform:uppercase; margin-top:4px; }
+.stat { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--text); line-height:1; }
+.stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
 .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.menu-item { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px; text-align:center; cursor:pointer; font-size:12px; color:rgba(232,228,220,0.6); letter-spacing:0.1em; }
-.admin-btn { background:rgba(212,196,160,0.1); border:1px solid #d4c4a0; border-radius:10px; padding:16px; text-align:center; cursor:pointer; color:#d4c4a0; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:16px; width:100%; }
-.nav { position:fixed; bottom:0; left:0; right:0; background:#0c0c0b; border-top:1px solid rgba(255,255,255,0.08); display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
-.nav-btn { flex:1; padding:14px 0; text-align:center; border:none; background:none; cursor:pointer; color:rgba(232,228,220,0.3); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; }
-.nav-btn.on { color:#d4c4a0; }
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100; display:none; }
-.overlay.on { display:block; }
-.panel { position:fixed; bottom:0; left:0; right:0; background:#111110; border-top:1px solid rgba(255,255,255,0.1); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.3s; max-height:85vh; overflow-y:auto; }
-.panel.on { transform:translateY(0); }
-.panel-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); margin:12px auto; border-radius:2px; }
-.panel-title { font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(232,228,220,0.4); padding:0 20px 16px; border-bottom:1px solid rgba(255,255,255,0.08); }
-.panel-body { padding:20px; }
-.cart-item { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
-.cart-item-name { font-size:15px; font-weight:300; margin-bottom:4px; }
-.cart-item-price { font-size:12px; color:#d4c4a0; }
-.qty-ctrl { display:flex; align-items:center; gap:10px; margin-top:8px; }
-.qty-btn { width:28px; height:28px; border:1px solid rgba(255,255,255,0.15); background:none; color:#e8e4dc; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.qty-num { font-size:16px; min-width:20px; text-align:center; }
-.rm-btn { font-size:10px; letter-spacing:0.2em; color:rgba(232,228,220,0.3); background:none; border:none; cursor:pointer; text-transform:uppercase; align-self:start; margin-top:4px; }
-.total-row { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
-.total-label { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(232,228,220,0.4); }
-.total-val { font-size:24px; font-weight:300; }
-.btn { width:100%; padding:16px; border:1px solid #d4c4a0; background:none; color:#d4c4a0; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; border-radius:10px; cursor:pointer; margin-bottom:10px; }
-.btn-ghost { width:100%; padding:12px; border:none; background:none; color:rgba(232,228,220,0.3); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
-.inp { width:100%; background:#161614; border:1px solid rgba(255,255,255,0.1); color:#e8e4dc; font-size:15px; padding:14px 16px; border-radius:10px; outline:none; margin-bottom:14px; }
-.inp-label { font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:rgba(232,228,220,0.4); margin-bottom:6px; display:block; }
-select.inp { cursor:pointer; }
-.detail-glyph { font-size:60px; color:rgba(232,228,220,0.1); }
-.detail-cat { font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(232,228,220,0.3); margin-bottom:8px; }
-.detail-name { font-size:26px; font-weight:300; margin-bottom:8px; line-height:1.2; }
-.detail-price { font-size:16px; color:#d4c4a0; margin-bottom:16px; }
-.detail-desc { font-size:15px; color:rgba(232,228,220,0.5); line-height:1.6; margin-bottom:20px; }
-.detail-img { width:100%; aspect-ratio:3/4; background:#1a1a18; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:20px; overflow:hidden; }
-.detail-img img { width:100%; height:100%; object-fit:cover; }
-.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-20px); background:#e8e4dc; color:#0c0c0b; padding:10px 20px; border-radius:20px; font-size:12px; opacity:0; transition:all 0.3s; z-index:200; white-space:nowrap; pointer-events:none; }
-.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
-.star-btn { font-size:28px; cursor:pointer; opacity:0.3; transition:opacity 0.2s; background:none; border:none; padding:4px; }
-.star-btn.on { opacity:1; }
-.stars-row { display:flex; gap:4px; margin:12px 0; }
-.sub-view { display:none; }
-.sub-view.on { display:block; }
-.back-btn { display:flex; align-items:center; gap:8px; background:none; border:none; color:rgba(232,228,220,0.5); font-size:12px; letter-spacing:0.2em; cursor:pointer; text-transform:uppercase; margin-bottom:16px; padding:0; }
-.ref-stat { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
-.ref-stat-cell { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px; }
-.ref-stat-val { font-size:32px; font-weight:300; }
-.ref-stat-key { font-size:9px; letter-spacing:0.3em; color:rgba(232,228,220,0.4); text-transform:uppercase; margin-top:4px; }
-.tier { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
-.notif-item { display:flex; align-items:center; gap:14px; padding:14px; background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; margin-bottom:8px; cursor:pointer; }
-.notif-icon { font-size:24px; }
+.menu-item { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; text-align:center; cursor:pointer; }
+.menu-item-icon { font-size:20px; margin-bottom:6px; }
+.menu-item-label { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; }
+.menu-item.full { grid-column:1/-1; }
+
+/* SUB VIEWS */
+.sub { display:none; }
+.sub.on { display:block; }
+.back-btn { display:flex; align-items:center; gap:8px; background:none; border:none; color:var(--text2); font-size:10px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:20px; }
+
+/* SIZE */
+.size-form { padding:0 20px; }
+.inp-label { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text2); margin-bottom:6px; display:block; }
+.inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:20px; padding:14px 16px; border-radius:12px; outline:none; margin-bottom:14px; transition:border-color 0.3s; }
+.inp:focus { border-color:var(--borderh); }
+select.inp { font-family:'Jost',sans-serif; font-size:15px; cursor:pointer; }
+textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; min-height:90px; resize:none; }
+.size-result { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:28px; text-align:center; margin-top:16px; }
+.size-num { font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; color:var(--accent); line-height:1; }
+.size-lbl { font-size:9px; font-weight:200; letter-spacing:0.5em; color:var(--text2); text-transform:uppercase; margin-top:8px; }
+.size-range { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text2); margin-top:10px; }
+
+/* REFERRAL */
+.ref-wrap { padding:0 20px; }
+.ref-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.ref-stat { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:18px 14px; }
+.ref-stat-val { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--text); }
+.ref-stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
+.tier { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
+.tier-check { font-size:14px; }
+.tier-lbl { flex:1; font-size:11px; font-weight:200; color:var(--text2); }
+.tier.done .tier-lbl { color:var(--text); }
+.tier-pct { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--accent); }
+.ref-link-box { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:16px; cursor:pointer; position:relative; }
+.ref-link-box::after { content:'COPY'; position:absolute; top:16px; right:16px; font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); }
+.ref-link-lbl { font-size:8px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:8px; }
+.ref-link-val { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text2); word-break:break-all; line-height:1.5; }
+
+/* NOTIFICATIONS */
+.notif-wrap { padding:0 20px; }
+.notif-item { display:flex; align-items:center; gap:14px; background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; cursor:pointer; }
+.notif-icon { font-size:22px; }
 .notif-info { flex:1; }
-.notif-name { font-size:15px; font-weight:300; }
-.notif-sub { font-size:10px; color:rgba(232,228,220,0.4); margin-top:2px; letter-spacing:0.15em; }
-.toggle { width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; position:relative; transition:background 0.3s; flex-shrink:0; }
-.toggle.on { background:#d4c4a0; }
-.toggle::after { content:''; position:absolute; top:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:left 0.3s; }
+.notif-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); }
+.notif-sub { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); margin-top:3px; }
+.toggle { width:38px; height:20px; background:var(--border); border-radius:10px; position:relative; transition:background 0.3s; flex-shrink:0; }
+.toggle.on { background:var(--accent); }
+.toggle::after { content:''; position:absolute; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left 0.3s; }
 .toggle.on::after { left:21px; }
 .toggle:not(.on)::after { left:3px; }
-.zone-card { background:#161614; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; margin-bottom:8px; }
-.zone-name { font-size:14px; font-weight:300; margin-bottom:4px; }
-.zone-area { font-size:11px; color:rgba(232,228,220,0.4); margin-bottom:8px; }
-.zone-meta { display:flex; gap:16px; font-size:12px; }
-.zone-cost { color:#d4c4a0; }
-.zone-time { color:rgba(232,228,220,0.4); }
-.price-adj { background:rgba(212,196,160,0.08); border:1px solid rgba(212,196,160,0.3); border-radius:10px; padding:14px; margin-top:12px; }
-.price-adj-title { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:#d4c4a0; margin-bottom:8px; }
-.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
-.btn-accept { background:#d4c4a0; color:#0c0c0b; border:none; border-radius:8px; padding:10px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; }
-.btn-reject { background:none; color:rgba(232,228,220,0.5); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; }
-.chat-area { width:100%; background:#161614; border:1px solid rgba(255,255,255,0.1); color:#e8e4dc; font-size:14px; padding:14px; border-radius:10px; outline:none; min-height:100px; resize:none; margin-bottom:14px; font-family:inherit; }
+
+/* CHAT */
+.chat-wrap { padding:0 20px; }
+.chat-intro { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text2); line-height:1.6; margin-bottom:20px; }
+
+/* DELIVERY */
+.delivery-wrap { padding:0 20px; }
+.zone-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; }
+.zone-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); margin-bottom:4px; }
+.zone-area { font-size:10px; font-weight:200; letter-spacing:0.15em; color:var(--text3); margin-bottom:10px; }
+.zone-meta { display:flex; gap:14px; }
+.zone-cost { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); }
+.zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
+
+/* NAV */
+.nav { position:fixed; bottom:0; left:0; right:0; background:var(--bg); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
+.nav-btn.on { color:var(--text); }
+.nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
+.nav-btn.on::before { transform:scaleX(1); }
+.nav-sym { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1; }
+.nav-lbl { font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; }
+
+/* OVERLAY & PANELS */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.on { opacity:1; pointer-events:all; }
+.panel { position:fixed; bottom:0; left:0; right:0; background:var(--bg2); border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
+.panel.on { transform:translateY(0); }
+.panel-drag { width:36px; height:4px; background:var(--borderh); margin:14px auto 0; border-radius:2px; }
+.panel-head { padding:20px 20px 16px; border-bottom:1px solid var(--border); }
+.panel-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); }
+.panel-body { padding:20px; }
+
+/* CART */
+.cart-row { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
+.cart-name { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
+.cart-sub { font-size:11px; font-weight:200; letter-spacing:0.15em; color:var(--accent); margin-bottom:8px; }
+.qty-ctrl { display:flex; align-items:center; gap:10px; }
+.qty-btn { width:26px; height:26px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); border-radius:50%; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.qty-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); min-width:18px; text-align:center; }
+.rm-btn { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); background:none; border:none; cursor:pointer; writing-mode:vertical-rl; align-self:start; margin-top:2px; }
+.total-row { display:flex; justify-content:space-between; align-items:baseline; padding:16px 0; }
+.total-lbl { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; }
+.total-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); }
+
+/* BUTTONS */
+.btn { width:100%; border:1px solid var(--accent); background:transparent; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; padding:15px; cursor:pointer; border-radius:12px; margin-bottom:8px; transition:all 0.3s; }
+.btn:hover { background:var(--accent); color:var(--bg); }
+.btn:disabled { opacity:0.25; pointer-events:none; }
+.btn-ghost { width:100%; border:none; background:transparent; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:11px; cursor:pointer; }
+
+/* DETAIL */
+.detail-img { width:calc(100%+40px); margin:-20px -20px 0; aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:72px; overflow:hidden; }
+.detail-img img { width:100%; height:100%; object-fit:cover; }
+.detail-meta { padding-top:20px; }
+.detail-cat { font-size:8px; font-weight:200; letter-spacing:0.45em; color:var(--text3); text-transform:uppercase; margin-bottom:7px; }
+.detail-name { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; color:var(--text); line-height:1.2; margin-bottom:8px; }
+.detail-price { font-size:14px; font-weight:200; letter-spacing:0.2em; color:var(--accent); margin-bottom:16px; }
+.detail-desc { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text2); line-height:1.7; margin-bottom:20px; }
+.detail-actions { display:flex; gap:10px; }
+
+/* STARS */
+.stars-row { display:flex; gap:6px; margin:14px 0; }
+.star-btn { font-size:28px; cursor:pointer; opacity:0.25; transition:opacity 0.2s; background:none; border:none; padding:2px; }
+.star-btn.on { opacity:1; }
+
+/* TOAST */
+.toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-12px); background:var(--text); color:var(--bg); font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:10px 20px; border-radius:20px; opacity:0; pointer-events:none; z-index:200; transition:all 0.35s; white-space:nowrap; }
+.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">3xclusiv<sup style="font-size:12px;color:#d4c4a0">33</sup></div>
-  <button class="cart-btn" id="cartBtn">корзина <span id="cartCount">—</span></button>
-</div>
+<!-- HEADER -->
+<header class="hd">
+  <div>
+    <div class="logo-eye">fashion archive</div>
+    <div class="logo">3xclusiv<sup>33</sup></div>
+  </div>
+  <div class="hd-right">
+    <div class="theme-tog" id="themeTog">
+      <span class="th-lbl" id="thL">L</span>
+      <div class="th-pip"></div>
+      <span class="th-lbl on" id="thD">D</span>
+    </div>
+    <div class="cart-btn" id="cartBtn">
+      <span class="cart-lbl">корзина</span>
+      <span class="cart-num" id="cartNum">—</span>
+    </div>
+  </div>
+</header>
 
-<!-- MAIN VIEWS -->
+<div class="rule"><div class="rule-line"></div><div class="rule-sym">✦</div><div class="rule-line"></div></div>
+
+<!-- CATALOG -->
 <div class="view on" id="vCatalog">
   <div class="filter" id="filterBar">
-    <button class="filter-btn on" data-cat="all">Всё</button>
-    <button class="filter-btn" data-cat="clothes">Одежда</button>
-    <button class="filter-btn" data-cat="shoes">Обувь</button>
-    <button class="filter-btn" data-cat="accessories">Акс.</button>
+    <button class="fb on" data-cat="all">Всё</button>
+    <button class="fb" data-cat="clothes">Одежда</button>
+    <button class="fb" data-cat="shoes">Обувь</button>
+    <button class="fb" data-cat="accessories">Аксессуары</button>
   </div>
-  <div class="grid" id="productGrid"><div class="empty">загрузка...</div></div>
+  <div class="grid" id="productGrid">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>
+  </div>
 </div>
 
+<!-- WISHLIST -->
 <div class="view" id="vWishlist">
-  <div class="grid" id="wishGrid"><div class="empty">загрузка...</div></div>
+  <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title">избранное</div></div>
+  <div class="grid" id="wishGrid">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
 </div>
 
+<!-- ORDERS -->
 <div class="view" id="vOrders">
-  <div id="ordersList"><div class="empty">загрузка...</div></div>
+  <div class="sec-head"><div class="sec-num">02</div><div class="sec-title">мои заказы</div></div>
+  <div class="orders-wrap" id="ordersList">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
 </div>
 
+<!-- PROFILE -->
 <div class="view" id="vProfile">
-  <!-- Main profile -->
-  <div class="sub-view on" id="spMain">
-    <div id="profileContent"><div class="empty">загрузка...</div></div>
+  <div class="sec-head"><div class="sec-num">03</div><div class="sec-title">профиль</div></div>
+
+  <!-- Main -->
+  <div class="sub on" id="subMain">
+    <div class="profile-wrap" id="profileContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
   </div>
+
   <!-- Size -->
-  <div class="sub-view" id="spSize">
-    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
-    <label class="inp-label">рост (см)</label>
-    <input class="inp" type="number" id="sH" placeholder="170">
-    <label class="inp-label">вес (кг)</label>
-    <input class="inp" type="number" id="sW" placeholder="65">
-    <button class="btn" onclick="calcSize()">определить размер</button>
-    <div id="sizeRes"></div>
+  <div class="sub" id="subSize">
+    <button class="back-btn" onclick="showSub('subMain')">← назад</button>
+    <div class="size-form">
+      <label class="inp-label">рост (см)</label>
+      <input class="inp" type="number" id="sH" placeholder="170" min="140" max="220">
+      <label class="inp-label">вес (кг)</label>
+      <input class="inp" type="number" id="sW" placeholder="65" min="30" max="200">
+      <button class="btn" onclick="calcSize()">определить размер</button>
+      <div id="sizeRes"></div>
+    </div>
   </div>
+
   <!-- Referral -->
-  <div class="sub-view" id="spRef">
-    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
-    <div id="refContent"><div class="empty">загрузка...</div></div>
+  <div class="sub" id="subRef">
+    <button class="back-btn" onclick="showSub('subMain')">← назад</button>
+    <div class="ref-wrap" id="refContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
   </div>
+
   <!-- Notifications -->
-  <div class="sub-view" id="spNotif">
-    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
-    <div id="notifContent"><div class="empty">загрузка...</div></div>
+  <div class="sub" id="subNotif">
+    <button class="back-btn" onclick="showSub('subMain')">← назад</button>
+    <div class="notif-wrap" id="notifContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
   </div>
+
   <!-- Chat -->
-  <div class="sub-view" id="spChat">
-    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
-    <p style="font-size:14px;color:rgba(232,228,220,0.5);margin-bottom:16px;line-height:1.6">Напишите вопрос — ответим в Telegram.</p>
-    <textarea class="chat-area" id="chatText" placeholder="Ваше сообщение..."></textarea>
-    <button class="btn" onclick="sendSupport()">отправить</button>
+  <div class="sub" id="subChat">
+    <button class="back-btn" onclick="showSub('subMain')">← назад</button>
+    <div class="chat-wrap">
+      <p class="chat-intro">Есть вопрос? Напишите — ответим в Telegram.</p>
+      <textarea class="inp" id="chatText" placeholder="Ваше сообщение..."></textarea>
+      <button class="btn" onclick="sendSupport()">отправить</button>
+    </div>
   </div>
+
   <!-- Delivery -->
-  <div class="sub-view" id="spDelivery">
-    <button class="back-btn" onclick="showSub('spMain')">← назад</button>
-    <div id="deliveryContent"></div>
-    <p style="font-size:13px;color:rgba(232,228,220,0.4);font-style:italic;margin-top:12px">Оплата наличными при встрече</p>
+  <div class="sub" id="subDelivery">
+    <button class="back-btn" onclick="showSub('subMain')">← назад</button>
+    <div class="delivery-wrap" id="deliveryContent"></div>
   </div>
 </div>
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn on" id="nCat" onclick="switchView('catalog')">I<br>Каталог</button>
-  <button class="nav-btn" id="nWish" onclick="switchView('wishlist')">❤<br>Избранное</button>
-  <button class="nav-btn" id="nOrd" onclick="switchView('orders')">II<br>Заказы</button>
-  <button class="nav-btn" id="nPro" onclick="switchView('profile')">III<br>Профиль</button>
+  <button class="nav-btn on" id="nCat" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl">Каталог</span></button>
+  <button class="nav-btn" id="nWishlist" onclick="switchView('wishlist')"><span class="nav-sym">♡</span><span class="nav-lbl">Избранное</span></button>
+  <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span></button>
+  <button class="nav-btn" id="nProfile" onclick="switchView('profile')"><span class="nav-sym">III</span><span class="nav-lbl">Профиль</span></button>
 </nav>
 
 <div class="toast" id="toast"></div>
 <div class="overlay" id="overlay" onclick="closePanel()"></div>
 
 <!-- DETAIL PANEL -->
-<div class="panel" id="detailPanel">
-  <div class="panel-handle"></div>
-  <div class="panel-title">изделие</div>
+<div class="panel" id="panelDetail">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">изделие</div></div>
   <div class="panel-body" id="detailBody"></div>
 </div>
 
 <!-- CART PANEL -->
-<div class="panel" id="cartPanel">
-  <div class="panel-handle"></div>
-  <div class="panel-title">корзина</div>
+<div class="panel" id="panelCart">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">корзина</div></div>
   <div class="panel-body">
     <div id="cartBody"></div>
     <div id="cartFoot"></div>
@@ -209,9 +377,9 @@ select.inp { cursor:pointer; }
 </div>
 
 <!-- CHECKOUT PANEL -->
-<div class="panel" id="checkoutPanel">
-  <div class="panel-handle"></div>
-  <div class="panel-title">оформление заказа</div>
+<div class="panel" id="panelCheckout">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">оформление заказа</div></div>
   <div class="panel-body">
     <label class="inp-label">имя и фамилия</label>
     <input class="inp" id="coName" placeholder="Иван Иванов">
@@ -221,76 +389,80 @@ select.inp { cursor:pointer; }
     <input class="inp" id="coPhone" placeholder="5xxxxxxx" type="tel">
     <label class="inp-label">район встречи</label>
     <input class="inp" id="coAddr" placeholder="Kesklinn, Lasnamäe...">
-    <div id="savedAddrs" style="margin-bottom:14px"></div>
+    <div id="savedAddrs" style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px"></div>
     <button class="btn" onclick="submitOrder()">подтвердить заказ</button>
     <button class="btn-ghost" onclick="closePanel()">отмена</button>
   </div>
 </div>
 
 <!-- REVIEW PANEL -->
-<div class="panel" id="reviewPanel">
-  <div class="panel-handle"></div>
-  <div class="panel-title">отзыв</div>
+<div class="panel" id="panelReview">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">отзыв</div></div>
   <div class="panel-body" id="reviewBody"></div>
 </div>
 
 <script>
-const tg = window.Telegram?.WebApp;
+// ═══ CONFIG ═══
 const API = 'https://3xclusiv3-production.up.railway.app';
+const tg = window.Telegram?.WebApp;
+
+// ═══ STATE ═══
 let userId = null, userName = 'Гость', userProfile = null;
-let cart = JSON.parse(localStorage.getItem('cart_3x')||'{}');
+let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
 let allProducts = [], wishIds = new Set(), activeCat = 'all';
 let activePanel = null, reviewOrderId = null, reviewStars = 0;
 
-// INIT
+// ═══ INIT ═══
 function init() {
-  if (tg) { tg.ready(); tg.expand(); }
-  userId = tg?.initDataUnsafe?.user?.id || null;
-  userName = tg?.initDataUnsafe?.user?.first_name || 'Гость';
-  updateCartCount();
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    // Read user data
+    userId = tg.initDataUnsafe?.user?.id || null;
+    userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+  }
+  applyTheme(localStorage.getItem('th_3x') !== 'light');
+  updateCartNum();
   loadProducts();
   if (userId) loadWishIds();
-  if (userId) checkAdmin();
 }
 
-function checkAdmin() {
-  fetch(`${API}/api/is_admin/${userId}`)
-    .then(r=>r.json())
-    .then(d=>{ if(d.is_admin) showAdminBtn(); })
-    .catch(()=>{});
+// ═══ THEME ═══
+let isDark = true;
+function applyTheme(dark) {
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  localStorage.setItem('th_3x', dark ? 'dark' : 'light');
+  document.getElementById('thL').classList.toggle('on', !dark);
+  document.getElementById('thD').classList.toggle('on', dark);
+  if (tg) { tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8'); tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8'); }
 }
+document.getElementById('themeTog').onclick = () => applyTheme(!isDark);
 
-function showAdminBtn() {
-  const btn = document.createElement('button');
-  btn.className = 'admin-btn';
-  btn.textContent = '⚙️ Панель администратора';
-  btn.onclick = () => window.location.href = 'https://3xclusiv33.vercel.app/admin.html';
-  document.getElementById('profileContent').prepend(btn);
-}
-
-// TOAST
-let tt;
-function toast(msg, dur=2200) {
+// ═══ TOAST ═══
+let toastTimer;
+function toast(msg, dur = 2200) {
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('on');
-  clearTimeout(tt); tt = setTimeout(()=>el.classList.remove('on'), dur);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), dur);
 }
 
-// CART
+// ═══ CART ═══
 function saveCart() { localStorage.setItem('cart_3x', JSON.stringify(cart)); }
-function cartCount() { return Object.values(cart).reduce((s,i)=>s+i.qty,0); }
-function cartTotal() { return Object.values(cart).reduce((s,i)=>s+i.price*i.qty,0); }
-function updateCartCount() {
+function cartCount() { return Object.values(cart).reduce((s, i) => s + i.qty, 0); }
+function cartTotal() { return Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0); }
+function updateCartNum() {
   const n = cartCount();
-  document.getElementById('cartCount').textContent = n>0?n:'—';
+  document.getElementById('cartNum').textContent = n > 0 ? n : '—';
 }
 function addToCart(p) {
   if (cart[p.id]) cart[p.id].qty++;
-  else cart[p.id] = {...p, qty:1};
-  saveCart(); updateCartCount(); toast('добавлено в корзину');
+  else cart[p.id] = { ...p, qty: 1 };
+  saveCart(); updateCartNum(); toast('добавлено в корзину');
 }
 
-// PANELS
+// ═══ PANELS ═══
 function openPanel(id) {
   closePanel();
   activePanel = id;
@@ -304,22 +476,22 @@ function closePanel() {
   activePanel = null;
 }
 
-// CART PANEL
-document.getElementById('cartBtn').onclick = () => { renderCart(); openPanel('cartPanel'); };
+document.getElementById('cartBtn').onclick = () => { renderCart(); openPanel('panelCart'); };
 
+// ═══ CART PANEL ═══
 function renderCart() {
   const items = Object.values(cart);
   const body = document.getElementById('cartBody');
   const foot = document.getElementById('cartFoot');
   if (!items.length) {
-    body.innerHTML = '<div class="empty">корзина пуста</div>';
+    body.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">корзина пуста</div></div>';
     foot.innerHTML = ''; return;
   }
-  body.innerHTML = items.map(i=>`
-    <div class="cart-item">
+  body.innerHTML = items.map(i => `
+    <div class="cart-row">
       <div>
-        <div class="cart-item-name">${i.name}</div>
-        <div class="cart-item-price">${(i.price*i.qty).toFixed(2)} €</div>
+        <div class="cart-name">${i.name}</div>
+        <div class="cart-sub">${(i.price * i.qty).toFixed(2)} €</div>
         <div class="qty-ctrl">
           <button class="qty-btn" onclick="chQty(${i.id},-1)">−</button>
           <span class="qty-num">${i.qty}</span>
@@ -329,66 +501,68 @@ function renderCart() {
       <button class="rm-btn" onclick="rmItem(${i.id})">убрать</button>
     </div>`).join('');
   foot.innerHTML = `
-    <div class="total-row"><span class="total-label">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
+    <div class="total-row"><span class="total-lbl">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
     <button class="btn" onclick="openCheckout()">оформить заказ</button>
-    <button class="btn-ghost" onclick="clearCart()">очистить</button>`;
+    <button class="btn-ghost" onclick="clearCartFn()">очистить корзину</button>`;
 }
 
-function chQty(id,d) {
+function chQty(id, d) {
   if (!cart[id]) return;
-  cart[id].qty+=d;
-  if (cart[id].qty<=0) delete cart[id];
-  saveCart(); updateCartCount(); renderCart();
+  cart[id].qty += d;
+  if (cart[id].qty <= 0) delete cart[id];
+  saveCart(); updateCartNum(); renderCart();
 }
-function rmItem(id) { delete cart[id]; saveCart(); updateCartCount(); renderCart(); }
-function clearCart() { cart={}; saveCart(); updateCartCount(); renderCart(); toast('корзина очищена'); }
+function rmItem(id) { delete cart[id]; saveCart(); updateCartNum(); renderCart(); }
+function clearCartFn() { cart = {}; saveCart(); updateCartNum(); renderCart(); toast('корзина очищена'); }
 
-// CHECKOUT
+// ═══ CHECKOUT ═══
 function openCheckout() {
   if (!cartCount()) return;
   closePanel();
   if (tg?.initDataUnsafe?.user) {
     const u = tg.initDataUnsafe.user;
-    if (u.first_name) document.getElementById('coName').value = (u.first_name+' '+(u.last_name||'')).trim();
+    if (u.first_name) document.getElementById('coName').value = (u.first_name + ' ' + (u.last_name || '')).trim();
     if (u.username) document.getElementById('coUser').value = u.username;
   }
   if (userId) {
-    fetch(`${API}/api/addresses/${userId}`).then(r=>r.json()).then(addrs=>{
-      if (addrs.length) {
-        document.getElementById('savedAddrs').innerHTML = addrs.map(a=>
-          `<button onclick="document.getElementById('coAddr').value='${a.address}'" style="margin:3px;padding:6px 12px;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:rgba(232,228,220,0.6);font-size:11px;cursor:pointer">${a.label}</button>`
-        ).join('');
-      }
-    }).catch(()=>{});
+    fetch(`${API}/api/addresses/${userId}`).then(r => r.json()).then(addrs => {
+      const el = document.getElementById('savedAddrs');
+      el.innerHTML = addrs.map(a =>
+        `<button onclick="document.getElementById('coAddr').value='${a.address}'" style="padding:6px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;color:var(--text2);font-size:10px;cursor:pointer">${a.label}</button>`
+      ).join('');
+    }).catch(() => {});
   }
-  openPanel('checkoutPanel');
+  openPanel('panelCheckout');
 }
 
 async function submitOrder() {
   if (!userId) { toast('откройте через Telegram'); return; }
   const name = document.getElementById('coName').value.trim();
-  const username = document.getElementById('coUser').value.trim().replace('@','');
-  const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g,'').replace(/^\+?372/,'');
+  const username = document.getElementById('coUser').value.trim().replace('@', '');
+  const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g, '').replace(/^\+?372/, '');
   const address = document.getElementById('coAddr').value.trim();
-  if (!name||name.split(' ').length<2) { toast('введите имя и фамилию'); return; }
-  if (!username||username.length<5) { toast('введите username (мин 5 символов)'); return; }
+  if (!name || name.split(' ').length < 2) { toast('введите имя и фамилию'); return; }
+  if (!username || username.length < 5) { toast('введите username (мин 5 символов)'); return; }
   if (!/^[3-8]\d{7}$/.test(phone)) { toast('введите эстонский номер (8 цифр)'); return; }
   if (!address) { toast('введите район'); return; }
-  const items = Object.values(cart).map(i=>({id:i.id,qty:i.qty,price:i.price,name:i.name}));
-  const total = cartTotal();
+  const items = Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name }));
   try {
-    const r = await fetch(`${API}/api/checkout`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:userId,items,total,name,username,phone,address})});
+    const r = await fetch(`${API}/api/checkout`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone, address })
+    });
     const d = await r.json();
     if (d.ok) {
-      cart={}; saveCart(); updateCartCount(); closePanel();
-      toast(`✅ заказ #${d.order_id} оформлен!`,4000);
+      cart = {}; saveCart(); updateCartNum(); closePanel();
+      toast(`✅ заказ #${d.order_id} оформлен!`, 4000);
+      fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
     } else toast('ошибка оформления');
   } catch { toast('ошибка соединения'); }
 }
 
-// PRODUCTS
-const catLabel = {clothes:'одежда',shoes:'обувь',accessories:'аксессуары'};
-const catGlyph = {clothes:'👕',shoes:'👟',accessories:'👜'};
+// ═══ PRODUCTS ═══
+const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+const catGlyph = { clothes: '👕', shoes: '👟', accessories: '👜' };
 
 async function loadProducts() {
   try {
@@ -399,314 +573,344 @@ async function loadProducts() {
 }
 
 function renderGrid() {
-  const list = activeCat==='all' ? allProducts : allProducts.filter(p=>p.category===activeCat);
+  const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
   const grid = document.getElementById('productGrid');
-  if (!list.length) { grid.innerHTML='<div class="empty">нет товаров</div>'; return; }
-  grid.innerHTML = list.map(p=>`
-    <div class="card" onclick="openDetail(${p.id})">
+  if (!list.length) {
+    grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">○</div><div class="empty-txt">нет товаров</div></div>'; return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="card ${!p.is_available ? 'void' : ''}" onclick="openDetail(${p.id})">
       <div class="card-img">
-        <span>${catGlyph[p.category]||'🛍'}</span>
-        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb-${p.id}">${wishIds.has(p.id)?'❤️':'🤍'}</button>
-        ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>`:''}
+        <span>${catGlyph[p.category] || '🛍'}</span>
+        ${!p.is_available ? '<div class="card-void">архив</div>' : ''}
+        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
+        <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb${p.id}">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
       </div>
       <div class="card-body">
-        <div class="card-cat">${catLabel[p.category]||p.category}</div>
+        <div class="card-cat">${catLabel[p.category] || p.category}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-price">${p.price.toFixed(2)} €</div>
       </div>
     </div>`).join('');
 }
 
-document.getElementById('filterBar').addEventListener('click', e=>{
-  const btn = e.target.closest('.filter-btn');
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
   if (!btn) return;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   activeCat = btn.dataset.cat;
   renderGrid();
 });
 
 function openDetail(pid) {
-  const p = allProducts.find(x=>x.id===pid);
+  const p = allProducts.find(x => x.id === pid);
   if (!p) return;
   document.getElementById('detailBody').innerHTML = `
-    <div class="detail-img"><span style="font-size:60px">${catGlyph[p.category]||'🛍'}</span></div>
-    <div class="detail-cat">${catLabel[p.category]||p.category}</div>
-    <div class="detail-name">${p.name}</div>
-    <div class="detail-price">${p.price.toFixed(2)} €</div>
-    ${p.description?`<div class="detail-desc">${p.description}</div>`:''}
-    <div style="display:flex;gap:10px">
-      ${p.is_available
-        ?`<button class="btn" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'});closePanel()">в корзину</button>`
-        :`<button class="btn" style="flex:1;opacity:0.3" disabled>нет в наличии</button>`}
-      <button onclick="toggleWish(${p.id})" style="padding:0 16px;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-size:20px;cursor:pointer" id="dwb-${p.id}">${wishIds.has(p.id)?'❤️':'🤍'}</button>
+    <div class="detail-img"><span>${catGlyph[p.category] || '🛍'}</span></div>
+    <div class="detail-meta">
+      <div class="detail-cat">${catLabel[p.category] || p.category} / ${String(p.id).padStart(4, '0')}</div>
+      <div class="detail-name">${p.name}</div>
+      <div class="detail-price">${p.price.toFixed(2)} €</div>
+      ${p.description ? `<div class="detail-desc">${p.description}</div>` : ''}
+      <div class="detail-actions">
+        ${p.is_available
+          ? `<button class="btn" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'});closePanel()">в корзину</button>`
+          : `<button class="btn" style="flex:1" disabled>нет в наличии</button>`}
+        <button onclick="toggleWish(${p.id})" id="dwb${p.id}" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
+      </div>
     </div>`;
-  openPanel('detailPanel');
+  openPanel('panelDetail');
 }
 
-// WISHLIST
+// ═══ WISHLIST ═══
 async function loadWishIds() {
   if (!userId) return;
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
-    wishIds = new Set(items.map(p=>p.id));
+    wishIds = new Set(items.map(p => p.id));
   } catch {}
 }
 
 async function toggleWish(pid) {
   if (!userId) { toast('откройте через Telegram'); return; }
   try {
-    const r = await fetch(`${API}/api/wishlist/toggle`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,product_id:pid})});
+    const r = await fetch(`${API}/api/wishlist/toggle`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, product_id: pid })
+    });
     const d = await r.json();
     if (d.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
     else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
-    // Update buttons
-    ['wb-'+pid,'dwb-'+pid].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=d.added?'❤️':'🤍';});
-    if (document.getElementById('vWishlist').classList.contains('on')) loadWishlist();
+    ['wb' + pid, 'dwb' + pid].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d.added ? '❤️' : '🤍'; });
   } catch { toast('ошибка'); }
 }
 
 async function loadWishlist() {
   const grid = document.getElementById('wishGrid');
-  if (!userId) { grid.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  if (!userId) { grid.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
-    wishIds = new Set(items.map(p=>p.id));
-    if (!items.length) { grid.innerHTML='<div class="empty">избранное пусто</div>'; return; }
-    grid.innerHTML = items.map(p=>`
+    wishIds = new Set(items.map(p => p.id));
+    if (!items.length) { grid.innerHTML = '<div class="empty"><div class="empty-sym">♡</div><div class="empty-txt">избранное пусто</div></div>'; return; }
+    grid.innerHTML = items.map(p => `
       <div class="card" onclick="openDetail(${p.id})">
         <div class="card-img">
-          <span>${catGlyph[p.category]||'🛍'}</span>
-          <button class="wish-btn" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb-${p.id}">❤️</button>
-          ${p.is_available?`<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>`:''}
+          <span>${catGlyph[p.category] || '🛍'}</span>
+          <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id}).then(()=>loadWishlist())" id="wb${p.id}">❤️</button>
+          ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
         </div>
         <div class="card-body">
-          <div class="card-cat">${catLabel[p.category]||p.category}</div>
+          <div class="card-cat">${catLabel[p.category] || p.category}</div>
           <div class="card-name">${p.name}</div>
           <div class="card-price">${p.price.toFixed(2)} €</div>
         </div>
       </div>`).join('');
-  } catch { grid.innerHTML='<div class="empty">ошибка загрузки</div>'; }
+  } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
 }
 
-// ORDERS
-const STATUS = {searching:'в поиске',ordered:'заказано',in_transit:'в пути',arrived:'прибыл',delivered:'получен',cancelled:'отменён'};
-const STATUS_PCT = {searching:10,ordered:30,in_transit:60,arrived:85,delivered:100,cancelled:0};
+// ═══ ORDERS ═══
+const STATUS = { searching: 'в поиске', ordered: 'заказано', in_transit: 'в пути', arrived: 'прибыл', delivered: 'получен', cancelled: 'отменён' };
+const STATUS_PCT = { searching: 10, ordered: 30, in_transit: 60, arrived: 85, delivered: 100, cancelled: 0 };
+const STATUS_ACTIVE = ['searching', 'ordered', 'in_transit', 'arrived'];
 
 async function loadOrders() {
   const el = document.getElementById('ordersList');
-  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  if (!userId) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
     const orders = await r.json();
-    if (!orders.length) { el.innerHTML='<div class="empty">заказов пока нет</div>'; return; }
-    el.innerHTML = orders.map(o=>{
-      const st = STATUS[o.status]||o.status;
-      const pct = STATUS_PCT[o.status]||0;
-      const items = (o.items||[]).map(i=>`${i.name} × ${i.qty}`).join(', ');
+    if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов пока нет</div></div>'; return; }
+    el.innerHTML = orders.map(o => {
+      const isActive = STATUS_ACTIVE.includes(o.status);
+      const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
       const adjBlock = o.adjusted_price ? `<div class="price-adj">
         <div class="price-adj-title">⚠ изменение цены</div>
-        <div style="font-size:20px;font-weight:300">${(+o.adjusted_price).toFixed(2)} €</div>
-        <div style="font-size:12px;color:rgba(232,228,220,0.4);margin-top:4px">${o.adjustment_reason||''}</div>
+        <div class="price-adj-val">${(+o.adjusted_price).toFixed(2)} €</div>
+        <div class="price-adj-reason">${o.adjustment_reason || ''}</div>
         <div class="btn-row">
           <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
           <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить</button>
         </div>
       </div>` : '';
-      const reviewBtn = o.status==='delivered' ? `<button onclick="openReview(${o.id})" style="margin-top:10px;width:100%;padding:10px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(232,228,220,0.5);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer">оставить отзыв</button>` : '';
-      return `<div class="order-card">
-        <div class="order-status">${st}</div>
-        <div class="order-total">${(+o.total_price).toFixed(2)} €</div>
-        <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
+      const reviewBtn = o.status === 'delivered' ? `<button class="review-btn" onclick="openReview(${o.id})">оставить отзыв</button>` : '';
+      return `<div class="order-card ${isActive ? 'is-active' : ''}">
+        <div class="order-badge">${STATUS[o.status] || o.status}</div>
+        <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
+        <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0, 10) || ''}</div>
         <div class="order-items">${items}</div>
-        <div style="margin-top:10px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px"><div style="height:100%;width:${pct}%;background:#d4c4a0;border-radius:2px;opacity:0.6"></div></div>
+        <div class="order-bar"><div class="order-bar-fill" style="width:${STATUS_PCT[o.status] || 0}%"></div></div>
         ${adjBlock}${reviewBtn}
       </div>`;
     }).join('');
-  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
 }
 
 async function priceDecision(orderId, action) {
   if (!userId) return;
   try {
-    await fetch(`${API}/api/orders/${orderId}/price_decision`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,action})});
-    toast(action==='accept'?'✅ цена принята':'❌ заказ отменён',3000);
+    await fetch(`${API}/api/orders/${orderId}/price_decision`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, action })
+    });
+    toast(action === 'accept' ? '✅ цена принята' : '❌ заказ отменён', 3000);
     loadOrders();
   } catch { toast('ошибка'); }
 }
 
-// REVIEW
+// ═══ REVIEW ═══
 function openReview(orderId) {
   reviewOrderId = orderId; reviewStars = 0;
   document.getElementById('reviewBody').innerHTML = `
-    <div style="font-size:18px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
-    <div style="font-size:10px;letter-spacing:0.3em;color:rgba(232,228,220,0.4);text-transform:uppercase;margin-bottom:8px">оценка</div>
-    <div class="stars-row">${[1,2,3,4,5].map(n=>`<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
-    <textarea class="chat-area" id="revComment" placeholder="Комментарий (необязательно)..."></textarea>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">оценка</div>
+    <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
+    <textarea class="inp" id="revText" placeholder="Комментарий (необязательно)..."></textarea>
     <button class="btn" onclick="submitReview()">отправить отзыв</button>`;
-  openPanel('reviewPanel');
+  openPanel('panelReview');
 }
-
-function setStar(n) {
-  reviewStars = n;
-  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('on',i<n));
-}
-
+function setStar(n) { reviewStars = n; document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('on', i < n)); }
 async function submitReview() {
-  if (!userId||!reviewOrderId) return;
+  if (!userId || !reviewOrderId) return;
   if (!reviewStars) { toast('выберите оценку'); return; }
   try {
-    await fetch(`${API}/api/reviews`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,order_id:reviewOrderId,rating:reviewStars,comment:document.getElementById('revComment')?.value||''})});
-    closePanel(); toast('✅ отзыв сохранён',3000);
+    await fetch(`${API}/api/reviews`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, order_id: reviewOrderId, rating: reviewStars, comment: document.getElementById('revText')?.value || '' })
+    });
+    closePanel(); toast('✅ отзыв сохранён', 3000);
   } catch { toast('ошибка'); }
 }
 
-// PROFILE
+// ═══ PROFILE ═══
 async function loadProfile() {
   const el = document.getElementById('profileContent');
-  const usr = tg?.initDataUnsafe?.user;
-  if (!usr) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  if (!userId) {
+    el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return;
+  }
   let db = null;
-  try { const r=await fetch(`${API}/api/user/${usr.id}`); db=await r.json(); userProfile=db; } catch {}
+  try { const r = await fetch(`${API}/api/user/${userId}`); db = await r.json(); userProfile = db; } catch {}
 
   // Check admin
   let adminHtml = '';
   try {
-    const ar = await fetch(`${API}/api/is_admin/${usr.id}`);
+    const ar = await fetch(`${API}/api/is_admin/${userId}`);
     const ad = await ar.json();
-    if (ad.is_admin) adminHtml = `<button class="admin-btn" onclick="window.location.href='https://3xclusiv33.vercel.app/admin.html'">⚙️ Панель администратора</button>`;
+    if (ad.is_admin) {
+      adminHtml = `<button class="admin-btn" onclick="window.location.href='https://3xclusiv3-production.up.railway.app/admin'">⚙️ Панель администратора</button>`;
+    }
   } catch {}
 
-  const m = usr.first_name?.[0]?.toUpperCase()||'?';
+  const usr = tg?.initDataUnsafe?.user;
+  const m = usr?.first_name?.[0]?.toUpperCase() || '?';
+  const name = usr ? `${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}` : userName;
+  const handle = usr?.username ? '@' + usr.username : (userId ? 'id' + userId : '—');
+
   el.innerHTML = adminHtml + `
-    <div class="profile-header">
+    <div class="profile-id">
       <div class="monogram">${m}</div>
-      <div><div class="profile-name">${usr.first_name}${usr.last_name?' '+usr.last_name:''}</div><div class="profile-handle">${usr.username?'@'+usr.username:'id'+usr.id}</div></div>
+      <div>
+        <div class="profile-name">${name}</div>
+        <div class="profile-handle">${handle}</div>
+      </div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-val">${db?.orders||0}</div><div class="stat-key">заказов</div></div>
-      <div class="stat"><div class="stat-val">${db?.referrals||0}</div><div class="stat-key">рефералов</div></div>
-      <div class="stat"><div class="stat-val">${db?.discount||0}%</div><div class="stat-key">скидка</div></div>
+      <div class="stat"><div class="stat-val">${db?.orders || 0}</div><div class="stat-key">заказов</div></div>
+      <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">рефералов</div></div>
+      <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">скидка</div></div>
     </div>
     <div class="menu-grid">
-      <div class="menu-item" onclick="showSub('spSize')">📏 Размер</div>
-      <div class="menu-item" onclick="showSub('spRef');loadRef()">🔗 Рефералы</div>
-      <div class="menu-item" onclick="showSub('spNotif');loadNotif()">🔔 Уведомления</div>
-      <div class="menu-item" onclick="showSub('spChat')">💬 Продавец</div>
-      <div class="menu-item" onclick="showSub('spDelivery');loadDelivery()" style="grid-column:1/-1">🚚 Зоны доставки</div>
+      <div class="menu-item" onclick="showSub('subSize')"><div class="menu-item-icon">📏</div><div class="menu-item-label">Размер</div></div>
+      <div class="menu-item" onclick="showSub('subRef');loadRef()"><div class="menu-item-icon">🔗</div><div class="menu-item-label">Рефералы</div></div>
+      <div class="menu-item" onclick="showSub('subNotif');loadNotif()"><div class="menu-item-icon">🔔</div><div class="menu-item-label">Уведомления</div></div>
+      <div class="menu-item" onclick="showSub('subChat')"><div class="menu-item-icon">💬</div><div class="menu-item-label">Продавец</div></div>
+      <div class="menu-item full" onclick="showSub('subDelivery');loadDelivery()"><div class="menu-item-icon">🚚</div><div class="menu-item-label">Зоны доставки</div></div>
     </div>`;
 }
 
 function showSub(id) {
-  document.querySelectorAll('.sub-view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.sub').forEach(v => v.classList.remove('on'));
   document.getElementById(id).classList.add('on');
 }
 
-// SIZE
+// ═══ SIZE ═══
 async function calcSize() {
   const h = parseFloat(document.getElementById('sH').value);
   const w = parseFloat(document.getElementById('sW').value);
-  if (!h||!w) { toast('введите рост и вес'); return; }
+  if (!h || !w) { toast('введите рост и вес'); return; }
   try {
     const r = await fetch(`${API}/api/size?height=${h}&weight=${w}`);
     const d = await r.json();
-    document.getElementById('sizeRes').innerHTML = `<div style="background:#161614;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;text-align:center;margin-top:16px"><div style="font-size:72px;font-weight:300;color:#d4c4a0">${d.size}</div><div style="font-size:10px;letter-spacing:0.4em;color:rgba(232,228,220,0.4);text-transform:uppercase;margin-top:8px">рекомендуемый размер</div><div style="font-size:13px;color:rgba(232,228,220,0.4);margin-top:10px">рост ${d.height_range} · вес ${d.weight_range}</div></div>`;
+    document.getElementById('sizeRes').innerHTML = `
+      <div class="size-result">
+        <div class="size-num">${d.size}</div>
+        <div class="size-lbl">рекомендуемый размер</div>
+        <div class="size-range">рост ${d.height_range} · вес ${d.weight_range}</div>
+      </div>`;
   } catch { toast('ошибка'); }
 }
 
-// REFERRAL
+// ═══ REFERRAL ═══
 async function loadRef() {
   const el = document.getElementById('refContent');
-  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
   try {
     const r = await fetch(`${API}/api/user/${userId}`);
     const d = await r.json();
-    const tiers = [{n:1,pct:3},{n:2,pct:5},{n:5,pct:10},{n:10,pct:15}];
+    const tiers = [{ n: 1, pct: 3 }, { n: 2, pct: 5 }, { n: 5, pct: 10 }, { n: 10, pct: 15 }];
     el.innerHTML = `
-      <div class="ref-stat">
-        <div class="ref-stat-cell"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">приглашено</div></div>
-        <div class="ref-stat-cell"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">скидка</div></div>
+      <div class="ref-stats">
+        <div class="ref-stat"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">приглашено</div></div>
+        <div class="ref-stat"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">скидка</div></div>
       </div>
-      ${tiers.map(t=>`<div class="tier"><span style="font-size:16px">${d.referrals>=t.n?'✅':'⬜'}</span><span style="flex:1;font-size:13px;color:rgba(232,228,220,0.6)">${t.n} ${t.n===1?'друг':'друзей'}</span><span style="color:#d4c4a0;font-size:16px">${t.pct}%</span></div>`).join('')}
-      ${d.next_tier?`<div style="font-size:12px;color:rgba(232,228,220,0.4);margin:12px 0">ещё ${d.next_tier.need} чел. → ${d.next_tier.pct}%</div>`:''}
-      <div onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast('ссылка скопирована'))" style="background:#161614;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;margin-top:8px;cursor:pointer">
-        <div style="font-size:9px;letter-spacing:0.35em;color:rgba(232,228,220,0.3);text-transform:uppercase;margin-bottom:8px">нажмите чтобы скопировать</div>
-        <div style="font-size:13px;color:rgba(232,228,220,0.6);word-break:break-all">${d.ref_link}</div>
+      ${tiers.map(t => `<div class="tier ${d.referrals >= t.n ? 'done' : ''}"><span class="tier-check">${d.referrals >= t.n ? '✅' : '⬜'}</span><span class="tier-lbl">${t.n} ${t.n === 1 ? 'друг' : 'друзей'}</span><span class="tier-pct">${t.pct}%</span></div>`).join('')}
+      ${d.next_tier ? `<div style="font-size:11px;font-weight:200;color:var(--text2);margin:12px 0">ещё ${d.next_tier.need} чел. → ${d.next_tier.pct}%</div>` : ''}
+      <div class="ref-link-box" onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast('ссылка скопирована'))">
+        <div class="ref-link-lbl">реферальная ссылка — нажмите чтобы скопировать</div>
+        <div class="ref-link-val">${d.ref_link}</div>
       </div>`;
-  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
+  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
 }
 
-// NOTIFICATIONS
+// ═══ NOTIFICATIONS ═══
 async function loadNotif() {
   const el = document.getElementById('notifContent');
-  if (!userId) { el.innerHTML='<div class="empty">откройте через Telegram</div>'; return; }
+  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
   try {
     const r = await fetch(`${API}/api/notifications/${userId}`);
     const d = await r.json();
     const subs = new Set(d.subscribed);
-    const cats = [{id:'clothes',name:'Одежда',icon:'👕'},{id:'shoes',name:'Обувь',icon:'👟'},{id:'accessories',name:'Аксессуары',icon:'👜'}];
-    el.innerHTML = cats.map(c=>`
+    const cats = [{ id: 'clothes', name: 'Одежда', icon: '👕' }, { id: 'shoes', name: 'Обувь', icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
+    el.innerHTML = cats.map(c => `
       <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
         <div class="notif-icon">${c.icon}</div>
-        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns-${c.id}">${subs.has(c.id)?'подписаны':'не подписаны'}</div></div>
-        <div class="toggle ${subs.has(c.id)?'on':''}" id="nt-${c.id}"></div>
+        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns${c.id}">${subs.has(c.id) ? 'подписаны' : 'не подписаны'}</div></div>
+        <div class="toggle ${subs.has(c.id) ? 'on' : ''}" id="nt${c.id}"></div>
       </div>`).join('');
-  } catch { el.innerHTML='<div class="empty">ошибка загрузки</div>'; }
+  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
 }
 
-async function toggleNotif(cat, card) {
+async function toggleNotif(cat) {
   if (!userId) return;
   try {
-    const r = await fetch(`${API}/api/notifications/toggle`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,category:cat})});
+    const r = await fetch(`${API}/api/notifications/toggle`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, category: cat })
+    });
     const d = await r.json();
-    document.getElementById('nt-'+cat).classList.toggle('on',d.subscribed);
-    document.getElementById('ns-'+cat).textContent = d.subscribed?'подписаны':'не подписаны';
-    toast(d.subscribed?'✅ подписаны':'🔕 отписались');
+    document.getElementById('nt' + cat).classList.toggle('on', d.subscribed);
+    document.getElementById('ns' + cat).textContent = d.subscribed ? 'подписаны' : 'не подписаны';
+    toast(d.subscribed ? '✅ подписаны' : '🔕 отписались');
   } catch { toast('ошибка'); }
 }
 
-// SUPPORT
+// ═══ SUPPORT ═══
 async function sendSupport() {
   if (!userId) { toast('откройте через Telegram'); return; }
   const text = document.getElementById('chatText').value.trim();
   if (!text) { toast('введите сообщение'); return; }
   try {
-    await fetch(`${API}/api/support`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({telegram_id:userId,name:userName,text})});
-    document.getElementById('chatText').value='';
-    toast('✅ сообщение отправлено',3000);
+    await fetch(`${API}/api/support`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, name: userName, text })
+    });
+    document.getElementById('chatText').value = '';
+    toast('✅ сообщение отправлено', 3000);
   } catch { toast('ошибка'); }
 }
 
-// DELIVERY
+// ═══ DELIVERY ═══
 function loadDelivery() {
   const zones = [
-    {name:'🏙 Таллин — Центр',area:'Kesklinn, Põhja-Tallinn, Kalamaja',cost:'0 €',time:'В день заказа'},
-    {name:'🏘 Таллин — Периферия',area:'Lasnamäe, Mustamäe, Kristiine, Haabersti',cost:'0 €',time:'В день заказа'},
-    {name:'🚌 Харьюмаа',area:'Маарду, Саку, Кейла, Виймси',cost:'2 €',time:'1–2 дня'},
-    {name:'🚗 Другие регионы',area:'Тарту, Пярну, Нарва',cost:'5 €',time:'2–3 дня'},
+    { name: '🏙 Таллин — Центр', area: 'Kesklinn, Põhja-Tallinn, Kalamaja', cost: '0 €', time: 'В день заказа' },
+    { name: '🏘 Таллин — Периферия', area: 'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', cost: '0 €', time: 'В день заказа' },
+    { name: '🚌 Харьюмаа', area: 'Маарду, Саку, Кейла, Виймси', cost: '2 €', time: '1–2 дня' },
+    { name: '🚗 Другие регионы', area: 'Тарту, Пярну, Нарва и другие', cost: '5 €', time: '2–3 дня' },
   ];
-  document.getElementById('deliveryContent').innerHTML = zones.map(z=>`
+  document.getElementById('deliveryContent').innerHTML = zones.map(z => `
     <div class="zone-card">
       <div class="zone-name">${z.name}</div>
       <div class="zone-area">${z.area}</div>
       <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
-    </div>`).join('');
+    </div>`).join('') + '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">Оплата наличными при встрече с продавцом</p>';
 }
 
-// NAVIGATION
+// ═══ NAVIGATION ═══
 function switchView(v) {
-  ['catalog','wishlist','orders','profile'].forEach(k=>{
-    document.getElementById('v'+k.charAt(0).toUpperCase()+k.slice(1)).classList.toggle('on',k===v);
-    document.getElementById('n'+k.charAt(0).toUpperCase()+k.slice(1)).classList.toggle('on',k===v);
+  ['catalog', 'wishlist', 'orders', 'profile'].forEach(k => {
+    const vId = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
+    const nId = 'n' + k.charAt(0).toUpperCase() + k.slice(1);
+    document.getElementById(vId).classList.toggle('on', k === v);
+    document.getElementById(nId).classList.toggle('on', k === v);
   });
-  if (v==='orders') loadOrders();
-  if (v==='profile') { loadProfile(); showSub('spMain'); }
-  if (v==='wishlist') loadWishlist();
+  if (v === 'orders') loadOrders();
+  if (v === 'profile') { showSub('subMain'); loadProfile(); }
+  if (v === 'wishlist') loadWishlist();
 }
 
-// START
+// ═══ START ═══
 init();
 </script>
 </body>
