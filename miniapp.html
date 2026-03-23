@@ -23,9 +23,8 @@
   --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html { overflow-x:hidden; max-width:100vw; }
 html, body { height:100%; }
-body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; overflow-y:auto; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
+body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
 /* HEADER */
 .hd { padding:24px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
@@ -512,7 +511,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
 
 /* NAV */
-.nav { position:fixed !important; bottom:0 !important; left:0; right:0; width:100%; background:var(--navbg,rgba(5,3,5,0.97)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom); min-height:56px; }
+.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.97)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom); min-height:56px; }
 .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
@@ -523,10 +522,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 /* OVERLAY & PANELS */
 .panel { position:fixed; bottom:0; left:0; right:0; background:var(--panelbg,rgba(10,6,12,0.88)); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
 .panel.on { transform:translateY(0); }
-.panel-drag { width:36px; height:4px; background:var(--borderh); margin:14px auto 0; border-radius:2px; }
-.panel-head { padding:20px 20px 16px; border-bottom:1px solid var(--border); }
-.panel-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); }
-.panel-body { padding:20px; }
+
 
 /* CART */
 .cart-row { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
@@ -625,7 +621,7 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 9998;
   opacity: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   transition: opacity 0.5s;
@@ -644,7 +640,7 @@ body::after {
   transition: opacity 0.8s;
 }
 [data-theme="light"] #gothicCanvas { opacity: 0.18; }
-body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
+
 
 /* ═══ ADMIN ═══ */
 /* ADMIN PAGE NAVIGATION */
@@ -732,7 +728,7 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 
 /* ADMIN NAV */
 .admin-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(4,2,4,0.97); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:none; z-index:999; padding-bottom:env(safe-area-inset-bottom); }
-body.admin-mode .admin-nav { display:flex; }
+body.admin-mode .admin-nav { display:flex; z-index:100; }
 body.admin-mode #mainNav { display:none !important; }
 .admin-nav .nav-btn::before { background: var(--red, #c0392b); }
 </style>
@@ -1142,10 +1138,32 @@ async function submitOrder() {
 }
 
 // ═══ PRODUCTS ═══
-const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
-const catGlyph = { clothes: '👕', shoes: '👟', accessories: '👜' };
+let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+let catGlyph  = { clothes: '👕', shoes: '👟', accessories: '👜' };
+let allCategories = ['clothes','shoes','accessories'];
+
+async function loadCategories() {
+  try {
+    const r = await fetch(`${API}/api/categories`);
+    const cats = await r.json();
+    if (!cats || !cats.length) return;
+    allCategories = cats.map(c => c.id || c);
+    cats.forEach(c => {
+      const id = c.id || c;
+      catLabel[id] = c.label || c.name || id;
+      catGlyph[id]  = c.glyph || c.emoji || '✦';
+    });
+    // Rebuild filter buttons
+    const bar = document.getElementById('filterBar');
+    if (bar) {
+      bar.innerHTML = '<button class="fb on" data-cat="all">Всё</button>'
+        + cats.map(c => `<button class="fb" data-cat="${c.id||c}">${c.label||c.name||c}</button>`).join('');
+    }
+  } catch {}
+}
 
 async function loadProducts() {
+  await loadCategories();
   const grid = document.getElementById('productGrid');
   if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>';
   try {
@@ -1719,7 +1737,7 @@ async function loadAdminOrders() {
 document.getElementById('aOrderFilter').addEventListener('click', e => {
   const btn = e.target.closest('.fb');
   if (!btn) return;
-  document.querySelectorAll('#orderFilter .fb').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('#aOrderFilter .fb').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   activeOrderFilter = btn.dataset.status;
   renderAdminOrders();
@@ -1750,7 +1768,7 @@ function renderAdminOrders() {
       </div>
       <div class="order-bar"><div class="order-bar-fill" style="width:${ADMIN_STATUS_PCT[o.status]||0}%"></div></div>
       <div class="order-card-foot">
-        <select class="status-select" onchange="updateStatus(${o.id},this.value)">
+        <select class="status-select" onchange="adminUpdateStatus(${o.id},this.value)">
           ${['searching','ordered','in_transit','arrived','delivered','cancelled'].map(s =>
             `<option value="${s}" ${s===o.status?'selected':''}>${STATUS[s]}</option>`
           ).join('')}
@@ -1823,6 +1841,38 @@ function selectCat(btn) {
   selectedCat = btn.dataset.cat;
 }
 
+async function addCategory() {
+  const id = document.getElementById('aNewCatId').value.trim().toLowerCase().replace(/\s+/g,'_');
+  const label = document.getElementById('aNewCatLabel').value.trim();
+  const glyph = document.getElementById('aNewCatGlyph').value.trim() || '✦';
+  if (!id || !label) { toast('введите id и название'); return; }
+  try {
+    await fetch(`${API}/api/admin/categories`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, id, label, glyph })
+    });
+    catLabel[id] = label; catGlyph[id] = glyph;
+    if (!allCategories.includes(id)) allCategories.push(id);
+    // Add button to grid
+    const grid = document.getElementById('aCatGrid');
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn'; btn.dataset.cat = id; btn.textContent = label;
+    btn.onclick = function(){ selectCat(this); };
+    grid.appendChild(btn);
+    // Add to main filter bar
+    const bar = document.getElementById('filterBar');
+    if (bar) {
+      const fb = document.createElement('button');
+      fb.className = 'fb'; fb.dataset.cat = id; fb.textContent = label;
+      bar.appendChild(fb);
+    }
+    document.getElementById('aNewCatId').value = '';
+    document.getElementById('aNewCatLabel').value = '';
+    document.getElementById('aNewCatGlyph').value = '';
+    toast(`✅ категория «${label}» добавлена`);
+  } catch { toast('ошибка — добавьте эндпоинт /api/admin/categories в api.py'); }
+}
+
 async function loadAdminProducts() {
   const el = document.getElementById('aProductsContent');
   try {
@@ -1887,7 +1937,13 @@ async function addProduct() {
 }
 
 async function deleteProduct(id, name) {
-  if (!confirm(`Удалить "${name}"?`)) return;
+  if (pendingDelete !== id) {
+    pendingDelete = id;
+    toast('нажмите ещё раз для удаления', 3000);
+    setTimeout(() => { if(pendingDelete===id) pendingDelete=null; }, 3200);
+    return;
+  }
+  pendingDelete = null;
   try {
     await fetch(`${API}/api/admin/products/${id}?admin_id=${userId}`, { method:'DELETE' });
     document.getElementById('apc'+id)?.remove();
@@ -1931,7 +1987,13 @@ async function loadSupport() {
 async function sendBroadcast() {
   const text = document.getElementById('aBroadcastText').value.trim();
   if (!text) { toast('введите сообщение'); return; }
-  if (!confirm(`Отправить рассылку всем пользователям?`)) return;
+  if (!pendingBroadcast) {
+    pendingBroadcast = true;
+    toast('нажмите ещё раз для подтверждения', 3000);
+    setTimeout(() => { pendingBroadcast = false; }, 3200);
+    return;
+  }
+  pendingBroadcast = false;
   // Broadcast via API - not yet exposed in REST, show guidance
   toast('⚠ рассылка через Telegram Bot', 4000);
 }
@@ -2362,10 +2424,16 @@ init();
     <label class="inp-label">цена (€)</label>
     <input class="inp inp-sm" id="aPPrice" placeholder="0.00" type="number" step="0.01">
     <label class="inp-label">категория</label>
-    <div class="cat-grid">
+    <div class="cat-grid" id="aCatGrid">
       <button class="cat-btn on" data-cat="clothes" onclick="selectCat(this)">Одежда</button>
       <button class="cat-btn" data-cat="shoes" onclick="selectCat(this)">Обувь</button>
       <button class="cat-btn" data-cat="accessories" onclick="selectCat(this)">Аксессуары</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input class="inp inp-sm" id="aNewCatId" placeholder="slug (напр: bags)" style="margin-bottom:0;flex:1">
+      <input class="inp inp-sm" id="aNewCatLabel" placeholder="Название" style="margin-bottom:0;flex:1">
+      <input class="inp inp-sm" id="aNewCatGlyph" placeholder="✦" style="margin-bottom:0;width:50px">
+      <button class="btn-act" onclick="addCategory()" style="padding:0 12px;flex-shrink:0">+</button>
     </div>
     <label class="inp-label">описание</label>
     <textarea class="inp inp-sm" id="aPDesc" placeholder="Описание..." style="min-height:70px;resize:none;font-size:13px;"></textarea>
@@ -2382,7 +2450,7 @@ init();
   <div class="more-sub-a on" id="aMoreHub">
     <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title">ещё</div></div>
     <div class="more-wrap-a">
-      <div class="more-item-a" onclick="openMoreSub('moreReviews');loadReviews()">
+      <div class="more-item-a" onclick="openMoreSubA('aMoreReviews');loadReviews()">
         <div class="more-glyph">⋆</div>
         <div class="more-info">
           <div class="more-title">Отзывы</div>
@@ -2390,7 +2458,7 @@ init();
         </div>
         <div class="more-arrow">›</div>
       </div>
-      <div class="more-item-a" onclick="openMoreSub('moreSupport');loadSupport()">
+      <div class="more-item-a" onclick="openMoreSubA('aMoreSupport');loadSupport()">
         <div class="more-glyph">✦</div>
         <div class="more-info">
           <div class="more-title">Поддержка</div>
