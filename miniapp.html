@@ -11,7 +11,28 @@
   --bg: #040204; --bg2: rgba(8,4,8,0.97); --bg3: rgba(12,6,12,0.98);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.14);
   --text: #f0ece4; --text2: rgba(240,236,228,0.45); --text3: rgba(240,236,228,0.18);
-  --accent: #cc2222; --accent2: rgba(180,20,20,0.10); --red: #cc2222; --green: #1a4a2a;
+  --accent: #cc2222; --accent2: var(--ra-010); --red: #cc2222; --green: #1a4a2a;
+  --red-rgb: 204,34,34;
+  --ra-000: rgba(204,34,34,0);
+  --ra-002: rgba(204,34,34,0.02);
+  --ra-004: rgba(204,34,34,0.04);
+  --ra-005: rgba(204,34,34,0.05);
+  --ra-006: rgba(204,34,34,0.06);
+  --ra-007: rgba(204,34,34,0.07);
+  --ra-008: rgba(204,34,34,0.08);
+  --ra-010: rgba(204,34,34,0.1);
+  --ra-012: rgba(204,34,34,0.12);
+  --ra-015: rgba(204,34,34,0.15);
+  --ra-018: rgba(204,34,34,0.18);
+  --ra-020: rgba(204,34,34,0.2);
+  --ra-022: rgba(204,34,34,0.22);
+  --ra-025: rgba(204,34,34,0.25);
+  --ra-030: rgba(204,34,34,0.3);
+  --ra-035: rgba(204,34,34,0.35);
+  --ra-040: rgba(204,34,34,0.4);
+  --ra-050: rgba(204,34,34,0.5);
+  --ra-060: rgba(204,34,34,0.6);
+  --ra-070: rgba(204,34,34,0.7);
   --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Jost', sans-serif;
@@ -25,7 +46,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 /* HEADER */
 .hd { padding:28px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
-.logo { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; letter-spacing:0.08em; color:var(--text); line-height:1; text-shadow: 0 0 40px rgba(204,34,34,0.15); }
+.logo { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; letter-spacing:0.08em; color:var(--text); line-height:1; text-shadow: 0 0 40px var(--ra-015); }
 .logo sup { font-size:11px; color:var(--accent); font-weight:300; vertical-align:super; }
 .logo-eye { font-size:8px; font-weight:200; letter-spacing:0.55em; color:var(--text3); text-transform:uppercase; margin-bottom:4px; }
 .hd-right { display:flex; align-items:center; gap:18px; }
@@ -66,7 +87,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, border-color 0.3s;
   position: relative;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(204,34,34,0.04);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 var(--ra-004);
 }
 .card::after {
   content: '';
@@ -80,7 +101,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 }
 [data-theme="dark"] .card::after { opacity: 1; }
 .card:active { opacity: 0.88; }
-.card:active { box-shadow:0 0 0 1px rgba(204,34,34,0.18), 0 0 20px rgba(204,34,34,0.05); border-color:rgba(204,34,34,0.2); }
+.card:active { box-shadow:0 0 0 1px var(--ra-018), 0 0 20px var(--ra-005); border-color:var(--ra-002); }
 
 /* Photo area */
 
@@ -183,7 +204,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 /* SEC HEAD */
 .sec-head { padding:0 20px 20px; position:relative; }
-.sec-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:rgba(204,34,34,0.12); font-style:italic; position:absolute; top:-6px; right:16px; }
+.sec-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--ra-012); font-style:italic; position:absolute; top:-6px; right:16px; }
 .sec-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); padding-bottom:10px; border-bottom:1px solid var(--border); }
 
 /* ORDERS */
@@ -194,7 +215,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 20px;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(204,34,34,0.04);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.45), inset 0 1px 0 var(--ra-004);
   padding: 0;
   margin-bottom: 12px;
   overflow: hidden;
@@ -383,7 +404,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 }
 .empty-cta {
   background: none;
-  border: 1px solid rgba(204,34,34,0.3);
+  border: 1px solid var(--ra-030);
   color: var(--text2);
   font-family: 'Jost', sans-serif;
   font-size: 9px;
@@ -400,8 +421,8 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   z-index: 10;
   display: inline-block;
 }
-.empty-cta:active { background: rgba(204,34,34,0.1); border-color: rgba(204,34,34,0.5); }
-.empty-cta:active { background: rgba(204,34,34,0.08); border-color: rgba(204,34,34,0.4); }
+.empty-cta:active { background: var(--ra-010); border-color: var(--ra-005); }
+.empty-cta:active { background: var(--ra-008); border-color: var(--ra-004); }
 .empty-quote {
   font-family: 'Cormorant Garamond', serif;
   font-size: 14px;
@@ -416,17 +437,17 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .profile-wrap { padding:0 20px; }
 .profile-hero { display:flex; flex-direction:column; align-items:center; padding:8px 0 20px; }
 .monogram-wrap { position:relative; width:92px; height:92px; margin-bottom:14px; }
-.monogram { width:92px; height:92px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(204,34,34,0.10), rgba(8,4,8,0.97)); border:1px solid rgba(204,34,34,0.22); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:40px; color:var(--text2); box-shadow:0 0 40px rgba(204,34,34,0.07), inset 0 1px 0 rgba(255,255,255,0.07); }
-.monogram-ring { position:absolute; inset:-5px; border-radius:50%; border:1px solid rgba(204,34,34,0.12); pointer-events:none; }
+.monogram { width:92px; height:92px; border-radius:50%; background:radial-gradient(circle at 35% 35%, var(--ra-010), rgba(8,4,8,0.97)); border:1px solid var(--ra-022); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:40px; color:var(--text2); box-shadow:0 0 40px var(--ra-007), inset 0 1px 0 rgba(255,255,255,0.07); }
+.monogram-ring { position:absolute; inset:-5px; border-radius:50%; border:1px solid var(--ra-012); pointer-events:none; }
 .monogram-ring2 { position:absolute; inset:-11px; border-radius:50%; border:1px dashed rgba(255,255,255,0.04); pointer-events:none; }
 .profile-name { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; color:var(--text); text-align:center; letter-spacing:0.03em; margin-bottom:3px; }
 .profile-handle { font-size:8px; font-weight:200; letter-spacing:0.5em; color:var(--text3); text-transform:uppercase; text-align:center; margin-bottom:12px; }
-.profile-tier { display:inline-flex; align-items:center; gap:6px; background:var(--bg2); border:1px solid rgba(204,34,34,0.18); border-radius:99px; padding:5px 14px; font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--accent); }
+.profile-tier { display:inline-flex; align-items:center; gap:6px; background:var(--bg2); border:1px solid var(--ra-018); border-radius:99px; padding:5px 14px; font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--accent); }
 /* stats */
 .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
 .stat { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:14px 10px; text-align:center; position:relative; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.35); }
 .stat::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent); }
-.stat.red::before { background:linear-gradient(90deg,transparent,rgba(204,34,34,0.25),transparent); }
+.stat.red::before { background:linear-gradient(90deg,transparent,var(--ra-025),transparent); }
 
 .stat.red .stat-val { color:var(--accent); }
 
@@ -434,7 +455,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .pcards { display:flex; flex-direction:column; gap:9px; margin-bottom:14px; }
 .pcard { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 16px; display:flex; align-items:center; gap:14px; box-shadow:0 2px 14px rgba(0,0,0,0.3); position:relative; overflow:hidden; }
 .pcard::before { content:''; position:absolute; top:0; left:15%; right:15%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent); }
-.pcard-glyph { font-family:'Cormorant Garamond',serif; font-size:24px; color:rgba(204,34,34,0.4); font-style:italic; width:28px; flex-shrink:0; text-align:center; line-height:1; }
+.pcard-glyph { font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--ra-004); font-style:italic; width:28px; flex-shrink:0; text-align:center; line-height:1; }
 .pcard-body { flex:1; min-width:0; }
 .pcard-lbl { font-size:7px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); margin-bottom:3px; }
 .pcard-val { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:300; color:var(--text); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -459,7 +480,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .size-form { padding:0 20px; }
 
 .inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:18px; padding:12px 16px; border-radius:12px; outline:none; margin-bottom:12px; transition:border-color 0.3s; box-sizing:border-box; }
-.inp:focus { border-color:rgba(204,34,34,0.35); box-shadow:0 0 20px rgba(204,34,34,0.05); }
+.inp:focus { border-color:var(--ra-035); box-shadow:0 0 20px var(--ra-005); }
 select.inp { font-family:'Jost',sans-serif; font-size:15px; cursor:pointer; }
 textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; min-height:90px; resize:none; }
 .size-result { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:28px; text-align:center; margin-top:16px; }
@@ -540,8 +561,8 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .total-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); }
 
 /* BUTTONS */
-.btn { width:100%; border:1px solid rgba(204,34,34,0.4); background:transparent; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; padding:16px; cursor:pointer; border-radius:14px; margin-bottom:8px; transition:all 0.35s; box-shadow:inset 0 0 30px rgba(204,34,34,0.02); }
-.btn:hover, .btn:active { background:rgba(204,34,34,0.12); box-shadow:0 0 20px rgba(204,34,34,0.08), inset 0 0 30px rgba(204,34,34,0.05); border-color:rgba(204,34,34,0.6); }
+.btn { width:100%; border:1px solid var(--ra-004); background:transparent; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; padding:16px; cursor:pointer; border-radius:14px; margin-bottom:8px; transition:all 0.35s; box-shadow:inset 0 0 30px var(--ra-002); }
+.btn:hover, .btn:active { background:var(--ra-012); box-shadow:0 0 20px var(--ra-008), inset 0 0 30px var(--ra-005); border-color:var(--ra-006); }
 .btn:disabled { opacity:0.25; pointer-events:none; }
 .btn-ghost { width:100%; border:none; background:transparent; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:11px; cursor:pointer; }
 
@@ -640,14 +661,14 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .user-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 16px; margin-bottom:8px; box-shadow:0 2px 14px rgba(0,0,0,0.35); position:relative; overflow:hidden; }
 .user-card::before { content:''; position:absolute; top:0; left:15%; right:15%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent); }
 .user-card-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-.user-monogram { width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(204,34,34,0.08), rgba(8,4,8,0.95)); border:1px solid rgba(204,34,34,0.15); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-size:20px; color:var(--text2); flex-shrink:0; }
+.user-monogram { width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 35%, var(--ra-008), rgba(8,4,8,0.95)); border:1px solid var(--ra-015); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-size:20px; color:var(--text2); flex-shrink:0; }
 .user-info { flex:1; min-width:0; }
 .user-name { font-family:var(--font-serif); font-size:17px; color:var(--text); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .user-handle { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text3); display:flex; align-items:center; gap:6px; }
 .user-orders { text-align:center; flex-shrink:0; }
 .user-discount-row { padding-top:10px; border-top:1px solid var(--border); }
 .disc-btn { background:none; border:1px solid var(--border); color:var(--text3); font-family:var(--font-sans); font-size:8px; font-weight:200; padding:4px 8px; border-radius:8px; cursor:pointer; touch-action:manipulation; transition:all 0.2s; }
-.disc-btn-on { background:rgba(204,34,34,0.12); border-color:rgba(204,34,34,0.4); color:var(--accent); }
+.disc-btn-on { background:var(--ra-012); border-color:var(--ra-004); color:var(--accent); }
 
 /* SETTINGS SECTION */
 .settings-block {
@@ -660,8 +681,8 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
   content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
 }
-.settings-block.danger { border-color: rgba(204,34,34,0.15); }
-.settings-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.2), transparent); }
+.settings-block.danger { border-color: var(--ra-015); }
+.settings-block.danger::before { background: linear-gradient(90deg, transparent, var(--ra-002), transparent); }
 .settings-block-title {
   font-family: var(--font-serif); font-size: 11px; font-weight: 200;
   letter-spacing: 0.5em; text-transform: uppercase; color: var(--text3);
@@ -677,13 +698,13 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 }
 .settings-save-btn:active { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
 .settings-danger-btn {
-  width: 100%; background: none; border: 1px solid rgba(204,34,34,0.2);
+  width: 100%; background: none; border: 1px solid var(--ra-002);
   border-radius: 14px; color: var(--accent); font-family: var(--font-sans);
   font-size: 9px; font-weight: 200; letter-spacing: 0.45em; text-transform: uppercase;
   padding: 12px; cursor: pointer; touch-action: manipulation; margin-bottom: 8px;
   transition: all 0.3s;
 }
-.settings-danger-btn:active { background: rgba(204,34,34,0.08); }
+.settings-danger-btn:active { background: var(--ra-008); }
 
 /* Admin empty states */
 .more-sub-a .empty-rich { padding: 40px 20px; }
@@ -703,12 +724,12 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .admin-hub-card::before {
   content: ''; position: absolute;
   top: 0; left: 15%; right: 15%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(204,34,34,0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--ra-002), transparent);
 }
-.admin-hub-card:active { border-color: rgba(204,34,34,0.3); box-shadow: 0 0 20px rgba(204,34,34,0.06); }
+.admin-hub-card:active { border-color: var(--ra-030); box-shadow: 0 0 20px var(--ra-006); }
 .ahc-icon {
   font-family: var(--font-serif); font-size: 28px;
-  color: rgba(204,34,34,0.5); font-style: italic;
+  color: var(--ra-005); font-style: italic;
   width: 36px; text-align: center; flex-shrink: 0; line-height: 1;
 }
 .ahc-body { flex: 1; min-width: 0; }
@@ -733,9 +754,9 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .dev-btn { background:var(--bg2); border:1px solid var(--border); border-radius:14px; color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:14px 8px; cursor:pointer; transition:all 0.25s; display:flex; flex-direction:column; align-items:center; gap:6px; touch-action:manipulation; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
 .dev-btn:active { background:rgba(255,255,255,0.05); border-color:var(--borderh); }
 .dev-btn-icon { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text3); font-style:italic; line-height:1; }
-.dev-btn-danger { border-color:rgba(180,20,20,0.3); }
-.dev-btn-danger .dev-btn-icon { color:rgba(180,20,20,0.6); }
-.dev-btn-danger:active { background:rgba(180,20,20,0.06); }
+.dev-btn-danger { border-color:var(--ra-030); }
+.dev-btn-danger .dev-btn-icon { color:var(--ra-006); }
+.dev-btn-danger:active { background:var(--ra-006); }
 
 /* ═══ ADMIN ═══ */
 /* ADMIN PAGE NAVIGATION */
@@ -776,7 +797,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .stats-grid.three { grid-template-columns:1fr 1fr 1fr; width:100%; box-sizing:border-box; }
 .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 14px; position:relative; overflow:hidden; min-width:0; box-sizing:border-box; box-shadow:0 2px 14px rgba(0,0,0,0.4); }
 .stat-card.accent { border-color:rgba(255,255,255,0.2); }
-.stat-card.danger { border-color:rgba(192,57,43,0.2); }
+.stat-card.danger { border-color:var(--ra-002); }
 .stat-card.success { border-color:rgba(39,174,96,0.18); }
 .stat-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
 .stat-card.danger::before { background:linear-gradient(90deg,transparent,var(--red),transparent); }
@@ -853,11 +874,11 @@ header { position: relative; z-index: 1; }
 .inp-sm { font-family:'Jost',sans-serif; font-size:13px; font-weight:200; box-sizing:border-box; width:100%; }
 .cat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; box-sizing:border-box; }
 .cat-btn { background:none; border:1px solid var(--border); border-radius:10px; color:var(--text3); font-family:'Jost',sans-serif; font-size:8px; font-weight:200; letter-spacing:0.25em; text-transform:uppercase; padding:9px 6px; cursor:pointer; transition:all 0.3s; white-space:nowrap; touch-action:manipulation; }
-.cat-btn.on { border-color:rgba(204,34,34,0.5); color:var(--text); background:rgba(204,34,34,0.08); }
+.cat-btn.on { border-color:var(--ra-005); color:var(--text); background:var(--ra-008); }
 .btn-act { background:none; border:1px solid var(--borderh); color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:12px 16px; border-radius:12px; cursor:pointer; transition:all 0.3s; touch-action:manipulation; }
 .btn-act:active { background:rgba(255,255,255,0.05); }
 .btn-ghost2 { background:none; border:none; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:10px; cursor:pointer; touch-action:manipulation; }
-.btn-danger { width:100%; background:rgba(180,20,20,0.08); border:1px solid rgba(180,20,20,0.25); color:var(--red); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:12px; border-radius:12px; cursor:pointer; transition:all 0.3s; margin-top:8px; touch-action:manipulation; }
+.btn-danger { width:100%; background:var(--ra-008); border:1px solid var(--ra-025); color:var(--red); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:12px; border-radius:12px; cursor:pointer; transition:all 0.3s; margin-top:8px; touch-action:manipulation; }
 .status-select { width:100%; background:var(--bg3); border:1px solid var(--border); color:var(--text2); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; padding:10px 12px; border-radius:10px; outline:none; margin-bottom:8px; box-sizing:border-box; }
 .prod-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px; margin-bottom:10px; display:flex; gap:12px; align-items:flex-start; box-sizing:border-box; width:100%; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.4); }
 .prod-icon { width:56px; height:56px; background:var(--bg3); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; overflow:hidden; }
@@ -871,15 +892,15 @@ header { position: relative; z-index: 1; }
 .avail-pill.off { color:var(--text3); border:1px solid var(--border); }
 .prod-actions { display:flex; flex-direction:column; gap:6px; flex-shrink:0; }
 .icon-btn { background:none; border:1px solid var(--border); color:var(--text3); width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; touch-action:manipulation; }
-.icon-btn.del { border-color:rgba(180,20,20,0.3); color:var(--red); }
+.icon-btn.del { border-color:var(--ra-030); color:var(--red); }
 .btn-row2 { display:flex; gap:6px; margin-bottom:4px; }
 .order-contact { padding:0 20px 12px; font-size:11px; font-weight:200; color:var(--text3); line-height:1.8; letter-spacing:0.04em; }
-.price-adj { background:rgba(180,20,20,0.06); border:1px solid rgba(180,20,20,0.2); border-radius:12px; padding:12px; margin-bottom:8px; }
+.price-adj { background:var(--ra-006); border:1px solid var(--ra-002); border-radius:12px; padding:12px; margin-bottom:8px; }
 .price-adj-title { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--red); margin-bottom:4px; }
 .price-adj-val { font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--text); margin-bottom:4px; }
 .price-adj-reason { font-size:11px; font-weight:200; color:var(--text2); margin-bottom:8px; }
 .btn-accept { background:rgba(40,120,40,0.1); border:1px solid rgba(40,120,40,0.3); color:var(--green); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:8px 14px; border-radius:10px; cursor:pointer; touch-action:manipulation; }
-.btn-reject { background:rgba(180,20,20,0.08); border:1px solid rgba(180,20,20,0.25); color:var(--red); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:8px 14px; border-radius:10px; cursor:pointer; touch-action:manipulation; }
+.btn-reject { background:var(--ra-008); border:1px solid var(--ra-025); color:var(--red); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:8px 14px; border-radius:10px; cursor:pointer; touch-action:manipulation; }
 .review-btn { background:none; border:1px solid var(--border); color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:8px 14px; border-radius:10px; cursor:pointer; touch-action:manipulation; }
 .products-wrap { padding:0 14px; box-sizing:border-box; width:100%; overflow-x:hidden; }
 .orders-wrap { padding:0 14px; box-sizing:border-box; width:100%; overflow-x:hidden; }
@@ -903,8 +924,8 @@ header { position: relative; z-index: 1; }
   top: 0; left: 15%; right: 15%; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
 }
-.adm-block.danger { border-color: rgba(204,34,34,0.15); }
-.adm-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.18), transparent); }
+.adm-block.danger { border-color: var(--ra-015); }
+.adm-block.danger::before { background: linear-gradient(90deg, transparent, var(--ra-018), transparent); }
 .adm-block-hdr {
   font-family: var(--font-serif);
   font-size: 11px; font-weight: 200;
@@ -923,7 +944,7 @@ header { position: relative; z-index: 1; }
   padding: 12px 8px;
   text-align: center;
 }
-.adm-stat-box.red { border-color: rgba(204,34,34,0.2); }
+.adm-stat-box.red { border-color: var(--ra-002); }
 .adm-stat-val {
   font-family: var(--font-serif);
   font-size: 28px; font-weight: 300;
@@ -948,8 +969,8 @@ header { position: relative; z-index: 1; }
 .user-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
 .user-monogram {
   width: 38px; height: 38px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(204,34,34,0.1), rgba(0,0,0,0.8));
-  border: 1px solid rgba(204,34,34,0.2);
+  background: radial-gradient(circle at 35% 35%, var(--ra-010), rgba(0,0,0,0.8));
+  border: 1px solid var(--ra-002);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-serif); font-size: 18px; color: var(--text2);
   flex-shrink: 0;
@@ -982,8 +1003,8 @@ header { position: relative; z-index: 1; }
   transition: all 0.2s;
 }
 .disc-btn-on {
-  background: rgba(204,34,34,0.12);
-  border-color: rgba(204,34,34,0.4);
+  background: var(--ra-012);
+  border-color: var(--ra-004);
   color: var(--accent);
 }
 
@@ -1031,7 +1052,7 @@ header { position: relative; z-index: 1; }
 .adm-btn-save:active { background: rgba(255,255,255,0.05); }
 .adm-btn-danger {
   width: 100%; background: none;
-  border: 1px solid rgba(204,34,34,0.2);
+  border: 1px solid var(--ra-002);
   border-radius: 12px; color: var(--accent);
   font-family: var(--font-sans); font-size: 9px;
   font-weight: 200; letter-spacing: 0.4em;
@@ -1040,7 +1061,7 @@ header { position: relative; z-index: 1; }
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin-bottom: 8px; transition: all 0.2s;
 }
-.adm-btn-danger:active { background: rgba(204,34,34,0.08); }
+.adm-btn-danger:active { background: var(--ra-008); }
 
 /* Dev buttons */
 .adm-diag-btn {
@@ -1069,7 +1090,7 @@ header { position: relative; z-index: 1; }
   text-transform: uppercase; padding: 5px 10px;
   cursor: pointer; touch-action: manipulation;
 }
-.adm-log-btn.danger { border-color: rgba(204,34,34,0.25); color: var(--accent); }
+.adm-log-btn.danger { border-color: var(--ra-025); color: var(--accent); }
 
 </style>
 </head>
@@ -1098,9 +1119,9 @@ header { position: relative; z-index: 1; }
 <div class="view on" id="vCatalog">
   <div class="filter" id="filterBar">
     <button class="fb on" data-cat="all" data-i18n="catAll">Всё</button>
-    <button class="fb" data-cat="clothes" data-i18n="catClothes">Одежда</button>
-    <button class="fb" data-cat="shoes" data-i18n="catShoes">Обувь</button>
-    <button class="fb" data-cat="accessories" data-i18n="catAccessories">Аксессуары</button>
+    <button class="fb" data-cat="clothes" data-i18n="catClothes" data-i18n="catClothes">Одежда</button>
+    <button class="fb" data-cat="shoes" data-i18n="catShoes" data-i18n="catShoes">Обувь</button>
+    <button class="fb" data-cat="accessories" data-i18n="catAccessories" data-i18n="catAccessories">Аксессуары</button>
   </div>
   <div class="grid" id="productGrid">
     <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка архива</div></div>
@@ -1173,7 +1194,7 @@ header { position: relative; z-index: 1; }
 
   <!-- Size -->
   <div class="more-sub" id="moreSize">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="sizeTitle">размер</div></div>
     <div class="size-form">
       <label class="inp-label" data-i18n="heightLabel">рост (см)</label>
@@ -1187,36 +1208,36 @@ header { position: relative; z-index: 1; }
 
   <!-- Referral -->
   <div class="more-sub" id="moreRef">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="refTitle">рефералы</div></div>
     <div class="ref-wrap" id="refContent">
-      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
     </div>
   </div>
 
   <!-- Notifications -->
   <div class="more-sub" id="moreNotif">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="notifTitle">уведомления</div></div>
     <div class="notif-wrap" id="notifContent">
-      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
     </div>
   </div>
 
   <!-- Support -->
   <div class="more-sub" id="moreSupport">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title" data-i18n="supportTitle">поддержка</div></div>
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-title" data-i18n="aSupportSection">поддержка</div></div>
     <div class="chat-wrap">
-      <p class="chat-intro">Есть вопрос? Напишите — ответим в Telegram.</p>
-      <textarea class="inp" id="chatText" placeholder="Ваше сообщение..."></textarea>
+      <p class="chat-intro" data-i18n="supportIntro">Есть вопрос? Напишите — ответим в Telegram.</p>
+      <textarea class="inp" id="chatText" data-i18n="msgPlaceholder" data-i18n-attr="placeholder" data-i18n="msgPlaceholder" data-i18n-attr="placeholder" placeholder="Ваше сообщение..."></textarea>
       <button class="btn" data-i18n="sendMsg" onclick="sendSupport()">отправить</button>
     </div>
   </div>
 
   <!-- Delivery -->
   <div class="more-sub" id="moreDelivery">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="deliveryTitle">зоны доставки</div></div>
     <div class="delivery-wrap" id="deliveryContent"></div>
   </div>
@@ -1226,7 +1247,7 @@ header { position: relative; z-index: 1; }
 <div class="view" id="vOrders">
   <div class="sec-head"><div class="sec-num">02</div><div class="sec-title" data-i18n="ordersTitle">мои заказы</div></div>
   <div class="orders-wrap" id="ordersList">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
   </div>
 </div>
 
@@ -1252,11 +1273,11 @@ header { position: relative; z-index: 1; }
         <span id="userAccentHex" style="margin-left:auto;font-size:10px;font-weight:200;color:var(--text2);font-family:monospace">#CC2222</span>
       </div>
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-        <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);margin-bottom:12px;text-transform:uppercase">предпросмотр</div>
+        <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);margin-bottom:12px;text-transform:uppercase" data-i18n="previewLabel">предпросмотр</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <span style="color:var(--red);font-family:var(--font-serif);font-size:22px">3xclusiv</span>
-          <span style="background:var(--red);color:#fff;font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px">НОВЫЙ</span>
-          <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7">АРХИВ</span>
+          <span style="background:var(--red);color:#fff;font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px" data-i18n="previewNew" data-i18n="previewNew">НОВЫЙ</span>
+          <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7" data-i18n="previewArchive" data-i18n="previewArchive">АРХИВ</span>
         </div>
       </div>
     </div>
@@ -1271,7 +1292,7 @@ header { position: relative; z-index: 1; }
   <!-- Main -->
   <div class="sub on" id="subMain">
     <div class="profile-wrap" id="profileContent">
-      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
     </div>
   </div>
 
@@ -1360,7 +1381,7 @@ function refreshCatList() {
 async function deleteCat(id) {
   if (pendingDelete !== id) {
     pendingDelete = id;
-    toast('нажмите ещё раз для удаления', 2500);
+    toast(t('aDoubleDelete'), 2500);
     setTimeout(()=>{ if(pendingDelete===id) pendingDelete=null; }, 2700);
     return;
   }
@@ -1374,8 +1395,8 @@ async function deleteCat(id) {
     // Remove from filter bar
     document.querySelectorAll('#filterBar .fb').forEach(b => { if (b.dataset.cat === id) b.remove(); });
     refreshCatList();
-    toast('✅ категория удалена');
-  } catch { toast('ошибка'); }
+    toast(t('aCatDeleted'));
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ LANGUAGE ═══
@@ -1397,16 +1418,16 @@ const LANGS = {
     addressLabel:'адрес', commentLabel:'комментарий',
     submitOrder:'подтвердить заказ', backToCart:'← корзина',
     linkCopied:'ссылка скопирована',
-    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:t('aDiscount'),
     cartEmpty:'корзина пуста', cartEmptyDesc:'добавьте товары из каталога', openCatalog:'открыть каталог',
-    ordersEmpty:'заказов пока нет', ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
+    ordersEmpty:t('aEmptyOrders'), ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
     wishEmpty:'избранное пусто', wishEmptyDesc:'сохраняйте понравившиеся товары',
     noConn:'нет соединения', noConnDesc:'проверьте подключение к сети', tryAgain:'попробовать снова',
-    catEmpty:'архив пуст', catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
+    catEmpty:t('aEmptyArchive'), catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
     addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
     size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
     support:'Поддержка', delivery:'Доставка',
-    noConnection:'нет соединения', noOrders:'заказов пока нет',
+    noConnection:'нет соединения', noOrders:t('aEmptyOrders'),
     cartEmpty:'корзина пуста', openTg:'откройте через Telegram',
     total:'итого', checkout:'оформить заказ', clearCart:'очистить корзину',
     sendMsg:'отправить', sizeCalc:'определить размер',
@@ -1416,10 +1437,24 @@ const LANGS = {
     fashionArchive:'fashion archive',
     appearance:'Оформление', appearanceDesc:'цвет подсветки',
     appearanceTitle:'оформление', accentLabel:'цвет подсветки', customColor:'свой цвет',
+    loadingShort:'загрузка',
+    previewLabel:'предпросмотр', previewNew:'НОВЫЙ', previewArchive:'АРХИВ',
+    removeItem:'убрать', totalLabel:'итого',
+    archive:'архив', priceAdjTitle:'⚠ изменение цены',
+    acceptPrice:'принять', rejectPrice:'отменить',
+    leaveReview:'оставить отзыв', orderLabel:'Заказ',
+    recSize:'рекомендуемый размер', sizeRangeLabel:'рост {h} · вес {w}',
+    openTg:'откройте через Telegram',
+    adminPassword:'пароль администратора',
+    subscribed:'подписаны', notSubscribed:'не подписаны',
+    supportIntro:'Есть вопрос? Напишите — ответим в Telegram.',
+    msgPlaceholder:'Ваше сообщение...',
+    loadError:'ошибка загрузки', errDefault:'ошибка',
+    guest:'Гость',
     catAll:'Всё', catClothes:'Одежда', catShoes:'Обувь', catAccessories:'Аксессуары',
     heightLabel:'рост (см)', weightLabel:'вес (кг)', heightPh:'170', weightPh:'65',
     msgPh:'Ваше сообщение...', msgSent:'✅ сообщение отправлено',
-    refLink:'реферальная ссылка — нажмите чтобы скопировать',
+    refLink:t('refLinkCopy'),
     linkCopied:'ссылка скопирована',
     checkoutTitle:'оформление заказа',
     namePh:'Иван Иванов', userPh:'username (без @)',
@@ -1430,9 +1465,9 @@ const LANGS = {
     reviewTitle:'отзыв', reviewBtn:'оставить отзыв', sendReview:'отправить отзыв',
     ratingLabel:'оценка', commentPh:'Комментарий (необязательно)...',
     back:'назад', backCart:'корзина', backOrders:'заказы',
-    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:t('aDiscount'),
     recommended:'рекомендуемый размер',
-    invited:'приглашено', discount:'скидка',
+    invited:'приглашено', discount:t('aDiscount'),
     friend:'друг', friends:'друзей',
     // Admin
     dashboard:'Сводка', allOrders:'все заказы', products:'Товары',
@@ -1455,6 +1490,116 @@ const LANGS = {
     reviews:'Отзывы', support:'Поддержка',
     incomingMsg:'входящие сообщения', buyerRatings:'оценки покупателей',
     exitAdmin:'Выйти',
+    // UI strings
+    guest:'Гость', addedToCart:'добавлено в корзину', cartCleared:'корзина очищена',
+    removeItem:'убрать', totalLabel:'итого',
+    openViaTg:'откройте через Telegram', enterName:'введите имя и фамилию',
+    enterUsername:'введите username (мин 5 символов)', enterPhone:'введите эстонский номер (8 цифр)',
+    enterDistrict:'введите район', orderPlaced:'заказ оформлен!',
+    orderError:'ошибка оформления', connError:'ошибка соединения',
+    archive:'архив', addedWish:'добавлено в избранное', removedWish:'удалено из избранного',
+    loadError:t('loadError'), errDefault:'ошибка',
+    // Order statuses
+    statusSearching:'в поиске', statusOrdered:'заказано', statusInTransit:'в пути',
+    statusArrived:'прибыл', statusDelivered:'получен', statusCancelled:'отменён',
+    // Order card
+    orderLabel:'Заказ', acceptPrice:'принять', rejectPrice:'отменить',
+    leaveReview:'оставить отзыв', priceAdjTitle:'⚠ изменение цены',
+    priceAccepted:'цена принята', orderCancelled:'заказ отменён',
+    // Review
+    pickRating:'выберите оценку', reviewSaved:'отзыв сохранён',
+    // Profile tiers
+    tierArchive:'✦ архивариус', tierRegular:'† постоянный гость',
+    tierConnoisseur:'◆ ценитель', tierAcquaintance:'⋆ знакомый', tierNewGuest:'· новый гость',
+    tierMore:'ещё', tierMax:'максимальная скидка',
+    spentTotal:'потрачено всего', completedOrders:'завершённых заказов',
+    favCategory:'любимая категория', lastOrder:'последний заказ',
+    refLinkLabel:'реферальная ссылка', tapToCopy:'нажмите чтобы скопировать',
+    // Size
+    enterHeightWeight:'введите рост и вес', recSize:'рекомендуемый размер',
+    sizeRangeLabel:'рост {h} · вес {w}',
+    // Referrals
+    invitedLabel:'приглашено', discountLabel:t('aDiscount'),
+    friendOne:'друг', friendMany:'друзей', moreNeeded:'ещё',
+    personsShort:'чел.', refLinkCopy:t('refLinkCopy'),
+    // Notifications
+    subscribed:'подписаны', notSubscribed:'не подписаны',
+    subSuccess:'✅ подписаны', unsubSuccess:'🔕 отписались',
+    // Support
+    supportIntro:'Есть вопрос? Напишите — ответим в Telegram.',
+    msgPlaceholder:'Ваше сообщение...', enterMsg:'введите сообщение', msgSentOk:'✅ сообщение отправлено',
+    // Delivery
+    deliveryPayment:t('deliveryPayment'),
+    // Delivery zones
+    dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
+    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'В день заказа',
+    dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
+    dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
+    // Appearance
+    previewLabel:'предпросмотр', previewNew:'НОВЫЙ', previewArchive:'АРХИВ',
+    // Admin user strings (inside miniapp admin panel)
+    adminPassword:'пароль администратора', wrongPassword:'неверный пароль',
+    aStatTitle:'статистика', aTotal:'всего', aActive:'активных', aDiscounts:'скидок',
+    aListTitle:'список', aSearchPh:'поиск по имени / @username',
+    aShopTitle:'магазин', aShopNameLbl:'название магазина', aCurrLbl:'валюта',
+    aMinOrderLbl:'минимальный заказ', aSaveBtn:'сохранить',
+    aParamsTitle:'параметры', aExport:'экспорт данных', aWipe:'очистить старые заказы',
+    aDiagTitle:'диагностика', aDebugTitle:'отладка', aClearLog:'очистить', aReset:'сброс',
+    aClearAllCarts:'очистить корзину всех',
+    aApiStatus:'API статус', aReloadProducts:'товары', aReloadProfile:'профиль', aTestToast:'тест тоста',
+    aNewProdTitle:'новый', aArticle:'артикул', aNameLbl:'название', aPriceLbl:'цена',
+    aPhotoLbl:'фото товара', aPhotoUrlPh:'URL фото (https://...)', aUploadViaTg:'или загрузите через Telegram бота командой',
+    aCatLbl:'категория', aDescLbl:'описание', aProdDescPh:'Описание товара...',
+    aAddProduct:'добавить в архив', aNewCatTitle:'новая категория', aNewCatPh:'Название',
+    aAdjNewPrice:'новая цена (€) — макс. +20%',
+    aAdjHint:'можно поднять не более чем на 20% из-за доставки или других факторов',
+    aAdjReasonLbl:'причина для покупателя', aAdjReasonPh:'Например: доставка в отдалённый район',
+    aSendToBuyer:'отправить покупателю', aMsgBuyerPh:'Сообщение для покупателя...',
+    aReviewsEmpty:t('aReviewsEmpty'), aReviewsEmptyDesc:t('aReviewsEmptyDesc'),
+    aSilence:t('aSilence'), aSilenceDesc:t('aSilenceDesc'),
+    aAnon:'Аноним', aReply:'ответить',
+    aBroadcastPh:'Текст рассылки...', aSendBroadcast:'отправить рассылку',
+    aBroadcastMsg:'сообщение всем пользователям',
+    aUsersEmpty:t('aUsersEmpty'), aUsersEmptyDesc:t('aUsersEmptyDesc'),
+    aRegistered:'зарегистрировано', aWithOrders:'с заказами',
+    aOrders:'заказов', aDiscount:t('aDiscount'),
+    aNoAccess:'нет доступа', aAddRailway:'добавь в Railway Variables:',
+    aRetry:t('aRetry'), aReport:'формируем отчёт...', aReportCopied:'отчёт скопирован',
+    aStatusUpdated:'✅ статус обновлён', aFillAll:'заполните все поля',
+    aPriceMax:'максимум +20% =', aCantLower:'нельзя снизить цену',
+    aPriceSent:'✅ изменение цены отправлено покупателю',
+    aMsgSentBuyer:'✅ сообщение отправлено покупателю', aMsgErrSend:'ошибка отправки',
+    aNoRecipient:'нет получателя', aCatAdded:'добавлена', aDeleteDbOnly:'⚠ удаление только через базу данных',
+    aDoubleConfirm:'нажмите ещё раз для подтверждения', aBroadcastSent:'рассылка',
+    aPersons:'чел.', aErrors:'ошибок', aNotFound:t('aNotFound'),
+    aCurrSet:'валюта:', aSettingsSaved:'✓ настройки сохранены', aNoAdminId:'не задан в Railway',
+    aInNavOrders:'заказы', aInNavSummary:'Сводка', aInNavProducts:'Товары', aInNavMore:'Ещё', aInNavExit:'Выйти',
+    aReviewsSection:'отзывы', aSupportSection:'поддержка', aBroadcastSection:'рассылка',
+    aUsersSection:'пользователи', aSettingsSection:'настройки', aDevSection:'разработчик',
+    aHubUsers:'список и статистика', aHubSettings:'магазин и параметры', aHubDev:'отладка и диагностика',
+    aHubReviews:'оценки покупателей', aHubSupport:'входящие сообщения', aHubBroadcast:'отправить всем пользователям',
+    aDoubleDelete:'нажмите ещё раз для удаления',
+    aSummaryTitle:'сводка', aOrdersTitle:'все заказы', aProductsTitle:'товары',
+    aNewOrders:'новых заказов', aActiveOrders:'активных', aRevenue:'выручка',
+    aUsersCount:'пользователей', aTotalOrders:'заказов всего', aAvgRating:'средний рейтинг', aReviewsCount:'отзывов',
+    aTopProducts:t('aTopProducts'), aSoldCount:'шт. продано',
+    aAllFilter:'Все', aSearchingFilter:'В поиске', aOrderedFilter:'Заказано',
+    aInTransitFilter:'В пути', aArrivedFilter:'Прибыл', aDeliveredFilter:'Получен', aCancelledFilter:'Отменён',
+    aInStock:'в наличии', aOutOfStock:'нет в наличии',
+    aCancelOrder:'отменить заказ', aAdjPrice:'изм. цену', aWriteBuyer:'написать',
+    aDevOpened:'▶ открыт разработчик', aNotAuth:'NULL - не авторизован',
+    aLangKey:'язык', aTgVersion:'TG версия', aPlatform:'платформа', aScreen:'экран',
+    aCart:'корзина', aPos:'поз.', aProducts2:'товаров', aCategories:'категорий', aMemory:'память',
+    aDiagLoaded:'✓ диагностика загружена', aCartClearedAll:'корзина очищена', aTestNotif:'† тестовое уведомление †',
+    aDataReset:'данные сброшены', aAccessDenied:'Доступ запрещён', aAdminOnly:'только для администраторов',
+    aCatDeleteDouble:'нажмите ещё раз для удаления', aCatDeleted:'✅ категория удалена',
+    aErrorApi:'ошибка — добавьте эндпоинт /api/admin/categories в api.py',
+    aCurrentPrice:'текущая:', aMaxPrice:'максимум +20%:',
+    aEmptyOrders:t('aEmptyOrders'), aEmptyOrdersDesc:t('aEmptyOrdersDesc'),
+    aRefresh:t('aRefresh'), aRefreshBtn:t('aRefreshBtn'),
+    aEmptyArchive:t('aEmptyArchive'), aEmptyArchiveDesc:t('aEmptyArchiveDesc'), aScrollUp:t('aScrollUp'),
+    aPhotoUpdated:'✅ фото обновлено', aPhotoUrlPrompt:'URL фото для товара #',
+    aProductAdded:'✅ товар добавлен #', aProductDeleted:'✅ товар удалён',
   },
   en: {
     catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
@@ -1492,6 +1637,103 @@ const LANGS = {
     fashionArchive:'fashion archive',
     appearance:'Appearance', appearanceDesc:'accent color',
     appearanceTitle:'appearance', accentLabel:'accent color', customColor:'custom',
+    loadingShort:'loading',
+    previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
+    dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
+    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Same day',
+    dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saue, Keila, Viimsi', dz3time:'1–2 days',
+    dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
+    deliveryPayment:'Cash on delivery',
+    tierArchive:'✦ archivist', tierRegular:'† regular guest',
+    tierConnoisseur:'◆ connoisseur', tierAcquaintance:'⋆ acquaintance', tierNewGuest:'· new guest',
+    tierMore:'more', tierMax:'maximum discount',
+    spentTotal:'total spent', completedOrders:'completed orders',
+    favCategory:'favourite category', lastOrder:'last order',
+    refLinkLabel:'referral link', tapToCopy:'tap to copy',
+    invitedLabel:'invited', discountLabel:'discount',
+    moreNeeded:'more', personsShort:'ppl.',
+    refLinkCopy:'referral link — tap to copy',
+    subscribed:'subscribed', notSubscribed:'not subscribed',
+    supportIntro:'Have a question? Write to us — we will reply in Telegram.',
+    msgPlaceholder:'Your message...', enterMsg:'enter your message',
+    removeItem:'remove', totalLabel:'total',
+    archive:'archive', priceAdjTitle:'⚠ price change',
+    acceptPrice:'accept', rejectPrice:'cancel',
+    leaveReview:'leave a review', orderLabel:'Order',
+    recSize:'recommended size', sizeRangeLabel:'height {h} · weight {w}',
+    openTg:'open via Telegram',
+    adminPassword:'admin password',
+    aNewOrders:'new orders', aActive:'active', aRevenue:'revenue',
+    aUsersCount:'users', aTotalOrders:'total orders', aAvgRating:'avg rating', aReviewsCount:'reviews',
+    aTopProducts:'top products', aSoldCount:'pcs sold',
+    aEmptyOrders:'no orders yet', aEmptyOrdersDesc:'new customer orders will appear here',
+    aAdjPrice:'adj. price', aWriteBuyer:'message', aCancelOrder:'cancel order',
+    aCurrentPrice:'current:', aMaxPrice:'max +20%:',
+    aEmptyArchive:'archive empty', aEmptyArchiveDesc:'add the first product using the form above',
+    aScrollUp:'scroll up',
+    aInStock:'in stock', aOutOfStock:'out of stock',
+    aReviewsEmpty:'no reviews yet', aReviewsEmptyDesc:'ratings will appear after first completed orders',
+    aSilence:'silence', aSilenceDesc:'customers write via Support section in the app',
+    aAnon:'Anonymous',
+    aBroadcastSent:'broadcast', aPersons:'ppl.', aErrors:'errors',
+    aRegistered:'registered', aWithOrders:'with orders',
+    aUsersEmpty:'no users', aUsersEmptyDesc:'when the first customer opens the shop — they will appear here',
+    aOrders:'orders', aDiscount:'discount',
+    aNoAccess:'no access', aAddRailway:'add to Railway Variables:',
+    aRetry:'↺ retry', aReport:'generating report...', aReportCopied:'report copied',
+    aStatusUpdated:'✅ status updated', aFillAll:'fill in all fields',
+    aPriceMax:'max +20% =', aCantLower:'price cannot be lowered',
+    aPriceSent:'✅ price change sent to buyer',
+    aMsgSentBuyer:'✅ message sent to buyer', aMsgErrSend:'send error',
+    aNoRecipient:'no recipient', aCatAdded:'added', aDeleteDbOnly:'⚠ deletion only via database',
+    aDoubleConfirm:'press again to confirm', aBroadcastSent2:'broadcast',
+    aNotFound:'not found',
+    aCurrSet:'currency:', aSettingsSaved:'✓ settings saved', aNoAdminId:'not set in Railway',
+    aInNavOrders:'Orders', aInNavSummary:'Dashboard', aInNavProducts:'Products', aInNavMore:'More', aInNavExit:'Exit',
+    aReviewsSection:'reviews', aSupportSection:'support', aBroadcastSection:'broadcast',
+    aUsersSection:'users', aSettingsSection:'settings', aDevSection:'developer',
+    aHubUsers:'list and statistics', aHubSettings:'shop and parameters', aHubDev:'debug and diagnostics',
+    aHubReviews:'buyer ratings', aHubSupport:'incoming messages', aHubBroadcast:'send to all users',
+    aDoubleDelete:'press again to delete',
+    aSummaryTitle:'dashboard', aOrdersTitle:'all orders', aProductsTitle:'products',
+    aAllFilter:'All', aSearchingFilter:'Searching', aOrderedFilter:'Ordered',
+    aInTransitFilter:'In transit', aArrivedFilter:'Arrived', aDeliveredFilter:'Delivered', aCancelledFilter:'Cancelled',
+    aInStock2:'in stock', aOutOfStock2:'out of stock',
+    aStatTitle:'◆ statistics', aTotal:'total', aDiscounts:'discounts',
+    aListTitle:'† list', aSearchPh:'search by name / @username',
+    aShopTitle:'† shop', aShopNameLbl:'shop name', aCurrLbl:'currency',
+    aMinOrderLbl:'minimum order (€)', aSaveBtn:'save',
+    aParamsTitle:'☠ parameters', aExport:'export data', aWipe:'clear old orders',
+    aDiagTitle:'◈ diagnostics', aDebugTitle:'⸸ debug', aClearLog:'clear', aReset:'reset',
+    aClearAllCarts:'clear all carts',
+    aApiStatus:'API status', aReloadProducts:'products', aReloadProfile:'profile', aTestToast:'test toast',
+    aNewProdTitle:'new', aArticle:'article', aNameLbl:'name', aPriceLbl:'price',
+    aPhotoLbl:'product photo', aPhotoUrlPh:'Photo URL (https://...)', aUploadViaTg:'or upload via Telegram bot with command',
+    aCatLbl:'category', aDescLbl:'description', aProdDescPh:'Product description...',
+    aAddProduct:'add to archive', aNewCatTitle:'new category', aNewCatPh:'Name',
+    aAdjNewPrice:'new price (€) — max. +20%',
+    aAdjHint:'can increase by no more than 20% due to shipping or other factors',
+    aAdjReasonLbl:'reason for buyer', aAdjReasonPh:'e.g. delivery to remote area',
+    aSendToBuyer:'send to buyer', aMsgBuyerPh:'Message for buyer...',
+    aBroadcastPh:'Broadcast message...', aSendBroadcast:'send broadcast',
+    aBroadcastMsg:'message to all users',
+    aAccessDenied:'Access denied', aAdminOnly:'admins only',
+    aDevOpened:'▶ developer opened', aNotAuth:'NULL - not authorised',
+    aLangKey:'language', aTgVersion:'TG version', aPlatform:'platform', aScreen:'screen',
+    aCart:'cart', aPos:'pos.', aProducts2:'products', aCategories:'categories', aMemory:'memory',
+    aDiagLoaded:'✓ diagnostics loaded', aCartClearedAll:'cart cleared', aTestNotif:'† test notification †',
+    aDataReset:'data reset',
+    aProductAdded:'✅ product added #', aProductDeleted:'✅ product deleted',
+    loadError:'loading error', errDefault:'error',
+    orderPlaced:'order placed!', orderError:'order error', connError:'connection error',
+    addedToCart:'added to cart', cartCleared:'cart cleared',
+    enterName:'enter first and last name', enterUsername:'enter username (min 5 chars)',
+    enterPhone:'enter Estonian number (8 digits)', enterDistrict:'enter district',
+    addedWish:'added to wishlist', removedWish:'removed from wishlist',
+    statusSearching:'searching', statusOrdered:'ordered', statusInTransit:'in transit',
+    statusArrived:'arrived', statusDelivered:'delivered', statusCancelled:'cancelled',
+    pickRating:'choose rating', reviewSaved:'review saved',
+    guest:'Guest',
     catAll:'All', catClothes:'Clothes', catShoes:'Shoes', catAccessories:'Accessories',
     heightLabel:'height (cm)', weightLabel:'weight (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Your message...', msgSent:'✅ message sent',
@@ -1531,6 +1773,103 @@ const LANGS = {
     reviews:'Reviews', support:'Support',
     incomingMsg:'incoming messages', buyerRatings:'buyer ratings',
     exitAdmin:'Exit',
+    guest:'Guest', addedToCart:'added to cart', cartCleared:'cart cleared',
+    removeItem:'remove', totalLabel:'total',
+    openViaTg:'open via Telegram', enterName:'enter full name',
+    enterUsername:'enter username (min 5 chars)', enterPhone:'enter Estonian number (8 digits)',
+    enterDistrict:'enter district', orderPlaced:'order placed!',
+    orderError:'order error', connError:'connection error',
+    archive:'archive', addedWish:'added to wishlist', removedWish:'removed from wishlist',
+    loadError:'loading error', errDefault:'error',
+    statusSearching:'searching', statusOrdered:'ordered', statusInTransit:'in transit',
+    statusArrived:'arrived', statusDelivered:'delivered', statusCancelled:'cancelled',
+    orderLabel:'Order', acceptPrice:'accept', rejectPrice:'cancel',
+    leaveReview:'leave a review', priceAdjTitle:'⚠ price change',
+    priceAccepted:'price accepted', orderCancelled:'order cancelled',
+    pickRating:'choose a rating', reviewSaved:'review saved',
+    tierArchive:'✦ archivist', tierRegular:'† regular guest',
+    tierConnoisseur:'◆ connoisseur', tierAcquaintance:'⋆ acquaintance', tierNewGuest:'· new guest',
+    tierMore:'more', tierMax:'maximum discount',
+    spentTotal:'total spent', completedOrders:'completed orders',
+    favCategory:'favourite category', lastOrder:'last order',
+    refLinkLabel:'referral link', tapToCopy:'tap to copy',
+    enterHeightWeight:'enter height and weight', recSize:'recommended size',
+    sizeRangeLabel:'height {h} · weight {w}',
+    invitedLabel:'invited', discountLabel:'discount',
+    friendOne:'friend', friendMany:'friends', moreNeeded:'more',
+    personsShort:'ppl.', refLinkCopy:'referral link — tap to copy',
+    subscribed:'subscribed', notSubscribed:'not subscribed',
+    subSuccess:'✅ subscribed', unsubSuccess:'🔕 unsubscribed',
+    supportIntro:'Have a question? Write — we will reply in Telegram.',
+    msgPlaceholder:'Your message...', enterMsg:'enter message', msgSentOk:'✅ message sent',
+    deliveryPayment:'Cash on delivery when meeting the seller',
+    dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
+    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Same day',
+    dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 days',
+    dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
+    previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
+    adminPassword:'admin password', wrongPassword:'wrong password',
+    aStatTitle:'statistics', aTotal:'total', aActive:'active', aDiscounts:'discounts',
+    aListTitle:'list', aSearchPh:'search by name / @username',
+    aShopTitle:'shop', aShopNameLbl:'shop name', aCurrLbl:'currency',
+    aMinOrderLbl:'minimum order', aSaveBtn:'save',
+    aParamsTitle:'parameters', aExport:'export data', aWipe:'clear old orders',
+    aDiagTitle:'diagnostics', aDebugTitle:'debug', aClearLog:'clear', aReset:'reset',
+    aClearAllCarts:'clear all carts',
+    aApiStatus:'API status', aReloadProducts:'products', aReloadProfile:'profile', aTestToast:'test toast',
+    aNewProdTitle:'new', aArticle:'article', aNameLbl:'name', aPriceLbl:'price',
+    aPhotoLbl:'product photo', aPhotoUrlPh:'Photo URL (https://...)', aUploadViaTg:'or upload via Telegram bot command',
+    aCatLbl:'category', aDescLbl:'description', aProdDescPh:'Product description...',
+    aAddProduct:'add to archive', aNewCatTitle:'new category', aNewCatPh:'Name',
+    aAdjNewPrice:'new price (€) — max. +20%',
+    aAdjHint:'can raise by no more than 20% due to shipping or other factors',
+    aAdjReasonLbl:'reason for buyer', aAdjReasonPh:'E.g.: delivery to remote area',
+    aSendToBuyer:'send to buyer', aMsgBuyerPh:'Message for buyer...',
+    aReviewsEmpty:'no reviews yet', aReviewsEmptyDesc:'ratings will appear after first completed orders',
+    aSilence:'silence', aSilenceDesc:'buyers write via the Support section in the app',
+    aAnon:'Anonymous', aReply:'reply',
+    aBroadcastPh:'Broadcast text...', aSendBroadcast:'send broadcast',
+    aBroadcastMsg:'message to all users',
+    aUsersEmpty:'no users', aUsersEmptyDesc:'when the first buyer opens the shop — they will appear here',
+    aRegistered:'registered', aWithOrders:'with orders',
+    aOrders:'orders', aDiscount:'discount',
+    aNoAccess:'no access', aAddRailway:'add to Railway Variables:',
+    aRetry:'↺ retry', aReport:'generating report...', aReportCopied:'report copied',
+    aStatusUpdated:'✅ status updated', aFillAll:'fill in all fields',
+    aPriceMax:'max +20% =', aCantLower:'cannot lower price',
+    aPriceSent:'✅ price change sent to buyer',
+    aMsgSentBuyer:'✅ message sent to buyer', aMsgErrSend:'send error',
+    aNoRecipient:'no recipient', aCatAdded:'added', aDeleteDbOnly:'⚠ delete only via database',
+    aDoubleConfirm:'tap again to confirm', aBroadcastSent:'broadcast',
+    aPersons:'ppl.', aErrors:'errors', aNotFound:'not found',
+    aCurrSet:'currency:', aSettingsSaved:'✓ settings saved', aNoAdminId:'not set in Railway',
+    aInNavOrders:'orders', aInNavSummary:'Dashboard', aInNavProducts:'Products', aInNavMore:'More', aInNavExit:'Exit',
+    aReviewsSection:'reviews', aSupportSection:'support', aBroadcastSection:'broadcast',
+    aUsersSection:'users', aSettingsSection:'settings', aDevSection:'developer',
+    aHubUsers:'list and statistics', aHubSettings:'shop and parameters', aHubDev:'debug and diagnostics',
+    aHubReviews:'buyer ratings', aHubSupport:'incoming messages', aHubBroadcast:'send to all users',
+    aDoubleDelete:'tap again to delete',
+    aSummaryTitle:'dashboard', aOrdersTitle:'all orders', aProductsTitle:'products',
+    aNewOrders:'new orders', aActiveOrders:'active', aRevenue:'revenue',
+    aUsersCount:'users', aTotalOrders:'total orders', aAvgRating:'avg rating', aReviewsCount:'reviews',
+    aTopProducts:'top products', aSoldCount:'pcs sold',
+    aAllFilter:'All', aSearchingFilter:'Searching', aOrderedFilter:'Ordered',
+    aInTransitFilter:'In transit', aArrivedFilter:'Arrived', aDeliveredFilter:'Delivered', aCancelledFilter:'Cancelled',
+    aInStock:'in stock', aOutOfStock:'out of stock',
+    aCancelOrder:'cancel order', aAdjPrice:'adj. price', aWriteBuyer:'message',
+    aDevOpened:'▶ developer opened', aNotAuth:'NULL - not authorized',
+    aLangKey:'language', aTgVersion:'TG version', aPlatform:'platform', aScreen:'screen',
+    aCart:'cart', aPos:'pos.', aProducts2:'products', aCategories:'categories', aMemory:'memory',
+    aDiagLoaded:'✓ diagnostics loaded', aCartClearedAll:'cart cleared', aTestNotif:'† test notification †',
+    aDataReset:'data reset', aAccessDenied:'Access denied', aAdminOnly:'admins only',
+    aCatDeleteDouble:'tap again to delete', aCatDeleted:'✅ category deleted',
+    aErrorApi:'error — add /api/admin/categories endpoint to api.py',
+    aCurrentPrice:'current:', aMaxPrice:'max +20%:',
+    aEmptyOrders:'no orders yet', aEmptyOrdersDesc:'new buyer orders will appear here',
+    aRefresh:'tap to refresh', aRefreshBtn:'refresh',
+    aEmptyArchive:'archive empty', aEmptyArchiveDesc:'add the first product using the form above', aScrollUp:'scroll up',
+    aPhotoUpdated:'✅ photo updated', aPhotoUrlPrompt:'Photo URL for product #',
+    aProductAdded:'✅ product added #', aProductDeleted:'✅ product deleted',
   },
   et: {
     catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
@@ -1549,6 +1888,102 @@ const LANGS = {
     fashionArchive:'moodi arhiiv',
     appearance:'Välimus', appearanceDesc:'esiletõstu värv',
     appearanceTitle:'välimus', accentLabel:'esiletõstu värv', customColor:'kohandatud',
+    loadingShort:'laadimine',
+    previewLabel:'eelvaade', previewNew:'UUS', previewArchive:'ARHIIV',
+    dz1name:'🏙 Tallinn — Kesklinn', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Samal päeval',
+    dz2name:'🏘 Tallinn — Äärelinn', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Samal päeval',
+    dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saue, Keila, Viimsi', dz3time:'1–2 päeva',
+    dz4name:'🚗 Muud piirkonnad', dz4area:'Tartu, Pärnu, Narva jt', dz4time:'2–3 päeva',
+    deliveryPayment:'Tasumine sularahas müüjale kohtudes',
+    tierArchive:'✦ arhivaar', tierRegular:'† püsikülastaja',
+    tierConnoisseur:'◆ asjatundja', tierAcquaintance:'⋆ tuttav', tierNewGuest:'· uus külaline',
+    tierMore:'veel', tierMax:'maksimaalne allahindlus',
+    spentTotal:'kulutatud kokku', completedOrders:'lõpetatud tellimust',
+    favCategory:'lemmikkategooria', lastOrder:'viimane tellimus',
+    refLinkLabel:'soovituslink', tapToCopy:'puudutage kopeerimiseks',
+    invitedLabel:'kutsutud', discountLabel:'allahindlus',
+    moreNeeded:'veel', personsShort:'ini.',
+    refLinkCopy:'soovituslink — puudutage kopeerimiseks',
+    subscribed:'tellitud', notSubscribed:'ei ole tellitud',
+    supportIntro:'Küsimus? Kirjutage — vastame Telegramis.',
+    msgPlaceholder:'Teie sõnum...', enterMsg:'sisestage sõnum',
+    removeItem:'eemalda', totalLabel:'kokku',
+    archive:'arhiiv', priceAdjTitle:'⚠ hinna muutus',
+    acceptPrice:'nõustun', rejectPrice:'tühista',
+    leaveReview:'jäta arvustus', orderLabel:'Tellimus',
+    recSize:'soovituslik suurus', sizeRangeLabel:'pikkus {h} · kaal {w}',
+    openTg:'ava Telegrami kaudu',
+    adminPassword:'administraatori parool',
+    aNewOrders:'uued tellimused', aActive:'aktiivsed', aRevenue:'tulu',
+    aUsersCount:'kasutajat', aTotalOrders:'tellimusi kokku', aAvgRating:'keskm. hinnang', aReviewsCount:'arvustust',
+    aTopProducts:'tipp tooted', aSoldCount:'tk müüdud',
+    aEmptyOrders:'tellimusi pole', aEmptyOrdersDesc:'uued klienditellimused ilmuvad siia',
+    aAdjPrice:'muuda hinda', aWriteBuyer:'kirjuta', aCancelOrder:'tühista tellimus',
+    aCurrentPrice:'praegune:', aMaxPrice:'max +20%:',
+    aEmptyArchive:'arhiiv tühi', aEmptyArchiveDesc:'lisage esimene toode ülaltoodud vormi kaudu',
+    aScrollUp:'keri üles',
+    aInStock:'laos olemas', aOutOfStock:'otsas',
+    aReviewsEmpty:'arvustusi pole', aReviewsEmptyDesc:'hinnangud ilmuvad pärast esimesi lõpetatud tellimusi',
+    aSilence:'vaikus', aSilenceDesc:'kliendid kirjutavad rakenduse Toe sektsiooni kaudu',
+    aAnon:'Anonüümne',
+    aBroadcastSent:'ringhääling', aPersons:'ini.', aErrors:'viga',
+    aRegistered:'registreeritud', aWithOrders:'tellimustega',
+    aUsersEmpty:'kasutajaid pole', aUsersEmptyDesc:'kui esimene klient poe avab — ilmub siia',
+    aOrders:'tellimust', aDiscount:'allahindlus',
+    aNoAccess:'juurdepääs puudub', aAddRailway:'lisa Railway muutujatesse:',
+    aRetry:'↺ proovi uuesti', aReport:'aruannet koostatakse...', aReportCopied:'aruanne kopeeritud',
+    aStatusUpdated:'✅ olek uuendatud', aFillAll:'täitke kõik väljad',
+    aPriceMax:'max +20% =', aCantLower:'hinda ei saa alandada',
+    aPriceSent:'✅ hinna muutus saadetud ostjale',
+    aMsgSentBuyer:'✅ sõnum saadetud ostjale', aMsgErrSend:'saatmise viga',
+    aNoRecipient:'saajat pole', aCatAdded:'lisatud', aDeleteDbOnly:'⚠ kustutamine ainult andmebaasi kaudu',
+    aDoubleConfirm:'kinnitamiseks vajutage uuesti', aBroadcastSent2:'ringhääling',
+    aNotFound:'ei leitud',
+    aCurrSet:'valuuta:', aSettingsSaved:'✓ seaded salvestatud', aNoAdminId:'ei ole Railway-s määratud',
+    aInNavOrders:'Tellimused', aInNavSummary:'Ülevaade', aInNavProducts:'Tooted', aInNavMore:'Veel', aInNavExit:'Välju',
+    aReviewsSection:'arvustused', aSupportSection:'tugi', aBroadcastSection:'ringhääling',
+    aUsersSection:'kasutajad', aSettingsSection:'seaded', aDevSection:'arendaja',
+    aHubUsers:'nimekiri ja statistika', aHubSettings:'pood ja parameetrid', aHubDev:'silumine ja diagnostika',
+    aHubReviews:'ostjate hinnangud', aHubSupport:'sissetulevad sõnumid', aHubBroadcast:'saada kõigile kasutajatele',
+    aDoubleDelete:'kustutamiseks vajutage uuesti',
+    aSummaryTitle:'ülevaade', aOrdersTitle:'kõik tellimused', aProductsTitle:'tooted',
+    aAllFilter:'Kõik', aSearchingFilter:'Otsitakse', aOrderedFilter:'Tellitud',
+    aInTransitFilter:'Teel', aArrivedFilter:'Saabunud', aDeliveredFilter:'Kätte saadud', aCancelledFilter:'Tühistatud',
+    aStatTitle:'◆ statistika', aTotal:'kokku', aDiscounts:'allahindlused',
+    aListTitle:'† nimekiri', aSearchPh:'otsi nime / @kasutajanime järgi',
+    aShopTitle:'† pood', aShopNameLbl:'poe nimi', aCurrLbl:'valuuta',
+    aMinOrderLbl:'miinimumtellimus (€)', aSaveBtn:'salvesta',
+    aParamsTitle:'☠ parameetrid', aExport:'ekspordi andmed', aWipe:'kustuta vanad tellimused',
+    aDiagTitle:'◈ diagnostika', aDebugTitle:'⸸ silumine', aClearLog:'tühjenda', aReset:'lähtesta',
+    aClearAllCarts:'tühjenda kõik ostukorvid',
+    aApiStatus:'API staatus', aReloadProducts:'tooted', aReloadProfile:'profiil', aTestToast:'testi teatist',
+    aNewProdTitle:'uus', aArticle:'artikkel', aNameLbl:'nimi', aPriceLbl:'hind',
+    aPhotoLbl:'toote foto', aPhotoUrlPh:'Foto URL (https://...)', aUploadViaTg:'või laadi Telegrami boti kaudu käsuga',
+    aCatLbl:'kategooria', aDescLbl:'kirjeldus', aProdDescPh:'Toote kirjeldus...',
+    aAddProduct:'lisa arhiivi', aNewCatTitle:'uus kategooria', aNewCatPh:'Nimi',
+    aAdjNewPrice:'uus hind (€) — max. +20%',
+    aAdjHint:'saab tõsta mitte rohkem kui 20% tarne või muude tegurite tõttu',
+    aAdjReasonLbl:'põhjus ostjale', aAdjReasonPh:'nt tarne kaugesse piirkonda',
+    aSendToBuyer:'saada ostjale', aMsgBuyerPh:'Sõnum ostjale...',
+    aBroadcastPh:'Ringhäälingu sõnum...', aSendBroadcast:'saada ringhääling',
+    aBroadcastMsg:'sõnum kõigile kasutajatele',
+    aAccessDenied:'Juurdepääs keelatud', aAdminOnly:'ainult administraatoritele',
+    aDevOpened:'▶ arendaja avatud', aNotAuth:'NULL - autentimata',
+    aLangKey:'keel', aTgVersion:'TG versioon', aPlatform:'platvorm', aScreen:'ekraan',
+    aCart:'ostukorv', aPos:'pos.', aProducts2:'toodet', aCategories:'kategooriat', aMemory:'mälu',
+    aDiagLoaded:'✓ diagnostika laaditud', aCartClearedAll:'ostukorv tühjendatud', aTestNotif:'† testi teavitus †',
+    aDataReset:'andmed lähtestatud',
+    aProductAdded:'✅ toode lisatud #', aProductDeleted:'✅ toode kustutatud',
+    loadError:'laadimise viga', errDefault:'viga',
+    orderPlaced:'tellimus esitatud!', orderError:'tellimuse viga', connError:'ühenduse viga',
+    addedToCart:'lisatud ostukorvi', cartCleared:'ostukorv tühjendatud',
+    enterName:'sisestage ees- ja perekonnanimi', enterUsername:'sisestage kasutajanimi (min 5 tähemärki)',
+    enterPhone:'sisestage Eesti number (8 numbrit)', enterDistrict:'sisestage piirkond',
+    addedWish:'lisatud lemmikutesse', removedWish:'eemaldatud lemmikutest',
+    statusSearching:'otsitakse', statusOrdered:'tellitud', statusInTransit:'teel',
+    statusArrived:'saabunud', statusDelivered:'kätte saadud', statusCancelled:'tühistatud',
+    pickRating:'valige hinnang', reviewSaved:'arvustus salvestatud',
+    guest:'Külaline',
     catAll:'Kõik', catClothes:'Riided', catShoes:'Jalatsid', catAccessories:'Aksessuaarid',
     heightLabel:'pikkus (cm)', weightLabel:'kaal (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Teie sõnum...', msgSent:'✅ sõnum saadetud',
@@ -1588,6 +2023,103 @@ const LANGS = {
     reviews:'Arvustused', support:'Tugi',
     incomingMsg:'sissetulevad sõnumid', buyerRatings:'ostjate hinnangud',
     exitAdmin:'Välju',
+    guest:'Külaline', addedToCart:'lisatud korvi', cartCleared:'ostukorv tühjendatud',
+    removeItem:'eemalda', totalLabel:'kokku',
+    openViaTg:'ava Telegrami kaudu', enterName:'sisestage ees- ja perekonnanimi',
+    enterUsername:'sisestage kasutajanimi (min 5 tähemärki)', enterPhone:'sisestage Eesti number (8 numbrit)',
+    enterDistrict:'sisestage piirkond', orderPlaced:'tellimus esitatud!',
+    orderError:'tellimuse viga', connError:'ühenduse viga',
+    archive:'arhiiv', addedWish:'lisatud lemmikutesse', removedWish:'eemaldatud lemmikutest',
+    loadError:'laadimise viga', errDefault:'viga',
+    statusSearching:'otsimisel', statusOrdered:'tellitud', statusInTransit:'teel',
+    statusArrived:'saabunud', statusDelivered:'kätte saadud', statusCancelled:'tühistatud',
+    orderLabel:'Tellimus', acceptPrice:'nõustu', rejectPrice:'tühista',
+    leaveReview:'jäta arvustus', priceAdjTitle:'⚠ hinna muutus',
+    priceAccepted:'hind nõustutud', orderCancelled:'tellimus tühistatud',
+    pickRating:'valige hinnang', reviewSaved:'arvustus salvestatud',
+    tierArchive:'✦ arhivaar', tierRegular:'† püsikülastaja',
+    tierConnoisseur:'◆ asjatundja', tierAcquaintance:'⋆ tuttav', tierNewGuest:'· uus külaline',
+    tierMore:'veel', tierMax:'maksimaalne allahindlus',
+    spentTotal:'kulutatud kokku', completedOrders:'lõpetatud tellimust',
+    favCategory:'lemmikkategooria', lastOrder:'viimane tellimus',
+    refLinkLabel:'soovituslink', tapToCopy:'puudutage kopeerimiseks',
+    enterHeightWeight:'sisestage pikkus ja kaal', recSize:'soovituslik suurus',
+    sizeRangeLabel:'pikkus {h} · kaal {w}',
+    invitedLabel:'kutsutud', discountLabel:'allahindlus',
+    friendOne:'sõber', friendMany:'sõpra', moreNeeded:'veel',
+    personsShort:'in.', refLinkCopy:'soovituslink — puudutage kopeerimiseks',
+    subscribed:'tellitud', notSubscribed:'pole tellitud',
+    subSuccess:'✅ tellitud', unsubSuccess:'🔕 loobutud',
+    supportIntro:'On küsimus? Kirjutage — vastame Telegramis.',
+    msgPlaceholder:'Teie sõnum...', enterMsg:'sisestage sõnum', msgSentOk:'✅ sõnum saadetud',
+    deliveryPayment:'Tasumine sularahas müüjaga kohtudes',
+    dz1name:'🏙 Tallinn — Keskus', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Tellimuse päeval',
+    dz2name:'🏘 Tallinn — Äärelinnad', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Tellimuse päeval',
+    dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 päeva',
+    dz4name:'🚗 Muud piirkonnad', dz4area:'Tartu, Pärnu, Narva ja teised', dz4time:'2–3 päeva',
+    previewLabel:'eelvaade', previewNew:'UUS', previewArchive:'ARHIIV',
+    adminPassword:'administraatori parool', wrongPassword:'vale parool',
+    aStatTitle:'statistika', aTotal:'kokku', aActive:'aktiivsed', aDiscounts:'allahindlused',
+    aListTitle:'nimekiri', aSearchPh:'otsi nime / @kasutajanime järgi',
+    aShopTitle:'pood', aShopNameLbl:'poe nimi', aCurrLbl:'valuuta',
+    aMinOrderLbl:'miinimumtellimus', aSaveBtn:'salvesta',
+    aParamsTitle:'parameetrid', aExport:'ekspordi andmed', aWipe:'kustuta vanad tellimused',
+    aDiagTitle:'diagnostika', aDebugTitle:'silumine', aClearLog:'tühjenda', aReset:'lähtesta',
+    aClearAllCarts:'tühjenda kõik ostukorvid',
+    aApiStatus:'API staatus', aReloadProducts:'tooted', aReloadProfile:'profiil', aTestToast:'testi teavitust',
+    aNewProdTitle:'uus', aArticle:'artikkel', aNameLbl:'nimi', aPriceLbl:'hind',
+    aPhotoLbl:'toote foto', aPhotoUrlPh:'Foto URL (https://...)', aUploadViaTg:'või laadige üles Telegrami boti käsuga',
+    aCatLbl:'kategooria', aDescLbl:'kirjeldus', aProdDescPh:'Toote kirjeldus...',
+    aAddProduct:'lisa arhiivi', aNewCatTitle:'uus kategooria', aNewCatPh:'Nimi',
+    aAdjNewPrice:'uus hind (€) — max. +20%',
+    aAdjHint:'saab tõsta kuni 20% tarne või muude tegurite tõttu',
+    aAdjReasonLbl:'põhjus ostjale', aAdjReasonPh:'Nt: tarne kaugesse piirkonda',
+    aSendToBuyer:'saada ostjale', aMsgBuyerPh:'Sõnum ostjale...',
+    aReviewsEmpty:'arvustusi pole veel', aReviewsEmptyDesc:'hinnangud ilmuvad pärast esimesi lõpetatud tellimusi',
+    aSilence:'vaikus', aSilenceDesc:'ostjad kirjutavad rakenduse Tugi jaotise kaudu',
+    aAnon:'Anonüümne', aReply:'vasta',
+    aBroadcastPh:'Ringhäälingu tekst...', aSendBroadcast:'saada ringhääling',
+    aBroadcastMsg:'sõnum kõigile kasutajatele',
+    aUsersEmpty:'kasutajaid pole', aUsersEmptyDesc:'kui esimene ostja poe avab — ilmub siia',
+    aRegistered:'registreeritud', aWithOrders:'tellimustega',
+    aOrders:'tellimust', aDiscount:'allahindlus',
+    aNoAccess:'juurdepääs puudub', aAddRailway:'lisa Railway Variables:',
+    aRetry:'↺ proovi uuesti', aReport:'koostame aruannet...', aReportCopied:'aruanne kopeeritud',
+    aStatusUpdated:'✅ staatus uuendatud', aFillAll:'täitke kõik väljad',
+    aPriceMax:'max +20% =', aCantLower:'hinda ei saa alandada',
+    aPriceSent:'✅ hinna muutus saadetud ostjale',
+    aMsgSentBuyer:'✅ sõnum saadetud ostjale', aMsgErrSend:'saatmise viga',
+    aNoRecipient:'saajat pole', aCatAdded:'lisatud', aDeleteDbOnly:'⚠ kustutamine ainult andmebaasi kaudu',
+    aDoubleConfirm:'puudutage uuesti kinnitamiseks', aBroadcastSent:'ringhääling',
+    aPersons:'in.', aErrors:'viga', aNotFound:'ei leitud',
+    aCurrSet:'valuuta:', aSettingsSaved:'✓ seaded salvestatud', aNoAdminId:'pole Railway-s seatud',
+    aInNavOrders:'tellimused', aInNavSummary:'Ülevaade', aInNavProducts:'Tooted', aInNavMore:'Veel', aInNavExit:'Välju',
+    aReviewsSection:'arvustused', aSupportSection:'tugi', aBroadcastSection:'ringhääling',
+    aUsersSection:'kasutajad', aSettingsSection:'seaded', aDevSection:'arendaja',
+    aHubUsers:'nimekiri ja statistika', aHubSettings:'pood ja parameetrid', aHubDev:'silumine ja diagnostika',
+    aHubReviews:'ostjate hinnangud', aHubSupport:'sissetulevad sõnumid', aHubBroadcast:'saada kõigile kasutajatele',
+    aDoubleDelete:'puudutage uuesti kustutamiseks',
+    aSummaryTitle:'ülevaade', aOrdersTitle:'kõik tellimused', aProductsTitle:'tooted',
+    aNewOrders:'uued tellimused', aActiveOrders:'aktiivsed', aRevenue:'tulu',
+    aUsersCount:'kasutajat', aTotalOrders:'tellimusi kokku', aAvgRating:'kesk. hinnang', aReviewsCount:'arvustust',
+    aTopProducts:'top tooted', aSoldCount:'tk müüdud',
+    aAllFilter:'Kõik', aSearchingFilter:'Otsimisel', aOrderedFilter:'Tellitud',
+    aInTransitFilter:'Teel', aArrivedFilter:'Saabunud', aDeliveredFilter:'Kätte saadud', aCancelledFilter:'Tühistatud',
+    aInStock:'saadaval', aOutOfStock:'otsas',
+    aCancelOrder:'tühista tellimus', aAdjPrice:'muuda hinda', aWriteBuyer:'kirjuta',
+    aDevOpened:'▶ arendaja avatud', aNotAuth:'NULL - pole autoriseeritud',
+    aLangKey:'keel', aTgVersion:'TG versioon', aPlatform:'platvorm', aScreen:'ekraan',
+    aCart:'ostukorv', aPos:'pos.', aProducts2:'toodet', aCategories:'kategooriat', aMemory:'mälu',
+    aDiagLoaded:'✓ diagnostika laaditud', aCartClearedAll:'ostukorv tühjendatud', aTestNotif:'† testi teavitust †',
+    aDataReset:'andmed lähtestatud', aAccessDenied:'Juurdepääs keelatud', aAdminOnly:'ainult administraatoritele',
+    aCatDeleteDouble:'puudutage uuesti kustutamiseks', aCatDeleted:'✅ kategooria kustutatud',
+    aErrorApi:'viga — lisa /api/admin/categories lõpp-punkt api.py-sse',
+    aCurrentPrice:'praegune:', aMaxPrice:'max +20%:',
+    aEmptyOrders:'tellimusi pole veel', aEmptyOrdersDesc:'uued ostjate tellimused ilmuvad siia',
+    aRefresh:'puudutage värskendamiseks', aRefreshBtn:'värskenda',
+    aEmptyArchive:'arhiiv tühi', aEmptyArchiveDesc:'lisage esimene toode ülaloleva vormi abil', aScrollUp:'kerige üles',
+    aPhotoUpdated:'✅ foto uuendatud', aPhotoUrlPrompt:'Foto URL tootele #',
+    aProductAdded:'✅ toode lisatud #', aProductDeleted:'✅ toode kustutatud',
   }
 };
 
@@ -1656,7 +2188,7 @@ function emptyState(art, title, desc, ctaText, ctaAction, quote) {
 }
 
 // ═══ STATE ═══
-let userId = null, userName = 'Гость', userProfile = null;
+let userId = null, userName = null, userProfile = null;
 let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
 let allProducts = [], wishIds = new Set(), activeCat = 'all';
 let activePanel = null, reviewOrderId = null, reviewStars = 0;
@@ -1678,7 +2210,7 @@ function init() {
   function tryGetUser() {
     if (tg && tg.initDataUnsafe?.user?.id) {
       userId = tg.initDataUnsafe.user.id;
-      userName = tg.initDataUnsafe.user.first_name || 'Гость';
+      userName = tg.initDataUnsafe.user.first_name || t('guest');
       loadWishIds();
     } else if (attempts < 10) {
       attempts++;
@@ -1706,7 +2238,11 @@ function setUserAccent(hex, swatchEl, fromPicker) {
   const root = document.documentElement;
   root.style.setProperty('--red', hex);
   root.style.setProperty('--accent', hex);
+  root.style.setProperty('--red-rgb', rgb);
   root.style.setProperty('--accent2', `rgba(${rgb},0.10)`);
+  // Update all opacity variants
+  const accentOps = {'000':'0','002':'0.02','004':'0.04','005':'0.05','006':'0.06','007':'0.07','008':'0.08','010':'0.1','012':'0.12','015':'0.15','018':'0.18','020':'0.2','022':'0.22','025':'0.25','030':'0.3','035':'0.35','040':'0.4','050':'0.5','060':'0.6','070':'0.7'};
+  Object.entries(accentOps).forEach(([k,v]) => root.style.setProperty(`--ra-\${k}`, `rgba(\${rgb},\${v})`));
   localStorage.setItem('accent_3x', hex);
   // Update swatches
   document.querySelectorAll('#userAccentPalette .accent-swatch').forEach(s => {
@@ -1758,7 +2294,7 @@ function updateCartNum() {
 function addToCart(p) {
   if (cart[p.id]) cart[p.id].qty++;
   else cart[p.id] = { ...p, qty: 1 };
-  saveCart(); updateCartNum(); toast('добавлено в корзину');
+  saveCart(); updateCartNum(); toast(t('addedToCart'));
 }
 
 // ═══ PAGE NAVIGATION ═══
@@ -1810,10 +2346,10 @@ function renderCartPage() {
           <button class="qty-btn" onclick="chQty(${i.id},1)">+</button>
         </div>
       </div>
-      <button class="rm-btn" onclick="rmItem(${i.id})">убрать</button>
+      <button class="rm-btn" onclick="rmItem(${i.id})">' + t('removeItem') + '</button>
     </div>`).join('');
   foot.innerHTML = `
-    <div class="total-row"><span class="total-lbl">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
+    <div class="total-row"><span class="total-lbl">' + t('totalLabel') + '</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
     <button class="btn" onclick="openCheckout()">${t('checkout')}</button>
     <button class="btn-ghost" onclick="clearCartFn()">${t('clearCart')}</button>`;
 }
@@ -1825,7 +2361,7 @@ function chQty(id, d) {
   saveCart(); updateCartNum(); renderCartPage();
 }
 function rmItem(id) { delete cart[id]; saveCart(); updateCartNum(); renderCartPage(); }
-function clearCartFn() { cart = {}; saveCart(); updateCartNum(); renderCartPage(); toast('корзина очищена'); }
+function clearCartFn() { cart = {}; saveCart(); updateCartNum(); renderCartPage(); toast(t('cartCleared')); }
 
 // ═══ CHECKOUT ═══
 function openCheckout() {
@@ -1847,15 +2383,15 @@ function openCheckout() {
 }
 
 async function submitOrder() {
-  if (!userId) { toast('откройте через Telegram'); return; }
+  if (!userId) { toast(t('openViaTg')); return; }
   const name = document.getElementById('coName').value.trim();
   const username = document.getElementById('coUser').value.trim().replace('@', '');
   const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g, '').replace(/^\+?372/, '');
   const address = document.getElementById('coAddr').value.trim();
-  if (!name || name.split(' ').length < 2) { toast('введите имя и фамилию'); return; }
-  if (!username || username.length < 5) { toast('введите username (мин 5 символов)'); return; }
-  if (!/^[3-8]\d{7}$/.test(phone)) { toast('введите эстонский номер (8 цифр)'); return; }
-  if (!address) { toast('введите район'); return; }
+  if (!name || name.split(' ').length < 2) { toast(t('enterName')); return; }
+  if (!username || username.length < 5) { toast(t('enterUsername')); return; }
+  if (!/^[3-8]\d{7}$/.test(phone)) { toast(t('enterPhone')); return; }
+  if (!address) { toast(t('enterDistrict')); return; }
   const items = Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name }));
   try {
     const r = await fetch(`${API}/api/checkout`, {
@@ -1865,14 +2401,14 @@ async function submitOrder() {
     const d = await r.json();
     if (d.ok) {
       cart = {}; saveCart(); updateCartNum(); switchView('catalog');
-      toast(`✅ заказ #${d.order_id} оформлен!`, 4000);
+      toast(`✅ ${t('orderLabel')} #${d.order_id} ${t('orderPlaced')}`, 4000);
       fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
-    } else toast('ошибка оформления');
-  } catch { toast('ошибка соединения'); }
+    } else toast(t('orderError'));
+  } catch { toast(t('connError')); }
 }
 
 // ═══ PRODUCTS ═══
-let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' }; // base fallback
 function getCatLabel(id) {
   const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories') };
   return map[id] || catLabel[id] || id;
@@ -1930,7 +2466,7 @@ function cardHtml(p) {
   const heart = wishIds.has(p.id) ? '❤️' : '🤍';
   return '<div class="card' + (!p.is_available ? ' void' : '') + '">'
     + '<div class="card-img" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + ph
-    + (!p.is_available ? '<div class="card-void">архив</div>' : '')
+    + (!p.is_available ? '<div class="card-void">' + t('archive') + '</div>' : '')
     + '</div>'
     + '<div class="card-body">'
     + '<div class="card-cat">' + getCatLabel(p.category) + '</div>'
@@ -2002,8 +2538,8 @@ function openDetail(pid) {
     + (p.description ? '<div class="detail-desc">' + p.description + '</div>' : '')
     + '<div class="detail-actions">'
     + (p.is_available
-        ? '<button class="btn" style="flex:1" onclick="doCart(' + p.id + ');goBack()">в корзину</button>'
-        : '<button class="btn" style="flex:1" disabled>нет в наличии</button>')
+        ? '<button class="btn" style="flex:1" onclick="doCart(' + p.id + ');goBack())">' + t('addCart') + '</button>'
+        : '<button class="btn" style="flex:1" disabled>' + t('noStock') + '</button>')
     + '<button onclick="doWish(' + p.id + ')" id="dwb' + p.id + '" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">' + (wishIds.has(p.id) ? '❤️' : '🤍') + '</button>'
     + '</div></div>';
   openPage('detail');
@@ -2021,17 +2557,17 @@ async function loadWishIds() {
 }
 
 async function toggleWish(pid) {
-  if (!userId) { toast('откройте через Telegram'); return; }
+  if (!userId) { toast(t('openViaTg')); return; }
   try {
     const r = await fetch(`${API}/api/wishlist/toggle`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ telegram_id: userId, product_id: pid })
     });
     const d = await r.json();
-    if (d.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
-    else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
+    if (d.added) { wishIds.add(pid); toast('❤️ ' + t('addedWish')); }
+    else { wishIds.delete(pid); toast('🤍 ' + t('removedWish')); }
     ['wb' + pid, 'dwb' + pid].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d.added ? '❤️' : '🤍'; });
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 async function loadWishlist() {
@@ -2059,11 +2595,11 @@ async function loadWishlist() {
         + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
         + '</div></div>';
     }).join('');
-  } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 // ═══ ORDERS ═══
-const STATUS = { searching: 'в поиске', ordered: 'заказано', in_transit: 'в пути', arrived: 'прибыл', delivered: 'получен', cancelled: 'отменён' };
+const STATUS = { searching: t('statusSearching'), ordered: t('statusOrdered'), in_transit: t('statusInTransit'), arrived: t('statusArrived'), delivered: t('statusDelivered'), cancelled: t('statusCancelled') };
 const STATUS_PCT = { searching: 10, ordered: 30, in_transit: 60, arrived: 85, delivered: 100, cancelled: 0 };
 const STATUS_ACTIVE = ['searching', 'ordered', 'in_transit', 'arrived'];
 
@@ -2086,8 +2622,8 @@ async function loadOrders() {
         <div class="price-adj-val">${(+o.adjusted_price).toFixed(2)} €</div>
         <div class="price-adj-reason">${o.adjustment_reason || ''}</div>
         <div class="btn-row">
-          <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
-          <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить</button>
+          <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">' + t('acceptPrice') + '</button>
+          <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">' + t('rejectPrice') + '</button>
         </div>
       </div>` : '';
       const pct = STATUS_PCT[o.status] || 0;
@@ -2096,7 +2632,7 @@ async function loadOrders() {
         <div class="order-card-head">
           <div class="order-card-left">
             <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
-            <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0, 10) || ''}</div>
+            <div class="order-meta">${t('orderLabel')} #${o.id} · ${o.created_at?.slice(0, 10) || ''}</div>
           </div>
           <div class="order-badge">${STATUS[o.status] || o.status}</div>
         </div>
@@ -2110,7 +2646,7 @@ async function loadOrders() {
         </div>
       </div>`;
     }).join('');
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 async function priceDecision(orderId, action) {
@@ -2120,9 +2656,9 @@ async function priceDecision(orderId, action) {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ telegram_id: userId, action })
     });
-    toast(action === 'accept' ? '✅ цена принята' : '❌ заказ отменён', 3000);
+    toast(action === 'accept' ? '✅ ' + t('priceAccepted') : '❌ ' + t('orderCancelled'), 3000);
     loadOrders();
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ REVIEW ═══
@@ -2139,14 +2675,14 @@ function openReview(orderId) {
 function setStar(n) { reviewStars = n; document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('on', i < n)); }
 async function submitReview() {
   if (!userId || !reviewOrderId) return;
-  if (!reviewStars) { toast('выберите оценку'); return; }
+  if (!reviewStars) { toast(t('pickRating')); return; }
   try {
     await fetch(`${API}/api/reviews`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ telegram_id: userId, order_id: reviewOrderId, rating: reviewStars, comment: document.getElementById('revText')?.value || '' })
     });
-    closePanel(); toast('✅ отзыв сохранён', 3000);
-  } catch { toast('ошибка'); }
+    closePanel(); toast('✅ ' + t('reviewSaved'), 3000);
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ PROFILE ═══
@@ -2155,11 +2691,11 @@ async function loadProfile() {
   // Always try to refresh userId from Telegram
   if (tg?.initDataUnsafe?.user?.id) {
     userId = tg.initDataUnsafe.user.id;
-    userName = tg.initDataUnsafe.user.first_name || 'Гость';
+    userName = tg.initDataUnsafe.user.first_name || t('guest');
   }
   if (!userId) {
     // Retry once after short delay
-    setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; userName = tg.initDataUnsafe.user.first_name || 'Гость'; loadProfile(); } }, 500);
+    setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; userName = tg.initDataUnsafe.user.first_name || t('guest'); loadProfile(); } }, 500);
     el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">' + t('loading') + '</div></div>'; return;
   }
   let db = null;
@@ -2190,10 +2726,10 @@ async function loadProfile() {
   const nextTier  = db?.next_tier;
 
   // Tier name
-  const tierName = discount >= 15 ? '✦ архивариус' :
-                   discount >= 10 ? '† постоянный гость' :
-                   discount >= 5  ? '◆ ценитель' :
-                   discount >= 3  ? '⋆ знакомый' : '· новый гость';
+  const tierName = discount >= 15 ? t('tierArchive') :
+                   discount >= 10 ? t('tierRegular') :
+                   discount >= 5  ? t('tierConnoisseur') :
+                   discount >= 3  ? t('tierAcquaintance') : t('tierNewGuest');
 
   // Tier progress for next discount
   let tierPct = 0, tierNext = '';
@@ -2202,10 +2738,10 @@ async function loadProfile() {
     const prev = tiers.filter(([n])=> n <= referrals).pop();
     const prevN = prev ? prev[0] : 0;
     tierPct = Math.min(100, Math.round((referrals - prevN) / (nextTier.need + referrals - prevN) * 100));
-    tierNext = 'ещё ' + nextTier.need + ' → ' + nextTier.pct + '%';
+    tierNext = t('tierMore') + ' ' + nextTier.need + ' → ' + nextTier.pct + '%';
   } else {
     tierPct = 100;
-    tierNext = 'максимальная скидка';
+    tierNext = t('tierMax');
   }
 
   el.innerHTML = adminHtml + `
@@ -2249,25 +2785,25 @@ async function loadProfile() {
       <div class="pcard">
         <div class="pcard-glyph">€</div>
         <div class="pcard-body">
-          <div class="pcard-lbl">потрачено всего</div>
+          <div class="pcard-lbl">' + t('spentTotal') + '</div>
           <div class="pcard-val">${spent} €</div>
-          <div class="pcard-sub">${completed} завершённых заказов</div>
+          <div class="pcard-sub">${completed} ' + t('completedOrders') + '</div>
         </div>
       </div>
       <div class="pcard">
         <div class="pcard-glyph">†</div>
         <div class="pcard-body">
-          <div class="pcard-lbl">любимая категория</div>
+          <div class="pcard-lbl">' + t('favCategory') + '</div>
           <div class="pcard-val">${favCat}</div>
-          <div class="pcard-sub">последний заказ: ${lastOrder}</div>
+          <div class="pcard-sub">' + t('lastOrder') + ': ${lastOrder}</div>
         </div>
       </div>
       <div class="pcard" onclick="navigator.clipboard?.writeText(db?.ref_link||'').then(()=>toast(t('linkCopied')))" style="cursor:pointer">
         <div class="pcard-glyph">∞</div>
         <div class="pcard-body">
-          <div class="pcard-lbl">реферальная ссылка</div>
+          <div class="pcard-lbl">' + t('refLinkLabel') + '</div>
           <div class="pcard-val" style="font-size:12px;color:var(--text3)">${db?.ref_link || '—'}</div>
-          <div class="pcard-sub">нажмите чтобы скопировать</div>
+          <div class="pcard-sub">' + t('tapToCopy') + '</div>
         </div>
       </div>
     </div>
@@ -2283,57 +2819,57 @@ function showSub(id) {
 async function calcSize() {
   const h = parseFloat(document.getElementById('sH').value);
   const w = parseFloat(document.getElementById('sW').value);
-  if (!h || !w) { toast('введите рост и вес'); return; }
+  if (!h || !w) { toast(t('enterHeightWeight')); return; }
   try {
     const r = await fetch(`${API}/api/size?height=${h}&weight=${w}`);
     const d = await r.json();
     document.getElementById('sizeRes').innerHTML = `
       <div class="size-result">
         <div class="size-num">${d.size}</div>
-        <div class="size-lbl">рекомендуемый размер</div>
-        <div class="size-range">рост ${d.height_range} · вес ${d.weight_range}</div>
+        <div class="size-lbl">' + t('recSize') + '</div>
+        <div class="size-range">' + t('sizeRangeLabel').replace('{h}',d.height_range).replace('{w}',d.weight_range) + '</div>
       </div>`;
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ REFERRAL ═══
 async function loadRef() {
   const el = document.getElementById('refContent');
-  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
+  if (!userId) { el.innerHTML = '<div class="empty-txt">' + t('openTg') + '</div>'; return; }
   try {
     const r = await fetch(`${API}/api/user/${userId}`);
     const d = await r.json();
     const tiers = [{ n: 1, pct: 3 }, { n: 2, pct: 5 }, { n: 5, pct: 10 }, { n: 10, pct: 15 }];
     el.innerHTML = `
       <div class="ref-stats">
-        <div class="ref-stat"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">приглашено</div></div>
-        <div class="ref-stat"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">скидка</div></div>
+        <div class="ref-stat"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">' + t('invitedLabel') + '</div></div>
+        <div class="ref-stat"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">' + t('discountLabel') + '</div></div>
       </div>
-      ${tiers.map(t => `<div class="tier ${d.referrals >= t.n ? 'done' : ''}"><span class="tier-check">${d.referrals >= t.n ? '✅' : '⬜'}</span><span class="tier-lbl">${t.n} ${t.n === 1 ? 'друг' : 'друзей'}</span><span class="tier-pct">${t.pct}%</span></div>`).join('')}
-      ${d.next_tier ? `<div style="font-size:11px;font-weight:200;color:var(--text2);margin:12px 0">ещё ${d.next_tier.need} чел. → ${d.next_tier.pct}%</div>` : ''}
-      <div class="ref-link-box" onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast('ссылка скопирована'))">
-        <div class="ref-link-lbl">реферальная ссылка — нажмите чтобы скопировать</div>
+      ${tiers.map(t => `<div class="tier ${d.referrals >= t.n ? 'done' : ''}"><span class="tier-check">${d.referrals >= t.n ? '✅' : '⬜'}</span><span class="tier-lbl">${t.n} ${t.n === 1 ? t('friendOne') : t('friendMany')}</span><span class="tier-pct">${t.pct}%</span></div>`).join('')}
+      ${d.next_tier ? `<div style="font-size:11px;font-weight:200;color:var(--text2);margin:12px 0">${t("tierMore")} ${d.next_tier.need} ${t("personsShort")} → ${d.next_tier.pct}%</div>` : ''}
+      <div class="ref-link-box" onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast(t('linkCopied')))">
+        <div class="ref-link-lbl">' + t('refLinkCopy') + '</div>
         <div class="ref-link-val">${d.ref_link}</div>
       </div>`;
-  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
+  } catch { el.innerHTML = '<div class="empty-txt">' + t('loadError') + '</div>'; }
 }
 
 // ═══ NOTIFICATIONS ═══
 async function loadNotif() {
   const el = document.getElementById('notifContent');
-  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
+  if (!userId) { el.innerHTML = '<div class="empty-txt">' + t('openTg') + '</div>'; return; }
   try {
     const r = await fetch(`${API}/api/notifications/${userId}`);
     const d = await r.json();
     const subs = new Set(d.subscribed);
-    const cats = [{ id: 'clothes', name: 'Одежда', icon: '👕' }, { id: 'shoes', name: 'Обувь', icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
+    const cats = [{ id: 'clothes', name: t('catClothes'), icon: '👕' }, { id: 'shoes', name: t('catShoes'), icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
     el.innerHTML = cats.map(c => `
       <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
         <div class="notif-icon">${c.icon}</div>
-        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns${c.id}">${subs.has(c.id) ? 'подписаны' : 'не подписаны'}</div></div>
+        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns${c.id}">${subs.has(c.id) ? t('subscribed') : t('notSubscribed')}</div></div>
         <div class="toggle ${subs.has(c.id) ? 'on' : ''}" id="nt${c.id}"></div>
       </div>`).join('');
-  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
+  } catch { el.innerHTML = '<div class="empty-txt">' + t('loadError') + '</div>'; }
 }
 
 async function toggleNotif(cat) {
@@ -2345,40 +2881,40 @@ async function toggleNotif(cat) {
     });
     const d = await r.json();
     document.getElementById('nt' + cat).classList.toggle('on', d.subscribed);
-    document.getElementById('ns' + cat).textContent = d.subscribed ? 'подписаны' : 'не подписаны';
-    toast(d.subscribed ? '✅ подписаны' : '🔕 отписались');
-  } catch { toast('ошибка'); }
+    document.getElementById('ns' + cat).textContent = d.subscribed ? t('subscribed') : t('notSubscribed');
+    toast(d.subscribed ? t('subSuccess') : t('unsubSuccess'));
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ SUPPORT ═══
 async function sendSupport() {
-  if (!userId) { toast('откройте через Telegram'); return; }
+  if (!userId) { toast(t('openViaTg')); return; }
   const text = document.getElementById('chatText').value.trim();
-  if (!text) { toast('введите сообщение'); return; }
+  if (!text) { toast(t('enterMsg')); return; }
   try {
     await fetch(`${API}/api/support`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ telegram_id: userId, name: userName, text })
     });
     document.getElementById('chatText').value = '';
-    toast('✅ сообщение отправлено', 3000);
-  } catch { toast('ошибка'); }
+    toast(t('msgSentOk'), 3000);
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ DELIVERY ═══
 function loadDelivery() {
   const zones = [
-    { name: '🏙 Таллин — Центр', area: 'Kesklinn, Põhja-Tallinn, Kalamaja', cost: '0 €', time: 'В день заказа' },
-    { name: '🏘 Таллин — Периферия', area: 'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', cost: '0 €', time: 'В день заказа' },
-    { name: '🚌 Харьюмаа', area: 'Маарду, Саку, Кейла, Виймси', cost: '2 €', time: '1–2 дня' },
-    { name: '🚗 Другие регионы', area: 'Тарту, Пярну, Нарва и другие', cost: '5 €', time: '2–3 дня' },
+    { name: t('dz1name'), area: t('dz1area'), cost: '0 €', time: t('dz1time') },
+    { name: t('dz2name'), area: t('dz2area'), cost: '0 €', time: t('dz2time') },
+    { name: t('dz3name'), area: t('dz3area'), cost: '2 €', time: t('dz3time') },
+    { name: t('dz4name'), area: t('dz4area'), cost: '5 €', time: t('dz4time') },
   ];
   document.getElementById('deliveryContent').innerHTML = zones.map(z => `
     <div class="zone-card">
       <div class="zone-name">${z.name}</div>
       <div class="zone-area">${z.area}</div>
       <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
-    </div>`).join('') + '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">Оплата наличными при встрече с продавцом</p>';
+    </div>`).join('') + '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">${t("deliveryPayment")}</p>';
 }
 
 // ═══ NAVIGATION ═══
@@ -2487,9 +3023,9 @@ function exitAdmin() {
 
 let _badgeTimer = null;
 function openAdmin() {
-  const entered = prompt('пароль администратора');
+  const entered = prompt(t('adminPassword'));
   if (entered !== '3xclusivv33') {
-    if (entered !== null) toast('неверный пароль');
+    if (entered !== null) toast(t('wrongPassword'));
     return;
   }
   ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
@@ -2534,55 +3070,55 @@ async function loadDashboard() {
       <div class="stats-grid" style="margin-bottom:10px">
         <div class="stat-card danger">
           <div class="stat-val">${d.new_orders}</div>
-          <div class="stat-key">новых заказов</div>
+          <div class="stat-key" data-i18n="aNewOrders">новых заказов</div>
         </div>
         <div class="stat-card accent">
           <div class="stat-val">${d.active_orders}</div>
-          <div class="stat-key">активных</div>
+          <div class="stat-key" data-i18n="aActiveOrders">активных</div>
         </div>
       </div>
       <div class="stats-grid three" style="margin-bottom:10px">
         <div class="stat-card success">
           <div class="stat-val">${d.revenue.toFixed(0)}<span style="font-size:16px">€</span></div>
-          <div class="stat-key">выручка</div>
+          <div class="stat-key" data-i18n="aRevenue">выручка</div>
         </div>
         <div class="stat-card">
           <div class="stat-val">${d.users}</div>
-          <div class="stat-key">пользователей</div>
+          <div class="stat-key" data-i18n="aUsersCount">пользователей</div>
         </div>
         <div class="stat-card">
           <div class="stat-val">${d.total_orders}</div>
-          <div class="stat-key">заказов всего</div>
+          <div class="stat-key" data-i18n="aTotalOrders">заказов всего</div>
         </div>
       </div>
       <div class="stats-grid" style="margin-bottom:16px">
         <div class="stat-card">
           <div class="stat-val">${d.avg_rating.toFixed(1)}</div>
-          <div class="stat-key">средний рейтинг</div>
+          <div class="stat-key" data-i18n="aAvgRating">средний рейтинг</div>
         </div>
         <div class="stat-card">
           <div class="stat-val">${d.reviews_count}</div>
-          <div class="stat-key">отзывов</div>
+          <div class="stat-key" data-i18n="aReviewsCount">отзывов</div>
         </div>
       </div>
       ${d.top_products?.length ? `
-        <div style="padding:0 0 12px"><div style="font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);">топ товары</div></div>
+        <div style="padding:0 0 12px"><div style="font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);">' + t('aTopProducts') + '</div></div>
         <div class="top-wrap" style="padding:0">
           ${d.top_products.map((p,i) => `
             <div class="top-item">
               <div class="top-rank">${['I','II','III','IV','V'][i] || i+1}</div>
               <div class="top-info">
                 <div class="top-name">${ADMIN_CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
-                <div class="top-sub">${p.sold} шт. продано</div>
+                <div class="top-sub">${p.sold} ' + t('aSoldCount') + '</div>
               </div>
               <div class="top-rev">${(+p.revenue).toFixed(2)} €</div>
             </div>`).join('')}
         </div>` : ''}`;
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 // ═══ ORDERS ═══
-const ADMIN_STATUS = { searching:'в поиске', ordered:'заказано', in_transit:'в пути', arrived:'прибыл', delivered:'получен', cancelled:'отменён' };
+const ADMIN_STATUS = { searching:t('statusSearching'), ordered:t('statusOrdered'), in_transit:t('statusInTransit'), arrived:t('statusArrived'), delivered:t('statusDelivered'), cancelled:t('statusCancelled') };
 const ADMIN_STATUS_PCT = { searching:10, ordered:30, in_transit:60, arrived:85, delivered:100, cancelled:0 };
 const ADMIN_STATUS_ACTIVE = ['searching','ordered','in_transit','arrived'];
 
@@ -2597,7 +3133,7 @@ async function loadAdminOrders() {
     const badge = document.getElementById('aOrdersBadge');
     if (newCount > 0) { badge.textContent = newCount; badge.style.display = 'flex'; }
     else badge.style.display = 'none';
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 // Filter buttons
@@ -2620,7 +3156,7 @@ function renderAdminOrders() {
   const el = document.getElementById('aOrdersContent');
   let orders = allOrders;
   if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
-  if (!orders.length) { el.innerHTML = emptyState('◇','заказов пока нет','новые заказы покупателей появятся здесь · нажмите обновить','обновить','loadAdminOrders()', 'tempus fugit'); return; }
+  if (!orders.length) { el.innerHTML = emptyState('◇',t('aEmptyOrders'),t('aEmptyOrdersDesc') + ' · нажмите обновить',t('aRefreshBtn'),'loadAdminOrders()', 'tempus fugit'); return; }
   el.innerHTML = orders.map(o => {
     const isActive = ADMIN_STATUS_ACTIVE.includes(o.status);
     const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -2629,7 +3165,7 @@ function renderAdminOrders() {
       <div class="order-card-head">
         <div>
           <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
-          <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
+          <div class="order-meta">${t('orderLabel')} #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
         </div>
         <div class="order-badge">${ADMIN_STATUS[o.status]||o.status}</div>
       </div>
@@ -2647,10 +3183,10 @@ function renderAdminOrders() {
           ).join('')}
         </select>
         <div class="btn-row2">
-          <button class="btn-ghost2" onclick="openAdjust(${o.id})">изм. цену</button>
-          <button class="btn-ghost2" onclick="openWrite(${o.id},${o.telegram_id})">написать</button>
+          <button class="btn-ghost2" onclick="openAdjust(${o.id})">' + t('aAdjPrice') + '</button>
+          <button class="btn-ghost2" onclick="openWrite(${o.id},${o.telegram_id})">' + t('aWriteBuyer') + '</button>
         </div>
-        <button class="btn-danger" onclick="adminCancelOrder(${o.id})">отменить заказ</button>
+        <button class="btn-danger" onclick="adminCancelOrder(${o.id})">' + t('aCancelOrder') + '</button>
       </div>
     </div>`;
   }).join('');
@@ -2662,12 +3198,12 @@ async function adminUpdateStatus(orderId, status) {
       method:'PATCH', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ status, admin_id: userId })
     });
-    toast('✅ статус обновлён');
+    toast(t('aStatusUpdated'));
     // update local
     const o = allOrders.find(x => x.id === orderId);
     if (o) o.status = status;
     renderAdminOrders();
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 async function adminCancelOrder(orderId) {
@@ -2683,7 +3219,7 @@ function openAdjust(orderId) {
   document.getElementById('aAdjReason').value = '';
   // Show hints
   const hint = document.getElementById('aAdjHint');
-  if (hint && order) hint.textContent = 'текущая: ' + orig.toFixed(2) + ' € · максимум +20%: ' + max.toFixed(2) + ' €';
+  if (hint && order) hint.textContent = t('aCurrentPrice') + ' ' + orig.toFixed(2) + ' € · ' + t('aMaxPrice') + ' ' + max.toFixed(2) + ' €';
   const inp = document.getElementById('aAdjPrice');
   if (inp) { inp.min = orig; inp.max = max; inp.placeholder = orig.toFixed(2); }
   openAdminPage('adjust');
@@ -2691,14 +3227,14 @@ function openAdjust(orderId) {
 async function submitAdjust() {
   const price = parseFloat(document.getElementById('aAdjPrice').value);
   const reason = document.getElementById('aAdjReason').value.trim();
-  if (!price || !reason) { toast('заполните все поля'); return; }
+  if (!price || !reason) { toast(t('aFillAll')); return; }
   // Show max allowed
   const order = allOrders.find(o => o.id === adjOrderId);
   if (order) {
     const orig = parseFloat(order.total_price);
     const max = Math.round(orig * 1.20 * 100) / 100;
-    if (price > max) { toast('максимум +20% = ' + max.toFixed(2) + ' €', 3000); return; }
-    if (price < orig) { toast('нельзя снизить цену', 2500); return; }
+    if (price > max) { toast(t('aPriceMax') + ' ' + max.toFixed(2) + ' €', 3000); return; }
+    if (price < orig) { toast(t('aCantLower'), 2500); return; }
   }
   try {
     const r = await fetch(`${API}/api/admin/orders/${adjOrderId}/adjust_price`, {
@@ -2707,9 +3243,9 @@ async function submitAdjust() {
     });
     const d = await r.json();
     if (!r.ok) { toast('✗ ' + (d.detail || 'ошибка'), 3000); return; }
-    adminGoBack(); toast('✅ изменение цены отправлено покупателю');
+    adminGoBack(); toast(t('aPriceSent'));
     loadAdminOrders();
-  } catch { toast('ошибка соединения'); }
+  } catch { toast(t('connError')); }
 }
 
 function openWrite(orderId, buyerTgId) {
@@ -2719,8 +3255,8 @@ function openWrite(orderId, buyerTgId) {
 }
 async function submitWrite() {
   const text = document.getElementById('aWriteText').value.trim();
-  if (!text) { toast('введите сообщение'); return; }
-  if (!writeUserId) { toast('нет получателя'); return; }
+  if (!text) { toast(t('enterMsg')); return; }
+  if (!writeUserId) { toast(t('aNoRecipient')); return; }
   try {
     const r = await fetch(`${API}/api/admin/message`, {
       method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -2728,9 +3264,9 @@ async function submitWrite() {
     });
     const d = await r.json();
     document.getElementById('aWriteText').value = '';
-    toast('✅ сообщение отправлено покупателю');
+    toast(t('aMsgSentBuyer'));
     adminGoBack();
-  } catch { toast('ошибка отправки'); }
+  } catch { toast(t('aMsgErrSend')); }
 }
 
 // ═══ PRODUCTS ═══
@@ -2743,7 +3279,7 @@ function selectCat(btn) {
 async function addCategory() {
   const label = document.getElementById('aNewCatLabel').value.trim();
   const glyph = document.getElementById('aNewCatGlyph').value.trim() || '✦';
-  if (!label) { toast('введите название категории'); return; }
+  if (!label) { toast(t('aFillAll')); return; }
   const id = label.toLowerCase().replace(/[^a-zа-яёa-z0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
   try {
     await fetch(`${API}/api/admin/categories`, {
@@ -2768,8 +3304,8 @@ async function addCategory() {
     document.getElementById('aNewCatLabel').value = '';
     document.getElementById('aNewCatGlyph').value = '';
     refreshCatList();
-    toast(`✅ категория «${label}» добавлена`);
-  } catch { toast('ошибка — добавьте эндпоинт /api/admin/categories в api.py'); }
+    toast('✅ ' + t('aCatAdded') + ': «' + label + '»');
+  } catch { toast(t('aErrorApi')); }
 }
 
 async function loadAdminProducts() {
@@ -2779,7 +3315,7 @@ async function loadAdminProducts() {
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
     const products = await r.json();
-    if (!products.length) { el.innerHTML = emptyState('†','архив пуст','добавьте первый товар через форму выше','прокрутить вверх','document.getElementById(\'vaProducts\').scrollTop=0', 'ars longa vita brevis'); return; }
+    if (!products.length) { el.innerHTML = emptyState('†',t('aEmptyArchive'),t('aEmptyArchiveDesc'),t('aScrollUp') вверх','document.getElementById(\'vaProducts\').scrollTop=0', 'ars longa vita brevis'); return; }
     el.innerHTML = products.map(p => `
       <div class="prod-card" id="apc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
@@ -2791,14 +3327,14 @@ async function loadAdminProducts() {
           <div class="prod-meta">${p.category} · #${p.id}</div>
           <div class="prod-price">${(+p.price).toFixed(2)} €</div>
           <div class="avail-toggle" onclick="toggleProduct(${p.id},${p.is_available})">
-            <div class="avail-pill ${p.is_available?'on':'off'}" id="ap${p.id}">${p.is_available?'в наличии':'нет в наличии'}</div>
+            <div class="avail-pill ${p.is_available?'on':'off'}" id="ap${p.id}">${p.is_available?t('aInStock'):t('aOutOfStock')}</div>
           </div>
         </div>
         <div class="prod-actions">
           <button class="icon-btn del" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">✕</button>
         </div>
       </div>`).join('');
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 async function toggleProduct(id, current) {
@@ -2811,25 +3347,25 @@ async function toggleProduct(id, current) {
     const pill = document.getElementById('ap'+id);
     if (pill) {
       pill.className = 'avail-pill ' + (d.is_available?'on':'off');
-      pill.textContent = d.is_available?'в наличии':'нет в наличии';
+      pill.textContent = d.is_available?t('aInStock'):t('aOutOfStock');
       pill.parentElement.onclick = () => toggleProduct(id, d.is_available);
     }
-    toast(d.is_available ? '✅ в наличии' : '🚫 нет в наличии');
-  } catch { toast('ошибка'); }
+    toast(d.is_available ? '✅ ' + t('aInStock') : '🚫 ' + t('aOutOfStock'));
+  } catch { toast(t('errDefault')); }
 }
 
 
 async function editProductPhoto(id) {
-  const url = window.prompt ? window.prompt('URL фото для товара #' + id + ':') : null;
+  const url = window.prompt ? window.prompt(t('aPhotoUrlPrompt') + id + ':') : null;
   if (url === null) return;
   try {
     await fetch(`${API}/api/admin/products/${id}/photo_url`, {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ admin_id: userId, photo_url: url || '' })
     });
-    toast('✅ фото обновлено');
+    toast(t('aPhotoUpdated'));
     loadAdminProducts();
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 async function addProduct() {
@@ -2837,7 +3373,7 @@ async function addProduct() {
   const price = parseFloat(document.getElementById('aPPrice').value);
   const desc = document.getElementById('aPDesc').value.trim();
   const photo = document.getElementById('aPPhoto')?.value.trim() || '';
-  if (!name || !price) { toast('введите название и цену'); return; }
+  if (!name || !price) { toast(t('aFillAll')); return; }
   try {
     const r = await fetch(`${API}/api/admin/products`, {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -2856,15 +3392,15 @@ async function addProduct() {
     document.getElementById('aPDesc').value = '';
     if (document.getElementById('aPPhoto')) document.getElementById('aPPhoto').value = '';
     if (document.getElementById('aPhotoPreview')) document.getElementById('aPhotoPreview').innerHTML = '✦';
-    toast('✅ товар добавлен #' + d.id);
+    toast(t('aProductAdded') + d.id);
     loadAdminProducts();
-  } catch { toast('ошибка'); }
+  } catch { toast(t('errDefault')); }
 }
 
 async function deleteProduct(id) {
   if (pendingDelete !== id) {
     pendingDelete = id;
-    toast('нажмите ещё раз для удаления', 3000);
+    toast(t('aDoubleDelete'), 3000);
     setTimeout(() => { if(pendingDelete===id) pendingDelete=null; }, 3200);
     return;
   }
@@ -2872,8 +3408,8 @@ async function deleteProduct(id) {
   try {
     await fetch(`${API}/api/admin/products/${id}?admin_id=${userId}`, { method:'DELETE' });
     document.getElementById('apc'+id)?.remove();
-    toast('✅ товар удалён');
-  } catch { toast('ошибка'); }
+    toast(t('aProductDeleted'));
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ REVIEWS ═══
@@ -2882,14 +3418,14 @@ async function loadReviews() {
   try {
     const r = await fetch(`${API}/api/admin/reviews?admin_id=${userId}`);
     const reviews = await r.json();
-    if (!reviews.length) { el.innerHTML = emptyState('⋆','отзывов пока нет','оценки появятся после первых выполненных заказов','','', 'vox populi vox dei'); return; }
+    if (!reviews.length) { el.innerHTML = emptyState('⋆',t('aReviewsEmpty'),t('aReviewsEmptyDesc')в','','', 'vox populi vox dei'); return; }
     el.innerHTML = reviews.map(rv => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</div>
-        <div class="review-user">👤 ${rv.user_name||'—'} · Заказ #${rv.order_id} · ${rv.created_at?.slice(0,10)||''}</div>
+        <div class="review-user">👤 ${rv.user_name||'—'} · ' + t('orderLabel') + ' #${rv.order_id} · ${rv.created_at?.slice(0,10)||''}</div>
         <div class="review-text">${rv.comment||'—'}</div>
       </div>`).join('');
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 // ═══ SUPPORT ═══
@@ -2904,17 +3440,17 @@ async function loadSupport() {
     const unread = msgs.filter(m => !m.is_read).length;
     const badge = document.getElementById('supportUnreadBadge');
     if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'inline' : 'none'; }
-    if (!msgs.length) { el.innerHTML = emptyState('✦','тишина','покупатели пишут через раздел Поддержка в приложении','','', 'silentium est aureum'); return; }
+    if (!msgs.length) { el.innerHTML = emptyState('✦',t('aSilence'),t('aSilenceDesc'),'','', 'silentium est aureum'); return; }
     el.innerHTML = msgs.map(m => `
-      <div class="support-card" style="${!m.is_read ? 'border-color:rgba(204,34,34,0.25)' : ''}">
+      <div class="support-card" style="${!m.is_read ? 'border-color:var(--ra-025)' : ''}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
-          <div class="support-from">${m.name||'Аноним'} ${!m.is_read?'<span class="unread-dot"></span>':''}</div>
-          <button onclick="replyToUser(${m.telegram_id})" style="background:none;border:1px solid var(--border);color:var(--text3);font-size:8px;font-weight:200;letter-spacing:0.3em;padding:3px 8px;border-radius:8px;cursor:pointer;touch-action:manipulation;text-transform:uppercase">ответить</button>
+          <div class="support-from">${m.name||t('aAnon')} ${!m.is_read?'<span class="unread-dot"></span>':''}</div>
+          <button onclick="replyToUser(${m.telegram_id})" style="background:none;border:1px solid var(--border);color:var(--text3);font-size:8px;font-weight:200;letter-spacing:0.3em;padding:3px 8px;border-radius:8px;cursor:pointer;touch-action:manipulation;text-transform:uppercase">' + t('aReply') + '</button>
         </div>
         <div class="support-date">id${m.telegram_id} · ${m.created_at?.slice(0,16)||''}</div>
         <div class="support-text">${m.text||'—'}</div>
       </div>`).join('');
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
 }
 
 function replyToUser(telegramId) {
@@ -2927,10 +3463,10 @@ function replyToUser(telegramId) {
 // ═══ BROADCAST ═══
 async function sendBroadcast() {
   const text = document.getElementById('aBroadcastText').value.trim();
-  if (!text) { toast('введите сообщение'); return; }
+  if (!text) { toast(t('enterMsg')); return; }
   if (!pendingBroadcast) {
     pendingBroadcast = true;
-    toast('нажмите ещё раз для подтверждения', 3000);
+    toast(t('aDoubleConfirm'), 3000);
     setTimeout(() => { pendingBroadcast = false; }, 3200);
     return;
   }
@@ -2943,9 +3479,9 @@ async function sendBroadcast() {
     const d = await r.json();
     if (d.ok) {
       document.getElementById('aBroadcastText').value = '';
-      toast('✅ рассылка · ' + (d.sent || 0) + ' чел. · ' + (d.failed || 0) + ' ошибок', 5000);
+      toast('✅ ' + t('aBroadcastSent') + ' · ' + (d.sent || 0) + ' ' + t('aPersons') + ' · ' + (d.failed || 0) + ' ' + t('aErrors'), 5000);
     } else { toast('✗ ' + (d.detail || 'ошибка'), 3000); }
-  } catch { toast('ошибка соединения'); }
+  } catch { toast(t('connError')); }
 }
 
 
@@ -2964,7 +3500,7 @@ function filterUsers(query) {
   );
   const el = document.getElementById('aUsersContent');
   if (!el) return;
-  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('aNotFound') + '</div></div>'; return; }
   // Temporarily replace allUsers for rendering
   const orig = allUsers;
   // Render filtered subset
@@ -2983,7 +3519,7 @@ function filterUsers(query) {
     + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
     + '<div style="display:flex;gap:4px">'
     + [0,3,5,10,15,20].map(d =>
-        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'var(--ra-015)':'none')+';border:1px solid '+(d===(u.discount||0)?'var(--ra-004)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
       ).join('')
     + '</div></div></div>'
   ).join('');
@@ -2992,18 +3528,18 @@ function filterUsers(query) {
 async function loadAdminUsers() {
   const el = document.getElementById('aUsersContent');
   if (!el) return;
-  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>';
   try {
     const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
     if (r.status === 403) {
       el.innerHTML = '<div style="padding:20px;text-align:center">'
-        + '<div style="font-family:var(--font-serif);font-size:32px;color:rgba(204,34,34,0.4);margin-bottom:12px">†</div>'
+        + '<div style="font-family:var(--font-serif);font-size:32px;color:var(--ra-004);margin-bottom:12px">†</div>'
         + '<div style="font-family:var(--font-serif);font-size:18px;color:var(--text2);margin-bottom:8px">нет доступа</div>'
         + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);line-height:1.8">'
-        + 'добавь в Railway Variables:<br>'
+        + t('aAddRailway') + '<br>'
         + '<span style="font-family:monospace;color:var(--text2);background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:6px">ADMIN_IDS=' + userId + '</span>'
         + '</div>'
-        + '<button class="adm-btn-save" style="margin-top:16px;width:100%" onclick="loadAdminUsers()">↺ повторить</button>'
+        + '<button class="adm-btn-save" style="margin-top:16px;width:100%" onclick="loadAdminUsers()">↺ ' + t('aRetry') + '</button>'
         + '</div>';
       return;
     }
@@ -3014,7 +3550,7 @@ async function loadAdminUsers() {
     const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
     const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
     const _um = document.getElementById('hubUsersMeta');
-    if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
+    if(_um) _um.textContent = allUsers.length + ' ' + t('aRegistered') + ' · ' + allUsers.filter(u=>u.orders>0).length + ' ' + t('aWithOrders')и';
     renderUsers();
   } catch(e) {
     el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text3);font-size:10px">'
@@ -3026,14 +3562,14 @@ async function loadAdminUsers() {
 function renderUsers() {
   const el = document.getElementById('aUsersContent');
   if (!el || !allUsers.length) {
-    if(el) el.innerHTML = emptyState('◇','пользователей нет','когда первый покупатель откроет магазин — он появится здесь','','','nemo ante mortem beatus');
+    if(el) el.innerHTML = emptyState('◇',t('aUsersEmpty'),t('aUsersEmptyDesc'),'','','nemo ante mortem beatus');
     return;
   }
   el.innerHTML = allUsers.slice(0,50).map(u => {
     const disc = u.discount || 0;
     const initials = (u.first_name||'?')[0].toUpperCase();
     const ordBadge = u.orders > 0
-      ? '<span style="background:rgba(204,34,34,0.1);border:1px solid rgba(204,34,34,0.2);color:var(--accent);font-size:7px;font-weight:200;letter-spacing:0.3em;padding:2px 7px;border-radius:99px;text-transform:uppercase">' + u.orders + ' зак.</span>'
+      ? '<span style="background:var(--ra-010);border:1px solid var(--ra-002);color:var(--accent);font-size:7px;font-weight:200;letter-spacing:0.3em;padding:2px 7px;border-radius:99px;text-transform:uppercase">' + u.orders + ' ' + t('aOrders') + '</span>'
       : '';
     return '<div class="user-card">'
       + '<div class="user-card-head">'
@@ -3066,8 +3602,8 @@ async function setUserDiscount(telegramId, discount, btn) {
     // Update UI
     const u = allUsers.find(x => x.telegram_id === telegramId);
     if (u) { u.discount = discount; renderUsers(); }
-    toast('✓ скидка ' + discount + '% установлена');
-  } catch { toast('ошибка'); }
+    toast('✓ ' + t('aDiscount') + ' ' + discount + '% ' + t('aSettingsSaved').split(' ')[0]);
+  } catch { toast(t('errDefault')); }
 }
 
 // ═══ ADMIN SETTINGS ═══
@@ -3087,7 +3623,7 @@ async function loadSettings() {
     const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
     if (r.status === 403) {
       const res = document.getElementById('settingsResult');
-      if(res) res.textContent = '⚠ ADMIN_IDS=' + userId + ' не задан в Railway';
+      if(res) res.textContent = '⚠ ADMIN_IDS=' + userId + ' ' + t('aNoAdminId');
       return;
     }
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -3111,7 +3647,7 @@ function setCurr(btn, symbol) {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ admin_id: userId, currency: symbol })
   }).catch(() => {});
-  toast('валюта: ' + symbol);
+  toast(t('aCurrSet') + ' ' + symbol);
 }
 
 function saveSettings() {
@@ -3119,12 +3655,12 @@ function saveSettings() {
   const minOrder = document.getElementById('sMinOrder')?.value;
   if (name) localStorage.setItem('shop_name_3x', name);
   if (minOrder !== undefined) localStorage.setItem('min_order_3x', minOrder);
-  toast('✓ настройки сохранены');
+  toast(t('aSettingsSaved'));
 }
 
 async function exportData() {
-  if (!userId) { toast('нет доступа'); return; }
-  toast('формируем отчёт...', 2000);
+  if (!userId) { toast(t('aNoAccess')); return; }
+  toast(t('aReport'), 2000);
   try {
     const [orders, products, users] = await Promise.all([
       fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
@@ -3142,16 +3678,16 @@ async function exportData() {
       + ' products:' + products.length + '(' + active_prod + ' active)';
     if (navigator.clipboard) {
       await navigator.clipboard.writeText(report);
-      toast('отчёт скопирован: ' + orders.length + ' заказов, ' + revenue.toFixed(2) + ' €', 5000);
+      toast(t('aReportCopied') + ': ' + orders.length + ' ' + t('aOrders') + ', ' + revenue.toFixed(2) + ' €', 5000);
     } else {
-      toast('заказов:' + orders.length + ' выручка:' + revenue.toFixed(2) + '€', 5000);
+      toast(t('aOrders') + ':' + orders.length + ' ' + t('aRevenue') + ':' + revenue.toFixed(2) + '€', 5000);
     }
-  } catch(e) { toast('ошибка: ' + e.message); }
+  } catch(e) { toast(t('errDefault') + ': ' + e.message); }
 }
 
 
 async function wipeOldOrders() {
-  toast('⚠ удаление только через базу данных', 3000);
+  toast(t('aDeleteDbOnly'), 3000);
 }
 
 // ═══ LOGO — LONG PRESS 3s = ADMIN ═══
@@ -3200,20 +3736,20 @@ function loadDevInfo() {
   const tg = window.Telegram?.WebApp;
   const mem = performance?.memory;
   // Log immediately so user can see state
-  devLog('▶ открыт разработчик');
-  devLog('userId: ' + (userId || 'NULL - не авторизован'));
+  devLog(t('aDevOpened'));
+  devLog('userId: ' + (userId || t('aNotAuth')));
   const rows = [
     ['userId', userId || 'null'],
     ['userName', userName || '—'],
-    ['язык', currentLang],
+    [t('aLangKey'), currentLang],
     ['API', API.replace('https://','')],
-    ['TG версия', tg?.version || '—'],
-    ['платформа', tg?.platform || navigator.platform || '—'],
-    ['экран', window.innerWidth + '×' + window.innerHeight],
-    ['корзина', Object.keys(cart).length + ' поз.'],
-    ['товаров', allProducts.length],
-    ['категорий', allCategories.length],
-    ['память', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
+    [t('aTgVersion'), tg?.version || '—'],
+    [t('aPlatform'), tg?.platform || navigator.platform || '—'],
+    [t('aScreen'), window.innerWidth + '×' + window.innerHeight],
+    [t('aCart'), Object.keys(cart).length + ' ' + t('aPos')],
+    [t('aProducts2'), allProducts.length],
+    [t('aCategories'), allCategories.length],
+    [t('aMemory'), mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
   ];
   info.innerHTML = '<div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden">'
     + rows.map(([k,v],i) =>
@@ -3224,7 +3760,7 @@ function loadDevInfo() {
       + '</div>'
     ).join('')
     + '</div>';
-  devLog('✓ диагностика загружена');
+  devLog(t('aDiagLoaded'));
   const _dm = document.getElementById('hubDevMeta'); if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform||navigator.platform||'—');
 }
 
@@ -3244,7 +3780,7 @@ function devClearLog() {
 function devClearCart() {
   cart = {}; saveCart(); updateCartNum();
   devLog('✓ cart cleared');
-  toast('корзина очищена');
+  toast(t('cartCleared'));
 }
 
 function devReloadProducts() {
@@ -3274,7 +3810,7 @@ async function devCheckAPI() {
 }
 
 function devTestNotif() {
-  toast('† тестовое уведомление †', 3000);
+  toast(t('aTestNotif'), 3000);
   devLog('✓ toast shown');
 }
 
@@ -3282,7 +3818,7 @@ function devClearAll() {
   cart = {}; saveCart(); updateCartNum();
   localStorage.removeItem('lang_3x');
   devLog('✕ all local data cleared');
-  toast('данные сброшены');
+  toast(t('aDataReset'));
 }
 
 // ═══ START ═══
@@ -3296,16 +3832,16 @@ init();
 <div class="view" id="vaDenied">
   <div class="denied">
     <div class="denied-sym">☩</div>
-    <div class="denied-title">Доступ запрещён</div>
-    <div class="denied-sub">только для администраторов</div>
+    <div class="denied-title" data-i18n="aAccessDenied">Доступ запрещён</div>
+    <div class="denied-sub" data-i18n="aAdminOnly">только для администраторов</div>
   </div>
 </div>
 
 <!-- DASHBOARD -->
 <div class="view" id="vaDashboard">
-  <div class="sec-head"><div class="sec-num">I</div><div class="sec-title">сводка</div></div>
+  <div class="sec-head"><div class="sec-num">I</div><div class="sec-title" data-i18n="aSummaryTitle">сводка</div></div>
   <div class="stats-wrap" id="aStatsContent">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
   </div>
 </div>
 
@@ -3314,17 +3850,17 @@ init();
   <div class="sec-head"><div class="sec-num">II</div><div class="sec-title" data-i18n="allOrders">все заказы</div></div>
   <div style="padding:0 14px 4px;">
     <div class="filter" id="aOrderFilter">
-      <button class="fb on" data-status="all">Все</button>
-      <button class="fb" data-status="searching">В поиске</button>
-      <button class="fb" data-status="ordered">Заказано</button>
-      <button class="fb" data-status="in_transit">В пути</button>
-      <button class="fb" data-status="arrived">Прибыл</button>
-      <button class="fb" data-status="delivered">Получен</button>
-      <button class="fb" data-status="cancelled">Отменён</button>
+      <button class="fb on" data-status="all" data-i18n="aAllFilter">Все</button>
+      <button class="fb" data-status="searching" data-i18n="aSearchingFilter">В поиске</button>
+      <button class="fb" data-status="ordered" data-i18n="aOrderedFilter">Заказано</button>
+      <button class="fb" data-status="in_transit" data-i18n="aInTransitFilter">В пути</button>
+      <button class="fb" data-status="arrived" data-i18n="aArrivedFilter">Прибыл</button>
+      <button class="fb" data-status="delivered" data-i18n="aDeliveredFilter">Получен</button>
+      <button class="fb" data-status="cancelled" data-i18n="aCancelledFilter">Отменён</button>
     </div>
   </div>
   <div class="orders-wrap" id="aOrdersContent">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
   </div>
 </div>
 
@@ -3335,18 +3871,18 @@ init();
   <div class="add-form" id="aAddForm">
     <!-- Gothic add form header -->
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(204,34,34,0.5);font-style:italic;line-height:1">†</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ra-005);font-style:italic;line-height:1">†</div>
       <div>
-        <div style="font-size:10px;font-weight:200;letter-spacing:0.5em;text-transform:uppercase;color:var(--text3)">новый</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--text);line-height:1.1">артикул</div>
+        <div style="font-size:10px;font-weight:200;letter-spacing:0.5em;text-transform:uppercase;color:var(--text3)" data-i18n="aNewProdTitle"><span data-i18n="aNewProdTitle">новый</span></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--text);line-height:1.1" data-i18n="aArticle"><span data-i18n="aArticle">артикул</span></div>
       </div>
     </div>
 
     <!-- Name + Price side by side -->
     <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:12px">
       <div>
-        <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">название</div>
-        <input class="inp inp-sm" id="aPName" placeholder="Название товара" style="margin-bottom:0">
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px" data-i18n="aNameLbl">название</div>
+        <input class="inp inp-sm" id="aPName" data-i18n="aNameLbl" data-i18n-attr="placeholder" placeholder="Название товара" style="margin-bottom:0">
       </div>
       <div>
         <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">цена €</div>
@@ -3355,46 +3891,46 @@ init();
     </div>
 
     <!-- Photo -->
-    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">фото товара</div>
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px" data-i18n="aPhotoLbl">фото товара</div>
     <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px">
       <div id="aPhotoPreview" style="width:64px;height:64px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text3)">✦</div>
       <div style="flex:1;min-width:0">
-        <input class="inp inp-sm" id="aPPhoto" placeholder="URL фото (https://...)" style="margin-bottom:6px" oninput="previewPhoto(this.value)">
+        <input class="inp inp-sm" id="aPPhoto" data-i18n="aPhotoUrlPh" data-i18n-attr="placeholder" placeholder="URL фото (https://...)" style="margin-bottom:6px" oninput="previewPhoto(this.value)">
         <div style="font-size:8px;font-weight:200;color:var(--text3);letter-spacing:0.1em">или загрузите через Telegram бота командой /addphoto</div>
       </div>
     </div>
 
     <!-- Category selector - visual pills -->
-    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">категория</div>
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px" data-i18n="aCatLbl">категория</div>
     <div class="cat-grid" id="aCatGrid" style="margin-bottom:12px">
-      <button class="cat-btn on" data-cat="clothes" onclick="selectCat(this)">Одежда</button>
-      <button class="cat-btn" data-cat="shoes" onclick="selectCat(this)">Обувь</button>
-      <button class="cat-btn" data-cat="accessories" onclick="selectCat(this)">Аксессуары</button>
+      <button class="cat-btn on" data-cat="clothes" onclick="selectCat(this)" data-i18n="catClothes">Одежда</button>
+      <button class="cat-btn" data-cat="shoes" onclick="selectCat(this)" data-i18n="catShoes">Обувь</button>
+      <button class="cat-btn" data-cat="accessories" onclick="selectCat(this)" data-i18n="catAccessories">Аксессуары</button>
     </div>
 
     <!-- Description -->
-    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">описание</div>
-    <textarea class="inp inp-sm" id="aPDesc" placeholder="Описание товара..." style="min-height:60px;resize:none;margin-bottom:14px"></textarea>
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px" data-i18n="aDescLbl">описание</div>
+    <textarea class="inp inp-sm" id="aPDesc" data-i18n="aProdDescPh" data-i18n-attr="placeholder" placeholder="Описание товара..." style="min-height:60px;resize:none;margin-bottom:14px"></textarea>
 
     <!-- Add button - gothic style -->
-    <button onclick="addProduct()" style="width:100%;background:none;border:1px solid rgba(204,34,34,0.4);color:var(--text);font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;padding:14px;border-radius:14px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:rgba(204,34,34,0.7);font-style:italic">†</span>
-      добавить в архив
-      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:rgba(204,34,34,0.7);font-style:italic">†</span>
+    <button onclick="addProduct()" style="width:100%;background:none;border:1px solid var(--ra-004);color:var(--text);font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;padding:14px;border-radius:14px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ra-007);font-style:italic">†</span>
+      <span data-i18n="aAddProduct">добавить в архив</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ra-007);font-style:italic">†</span>
     </button>
 
     <!-- New category -->
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
-      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">новая категория</div>
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px" data-i18n="aNewCatTitle">новая категория</div>
       <div style="display:flex;gap:8px;align-items:center">
-        <input class="inp inp-sm" id="aNewCatLabel" placeholder="Название" style="margin-bottom:0;flex:1;min-width:0">
+        <input class="inp inp-sm" id="aNewCatLabel" data-i18n="aNewCatPh" data-i18n-attr="placeholder" placeholder="Название" style="margin-bottom:0;flex:1;min-width:0">
         <input class="inp inp-sm" id="aNewCatGlyph" placeholder="👗" style="margin-bottom:0;width:50px;text-align:center;font-size:18px">
         <button onclick="addCategory()" style="background:none;border:1px solid var(--border);color:var(--text2);width:44px;height:44px;border-radius:12px;font-size:20px;cursor:pointer;flex-shrink:0">+</button>
       </div>
       <div id="aCatList" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
     </div></div>
   <div class="products-wrap" id="aProductsContent">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
   </div>
 </div>
 
@@ -3408,15 +3944,15 @@ init();
         <div class="more-glyph">⋆</div>
         <div class="more-info">
           <div class="more-title" data-i18n="reviews">Отзывы</div>
-          <div class="more-sub-lbl">оценки покупателей</div>
+          <div class="more-sub-lbl" data-i18n="aHubReviews">оценки покупателей</div>
         </div>
         <div class="more-arrow">›</div>
       </div>
       <div class="more-item-a" onclick="openMoreSubA('aMoreSupport');loadSupport()">
         <div class="more-glyph">✦</div>
         <div class="more-info">
-          <div class="more-title">Поддержка <span id="supportUnreadBadge" style="display:none;background:var(--accent);color:var(--bg);font-size:8px;border-radius:99px;padding:1px 6px;margin-left:4px;font-weight:300"></span></div>
-          <div class="more-sub-lbl">входящие сообщения</div>
+          <div class="more-title" data-i18n="support">Поддержка<span style="display:none"> <span id="supportUnreadBadge" style="display:none;background:var(--accent);color:var(--bg);font-size:8px;border-radius:99px;padding:1px 6px;margin-left:4px;font-weight:300"></span></div>
+          <div class="more-sub-lbl" data-i18n="aHubSupport">входящие сообщения</div>
         </div>
         <div class="more-arrow">›</div>
       </div>
@@ -3424,7 +3960,7 @@ init();
         <div class="more-glyph">◈</div>
         <div class="more-info">
           <div class="more-title" data-i18n="broadcast">Рассылка</div>
-          <div class="more-sub-lbl">отправить всем пользователям</div>
+          <div class="more-sub-lbl" data-i18n="aHubBroadcast">отправить всем пользователям</div>
         </div>
         <div class="more-arrow">›</div>
       </div>
@@ -3432,7 +3968,7 @@ init();
         <div class="ahc-icon">◇</div>
         <div class="ahc-body">
           <div class="ahc-title" data-i18n="users">Пользователи</div>
-          <div class="ahc-sub">список и статистика</div>
+          <div class="ahc-sub" data-i18n="aHubUsers">список и статистика</div>
           <div class="ahc-meta" id="hubUsersMeta">—</div>
         </div>
         <div class="ahc-arrow">›</div>
@@ -3441,7 +3977,7 @@ init();
         <div class="ahc-icon">⚙</div>
         <div class="ahc-body">
           <div class="ahc-title" data-i18n="settings">Настройки</div>
-          <div class="ahc-sub">магазин и параметры</div>
+          <div class="ahc-sub" data-i18n="aHubSettings">магазин и параметры</div>
           <div class="ahc-meta" id="hubSettingsMeta">—</div>
         </div>
         <div class="ahc-arrow">›</div>
@@ -3450,7 +3986,7 @@ init();
         <div class="ahc-icon">⌥</div>
         <div class="ahc-body">
           <div class="ahc-title" data-i18n="developer">Разработчик</div>
-          <div class="ahc-sub">отладка и диагностика</div>
+          <div class="ahc-sub" data-i18n="aHubDev">отладка и диагностика</div>
           <div class="ahc-meta" id="hubDevMeta">—</div>
         </div>
         <div class="ahc-arrow">›</div>
@@ -3460,65 +3996,65 @@ init();
 
   <!-- Reviews -->
   <div class="more-sub-a" id="aMoreReviews">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">отзывы</div></div>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-title" data-i18n="aReviewsSection">отзывы</div></div>
     <div class="reviews-wrap" id="aReviewsContent">
-      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
     </div>
   </div>
 
   <!-- Support -->
   <div class="more-sub-a" id="aMoreSupport">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="supportTitle">поддержка</div></div>
     <div class="support-wrap" id="aSupportContent">
-      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
     </div>
   </div>
 
   <!-- Broadcast -->
   <div class="more-sub-a" id="aMoreBroadcast">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title" data-i18n="broadcast">рассылка</div></div>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-title" data-i18n="aBroadcastSection">рассылка</div></div>
     <div class="broadcast-wrap">
       <div class="broadcast-box">
-        <div class="form-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">сообщение всем пользователям</div>
-        <textarea class="inp inp-sm" id="aBroadcastText" placeholder="Текст рассылки..." style="min-height:100px;resize:none;"></textarea>
-        <button class="btn-act" style="width:100%" onclick="sendBroadcast()">отправить рассылку</button>
+        <div class="form-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);" data-i18n="aBroadcastMsg">сообщение всем пользователям</div>
+        <textarea class="inp inp-sm" id="aBroadcastText" data-i18n="aBroadcastPh" data-i18n-attr="placeholder" placeholder="Текст рассылки..." style="min-height:100px;resize:none;"></textarea>
+        <button class="btn-act" style="width:100%" onclick="sendBroadcast()" data-i18n="aSendBroadcast" data-i18n="aSendBroadcast">отправить рассылку</button>
       </div>
     </div>
   </div>
 
   <!-- Users -->
   <div class="more-sub-a" id="aMoreUsers">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title">пользователи</div></div>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title" data-i18n="aUsersSection">пользователи</div></div>
     <div style="padding:0 14px">
 
       <!-- ФУНКЦИЯ 1: СТАТИСТИКА -->
       <div class="adm-block" style="margin-bottom:10px">
-        <div class="adm-block-hdr">◆ статистика</div>
+        <div class="adm-block-hdr" data-i18n="aStatTitle">◆ статистика</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
           <div class="adm-stat-box">
             <div class="adm-stat-val" id="usStat1">—</div>
-            <div class="adm-stat-lbl">всего</div>
+            <div class="adm-stat-lbl" data-i18n="aTotal">всего</div>
           </div>
           <div class="adm-stat-box red">
             <div class="adm-stat-val" id="usStat2">—</div>
-            <div class="adm-stat-lbl">активных</div>
+            <div class="adm-stat-lbl" data-i18n="aActive">активных</div>
           </div>
           <div class="adm-stat-box">
             <div class="adm-stat-val" id="usStat3">—</div>
-            <div class="adm-stat-lbl">скидок</div>
+            <div class="adm-stat-lbl" data-i18n="aDiscounts">скидок</div>
           </div>
         </div>
       </div>
 
       <!-- ФУНКЦИЯ 2: СПИСОК -->
       <div class="adm-block">
-        <div class="adm-block-hdr">† список</div>
+        <div class="adm-block-hdr" data-i18n="aListTitle">† список</div>
         <div style="position:relative;margin-bottom:10px">
-          <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username"
+          <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username" data-i18n="aSearchPh" data-i18n-attr="placeholder"
             style="margin-bottom:0;padding-left:34px" oninput="filterUsers(this.value)">
           <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:14px;color:var(--text3);pointer-events:none">◈</span>
         </div>
@@ -3532,21 +4068,21 @@ init();
 
   <!-- Settings -->
   <div class="more-sub-a" id="aMoreSettings">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title">настройки</div></div>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title" data-i18n="aSettingsSection">настройки</div></div>
     <div style="padding:0 14px">
 
       <!-- ФУНКЦИЯ 1: МАГАЗИН -->
       <div class="adm-block" style="margin-bottom:10px">
-        <div class="adm-block-hdr">† магазин <span id="settingsUserId" style="float:right;font-size:8px;opacity:0.5"></span></div>
+        <div class="adm-block-hdr" data-i18n="aShopTitle"><span data-i18n="aShopTitle">† магазин</span> <span id="settingsUserId" style="float:right;font-size:8px;opacity:0.5"></span></div>
 
         <div class="adm-field">
-          <div class="adm-field-lbl">название магазина</div>
+          <div class="adm-field-lbl" data-i18n="aShopNameLbl">название магазина</div>
           <input class="adm-inp" id="sShopName" placeholder="3xclusiv33">
         </div>
 
         <div class="adm-field">
-          <div class="adm-field-lbl">валюта</div>
+          <div class="adm-field-lbl" data-i18n="aCurrLbl">валюта</div>
           <div style="display:flex;gap:6px">
             <button class="adm-pill on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
             <button class="adm-pill" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
@@ -3555,27 +4091,27 @@ init();
         </div>
 
         <div class="adm-field">
-          <div class="adm-field-lbl">минимальный заказ (€)</div>
+          <div class="adm-field-lbl" data-i18n="aMinOrderLbl">минимальный заказ (€)</div>
           <input class="adm-inp" id="sMinOrder" placeholder="0" type="number">
         </div>
 
         <button class="adm-btn-save" onclick="saveSettings()">
           <span style="font-family:var(--font-serif);font-size:16px;opacity:0.6">✓</span>
-          сохранить
+          <span data-i18n="aSaveBtn">сохранить</span>
         </button>
       </div>
 
       <!-- ФУНКЦИЯ 2: ПАРАМЕТРЫ -->
       <div class="adm-block danger">
-        <div class="adm-block-hdr" style="color:rgba(204,34,34,0.7)">☠ параметры</div>
+        <div class="adm-block-hdr" style="color:var(--ra-007)" data-i18n="aParamsTitle">☠ параметры</div>
 
         <button class="adm-btn-danger" onclick="exportData()">
           <span style="font-family:var(--font-serif);opacity:0.6">◈</span>
-          экспорт данных
+          <span data-i18n="aExport">экспорт данных</span>
         </button>
         <button class="adm-btn-danger" onclick="wipeOldOrders()">
           <span style="font-family:var(--font-serif);opacity:0.6">†</span>
-          очистить старые заказы
+          <span data-i18n="aWipe">очистить старые заказы</span>
         </button>
         <div id="settingsResult" style="font-size:10px;font-weight:200;color:var(--text3);margin-top:8px;text-align:center;min-height:16px"></div>
       </div>
@@ -3585,28 +4121,28 @@ init();
 
   <!-- Dev -->
   <div class="more-sub-a" id="aMoreDev">
-    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title">разработчик</div></div>
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title" data-i18n="aDevSection">разработчик</div></div>
     <div style="padding:0 14px">
 
       <!-- ФУНКЦИЯ 1: ДИАГНОСТИКА -->
       <div class="adm-block" style="margin-bottom:10px">
-        <div class="adm-block-hdr">◈ диагностика</div>
+        <div class="adm-block-hdr" data-i18n="aDiagTitle">◈ диагностика</div>
         <div id="devInfo" style="margin-bottom:12px">
           <div class="loader"><div class="loader-sym" style="font-size:20px">∞</div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <button class="adm-diag-btn" onclick="devCheckAPI()">
-            <span class="adm-diag-icon">◈</span>API статус
+            <span class="adm-diag-icon">◈</span data-i18n="aApiStatus">API статус
           </button>
           <button class="adm-diag-btn" onclick="devReloadProducts()">
-            <span class="adm-diag-icon">↺</span>товары
+            <span class="adm-diag-icon">↺</span data-i18n="aReloadProducts">товары
           </button>
           <button class="adm-diag-btn" onclick="devReloadUser()">
-            <span class="adm-diag-icon">◇</span>профиль
+            <span class="adm-diag-icon">◇</span data-i18n="aReloadProfile">профиль
           </button>
           <button class="adm-diag-btn" onclick="devTestNotif()">
-            <span class="adm-diag-icon">†</span>тест тоста
+            <span class="adm-diag-icon">†</span data-i18n="aTestToast">тест тоста
           </button>
         </div>
       </div>
@@ -3614,15 +4150,15 @@ init();
       <!-- ФУНКЦИЯ 2: ОТЛАДКА -->
       <div class="adm-block">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div class="adm-block-hdr" style="margin-bottom:0">⸸ отладка</div>
+          <div class="adm-block-hdr" style="margin-bottom:0" data-i18n="aDebugTitle">⸸ отладка</div>
           <div style="display:flex;gap:6px">
-            <button class="adm-log-btn" onclick="devClearLog()">очистить</button>
-            <button class="adm-log-btn danger" onclick="devClearAll()">сброс</button>
+            <button class="adm-log-btn" data-i18n="aClearLog" onclick="devClearLog()" data-i18n="aClearLog">очистить</button>
+            <button class="adm-log-btn danger" data-i18n="aReset" onclick="devClearAll()" data-i18n="aReset">сброс</button>
           </div>
         </div>
         <div id="devLog" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:12px;padding:10px;font-size:10px;font-weight:200;color:var(--text2);min-height:80px;max-height:200px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;line-height:1.6"></div>
         <button class="adm-diag-btn" style="width:100%;margin-top:8px" onclick="devClearCart()">
-          <span class="adm-diag-icon">○</span>очистить корзину всех
+          <span class="adm-diag-icon">○</span><span data-i18n="aClearAllCarts">очистить корзину всех</span>
         </button>
       </div>
 
@@ -3637,18 +4173,18 @@ init();
 <div class="view" id="vaAdjust">
   <div class="page-back-a" onclick="adminGoBack()">
     <span class="page-back-sym-a">←</span>
-    <span class="page-back-lbl-a">заказы</span>
+    <span class="page-back-lbl-a" data-i18n="aInNavOrders">заказы</span>
   </div>
   <div class="sec-head"><div class="sec-title" data-i18n="adjustPrice">изменение цены</div></div>
   <div style="padding:0 20px">
     <div id="aAdjHint" style="font-size:10px;font-weight:200;letter-spacing:0.15em;color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:14px"></div>
-    <label class="inp-label">новая цена (€) — макс. +20%</label>
+    <label class="inp-label" data-i18n="aAdjNewPrice">новая цена (€) — макс. +20%</label>
     <input class="inp inp-sm" id="aAdjPrice" type="number" step="0.01" placeholder="0.00" style="margin-bottom:6px">
-    <div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);margin-bottom:14px">можно поднять не более чем на 20% из-за доставки или других факторов</div>
-    <label class="inp-label">причина для покупателя</label>
-    <textarea class="inp inp-sm" id="aAdjReason" placeholder="Например: доставка в отдалённый район +5€..." style="min-height:80px;resize:none;"></textarea>
-    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitAdjust()">отправить покупателю</button>
-    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);margin-bottom:14px" data-i18n="aAdjHint"><span data-i18n="aAdjHint">можно поднять не более чем на 20% из-за доставки или других факторов</span></div>
+    <label class="inp-label" data-i18n="aAdjReasonLbl">причина для покупателя</label>
+    <textarea class="inp inp-sm" id="aAdjReason" data-i18n="aAdjReasonPh" data-i18n-attr="placeholder" placeholder="Например: доставка в отдалённый район +5€..." style="min-height:80px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitAdjust()" data-i18n="aSendToBuyer"><span data-i18n="aSendToBuyer">отправить покупателю</span></button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" data-i18n="cancel" onclick="adminGoBack()">отмена</button>
   </div>
 </div>
 
@@ -3656,23 +4192,23 @@ init();
 <div class="view" id="vaWrite">
   <div class="page-back-a" onclick="adminGoBack()">
     <span class="page-back-sym-a">←</span>
-    <span class="page-back-lbl-a">заказы</span>
+    <span class="page-back-lbl-a" data-i18n="aInNavOrders">заказы</span>
   </div>
   <div class="sec-head"><div class="sec-title" data-i18n="writeBuyer">сообщение покупателю</div></div>
   <div style="padding:0 20px">
-    <textarea class="inp inp-sm" id="aWriteText" placeholder="Сообщение для покупателя..." style="min-height:120px;resize:none;"></textarea>
-    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitWrite()">отправить</button>
-    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
+    <textarea class="inp inp-sm" id="aWriteText" data-i18n="aMsgBuyerPh" data-i18n-attr="placeholder" placeholder="Сообщение для покупателя..." style="min-height:120px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitWrite()" data-i18n="aSendToBuyer">отправить</button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" data-i18n="cancel" onclick="adminGoBack()">отмена</button>
   </div>
 </div>
 
 <!-- ADMIN NAV -->
 <nav class="nav admin-nav" id="adminNav">
-  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard">Сводка</span></button>
+  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard" data-i18n="aInNavSummary">Сводка</span></button>
   <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
   <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl" data-i18n="products">Товары</span></button>
   <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
-  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin">Выйти</span></button>
+  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin" data-i18n="aInNavExit">Выйти</span></button>
 </nav>
 
 
@@ -3791,13 +4327,13 @@ init();
     ctx.save();
     chains.forEach(ch=>{
       const sway=Math.sin(frame*ch.swaySpeed+ch.sway)*ch.swayAmp;
-      ctx.strokeStyle='rgba(180,20,20,'+ch.alpha+')'; ctx.lineWidth=1;
+      const _cr=getComputedStyle(document.documentElement).getPropertyValue('--red-rgb').trim()||'204,34,34'; ctx.strokeStyle='rgba('+_cr+','+ch.alpha+')'; ctx.lineWidth=1;
       for(let i=0;i<ch.links;i++){
         const y=i*ch.linkH,x=ch.x+sway*(i/ch.links);
         ctx.save(); ctx.translate(x,y); ctx.rotate(i%2===0?0:Math.PI/2);
         ctx.beginPath(); ctx.ellipse(0,0,3,5,0,0,Math.PI*2); ctx.stroke(); ctx.restore();
       }
-      ctx.fillStyle='rgba(200,30,30,'+(ch.alpha*1.8)+')';
+      ctx.fillStyle='rgba('+_cr+','+(ch.alpha*1.8)+')';
       ctx.font='14px "Cormorant Garamond",serif'; ctx.textAlign='center'; ctx.textBaseline='top';
       ctx.fillText('⚰',ch.x+sway,ch.links*ch.linkH);
     });
@@ -3813,7 +4349,7 @@ init();
       if(p.red){
         // Red glowing particle
         const g=ctx.createRadialGradient(0,0,0,0,0,p.size*1.6);
-        g.addColorStop(0,'rgba(180,20,20,0.35)'); g.addColorStop(1,'rgba(180,20,20,0)');
+        g.addColorStop(0,'var(--ra-035)'); g.addColorStop(1,'var(--ra-000)');
         ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,p.size*1.6,0,Math.PI*2); ctx.fill();
         ctx.fillStyle='rgba(220,80,80,1)';
       } else {
@@ -3833,3 +4369,5 @@ init();
 
 </body>
 </html>
+
+
