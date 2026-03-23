@@ -2295,7 +2295,8 @@ function showCartNotify(p) {
       const src = p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
         : p.photo_id.startsWith('/uploads/') ? API + p.photo_id
         : API + '/api/photo/' + p.photo_id;
-      imgEl.innerHTML = '<img src="' + src + '" onerror="this.parentElement.textContent='' + (catGlyphs[p.category]||'✦') + ''">';
+      const fallback = catGlyphs[p.category] || '✦';
+      imgEl.innerHTML = '<img src="' + src + '" onerror="this.parentElement.textContent=\'' + fallback + '\'">';
     } else {
       imgEl.textContent = catGlyphs[p.category] || '✦';
     }
