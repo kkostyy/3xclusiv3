@@ -129,41 +129,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 }
 @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-/* Overlay buttons on image */
-.card-add {
-  position: absolute;
-  bottom: 10px; right: 10px;
-  width: 32px; height: 32px;
-  background: var(--accent);
-  color: var(--bg);
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-  line-height: 32px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: 200;
-  z-index: 2;
-  transition: transform 0.2s, opacity 0.2s;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
-}
-.card-add:active { transform: scale(0.88); }
-.card-wish {
-  position: absolute;
-  top: 10px; right: 10px;
-  background: rgba(0,0,0,0.28);
-  backdrop-filter: blur(6px);
-  border: none;
-  border-radius: 50%;
-  width: 28px; height: 28px;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 2;
-  transition: background 0.2s;
-}
-[data-theme="light"] .card-wish { background: rgba(255,255,255,0.45); }
-.card-wish:active { background: rgba(0,0,0,0.5); }
+
 
 /* Archive label */
 .card-void {
@@ -213,6 +179,15 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   color: var(--accent);
 }
 .card.void { opacity: 0.38; pointer-events: none; }
+
+
+/* CARD FOOTER BUTTONS */
+.card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+.card-actions { display:flex; align-items:center; gap:6px; }
+.card-wish-btn { background:none; border:none; font-size:16px; cursor:pointer; padding:4px; line-height:1; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+.card-cart-btn { background:var(--accent); color:var(--bg); border:none; border-radius:50%; width:28px; height:28px; font-size:18px; line-height:28px; text-align:center; cursor:pointer; font-weight:300; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+.card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:14px 14px 0 0; }
+.card-img img { width:100%; height:100%; object-fit:cover; display:block; }
 
 /* LOADER */
 .loader { grid-column:1/-1; padding:60px 20px; text-align:center; }
@@ -1176,23 +1151,26 @@ async function loadProducts() {
 
 function cardHtml(p) {
   const ph = p.photo_id
-    ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
+    ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">'
     : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
-  const addBtn = p.is_available
-    ? '<button class="card-add" onclick="event.stopPropagation();doCart(' + p.id + ')">+</button>'
-    : '';
-  const archLbl = !p.is_available ? '<div class="card-void">архив</div>' : '';
   const heart = wishIds.has(p.id) ? '❤️' : '🤍';
-  return '<div class="card' + (!p.is_available ? ' void' : '') + '" onclick="openDetail(' + p.id + ')">'
-    + '<div class="card-img" style="position:relative;">' + ph + archLbl + addBtn
-    + '<button class="card-wish" onclick="event.stopPropagation();doWish(' + p.id + ')">' + heart + '</button>'
+  return '<div class="card' + (!p.is_available ? ' void' : '') + '">'
+    + '<div class="card-img" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + ph
+    + (!p.is_available ? '<div class="card-void">архив</div>' : '')
     + '</div>'
     + '<div class="card-body">'
     + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
-    + '<div class="card-name">' + p.name + '</div>'
-    + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
+    + '<div class="card-name" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + p.name + '</div>'
+    + '<div class="card-footer">'
+    + '<span class="card-price">' + p.price.toFixed(2) + ' €</span>'
+    + '<div class="card-actions">'
+    + '<button class="card-wish-btn" onclick="doWish(' + p.id + ')" id="wb' + p.id + '">' + heart + '</button>'
+    + (p.is_available ? '<button class="card-cart-btn" onclick="doCart(' + p.id + ')">+</button>' : '')
+    + '</div>'
+    + '</div>'
     + '</div></div>';
 }
+
 
 function doCart(pid) {
   const p = allProducts.find(x => x.id === pid);
