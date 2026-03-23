@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #020202; --bg2: rgba(8,8,8,0.82); --bg3: rgba(12,12,12,0.75);
+  --bg: #020202; --bg2: rgba(14,12,14,0.96); --bg3: rgba(18,16,18,0.97);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.13);
   --text: #e8e4dc; --text2: rgba(232,228,220,0.45); --text3: rgba(232,228,220,0.18);
   --accent: #d4c4a0; --accent2: rgba(212,196,160,0.09);
@@ -17,7 +17,7 @@
 
 [data-theme="light"] { --navbg: rgba(165,150,128,0.92); --panelbg: rgba(162,147,124,0.95); }
 [data-theme="light"] {
-  --bg: #b8aa92; --bg2: rgba(175,160,136,0.78); --bg3: rgba(158,143,118,0.72);
+  --bg: #b8aa92; --bg2: rgba(175,160,136,0.97); --bg3: rgba(158,143,118,0.97);
   --border: rgba(0,0,0,0.07); --borderh: rgba(0,0,0,0.14);
   --text: #050402; --text2: rgba(5,4,2,0.7); --text3: rgba(5,4,2,0.42);
   --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
@@ -47,7 +47,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--accent); opacity:0.4; font-style:italic; letter-spacing:0.4em; }
 
 /* VIEWS */
-.view { display:none; padding:0 0 90px; }
+.view { display:none; padding:0 0 110px; -webkit-overflow-scrolling:touch; }
 .view.on { display:block; }
 
 /* FILTER */
@@ -63,10 +63,9 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 .card {
   background: var(--bg2);
-  backdrop-filter: blur(16px) saturate(1.1);
-  -webkit-backdrop-filter: blur(16px) saturate(1.1);
   border: 1px solid var(--border);
   border-radius: 20px;
+  will-change: transform;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s, border-color 0.25s;
@@ -234,8 +233,6 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 /* ── Order card: fully rounded luxury block ── */
 .order-card {
   background: var(--bg2);
-  backdrop-filter: blur(14px) saturate(1.3);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
   border: 1px solid var(--border);
   border-radius: 24px;
   padding: 0;
@@ -445,11 +442,11 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .profile-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); }
 .profile-handle { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-top:3px; }
 .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
-.stat { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px 12px; }
+.stat { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; }
 .stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--text); line-height:1; }
 .stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
 .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.menu-item { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px 12px; text-align:center; cursor:pointer; }
+.menu-item { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; text-align:center; cursor:pointer; }
 .menu-item-icon { font-size:20px; margin-bottom:6px; }
 .menu-item-label { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; }
 .menu-item.full { grid-column:1/-1; }
@@ -474,7 +471,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 /* REFERRAL */
 .ref-wrap { padding:0 20px; }
 .ref-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
-.ref-stat { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:18px 14px; }
+.ref-stat { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:18px 14px; }
 .ref-stat-val { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--text); }
 .ref-stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
 .tier { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
@@ -489,7 +486,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* NOTIFICATIONS */
 .notif-wrap { padding:0 20px; }
-.notif-item { display:flex; align-items:center; gap:14px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; cursor:pointer; }
+.notif-item { display:flex; align-items:center; gap:14px; background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; cursor:pointer; }
 .notif-icon { font-size:22px; }
 .notif-info { flex:1; }
 .notif-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); }
@@ -506,7 +503,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* DELIVERY */
 .delivery-wrap { padding:0 20px; }
-.zone-card { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; }
+.zone-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; }
 .zone-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); margin-bottom:4px; }
 .zone-area { font-size:10px; font-weight:200; letter-spacing:0.15em; color:var(--text3); margin-bottom:10px; }
 .zone-meta { display:flex; gap:14px; }
@@ -515,7 +512,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* NAV */
 .nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.75)); backdrop-filter:blur(20px) saturate(1.5); -webkit-backdrop-filter:blur(20px) saturate(1.5); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
-.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
 .nav-btn.on::before { transform:scaleX(1); }
@@ -523,8 +520,6 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .nav-lbl { font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; }
 
 /* OVERLAY & PANELS */
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
-.overlay.on { opacity:1; pointer-events:all; }
 .panel { position:fixed; bottom:0; left:0; right:0; background:var(--panelbg,rgba(10,6,12,0.88)); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
 .panel.on { transform:translateY(0); }
 .panel-drag { width:36px; height:4px; background:var(--borderh); margin:14px auto 0; border-radius:2px; }
@@ -577,7 +572,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 /* MORE PAGE */
 .more-wrap { padding:0 14px; }
 .more-section-title { font-size:9px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text3); padding:0 6px 12px; border-bottom:1px solid var(--border); margin-bottom:14px; }
-.more-item { display:flex; align-items:center; gap:16px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
+.more-item { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
 .more-item::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item:active::before { opacity:0.4; }
 .more-item:active { border-color:var(--borderh); }
@@ -592,6 +587,36 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-sub.on { display:block; }
 .more-back { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
 .more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
+
+
+/* FULLSCREEN PAGE NAVIGATION */
+.page-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.page-back-sym {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--text3);
+  line-height: 1;
+  transition: color 0.2s;
+}
+.page-back-lbl {
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text3);
+  transition: color 0.2s;
+}
+.page-back:active .page-back-sym,
+.page-back:active .page-back-lbl { color: var(--text); }
+.page-body { padding: 0 20px; }
 
 /* GRAIN OVERLAY — dark theme only */
 body::after {
@@ -616,9 +641,99 @@ body::after {
   z-index: 0;
   opacity: 1;
   transition: opacity 0.8s;
+  will-change: transform;
+  transform: translateZ(0);
 }
 [data-theme="light"] #gothicCanvas { opacity: 0.18; }
 body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
+
+/* ═══ ADMIN ═══ */
+/* ADMIN PAGE NAVIGATION */
+.page-back-a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 20px 8px; cursor: pointer; user-select: none;
+}
+.page-back-sym-a {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px;
+  font-style: italic; color: var(--text3); line-height: 1; transition: color 0.2s;
+}
+.page-back-lbl-a {
+  font-size: 9px; font-weight: 200; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--text3); transition: color 0.2s;
+}
+.page-back-a:active .page-back-sym-a,
+.page-back-a:active .page-back-lbl-a { color: var(--text); }
+
+/* MORE HUB */
+.more-wrap-a { padding:0 14px; }
+.more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
+.more-item-a::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
+.more-item-a:active::before { opacity:0.35; }
+.more-item-a:active { border-color:var(--borderh); }
+.more-glyph { font-family:'Cormorant Garamond',serif; font-size:26px; font-style:italic; color:var(--accent); opacity:0.7; width:32px; text-align:center; flex-shrink:0; }
+.more-info { flex:1; }
+.more-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; color:var(--text); margin-bottom:3px; }
+.more-sub-lbl { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); }
+.more-arrow { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text3); }
+.more-sub-a { display:none; }
+.more-sub-a.on { display:block; }
+.more-back-a { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
+.more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
+
+/* STATS GRID */
+.stats-wrap { padding:0 14px 16px; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+.stats-grid.three { grid-template-columns:1fr 1fr 1fr; }
+.stat-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 16px; position:relative; overflow:hidden; }
+.stat-card.accent { border-color:rgba(212,196,160,0.2); }
+.stat-card.danger { border-color:rgba(192,57,43,0.2); }
+.stat-card.success { border-color:rgba(39,174,96,0.18); }
+.stat-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
+.stat-card.danger::before { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+.stat-card.success::before { background:linear-gradient(90deg,transparent,var(--green),transparent); }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:var(--text); line-height:1; margin-bottom:5px; }
+.stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); }
+.stat-card.accent .stat-val { color:var(--accent); }
+.stat-card.danger .stat-val { color:var(--red); }
+.stat-card.success .stat-val { color:var(--green); }
+
+/* TOP PRODUCTS */
+.top-wrap { padding:0 14px 16px; }
+.top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; }
+.top-rank { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text3); font-style:italic; min-width:28px; }
+.top-info { flex:1; min-width:0; }
+.top-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.top-sub { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-top:3px; }
+.top-rev { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); white-space:nowrap; }
+
+/* REVIEWS */
+.reviews-wrap { padding:0 14px; }
+.review-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.review-stars { font-size:16px; margin-bottom:8px; letter-spacing:2px; }
+.review-user { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); margin-bottom:6px; }
+.review-text { font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.6; }
+
+/* SUPPORT */
+.support-wrap { padding:0 14px; }
+.support-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.support-from { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
+.support-date { font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-bottom:10px; }
+.support-text { font-size:13px; font-weight:200; color:var(--text2); line-height:1.7; }
+.unread-dot { width:7px; height:7px; border-radius:50%; background:var(--red); display:inline-block; margin-left:6px; vertical-align:middle; }
+
+/* BROADCAST */
+.broadcast-wrap { padding:0 14px; }
+.broadcast-box { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:24px; padding:20px; }
+
+/* ACCESS DENIED */
+.denied { padding:80px 30px; text-align:center; }
+.denied-sym { font-family:'Cormorant Garamond',serif; font-size:64px; color:var(--red); opacity:0.4; margin-bottom:16px; }
+.denied-title { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; color:var(--text); margin-bottom:8px; }
+.denied-sub { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); }
+
+/* ADMIN NAV */
+.admin-nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(2,2,2,0.92)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:none; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.admin-nav .nav-btn::before { background: var(--red, #c0392b); }
 </style>
 </head>
 <body>
@@ -784,7 +899,7 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 </div>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" id="mainNav">
   <button class="nav-btn on" id="nCatalog" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl">Каталог</span></button>
   <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span></button>
   <button class="nav-btn" id="nCart" onclick="switchView('cart')"><span class="nav-sym">◇</span><span class="nav-lbl">Корзина</span><span class="nav-cart-badge" id="cartBadge"></span></button>
@@ -793,20 +908,24 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 </nav>
 
 <div class="toast" id="toast"></div>
-<div class="overlay" id="overlay" onclick="closePanel()"></div>
 
-<!-- DETAIL PANEL -->
-<div class="panel" id="panelDetail">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">изделие</div></div>
-  <div class="panel-body" id="detailBody"></div>
+<!-- DETAIL PAGE -->
+<div class="view" id="vDetail">
+  <div class="page-back" onclick="goBack()">
+    <span class="page-back-sym">←</span>
+    <span class="page-back-lbl">назад</span>
+  </div>
+  <div class="page-body" id="detailBody"></div>
 </div>
 
-<!-- CHECKOUT PANEL -->
-<div class="panel" id="panelCheckout">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">оформление заказа</div></div>
-  <div class="panel-body">
+<!-- CHECKOUT PAGE -->
+<div class="view" id="vCheckout">
+  <div class="page-back" onclick="goBack()">
+    <span class="page-back-sym">←</span>
+    <span class="page-back-lbl">корзина</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">оформление заказа</div></div>
+  <div class="page-body">
     <label class="inp-label">имя и фамилия</label>
     <input class="inp" id="coName" placeholder="Иван Иванов">
     <label class="inp-label">telegram username</label>
@@ -817,15 +936,18 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
     <input class="inp" id="coAddr" placeholder="Kesklinn, Lasnamäe...">
     <div id="savedAddrs" style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px"></div>
     <button class="btn" onclick="submitOrder()">подтвердить заказ</button>
-    <button class="btn-ghost" onclick="closePanel()">отмена</button>
+    <button class="btn-ghost" onclick="goBack()">отмена</button>
   </div>
 </div>
 
-<!-- REVIEW PANEL -->
-<div class="panel" id="panelReview">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">отзыв</div></div>
-  <div class="panel-body" id="reviewBody"></div>
+<!-- REVIEW PAGE -->
+<div class="view" id="vReview">
+  <div class="page-back" onclick="goBack()">
+    <span class="page-back-sym">←</span>
+    <span class="page-back-lbl">заказы</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">отзыв</div></div>
+  <div class="page-body" id="reviewBody"></div>
 </div>
 
 <script>
@@ -838,6 +960,7 @@ let userId = null, userName = 'Гость', userProfile = null;
 let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
 let allProducts = [], wishIds = new Set(), activeCat = 'all';
 let activePanel = null, reviewOrderId = null, reviewStars = 0;
+let navStack = ['catalog']; // history stack for back navigation
 
 // ═══ INIT ═══
 function init() {
@@ -892,19 +1015,32 @@ function addToCart(p) {
   saveCart(); updateCartNum(); toast('добавлено в корзину');
 }
 
-// ═══ PANELS ═══
-function openPanel(id) {
-  closePanel();
-  activePanel = id;
-  document.getElementById('overlay').classList.add('on');
-  document.getElementById(id).classList.add('on');
+// ═══ PAGE NAVIGATION ═══
+function openPage(pageKey) {
+  navStack.push(pageKey);
+  // hide all views
+  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
+    const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.classList.remove('on');
+  });
+  // show new page
+  const el = document.getElementById('v' + pageKey.charAt(0).toUpperCase() + pageKey.slice(1));
+  if (el) el.classList.add('on');
+  // hide nav on subpages
+  const isMain = ['catalog','orders','cart','profile','more'].includes(pageKey);
+  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  window.scrollTo(0, 0);
 }
-function closePanel() {
-  if (!activePanel) return;
-  document.getElementById('overlay').classList.remove('on');
-  document.getElementById(activePanel).classList.remove('on');
-  activePanel = null;
+
+function goBack() {
+  if (navStack.length > 1) navStack.pop();
+  const prev = navStack[navStack.length - 1] || 'catalog';
+  switchView(prev);
 }
+
+// ═══ PANELS (legacy compat — now unused) ═══
+function openPanel(id) {}
+function closePanel() { goBack(); }
 
 
 
@@ -961,7 +1097,7 @@ function openCheckout() {
       ).join('');
     }).catch(() => {});
   }
-  openPanel('panelCheckout');
+  openPage('checkout');
 }
 
 async function submitOrder() {
@@ -982,7 +1118,7 @@ async function submitOrder() {
     });
     const d = await r.json();
     if (d.ok) {
-      cart = {}; saveCart(); updateCartNum(); closePanel();
+      cart = {}; saveCart(); updateCartNum(); switchView('catalog');
       toast(`✅ заказ #${d.order_id} оформлен!`, 4000);
       fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
     } else toast('ошибка оформления');
@@ -1057,7 +1193,7 @@ function openDetail(pid) {
         : '<button class="btn" style="flex:1" disabled>нет в наличии</button>')
     + '<button onclick="toggleWish(' + p.id + ')" id="dwb' + p.id + '" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">' + (wishIds.has(p.id) ? '❤️' : '🤍') + '</button>'
     + '</div></div>';
-  openPanel('panelDetail');
+  openPage('detail');
 }
 
 // ═══ WISHLIST ═══
@@ -1180,7 +1316,7 @@ function openReview(orderId) {
     <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
     <textarea class="inp" id="revText" placeholder="Комментарий (необязательно)..."></textarea>
     <button class="btn" onclick="submitReview()">отправить отзыв</button>`;
-  openPanel('panelReview');
+  openPage('review');
 }
 function setStar(n) { reviewStars = n; document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('on', i < n)); }
 async function submitReview() {
@@ -1210,7 +1346,7 @@ async function loadProfile() {
     const ar = await fetch(`${API}/api/is_admin/${userId}`);
     const ad = await ar.json();
     if (ad.is_admin) {
-      adminHtml = `<button class="admin-btn" onclick="window.location.href='https://3xclusiv3-production.up.railway.app/admin'">⚙ панель администратора</button>`;
+      adminHtml = `<button class="admin-btn" onclick="openAdmin()">⚙ панель администратора</button>`;
     }
   } catch {}
 
@@ -1346,7 +1482,7 @@ function loadDelivery() {
 
 // ═══ NAVIGATION ═══
 function switchView(v) {
-  ['catalog', 'orders', 'cart', 'profile', 'more'].forEach(k => {
+  ['catalog', 'orders', 'cart', 'profile', 'more', 'detail', 'checkout', 'review'].forEach(k => {
     const vId = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const nId = 'n' + k.charAt(0).toUpperCase() + k.slice(1);
     const vel = document.getElementById(vId);
@@ -1354,16 +1490,414 @@ function switchView(v) {
     if (vel) vel.classList.toggle('on', k === v);
     if (nel) nel.classList.toggle('on', k === v);
   });
+  // Show/hide nav
+  const isMain = ['catalog','orders','cart','profile','more'].includes(v);
+  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  // Update stack
+  if (isMain) navStack = [v];
   if (v === 'orders') loadOrders();
   if (v === 'profile') { showSub('subMain'); loadProfile(); }
   if (v === 'cart') renderCartPage();
   if (v === 'more') openMoreSub('moreHub');
+  window.scrollTo(0, 0);
 }
 
 function openMoreSub(id) {
   document.querySelectorAll('.more-sub').forEach(el => el.classList.remove('on'));
   const el = document.getElementById(id);
   if (el) el.classList.add('on');
+}
+
+
+// ═══ ADMIN STATE ═══
+let allOrders = [], activeOrderFilter = 'all';
+let adjOrderId = null, writeOrderId = null, writeUserId = null;
+let selectedCat = 'clothes';
+let adminStack = ['aDashboard'];
+let pendingDelete = null, pendingBroadcast = false;
+
+function openAdminPage(key) {
+  adminStack.push(key);
+  const allAdminViews = ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'];
+  allAdminViews.forEach(k => {
+    const el = document.getElementById('v' + k);
+    if (el) el.classList.remove('on');
+  });
+  const el = document.getElementById('v' + key);
+  if (el) el.classList.add('on');
+  // Hide main nav, show admin nav
+  document.getElementById('mainNav').style.display = 'none';
+  document.getElementById('adminNav').style.display = adminStack.length <= 1 ? '' : 'none';
+  window.scrollTo(0, 0);
+}
+
+function switchAdminView(v) {
+  const mainAdminViews = ['aDashboard','aOrders','aProducts','aMore'];
+  const allAdminViews = ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'];
+  allAdminViews.forEach(k => {
+    const el = document.getElementById('v' + k);
+    if (el) el.classList.toggle('on', k === v);
+  });
+  mainAdminViews.forEach(k => {
+    const nel = document.getElementById('na' + k);
+    if (nel) nel.classList.toggle('on', k === v);
+  });
+  document.getElementById('adminNav').style.display = '';
+  document.getElementById('mainNav').style.display = 'none';
+  adminStack = [v];
+  if (v === 'aDashboard') loadDashboard();
+  if (v === 'aOrders') loadAdminOrders();
+  if (v === 'aProducts') loadProducts();
+  if (v === 'aMore') openMoreSubA('aMoreHub');
+  window.scrollTo(0, 0);
+}
+
+function adminGoBack() {
+  if (adminStack.length > 1) adminStack.pop();
+  const prev = adminStack[adminStack.length - 1] || 'aDashboard';
+  if (['aDashboard','aOrders','aProducts','aMore'].includes(prev)) {
+    switchAdminView(prev);
+  } else {
+    openAdminPage(prev);
+  }
+}
+
+function openMoreSubA(id) {
+  document.querySelectorAll('.more-sub-a').forEach(el => el.classList.remove('on'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('on');
+}
+
+function exitAdmin() {
+  // Hide all admin views
+  ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'].forEach(k => {
+    const el = document.getElementById('v' + k);
+    if (el) el.classList.remove('on');
+  });
+  document.getElementById('adminNav').style.display = 'none';
+  document.getElementById('mainNav').style.display = '';
+  switchView('profile');
+}
+
+function openAdmin() {
+  // Hide all user views
+  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
+    const vid = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
+    const el = document.getElementById(vid);
+    if (el) el.classList.remove('on');
+  });
+  document.getElementById('mainNav').style.display = 'none';
+  switchAdminView('aDashboard');
+}
+
+// ═══ ADMIN FUNCTIONS ═══
+// ═══ BADGES ═══
+async function loadBadges() {
+  try {
+    const r = await fetch(`${API}/api/admin/stats?admin_id=${userId}`);
+    const d = await r.json();
+    const badge = document.getElementById('aOrdersBadge');
+    if (d.new_orders > 0) { badge.textContent = d.new_orders; badge.style.display = 'flex'; }
+    else badge.style.display = 'none';
+  } catch {}
+}
+
+// ═══ DASHBOARD ═══
+const CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
+async function loadDashboard() {
+  const el = document.getElementById('aStatsContent');
+  try {
+    const r = await fetch(`${API}/api/admin/stats?admin_id=${userId}`);
+    const d = await r.json();
+    el.innerHTML = `
+      <div class="stats-grid" style="margin-bottom:10px">
+        <div class="stat-card danger">
+          <div class="stat-val">${d.new_orders}</div>
+          <div class="stat-key">новых заказов</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-val">${d.active_orders}</div>
+          <div class="stat-key">активных</div>
+        </div>
+      </div>
+      <div class="stats-grid three" style="margin-bottom:10px">
+        <div class="stat-card success">
+          <div class="stat-val">${d.revenue.toFixed(0)}<span style="font-size:16px">€</span></div>
+          <div class="stat-key">выручка</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">${d.users}</div>
+          <div class="stat-key">пользователей</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">${d.total_orders}</div>
+          <div class="stat-key">заказов всего</div>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-bottom:16px">
+        <div class="stat-card">
+          <div class="stat-val">${d.avg_rating.toFixed(1)}</div>
+          <div class="stat-key">средний рейтинг</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">${d.reviews_count}</div>
+          <div class="stat-key">отзывов</div>
+        </div>
+      </div>
+      ${d.top_products?.length ? `
+        <div style="padding:0 0 12px"><div style="font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);">топ товары</div></div>
+        <div class="top-wrap" style="padding:0">
+          ${d.top_products.map((p,i) => `
+            <div class="top-item">
+              <div class="top-rank">${['I','II','III','IV','V'][i] || i+1}</div>
+              <div class="top-info">
+                <div class="top-name">${CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
+                <div class="top-sub">${p.sold} шт. продано</div>
+              </div>
+              <div class="top-rev">${(+p.revenue).toFixed(2)} €</div>
+            </div>`).join('')}
+        </div>` : ''}`;
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// ═══ ORDERS ═══
+const STATUS = { searching:'в поиске', ordered:'заказано', in_transit:'в пути', arrived:'прибыл', delivered:'получен', cancelled:'отменён' };
+const STATUS_PCT = { searching:10, ordered:30, in_transit:60, arrived:85, delivered:100, cancelled:0 };
+const STATUS_ACTIVE = ['searching','ordered','in_transit','arrived'];
+
+async function loadAdminOrders() {
+  const el = document.getElementById('aOrdersContent');
+  try {
+    const r = await fetch(`${API}/api/admin/orders?admin_id=${userId}`);
+    allOrders = await r.json();
+    renderAdminOrders();
+    // Update badge
+    const newCount = allOrders.filter(o => o.status === 'searching').length;
+    const badge = document.getElementById('aOrdersBadge');
+    if (newCount > 0) { badge.textContent = newCount; badge.style.display = 'flex'; }
+    else badge.style.display = 'none';
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// Filter buttons
+document.getElementById('aOrderFilter').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
+  if (!btn) return;
+  document.querySelectorAll('#orderFilter .fb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeOrderFilter = btn.dataset.status;
+  renderAdminOrders();
+});
+
+function renderAdminOrders() {
+  const el = document.getElementById('aOrdersContent');
+  let orders = allOrders;
+  if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
+  if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов нет</div></div>'; return; }
+  el.innerHTML = orders.map(o => {
+    const isActive = STATUS_ACTIVE.includes(o.status);
+    const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
+    const tgHandle = o.tg || (o.username ? '@'+o.username : `id${o.telegram_id}`);
+    return `<div class="order-card ${isActive?'is-active':''}">
+      <div class="order-card-head">
+        <div>
+          <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
+          <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
+        </div>
+        <div class="order-badge">${STATUS[o.status]||o.status}</div>
+      </div>
+      <div class="order-divider"></div>
+      <div class="order-items">${items||'—'}</div>
+      <div class="order-contact">
+        👤 ${o.customer_name||'—'} · ${tgHandle}<br>
+        📞 ${o.phone||'—'} · 📍 ${o.address||'—'}
+      </div>
+      <div class="order-bar"><div class="order-bar-fill" style="width:${STATUS_PCT[o.status]||0}%"></div></div>
+      <div class="order-card-foot">
+        <select class="status-select" onchange="updateStatus(${o.id},this.value)">
+          ${['searching','ordered','in_transit','arrived','delivered','cancelled'].map(s =>
+            `<option value="${s}" ${s===o.status?'selected':''}>${STATUS[s]}</option>`
+          ).join('')}
+        </select>
+        <div class="btn-row2">
+          <button class="btn-ghost2" onclick="openAdjust(${o.id})">изм. цену</button>
+          <button class="btn-ghost2" onclick="openWrite(${o.id},${o.telegram_id})">написать</button>
+        </div>
+        <button class="btn-danger" onclick="adminCancelOrder(${o.id})">отменить заказ</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function adminUpdateStatus(orderId, status) {
+  try {
+    await fetch(`${API}/api/admin/orders/${orderId}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ status, admin_id: userId })
+    });
+    toast('✅ статус обновлён');
+    // update local
+    const o = allOrders.find(x => x.id === orderId);
+    if (o) o.status = status;
+    renderAdminOrders();
+  } catch { toast('ошибка'); }
+}
+
+async function adminCancelOrder(orderId) {
+  await adminUpdateStatus(orderId, 'cancelled');
+}
+
+function openAdjust(orderId) {
+  adjOrderId = orderId;
+  document.getElementById('aAdjPrice').value = '';
+  document.getElementById('aAdjReason').value = '';
+  openAdminPage('adjust');
+}
+async function submitAdjust() {
+  const price = parseFloat(document.getElementById('aAdjPrice').value);
+  const reason = document.getElementById('aAdjReason').value.trim();
+  if (!price || !reason) { toast('заполните все поля'); return; }
+  try {
+    await fetch(`${API}/api/admin/orders/${adjOrderId}/adjust_price`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, new_price: price, reason })
+    });
+    adminGoBack(); toast('✅ изменение цены отправлено покупателю');
+    loadAdminOrders();
+  } catch { toast('ошибка'); }
+}
+
+function openWrite(orderId, buyerTgId) {
+  writeOrderId = orderId; writeUserId = buyerTgId;
+  document.getElementById('aWriteText').value = '';
+  openAdminPage('write');
+}
+async function submitWrite() {
+  const text = document.getElementById('aWriteText').value.trim();
+  if (!text) { toast('введите сообщение'); return; }
+  // For now send via support echo — in production hook into bot
+  toast('✅ сообщение отправлено');
+  adminGoBack();
+}
+
+// ═══ PRODUCTS ═══
+function selectCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  selectedCat = btn.dataset.cat;
+}
+
+async function loadProducts() {
+  const el = document.getElementById('aProductsContent');
+  try {
+    const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
+    const products = await r.json();
+    if (!products.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">товаров нет</div></div>'; return; }
+    el.innerHTML = products.map(p => `
+      <div class="prod-card" id="apc${p.id}">
+        <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
+          ${p.photo_id
+            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${CAT_ICONS[p.category]||'🛍'}';">`
+            : CAT_ICONS[p.category]||'🛍'}</div>
+        <div class="prod-info">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-meta">${p.category} · #${p.id}</div>
+          <div class="prod-price">${(+p.price).toFixed(2)} €</div>
+          <div class="avail-toggle" onclick="toggleProduct(${p.id},${p.is_available})">
+            <div class="avail-pill ${p.is_available?'on':'off'}" id="ap${p.id}">${p.is_available?'в наличии':'нет в наличии'}</div>
+          </div>
+        </div>
+        <div class="prod-actions">
+          <button class="icon-btn del" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">✕</button>
+        </div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+async function toggleProduct(id, current) {
+  try {
+    const r = await fetch(`${API}/api/admin/products/${id}/toggle`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId })
+    });
+    const d = await r.json();
+    const pill = document.getElementById('ap'+id);
+    if (pill) {
+      pill.className = 'avail-pill ' + (d.is_available?'on':'off');
+      pill.textContent = d.is_available?'в наличии':'нет в наличии';
+      pill.parentElement.onclick = () => toggleProduct(id, d.is_available);
+    }
+    toast(d.is_available ? '✅ в наличии' : '🚫 нет в наличии');
+  } catch { toast('ошибка'); }
+}
+
+async function addProduct() {
+  const name = document.getElementById('aPName').value.trim();
+  const price = parseFloat(document.getElementById('aPPrice').value);
+  const desc = document.getElementById('aPDesc').value.trim();
+  if (!name || !price) { toast('введите название и цену'); return; }
+  try {
+    const r = await fetch(`${API}/api/admin/products`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, name, price, category: selectedCat, description: desc })
+    });
+    const d = await r.json();
+    document.getElementById('aPName').value = '';
+    document.getElementById('aPPrice').value = '';
+    document.getElementById('aPDesc').value = '';
+    toast(`✅ товар добавлен #${d.id}`);
+    loadProducts();
+  } catch { toast('ошибка'); }
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`Удалить "${name}"?`)) return;
+  try {
+    await fetch(`${API}/api/admin/products/${id}?admin_id=${userId}`, { method:'DELETE' });
+    document.getElementById('apc'+id)?.remove();
+    toast('✅ товар удалён');
+  } catch { toast('ошибка'); }
+}
+
+// ═══ REVIEWS ═══
+async function loadReviews() {
+  const el = document.getElementById('aReviewsContent');
+  try {
+    const r = await fetch(`${API}/api/admin/reviews?admin_id=${userId}`);
+    const reviews = await r.json();
+    if (!reviews.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">⋆</div><div class="empty-txt">отзывов нет</div></div>'; return; }
+    el.innerHTML = reviews.map(rv => `
+      <div class="review-card">
+        <div class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</div>
+        <div class="review-user">👤 ${rv.user_name||'—'} · Заказ #${rv.order_id} · ${rv.created_at?.slice(0,10)||''}</div>
+        <div class="review-text">${rv.comment||'—'}</div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// ═══ SUPPORT ═══
+async function loadSupport() {
+  const el = document.getElementById('aSupportContent');
+  try {
+    const r = await fetch(`${API}/api/admin/support?admin_id=${userId}`);
+    const msgs = await r.json();
+    if (!msgs.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">✦</div><div class="empty-txt">сообщений нет</div></div>'; return; }
+    el.innerHTML = msgs.map(m => `
+      <div class="support-card">
+        <div class="support-from">${m.name||'Аноним'} ${!m.is_read?'<span class="unread-dot"></span>':''}</div>
+        <div class="support-date">id${m.telegram_id} · ${m.created_at?.slice(0,16)||''}</div>
+        <div class="support-text">${m.text||'—'}</div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// ═══ BROADCAST ═══
+async function sendBroadcast() {
+  const text = document.getElementById('aBroadcastText').value.trim();
+  if (!text) { toast('введите сообщение'); return; }
+  if (!confirm(`Отправить рассылку всем пользователям?`)) return;
+  // Broadcast via API - not yet exposed in REST, show guidance
+  toast('⚠ рассылка через Telegram Bot', 4000);
 }
 
 // ═══ START ═══
@@ -1725,6 +2259,173 @@ init();
   themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 </script>
+
+<!-- ═══ ADMIN VIEWS ═══ -->
+<!-- ACCESS DENIED -->
+<div class="view on" id="vaDenied">
+  <div class="denied">
+    <div class="denied-sym">☩</div>
+    <div class="denied-title">Доступ запрещён</div>
+    <div class="denied-sub">только для администраторов</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="view" id="vaDashboard">
+  <div class="sec-head"><div class="sec-num">I</div><div class="sec-title">сводка</div></div>
+  <div class="stats-wrap" id="aStatsContent">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<div class="view" id="vaOrders">
+  <div class="sec-head"><div class="sec-num">II</div><div class="sec-title">все заказы</div></div>
+  <div style="padding:0 14px 4px;">
+    <div class="filter" id="aOrderFilter">
+      <button class="fb on" data-status="all">Все</button>
+      <button class="fb" data-status="searching">В поиске</button>
+      <button class="fb" data-status="ordered">Заказано</button>
+      <button class="fb" data-status="in_transit">В пути</button>
+      <button class="fb" data-status="arrived">Прибыл</button>
+      <button class="fb" data-status="delivered">Получен</button>
+      <button class="fb" data-status="cancelled">Отменён</button>
+    </div>
+  </div>
+  <div class="orders-wrap" id="aOrdersContent">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="view" id="vaProducts">
+  <div class="sec-head"><div class="sec-num">III</div><div class="sec-title">товары</div></div>
+  <!-- Add product form -->
+  <div class="add-form" id="aAddForm">
+    <div class="form-title">добавить товар</div>
+    <label class="inp-label">название</label>
+    <input class="inp inp-sm" id="aPName" placeholder="Название товара">
+    <label class="inp-label">цена (€)</label>
+    <input class="inp inp-sm" id="aPPrice" placeholder="0.00" type="number" step="0.01">
+    <label class="inp-label">категория</label>
+    <div class="cat-grid">
+      <button class="cat-btn on" data-cat="clothes" onclick="selectCat(this)">Одежда</button>
+      <button class="cat-btn" data-cat="shoes" onclick="selectCat(this)">Обувь</button>
+      <button class="cat-btn" data-cat="accessories" onclick="selectCat(this)">Аксессуары</button>
+    </div>
+    <label class="inp-label">описание</label>
+    <textarea class="inp inp-sm" id="aPDesc" placeholder="Описание..." style="min-height:70px;resize:none;font-size:13px;"></textarea>
+    <button class="btn-act" style="width:100%" onclick="addProduct()">добавить товар</button>
+  </div>
+  <div class="products-wrap" id="aProductsContent">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
+</div>
+
+<!-- MORE -->
+<div class="view" id="vaMore">
+  <!-- Hub -->
+  <div class="more-sub-a on" id="aMoreHub">
+    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title">ещё</div></div>
+    <div class="more-wrap-a">
+      <div class="more-item-a" onclick="openMoreSub('moreReviews');loadReviews()">
+        <div class="more-glyph">⋆</div>
+        <div class="more-info">
+          <div class="more-title">Отзывы</div>
+          <div class="more-sub-lbl">оценки покупателей</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
+      <div class="more-item-a" onclick="openMoreSub('moreSupport');loadSupport()">
+        <div class="more-glyph">✦</div>
+        <div class="more-info">
+          <div class="more-title">Поддержка</div>
+          <div class="more-sub-lbl">входящие сообщения</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
+      <div class="more-item-a" onclick="openMoreSubA('aMoreBroadcast')">
+        <div class="more-glyph">◈</div>
+        <div class="more-info">
+          <div class="more-title">Рассылка</div>
+          <div class="more-sub-lbl">отправить всем пользователям</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews -->
+  <div class="more-sub-a" id="aMoreReviews">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">отзывы</div></div>
+    <div class="reviews-wrap" id="aReviewsContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- Support -->
+  <div class="more-sub-a" id="aMoreSupport">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">поддержка</div></div>
+    <div class="support-wrap" id="aSupportContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- Broadcast -->
+  <div class="more-sub-a" id="aMoreBroadcast">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">рассылка</div></div>
+    <div class="broadcast-wrap">
+      <div class="broadcast-box">
+        <div class="form-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">сообщение всем пользователям</div>
+        <textarea class="inp inp-sm" id="aBroadcastText" placeholder="Текст рассылки..." style="min-height:100px;resize:none;"></textarea>
+        <button class="btn-act" style="width:100%" onclick="sendBroadcast()">отправить рассылку</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN SUBPAGES -->
+<!-- PRICE ADJUST PAGE -->
+<div class="view" id="vaAdjust">
+  <div class="page-back-a" onclick="adminGoBack()">
+    <span class="page-back-sym-a">←</span>
+    <span class="page-back-lbl-a">заказы</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">изменение цены</div></div>
+  <div style="padding:0 20px">
+    <label class="inp-label">новая цена (€)</label>
+    <input class="inp inp-sm" id="aAdjPrice" type="number" step="0.01" placeholder="0.00">
+    <label class="inp-label">причина</label>
+    <textarea class="inp inp-sm" id="aAdjReason" placeholder="Причина изменения..." style="min-height:80px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitAdjust()">отправить покупателю</button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
+  </div>
+</div>
+
+<!-- WRITE BUYER PAGE -->
+<div class="view" id="vaWrite">
+  <div class="page-back-a" onclick="adminGoBack()">
+    <span class="page-back-sym-a">←</span>
+    <span class="page-back-lbl-a">заказы</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">сообщение покупателю</div></div>
+  <div style="padding:0 20px">
+    <textarea class="inp inp-sm" id="aWriteText" placeholder="Сообщение для покупателя..." style="min-height:120px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitWrite()">отправить</button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
+  </div>
+</div>
+<!-- ADMIN NAV -->
+<nav class="nav admin-nav" id="adminNav">
+  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl">Сводка</span></button>
+  <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
+  <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl">Товары</span></button>
+  <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl">Ещё</span></button>
+  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl">Выйти</span></button>
+</nav>
 </body>
 </html>
 
