@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body { background:#111; color:#fff; font-family:sans-serif; padding:20px; }
+button { display:block; width:100%; padding:20px; margin:10px 0; background:#d4c4a0; color:#000; border:none; border-radius:12px; font-size:18px; }
+#log { background:#222; padding:10px; border-radius:8px; min-height:100px; margin-top:20px; font-size:13px; }
+</style>
+</head>
+<body>
+
+<button onclick="log('BTN 1 работает!')">Кнопка 1 (onclick)</button>
+
+<button id="btn2">Кнопка 2 (addEventListener)</button>
+
+<div id="clickDiv" style="background:#333;padding:20px;border-radius:12px;margin:10px 0;text-align:center">
+  Нажми на этот DIV
+</div>
+
+<div id="log">Нажми кнопку...</div>
+
+<script>
+var tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); }
+
+function log(msg) {
+  document.getElementById('log').innerHTML += '<div>' + new Date().toTimeString().slice(0,8) + ' ' + msg + '</div>';
+}
+
+document.getElementById('btn2').addEventListener('click', function() {
+  log('BTN 2 работает!');
+});
+
+document.getElementById('clickDiv').addEventListener('click', function() {
+  log('DIV работает!');
+});
+
+log('Страница загружена. tg=' + (tg ? 'есть' : 'нет'));
+</script>
+</body>
+</html>
+
