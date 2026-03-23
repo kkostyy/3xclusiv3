@@ -1164,10 +1164,17 @@ async function loadDashboard() {
   const el = document.getElementById('statsContent');
   el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
   try {
-    const [statsRes, ordersRes] = await Promise.all([
-      fetch(`${API}/api/admin/stats?admin_id=${userId}`).then(r => r.json()),
-      fetch(`${API}/api/admin/orders?admin_id=${userId}`).then(r => r.json()).catch(() => [])
+    const [statsResp, ordersResp] = await Promise.all([
+      fetch(`${API}/api/admin/stats?admin_id=${userId}`),
+      fetch(`${API}/api/admin/orders?admin_id=${userId}`).catch(() => null)
     ]);
+    if (!statsResp.ok) {
+      const err = await statsResp.json().catch(() => ({}));
+      el.innerHTML = `<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">${err.detail || 'ошибка ' + statsResp.status}</div></div>`;
+      return;
+    }
+    const statsRes = await statsResp.json();
+    const ordersRes = ordersResp && ordersResp.ok ? await ordersResp.json().catch(() => []) : [];
     const s = statsRes;
     const orders = Array.isArray(ordersRes) ? ordersRes : [];
     const totalO = s.total_orders || 0;
@@ -1299,7 +1306,7 @@ async function loadDashboard() {
       });
     });
   } catch(e) {
-    el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">ошибка загрузки</div></div>';
+    el.innerHTML = `<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">ошибка загрузки</div><div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);margin-top:8px;padding:0 20px">${e.message||''}</div></div>`;
   }
 }
 // ═══ ORDERS ═══
