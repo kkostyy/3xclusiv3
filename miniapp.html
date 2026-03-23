@@ -585,6 +585,19 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
+/* CART NOTIFICATION */
+.cart-notify { position:fixed; bottom:84px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; width:calc(100% - 28px); max-width:420px; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:14px 16px; display:flex; align-items:center; gap:14px; box-shadow:0 8px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06); opacity:0; pointer-events:none; transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+.cart-notify::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.4; border-radius:99px; }
+.cart-notify.on { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+.cart-notify-img { width:52px; height:52px; border-radius:12px; background:var(--bg3); border:1px solid var(--border); overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:22px; }
+.cart-notify-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.cart-notify-body { flex:1; min-width:0; }
+.cart-notify-label { font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
+.cart-notify-name { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:300; color:var(--text); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cart-notify-price { font-size:10px; font-weight:200; color:var(--text2); margin-top:2px; letter-spacing:0.1em; }
+.cart-notify-btn { flex-shrink:0; background:var(--accent); color:var(--bg); border:none; border-radius:12px; padding:9px 14px; font-family:'Jost',sans-serif; font-size:8px; font-weight:300; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; white-space:nowrap; transition:opacity 0.2s; }
+.cart-notify-btn:active { opacity:0.7; }
+
 
 /* NAV CART BADGE */
 .nav-cart-badge { position:absolute; top:8px; right:calc(50% - 16px); background:var(--accent); color:var(--bg); font-size:8px; font-weight:300; min-width:16px; height:16px; border-radius:99px; display:none; align-items:center; justify-content:center; padding:0 4px; font-family:'Jost',sans-serif; }
@@ -1309,6 +1322,15 @@ header { position: relative; z-index: 1; }
 </nav>
 
 <div class="toast" id="toast"></div>
+<div class="cart-notify" id="cartNotify">
+  <div class="cart-notify-img" id="cartNotifyImg"></div>
+  <div class="cart-notify-body">
+    <div class="cart-notify-label" data-i18n="addedToCart">добавлено в корзину</div>
+    <div class="cart-notify-name" id="cartNotifyName"></div>
+    <div class="cart-notify-price" id="cartNotifyPrice"></div>
+  </div>
+  <button class="cart-notify-btn" onclick="switchView('cart');hideCartNotify()" id="cartNotifyBtn">→</button>
+</div>
 
 <!-- DETAIL PAGE -->
 <div class="view" id="vDetail">
@@ -2242,10 +2264,50 @@ function updateCartNum() {
     badge.classList.toggle('show', n > 0);
   }
 }
+let _cartNotifyTimer;
+function hideCartNotify() {
+  const el = document.getElementById('cartNotify');
+  if (el) el.classList.remove('on');
+}
+
+function showCartNotify(p) {
+  const el = document.getElementById('cartNotify');
+  if (!el) { toast(t('addedToCart')); return; }
+
+  // Fill in product info
+  const imgEl = document.getElementById('cartNotifyImg');
+  const nameEl = document.getElementById('cartNotifyName');
+  const priceEl = document.getElementById('cartNotifyPrice');
+  const btnEl = document.getElementById('cartNotifyBtn');
+  const labelEl = el.querySelector('.cart-notify-label');
+
+  if (labelEl) labelEl.textContent = t('addedToCart');
+  if (nameEl) nameEl.textContent = p.name;
+  if (priceEl) priceEl.textContent = (+p.price).toFixed(2) + ' €';
+  if (btnEl) btnEl.textContent = t('cart') + ' →';
+
+  // Product image
+  if (imgEl) {
+    const catGlyphs = { clothes:'👕', shoes:'👟', accessories:'👜' };
+    if (p.photo_id) {
+      const src = p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
+        : p.photo_id.startsWith('/uploads/') ? API + p.photo_id
+        : API + '/api/photo/' + p.photo_id;
+      imgEl.innerHTML = '<img src="' + src + '" onerror="this.parentElement.textContent='' + (catGlyphs[p.category]||'✦') + ''">';
+    } else {
+      imgEl.textContent = catGlyphs[p.category] || '✦';
+    }
+  }
+
+  el.classList.add('on');
+  clearTimeout(_cartNotifyTimer);
+  _cartNotifyTimer = setTimeout(hideCartNotify, 3000);
+}
+
 function addToCart(p) {
   if (cart[p.id]) cart[p.id].qty++;
   else cart[p.id] = { ...p, qty: 1 };
-  saveCart(); updateCartNum(); toast(t('addedToCart'));
+  saveCart(); updateCartNum(); showCartNotify(p);
 }
 
 // ═══ PAGE NAVIGATION ═══
