@@ -870,6 +870,191 @@ header { position: relative; z-index: 1; }
 .broadcast-wrap { padding:0 14px; }
 .broadcast-box { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:20px; box-sizing:border-box; }
 
+
+/* ═══ ADMIN SECTIONS CSS ═══ */
+.adm-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.4);
+}
+.adm-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+}
+.adm-block.danger { border-color: rgba(204,34,34,0.15); }
+.adm-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.18), transparent); }
+.adm-block-hdr {
+  font-family: var(--font-serif);
+  font-size: 11px; font-weight: 200;
+  letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Stat boxes */
+.adm-stat-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.adm-stat-box.red { border-color: rgba(204,34,34,0.2); }
+.adm-stat-val {
+  font-family: var(--font-serif);
+  font-size: 28px; font-weight: 300;
+  color: var(--text); line-height: 1;
+  margin-bottom: 4px;
+}
+.adm-stat-box.red .adm-stat-val { color: var(--accent); }
+.adm-stat-lbl {
+  font-size: 7px; font-weight: 200;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* User cards */
+.user-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.user-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.user-monogram {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(204,34,34,0.1), rgba(0,0,0,0.8));
+  border: 1px solid rgba(204,34,34,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 18px; color: var(--text2);
+  flex-shrink: 0;
+}
+.user-info { flex:1; min-width:0; }
+.user-name {
+  font-family: var(--font-serif); font-size: 16px;
+  color: var(--text); margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.user-handle {
+  font-size: 9px; font-weight: 200;
+  letter-spacing: 0.2em; color: var(--text3);
+  display: flex; align-items: center; gap: 6px;
+}
+.user-orders { text-align: center; flex-shrink: 0; }
+.user-discount-row {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.disc-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-family: var(--font-sans);
+  font-size: 8px; font-weight: 200;
+  padding: 4px 8px; border-radius: 8px;
+  cursor: pointer; touch-action: manipulation;
+  transition: all 0.2s;
+}
+.disc-btn-on {
+  background: rgba(204,34,34,0.12);
+  border-color: rgba(204,34,34,0.4);
+  color: var(--accent);
+}
+
+/* Settings fields */
+.adm-field { margin-bottom: 12px; }
+.adm-field-lbl {
+  font-size: 8px; font-weight: 200;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 6px;
+}
+.adm-inp {
+  width: 100%; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 16px; padding: 11px 14px;
+  border-radius: 12px; outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+.adm-inp:focus { border-color: rgba(255,255,255,0.2); }
+.adm-pill {
+  background: none; border: 1px solid var(--border);
+  color: var(--text3); font-family: var(--font-sans);
+  font-size: 9px; font-weight: 200; letter-spacing: 0.2em;
+  padding: 7px 12px; border-radius: 10px;
+  cursor: pointer; touch-action: manipulation; transition: all 0.2s;
+}
+.adm-pill.on {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+  color: var(--text);
+}
+.adm-btn-save {
+  width: 100%; background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.45em;
+  text-transform: uppercase; padding: 12px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s; margin-top: 4px;
+}
+.adm-btn-save:active { background: rgba(255,255,255,0.05); }
+.adm-btn-danger {
+  width: 100%; background: none;
+  border: 1px solid rgba(204,34,34,0.2);
+  border-radius: 12px; color: var(--accent);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.4em;
+  text-transform: uppercase; padding: 11px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 8px; transition: all 0.2s;
+}
+.adm-btn-danger:active { background: rgba(204,34,34,0.08); }
+
+/* Dev buttons */
+.adm-diag-btn {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.25em;
+  text-transform: uppercase; padding: 12px 8px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  transition: all 0.2s;
+}
+.adm-diag-btn:active { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+.adm-diag-icon {
+  font-family: var(--font-serif);
+  font-size: 20px; color: var(--text3);
+  font-style: italic; line-height: 1;
+}
+.adm-log-btn {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text3);
+  font-family: var(--font-sans); font-size: 8px;
+  font-weight: 200; letter-spacing: 0.3em;
+  text-transform: uppercase; padding: 5px 10px;
+  cursor: pointer; touch-action: manipulation;
+}
+.adm-log-btn.danger { border-color: rgba(204,34,34,0.25); color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -2631,8 +2816,10 @@ async function loadAdminUsers() {
   try {
     const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
     allUsers = await r.json();
-    document.getElementById('usrTotal').textContent = allUsers.length;
-    document.getElementById('usrActive').textContent = allUsers.filter(u => u.orders > 0).length;
+    const withDisc = allUsers.filter(u => (u.discount||0) > 0).length;
+    const el1 = document.getElementById('usStat1'); if(el1) el1.textContent = allUsers.length;
+    const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
+    const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
     const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
     renderUsers();
   } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
@@ -2693,7 +2880,7 @@ async function loadSettings() {
   const curr = localStorage.getItem('currency_3x') || '€';
   if (nameEl) nameEl.value = localStorage.getItem('shop_name_3x') || '';
   if (minEl) minEl.value = localStorage.getItem('min_order_3x') || '';
-  document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
+  document.querySelectorAll('.adm-pill').forEach(b => {
     b.classList.toggle('on', b.textContent.includes(curr));
   });
   // Then load from server
@@ -2712,15 +2899,14 @@ async function loadSettings() {
 }
 
 function setCurr(btn, symbol) {
-  document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.adm-pill').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   localStorage.setItem('currency_3x', symbol);
-  toast('валюта: ' + symbol);
-  // Auto-save to server
   fetch(`${API}/api/admin/settings`, {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ admin_id: userId, currency: symbol })
   }).catch(() => {});
+  toast('валюта: ' + symbol);
 }
 
 function saveSettings() {
@@ -2808,28 +2994,29 @@ function loadDevInfo() {
   if (!info) return;
   const tg = window.Telegram?.WebApp;
   const mem = performance?.memory;
-  const lines = [
+  const rows = [
     ['userId', userId || 'null'],
     ['userName', userName || '—'],
-    ['lang', currentLang],
-    ['API', API],
-    ['tg version', tg?.version || '—'],
-    ['platform', tg?.platform || navigator.platform || '—'],
-    ['colorScheme', tg?.colorScheme || '—'],
-    ['viewport', window.innerWidth + '×' + window.innerHeight],
-    ['cart items', Object.keys(cart).length],
-    ['products loaded', allProducts.length],
-    ['categories', allCategories.length],
-    ['admin mode', document.body.classList.contains('admin-mode') ? 'да' : 'нет'],
-    ['memory', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
+    ['язык', currentLang],
+    ['API', API.replace('https://','')],
+    ['TG версия', tg?.version || '—'],
+    ['платформа', tg?.platform || navigator.platform || '—'],
+    ['экран', window.innerWidth + '×' + window.innerHeight],
+    ['корзина', Object.keys(cart).length + ' поз.'],
+    ['товаров', allProducts.length],
+    ['категорий', allCategories.length],
+    ['память', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
   ];
-  info.innerHTML = lines.map(([k,v]) =>
-    '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.04)">'
-    + '<span style="color:var(--text3);font-size:9px;letter-spacing:0.2em">' + k + '</span>'
-    + '<span style="color:var(--text2);font-size:10px">' + v + '</span>'
-    + '</div>'
-  ).join('');
-  devLog('✓ info refreshed');
+  info.innerHTML = '<div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden">'
+    + rows.map(([k,v],i) =>
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px'
+      + (i < rows.length-1 ? ';border-bottom:1px solid rgba(255,255,255,0.04)' : '') + '">'
+      + '<span style="font-size:9px;font-weight:200;letter-spacing:0.25em;color:var(--text3)">' + k + '</span>'
+      + '<span style="font-size:10px;font-weight:200;color:var(--text2);font-family:monospace">' + v + '</span>'
+      + '</div>'
+    ).join('')
+    + '</div>';
+  devLog('✓ диагностика загружена');
   const _dm = document.getElementById('hubDevMeta'); if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform||navigator.platform||'—');
 }
 
@@ -3096,61 +3283,92 @@ init();
   <!-- Users -->
   <div class="more-sub-a" id="aMoreUsers">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title" data-i18n="users">пользователи</div></div>
+    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title">пользователи</div></div>
     <div style="padding:0 14px">
-      <!-- Stats row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-        <div class="stat-card" style="text-align:center">
-          <div class="stat-val" id="usrTotal">—</div>
-          <div class="stat-key">всего</div>
+
+      <!-- ФУНКЦИЯ 1: СТАТИСТИКА -->
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">◆ статистика</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div class="adm-stat-box">
+            <div class="adm-stat-val" id="usStat1">—</div>
+            <div class="adm-stat-lbl">всего</div>
+          </div>
+          <div class="adm-stat-box red">
+            <div class="adm-stat-val" id="usStat2">—</div>
+            <div class="adm-stat-lbl">активных</div>
+          </div>
+          <div class="adm-stat-box">
+            <div class="adm-stat-val" id="usStat3">—</div>
+            <div class="adm-stat-lbl">скидок</div>
+          </div>
         </div>
-        <div class="stat-card" style="text-align:center;border-color:rgba(204,34,34,0.2)">
-          <div class="stat-val" style="color:var(--accent)" id="usrActive">—</div>
-          <div class="stat-key">активных</div>
+      </div>
+
+      <!-- ФУНКЦИЯ 2: СПИСОК -->
+      <div class="adm-block">
+        <div class="adm-block-hdr">† список</div>
+        <div style="position:relative;margin-bottom:10px">
+          <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username"
+            style="margin-bottom:0;padding-left:34px" oninput="filterUsers(this.value)">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:14px;color:var(--text3);pointer-events:none">◈</span>
+        </div>
+        <div id="aUsersContent">
+          <div class="loader"><div class="loader-sym">∞</div></div>
         </div>
       </div>
-      <!-- Search -->
-      <div style="position:relative;margin-bottom:12px">
-        <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:16px;color:var(--text3);pointer-events:none">◈</div>
-        <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username"
-          style="margin-bottom:0;padding-left:38px" oninput="filterUsers(this.value)">
-      </div>
-      <div id="aUsersContent">
-        <div class="loader"><div class="loader-sym">∞</div></div>
-      </div>
+
     </div>
   </div>
 
   <!-- Settings -->
   <div class="more-sub-a" id="aMoreSettings">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title" data-i18n="settings">настройки</div></div>
+    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title">настройки</div></div>
     <div style="padding:0 14px">
 
-      <!-- Shop block -->
-      <div class="settings-block">
-        <div class="settings-block-title">† магазин</div>
-        <label class="inp-label">название магазина</label>
-        <input class="inp inp-sm" id="sShopName" placeholder="3xclusiv33">
-        <label class="inp-label">валюта</label>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
-          <button class="cat-btn on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
-          <button class="cat-btn" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
-          <button class="cat-btn" id="currRub" onclick="setCurr(this,'₽')">₽ RUB</button>
+      <!-- ФУНКЦИЯ 1: МАГАЗИН -->
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">† магазин</div>
+
+        <div class="adm-field">
+          <div class="adm-field-lbl">название магазина</div>
+          <input class="adm-inp" id="sShopName" placeholder="3xclusiv33">
         </div>
-        <label class="inp-label">минимальный заказ (€)</label>
-        <input class="inp inp-sm" id="sMinOrder" placeholder="0" type="number" style="margin-bottom:14px">
-        <button class="settings-save-btn" onclick="saveSettings()">
-          <span style="font-family:var(--font-serif);font-size:16px;opacity:0.5">✓</span>
-          сохранить настройки
+
+        <div class="adm-field">
+          <div class="adm-field-lbl">валюта</div>
+          <div style="display:flex;gap:6px">
+            <button class="adm-pill on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
+            <button class="adm-pill" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
+            <button class="adm-pill" id="currRub" onclick="setCurr(this,'₽')">₽ RUB</button>
+          </div>
+        </div>
+
+        <div class="adm-field">
+          <div class="adm-field-lbl">минимальный заказ (€)</div>
+          <input class="adm-inp" id="sMinOrder" placeholder="0" type="number">
+        </div>
+
+        <button class="adm-btn-save" onclick="saveSettings()">
+          <span style="font-family:var(--font-serif);font-size:16px;opacity:0.6">✓</span>
+          сохранить
         </button>
       </div>
 
-      <!-- Danger zone -->
-      <div class="settings-block danger">
-        <div class="settings-block-title" style="color:rgba(204,34,34,0.6)">☠ опасная зона</div>
-        <button class="settings-danger-btn" onclick="exportData()">экспорт данных</button>
-        <button class="settings-danger-btn" style="margin-bottom:0" onclick="wipeOldOrders()">очистить старые заказы</button>
+      <!-- ФУНКЦИЯ 2: ПАРАМЕТРЫ -->
+      <div class="adm-block danger">
+        <div class="adm-block-hdr" style="color:rgba(204,34,34,0.7)">☠ параметры</div>
+
+        <button class="adm-btn-danger" onclick="exportData()">
+          <span style="font-family:var(--font-serif);opacity:0.6">◈</span>
+          экспорт данных
+        </button>
+        <button class="adm-btn-danger" onclick="wipeOldOrders()">
+          <span style="font-family:var(--font-serif);opacity:0.6">†</span>
+          очистить старые заказы
+        </button>
+        <div id="settingsResult" style="font-size:10px;font-weight:200;color:var(--text3);margin-top:8px;text-align:center;min-height:16px"></div>
       </div>
 
     </div>
@@ -3159,25 +3377,46 @@ init();
   <!-- Dev -->
   <div class="more-sub-a" id="aMoreDev">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title" data-i18n="developer">разработчик</div></div>
+    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title">разработчик</div></div>
     <div style="padding:0 14px">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:14px">
-        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)">системная информация</div>
-        <div id="devInfo" style="font-size:10px;font-weight:200;color:var(--text2);line-height:2;font-family:'Jost',sans-serif"></div>
+
+      <!-- ФУНКЦИЯ 1: ДИАГНОСТИКА -->
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">◈ диагностика</div>
+        <div id="devInfo" style="margin-bottom:12px">
+          <div class="loader"><div class="loader-sym" style="font-size:20px">∞</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <button class="adm-diag-btn" onclick="devCheckAPI()">
+            <span class="adm-diag-icon">◈</span>API статус
+          </button>
+          <button class="adm-diag-btn" onclick="devReloadProducts()">
+            <span class="adm-diag-icon">↺</span>товары
+          </button>
+          <button class="adm-diag-btn" onclick="devReloadUser()">
+            <span class="adm-diag-icon">◇</span>профиль
+          </button>
+          <button class="adm-diag-btn" onclick="devTestNotif()">
+            <span class="adm-diag-icon">†</span>тест тоста
+          </button>
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-        <button class="dev-btn" onclick="devCheckAPI()"><span class="dev-btn-icon">◈</span><span>API статус</span></button>
-        <button class="dev-btn" onclick="devReloadProducts()"><span class="dev-btn-icon">↺</span><span>товары</span></button>
-        <button class="dev-btn" onclick="devClearCart()"><span class="dev-btn-icon">○</span><span>корзина</span></button>
-        <button class="dev-btn" onclick="devReloadUser()"><span class="dev-btn-icon">◇</span><span>профиль</span></button>
-        <button class="dev-btn" onclick="devTestNotif()"><span class="dev-btn-icon">†</span><span>уведомление</span></button>
-        <button class="dev-btn dev-btn-danger" onclick="devClearAll()"><span class="dev-btn-icon">✕</span><span>сбросить всё</span></button>
+
+      <!-- ФУНКЦИЯ 2: ОТЛАДКА -->
+      <div class="adm-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="adm-block-hdr" style="margin-bottom:0">⸸ отладка</div>
+          <div style="display:flex;gap:6px">
+            <button class="adm-log-btn" onclick="devClearLog()">очистить</button>
+            <button class="adm-log-btn danger" onclick="devClearAll()">сброс</button>
+          </div>
+        </div>
+        <div id="devLog" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:12px;padding:10px;font-size:10px;font-weight:200;color:var(--text2);min-height:80px;max-height:200px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;line-height:1.6"></div>
+        <button class="adm-diag-btn" style="width:100%;margin-top:8px" onclick="devClearCart()">
+          <span class="adm-diag-icon">○</span>очистить корзину всех
+        </button>
       </div>
-      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:flex;justify-content:space-between">
-        <span>лог</span>
-        <button onclick="devClearLog()" style="background:none;border:none;color:var(--text3);font-size:9px;font-weight:200;letter-spacing:0.3em;cursor:pointer;text-transform:uppercase;touch-action:manipulation">очистить</button>
-      </div>
-      <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px;font-size:10px;font-weight:200;color:var(--text2);min-height:100px;max-height:220px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;line-height:1.7"></div>
+
     </div>
   </div>
 
