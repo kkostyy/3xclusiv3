@@ -530,6 +530,65 @@ async def admin_get_support(admin_id: int = 0):
         except Exception:
             return []
 
+
+# ── Categories ────────────────────────────────────────────────────────────────
+@app.get("/api/categories")
+async def get_categories():
+    """Return all product categories (built-in + custom)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        try:
+            async with db.execute("SELECT id, label, glyph FROM categories ORDER BY sort_order") as cur:
+                rows = await cur.fetchall()
+            if rows:
+                return [{"id": r[0], "label": r[1], "glyph": r[2]} for r in rows]
+        except Exception:
+            pass
+    # Fallback: built-in categories
+    return [
+        {"id": "clothes",     "label": "Одежда",     "glyph": "👕"},
+        {"id": "shoes",       "label": "Обувь",       "glyph": "👟"},
+        {"id": "accessories", "label": "Аксессуары", "glyph": "👜"},
+    ]
+
+class NewCategory(BaseModel):
+    admin_id: int
+    id: str
+    label: str
+    glyph: Optional[str] = "✦"
+
+@app.post("/api/admin/categories")
+async def admin_add_category(body: NewCategory):
+    require_admin(body.admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS categories (
+                id TEXT PRIMARY KEY,
+                label TEXT NOT NULL,
+                glyph TEXT DEFAULT '✦',
+                sort_order INTEGER DEFAULT 100
+            )
+        """)
+        # Get max sort order
+        async with db.execute("SELECT COUNT(*) FROM categories") as cur:
+            count = (await cur.fetchone())[0]
+        await db.execute(
+            "INSERT OR REPLACE INTO categories (id, label, glyph, sort_order) VALUES (?,?,?,?)",
+            (body.id, body.label, body.glyph, count + 10)
+        )
+        await db.commit()
+    return {"ok": True}
+
+@app.delete("/api/admin/categories/{category_id}")
+async def admin_delete_category(category_id: str, admin_id: int = 0):
+    require_admin(admin_id)
+    built_in = {"clothes", "shoes", "accessories"}
+    if category_id in built_in:
+        raise HTTPException(status_code=400, detail="Cannot delete built-in category")
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("DELETE FROM categories WHERE id=?", (category_id,))
+        await db.commit()
+    return {"ok": True}
+
 # ── Photo proxy ───────────────────────────────────────────────────────────────
 from fastapi.responses import Response
 import asyncio
@@ -572,4 +631,3 @@ async def proxy_photo(file_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
