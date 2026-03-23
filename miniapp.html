@@ -1052,6 +1052,27 @@ const LANGS = {
     recommended:'рекомендуемый размер',
     invited:'приглашено', discount:'скидка',
     friend:'друг', friends:'друзей',
+    // Admin
+    dashboard:'Сводка', allOrders:'все заказы', products:'Товары',
+    addProduct:'добавить в архив', productName:'название', productPrice:'цена €',
+    productPhoto:'фото товара', productDesc:'описание', productCat:'категория',
+    newCategory:'новая категория', catName:'Название', catEmoji:'Эмодзи',
+    adjustPrice:'изменение цены', adjustMax:'макс. +20%', adjustHint:'текущая цена',
+    adjustReason:'причина для покупателя', sendToBuyer:'отправить покупателю',
+    writeBuyer:'сообщение покупателю', sendMessage:'отправить',
+    users:'Пользователи', totalUsers:'всего', activeUsers:'активных',
+    settings:'Настройки', shopName:'название магазина', currency:'валюта',
+    minOrder:'минимальный заказ', saveSettings:'сохранить настройки',
+    exportData:'экспорт данных', wipeOrders:'очистить старые заказы',
+    developer:'Разработчик', systemInfo:'системная информация',
+    apiStatus:'API статус', reloadProducts:'товары', clearCart:'корзина',
+    reloadProfile:'профиль', testNotif:'уведомление', resetAll:'сбросить всё',
+    log:'лог', clearLog:'очистить',
+    broadcast:'Рассылка', broadcastMsg:'сообщение всем пользователям',
+    sendBroadcast:'отправить рассылку',
+    reviews:'Отзывы', support:'Поддержка',
+    incomingMsg:'входящие сообщения', buyerRatings:'оценки покупателей',
+    exitAdmin:'Выйти',
   },
   en: {
     catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
@@ -1083,6 +1104,27 @@ const LANGS = {
     recommended:'recommended size',
     invited:'invited', discount:'discount',
     friend:'friend', friends:'friends',
+    // Admin
+    dashboard:'Dashboard', allOrders:'all orders', products:'Products',
+    addProduct:'add to archive', productName:'name', productPrice:'price €',
+    productPhoto:'product photo', productDesc:'description', productCat:'category',
+    newCategory:'new category', catName:'Name', catEmoji:'Emoji',
+    adjustPrice:'price adjustment', adjustMax:'max +20%', adjustHint:'current price',
+    adjustReason:'reason for buyer', sendToBuyer:'send to buyer',
+    writeBuyer:'message to buyer', sendMessage:'send',
+    users:'Users', totalUsers:'total', activeUsers:'active',
+    settings:'Settings', shopName:'shop name', currency:'currency',
+    minOrder:'minimum order', saveSettings:'save settings',
+    exportData:'export data', wipeOrders:'clear old orders',
+    developer:'Developer', systemInfo:'system info',
+    apiStatus:'API status', reloadProducts:'products', clearCart:'cart',
+    reloadProfile:'profile', testNotif:'notification', resetAll:'reset all',
+    log:'log', clearLog:'clear',
+    broadcast:'Broadcast', broadcastMsg:'message to all users',
+    sendBroadcast:'send broadcast',
+    reviews:'Reviews', support:'Support',
+    incomingMsg:'incoming messages', buyerRatings:'buyer ratings',
+    exitAdmin:'Exit',
   },
   et: {
     catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
@@ -1114,6 +1156,27 @@ const LANGS = {
     recommended:'soovituslik suurus',
     invited:'kutsutud', discount:'allahindlus',
     friend:'sõber', friends:'sõpra',
+    // Admin
+    dashboard:'Ülevaade', allOrders:'kõik tellimused', products:'Tooted',
+    addProduct:'lisa arhiivi', productName:'nimi', productPrice:'hind €',
+    productPhoto:'toote foto', productDesc:'kirjeldus', productCat:'kategooria',
+    newCategory:'uus kategooria', catName:'Nimi', catEmoji:'Emoji',
+    adjustPrice:'hinna muutus', adjustMax:'max +20%', adjustHint:'praegune hind',
+    adjustReason:'põhjus ostjale', sendToBuyer:'saada ostjale',
+    writeBuyer:'sõnum ostjale', sendMessage:'saada',
+    users:'Kasutajad', totalUsers:'kokku', activeUsers:'aktiivsed',
+    settings:'Seaded', shopName:'poe nimi', currency:'valuuta',
+    minOrder:'miinimumtellimus', saveSettings:'salvesta seaded',
+    exportData:'ekspordi andmed', wipeOrders:'kustuta vanad tellimused',
+    developer:'Arendaja', systemInfo:'süsteemi info',
+    apiStatus:'API staatus', reloadProducts:'tooted', clearCart:'ostukorv',
+    reloadProfile:'profiil', testNotif:'teavitus', resetAll:'lähtesta kõik',
+    log:'logi', clearLog:'tühjenda',
+    broadcast:'Ringhääling', broadcastMsg:'sõnum kõigile kasutajatele',
+    sendBroadcast:'saada ringhääling',
+    reviews:'Arvustused', support:'Tugi',
+    incomingMsg:'sissetulevad sõnumid', buyerRatings:'ostjate hinnangud',
+    exitAdmin:'Välju',
   }
 };
 
@@ -1396,6 +1459,17 @@ function cardHtml(p) {
     + '</div></div>';
 }
 
+
+
+function previewPhoto(url) {
+  const prev = document.getElementById('aPhotoPreview');
+  if (!prev) return;
+  if (url && (url.startsWith('http') || url.startsWith('/'))) {
+    prev.innerHTML = '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.textContent=String.fromCodePoint(10022)">';
+  } else {
+    prev.innerHTML = '✦';
+  }
+}
 
 function doCart(pid) {
   const p = allProducts.find(x => x.id === pid);
@@ -2022,22 +2096,40 @@ async function adminCancelOrder(orderId) {
 
 function openAdjust(orderId) {
   adjOrderId = orderId;
+  const order = allOrders.find(o => o.id === orderId);
+  const orig = order ? parseFloat(order.total_price) : 0;
+  const max = order ? Math.round(orig * 1.20 * 100) / 100 : 0;
   document.getElementById('aAdjPrice').value = '';
   document.getElementById('aAdjReason').value = '';
+  // Show hints
+  const hint = document.getElementById('aAdjHint');
+  if (hint && order) hint.textContent = 'текущая: ' + orig.toFixed(2) + ' € · максимум +20%: ' + max.toFixed(2) + ' €';
+  const inp = document.getElementById('aAdjPrice');
+  if (inp) { inp.min = orig; inp.max = max; inp.placeholder = orig.toFixed(2); }
   openAdminPage('adjust');
 }
 async function submitAdjust() {
   const price = parseFloat(document.getElementById('aAdjPrice').value);
   const reason = document.getElementById('aAdjReason').value.trim();
   if (!price || !reason) { toast('заполните все поля'); return; }
+  // Show max allowed
+  const order = allOrders.find(o => o.id === adjOrderId);
+  if (order) {
+    const orig = parseFloat(order.total_price);
+    const max = Math.round(orig * 1.20 * 100) / 100;
+    if (price > max) { toast('максимум +20% = ' + max.toFixed(2) + ' €', 3000); return; }
+    if (price < orig) { toast('нельзя снизить цену', 2500); return; }
+  }
   try {
-    await fetch(`${API}/api/admin/orders/${adjOrderId}/adjust_price`, {
+    const r = await fetch(`${API}/api/admin/orders/${adjOrderId}/adjust_price`, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ admin_id: userId, new_price: price, reason })
     });
+    const d = await r.json();
+    if (!r.ok) { toast('✗ ' + (d.detail || 'ошибка'), 3000); return; }
     adminGoBack(); toast('✅ изменение цены отправлено покупателю');
     loadAdminOrders();
-  } catch { toast('ошибка'); }
+  } catch { toast('ошибка соединения'); }
 }
 
 function openWrite(orderId, buyerTgId) {
@@ -2048,9 +2140,17 @@ function openWrite(orderId, buyerTgId) {
 async function submitWrite() {
   const text = document.getElementById('aWriteText').value.trim();
   if (!text) { toast('введите сообщение'); return; }
-  // For now send via support echo — in production hook into bot
-  toast('✅ сообщение отправлено');
-  adminGoBack();
+  if (!writeUserId) { toast('нет получателя'); return; }
+  try {
+    const r = await fetch(`${API}/api/admin/message`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ admin_id: userId, telegram_id: writeUserId, order_id: writeOrderId, text })
+    });
+    const d = await r.json();
+    document.getElementById('aWriteText').value = '';
+    toast('✅ сообщение отправлено покупателю');
+    adminGoBack();
+  } catch { toast('ошибка отправки'); }
 }
 
 // ═══ PRODUCTS ═══
@@ -2142,6 +2242,7 @@ async function addProduct() {
   const name = document.getElementById('aPName').value.trim();
   const price = parseFloat(document.getElementById('aPPrice').value);
   const desc = document.getElementById('aPDesc').value.trim();
+  const photo = document.getElementById('aPPhoto')?.value.trim() || '';
   if (!name || !price) { toast('введите название и цену'); return; }
   try {
     const r = await fetch(`${API}/api/admin/products`, {
@@ -2149,10 +2250,19 @@ async function addProduct() {
       body: JSON.stringify({ admin_id: userId, name, price, category: selectedCat, description: desc })
     });
     const d = await r.json();
+    // If photo URL provided, set it
+    if (photo && d.id) {
+      await fetch(`${API}/api/admin/products/${d.id}/photo_url`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ admin_id: userId, photo_url: photo })
+      }).catch(() => {});
+    }
     document.getElementById('aPName').value = '';
     document.getElementById('aPPrice').value = '';
     document.getElementById('aPDesc').value = '';
-    toast(`✅ товар добавлен #${d.id}`);
+    if (document.getElementById('aPPhoto')) document.getElementById('aPPhoto').value = '';
+    if (document.getElementById('aPhotoPreview')) document.getElementById('aPhotoPreview').innerHTML = '✦';
+    toast('✅ товар добавлен #' + d.id);
     loadAdminProducts();
   } catch { toast('ошибка'); }
 }
@@ -2215,36 +2325,91 @@ async function sendBroadcast() {
     return;
   }
   pendingBroadcast = false;
-  // Broadcast via API - not yet exposed in REST, show guidance
-  toast('⚠ рассылка через Telegram Bot', 4000);
+  try {
+    const r = await fetch(`${API}/api/admin/broadcast`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ admin_id: userId, text })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      document.getElementById('aBroadcastText').value = '';
+      toast('✅ рассылка отправлена · ' + (d.sent || 0) + ' получателей', 4000);
+    } else { toast('✗ ' + (d.detail || 'ошибка'), 3000); }
+  } catch { toast('ошибка соединения'); }
 }
 
 
 
 // ═══ ADMIN USERS ═══
+let allUsers = [];
 async function loadAdminUsers() {
   const el = document.getElementById('aUsersContent');
   if (!el) return;
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
   try {
     const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
-    const users = await r.json();
-    document.getElementById('usrTotal').textContent = users.length;
-    const active = users.filter(u => u.orders > 0).length;
-    document.getElementById('usrActive').textContent = active;
-    if (!users.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">пользователей нет</div></div>'; return; }
-    el.innerHTML = users.slice(0,30).map(u =>
-      '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">'
-      + '<div>'
-      + '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--text)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
-      + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">заказов: ' + (u.orders||0) + ' · скидка: ' + (u.discount||0) + '%</div>'
-      + '</div>'
-      + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text3);font-style:italic">' + (u.orders>0?'†':'·') + '</div>'
-      + '</div>'
-    ).join('');
+    allUsers = await r.json();
+    document.getElementById('usrTotal').textContent = allUsers.length;
+    document.getElementById('usrActive').textContent = allUsers.filter(u => u.orders > 0).length;
+    renderUsers();
   } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
 }
 
+function renderUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el || !allUsers.length) { if(el) el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">пользователей нет</div></div>'; return; }
+  el.innerHTML = allUsers.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,0.3)">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div>'
+    + '</div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation" data-disc-btn-' + u.telegram_id + '="' + d + '">' + d + '%</button>'
+      ).join('')
+    + '</div>'
+    + '</div>'
+    + '</div>'
+  ).join('');
+}
+
+async function setUserDiscount(telegramId, discount, btn) {
+  try {
+    await fetch(API + '/api/admin/users/' + telegramId, {
+      method: 'PATCH', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, discount })
+    });
+    // Update UI
+    const u = allUsers.find(x => x.telegram_id === telegramId);
+    if (u) { u.discount = discount; renderUsers(); }
+    toast('✓ скидка ' + discount + '% установлена');
+  } catch { toast('ошибка'); }
+}
+
 // ═══ ADMIN SETTINGS ═══
+function loadSettings() {
+  const name = localStorage.getItem('shop_name_3x') || '';
+  const minOrder = localStorage.getItem('min_order_3x') || '';
+  const curr = localStorage.getItem('currency_3x') || '€';
+  const nameEl = document.getElementById('sShopName');
+  const minEl = document.getElementById('sMinOrder');
+  if (nameEl) nameEl.value = name;
+  if (minEl) minEl.value = minOrder;
+  // Mark active currency
+  document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
+    b.classList.toggle('on', b.textContent.includes(curr));
+  });
+}
+
 function setCurr(btn, symbol) {
   document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -2256,26 +2421,24 @@ function saveSettings() {
   const name = document.getElementById('sShopName')?.value.trim();
   const minOrder = document.getElementById('sMinOrder')?.value;
   if (name) localStorage.setItem('shop_name_3x', name);
-  if (minOrder) localStorage.setItem('min_order_3x', minOrder);
+  if (minOrder !== undefined) localStorage.setItem('min_order_3x', minOrder);
   toast('✓ настройки сохранены');
 }
 
 async function exportData() {
-  if (!userId) return;
-  devLog('↺ exporting...');
+  if (!userId) { toast('нет доступа'); return; }
   try {
-    const [orders, products, users] = await Promise.all([
+    const [orders, products] = await Promise.all([
       fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
       fetch(API + '/api/admin/products?admin_id=' + userId).then(r=>r.json()),
-      fetch(API + '/api/admin/users?admin_id=' + userId).then(r=>r.json()).catch(()=>[]),
     ]);
-    const data = { exported: new Date().toISOString(), orders: orders.length, products: products.length, users: users.length };
-    toast('✓ данные: ' + JSON.stringify(data), 4000);
-  } catch(e) { toast('✗ ошибка экспорта'); }
+    const total_rev = orders.filter(o=>o.status==='delivered').reduce((s,o)=>s+(+o.total_price||0),0);
+    toast('заказов: ' + orders.length + ' · товаров: ' + products.length + ' · выручка: ' + total_rev.toFixed(2) + '€', 5000);
+  } catch(e) { toast('✗ ' + e.message); }
 }
 
 async function wipeOldOrders() {
-  toast('⚠ функция недоступна в этой версии', 3000);
+  toast('⚠ удаление только через базу данных', 3000);
 }
 
 // ═══ LOGO — LONG PRESS 3s = ADMIN ═══
@@ -2424,7 +2587,7 @@ init();
 
 <!-- ORDERS -->
 <div class="view" id="vaOrders">
-  <div class="sec-head"><div class="sec-num">II</div><div class="sec-title">все заказы</div></div>
+  <div class="sec-head"><div class="sec-num">II</div><div class="sec-title" data-i18n="allOrders">все заказы</div></div>
   <div style="padding:0 14px 4px;">
     <div class="filter" id="aOrderFilter">
       <button class="fb on" data-status="all">Все</button>
@@ -2443,7 +2606,7 @@ init();
 
 <!-- PRODUCTS -->
 <div class="view" id="vaProducts">
-  <div class="sec-head"><div class="sec-num">III</div><div class="sec-title">товары</div></div>
+  <div class="sec-head"><div class="sec-num">III</div><div class="sec-title" data-i18n="products">товары</div></div>
   <!-- Add product form -->
   <div class="add-form" id="aAddForm">
     <!-- Gothic add form header -->
@@ -2464,6 +2627,16 @@ init();
       <div>
         <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">цена €</div>
         <input class="inp inp-sm" id="aPPrice" placeholder="0.00" type="number" step="0.01" style="margin-bottom:0;width:90px;text-align:center">
+      </div>
+    </div>
+
+    <!-- Photo -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">фото товара</div>
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px">
+      <div id="aPhotoPreview" style="width:64px;height:64px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text3)">✦</div>
+      <div style="flex:1;min-width:0">
+        <input class="inp inp-sm" id="aPPhoto" placeholder="URL фото (https://...)" style="margin-bottom:6px" oninput="previewPhoto(this.value)">
+        <div style="font-size:8px;font-weight:200;color:var(--text3);letter-spacing:0.1em">или загрузите через Telegram бота командой /addphoto</div>
       </div>
     </div>
 
@@ -2510,7 +2683,7 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreReviews');loadReviews()">
         <div class="more-glyph">⋆</div>
         <div class="more-info">
-          <div class="more-title">Отзывы</div>
+          <div class="more-title" data-i18n="reviews">Отзывы</div>
           <div class="more-sub-lbl">оценки покупателей</div>
         </div>
         <div class="more-arrow">›</div>
@@ -2526,7 +2699,7 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreBroadcast')">
         <div class="more-glyph">◈</div>
         <div class="more-info">
-          <div class="more-title">Рассылка</div>
+          <div class="more-title" data-i18n="broadcast">Рассылка</div>
           <div class="more-sub-lbl">отправить всем пользователям</div>
         </div>
         <div class="more-arrow">›</div>
@@ -2534,15 +2707,15 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreUsers');loadAdminUsers()">
         <div class="more-glyph">◇</div>
         <div class="more-info">
-          <div class="more-title">Пользователи</div>
+          <div class="more-title" data-i18n="users">Пользователи</div>
           <div class="more-sub-lbl">список и статистика</div>
         </div>
         <div class="more-arrow">›</div>
       </div>
-      <div class="more-item-a" onclick="openMoreSubA('aMoreSettings')">
+      <div class="more-item-a" onclick="openMoreSubA('aMoreSettings');loadSettings()">
         <div class="more-glyph">⚙</div>
         <div class="more-info">
-          <div class="more-title">Настройки</div>
+          <div class="more-title" data-i18n="settings">Настройки</div>
           <div class="more-sub-lbl">магазин и параметры</div>
         </div>
         <div class="more-arrow">›</div>
@@ -2550,7 +2723,7 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreDev');loadDevInfo()">
         <div class="more-glyph">⌥</div>
         <div class="more-info">
-          <div class="more-title">Разработчик</div>
+          <div class="more-title" data-i18n="developer">Разработчик</div>
           <div class="more-sub-lbl">отладка и диагностика</div>
         </div>
         <div class="more-arrow">›</div>
@@ -2579,7 +2752,7 @@ init();
   <!-- Broadcast -->
   <div class="more-sub-a" id="aMoreBroadcast">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">рассылка</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="broadcast">рассылка</div></div>
     <div class="broadcast-wrap">
       <div class="broadcast-box">
         <div class="form-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">сообщение всем пользователям</div>
@@ -2591,7 +2764,7 @@ init();
   <!-- Users -->
   <div class="more-sub-a" id="aMoreUsers">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title">пользователи</div></div>
+    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title" data-i18n="users">пользователи</div></div>
     <div style="padding:0 14px">
       <div class="stats-grid" style="margin-bottom:14px">
         <div class="stat-card"><div class="stat-val" id="usrTotal">—</div><div class="stat-key">всего</div></div>
@@ -2606,7 +2779,7 @@ init();
   <!-- Settings -->
   <div class="more-sub-a" id="aMoreSettings">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title">настройки</div></div>
+    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title" data-i18n="settings">настройки</div></div>
     <div style="padding:0 14px">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px">
         <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">магазин</div>
@@ -2633,7 +2806,7 @@ init();
   <!-- Dev -->
   <div class="more-sub-a" id="aMoreDev">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title">разработчик</div></div>
+    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title" data-i18n="developer">разработчик</div></div>
     <div style="padding:0 14px">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:14px">
         <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)">системная информация</div>
@@ -2665,12 +2838,14 @@ init();
     <span class="page-back-sym-a">←</span>
     <span class="page-back-lbl-a">заказы</span>
   </div>
-  <div class="sec-head"><div class="sec-title">изменение цены</div></div>
+  <div class="sec-head"><div class="sec-title" data-i18n="adjustPrice">изменение цены</div></div>
   <div style="padding:0 20px">
-    <label class="inp-label">новая цена (€)</label>
-    <input class="inp inp-sm" id="aAdjPrice" type="number" step="0.01" placeholder="0.00">
-    <label class="inp-label">причина</label>
-    <textarea class="inp inp-sm" id="aAdjReason" placeholder="Причина изменения..." style="min-height:80px;resize:none;"></textarea>
+    <div id="aAdjHint" style="font-size:10px;font-weight:200;letter-spacing:0.15em;color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:14px"></div>
+    <label class="inp-label">новая цена (€) — макс. +20%</label>
+    <input class="inp inp-sm" id="aAdjPrice" type="number" step="0.01" placeholder="0.00" style="margin-bottom:6px">
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);margin-bottom:14px">можно поднять не более чем на 20% из-за доставки или других факторов</div>
+    <label class="inp-label">причина для покупателя</label>
+    <textarea class="inp inp-sm" id="aAdjReason" placeholder="Например: доставка в отдалённый район +5€..." style="min-height:80px;resize:none;"></textarea>
     <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitAdjust()">отправить покупателю</button>
     <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
   </div>
@@ -2682,7 +2857,7 @@ init();
     <span class="page-back-sym-a">←</span>
     <span class="page-back-lbl-a">заказы</span>
   </div>
-  <div class="sec-head"><div class="sec-title">сообщение покупателю</div></div>
+  <div class="sec-head"><div class="sec-title" data-i18n="writeBuyer">сообщение покупателю</div></div>
   <div style="padding:0 20px">
     <textarea class="inp inp-sm" id="aWriteText" placeholder="Сообщение для покупателя..." style="min-height:120px;resize:none;"></textarea>
     <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitWrite()">отправить</button>
@@ -2692,11 +2867,11 @@ init();
 
 <!-- ADMIN NAV -->
 <nav class="nav admin-nav" id="adminNav">
-  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl">Сводка</span></button>
+  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard">Сводка</span></button>
   <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
-  <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl">Товары</span></button>
+  <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl" data-i18n="products">Товары</span></button>
   <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
-  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl">Выйти</span></button>
+  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin">Выйти</span></button>
 </nav>
 
 
