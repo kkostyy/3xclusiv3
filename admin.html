@@ -85,6 +85,57 @@ header { position:relative; z-index:1; } .toast { position:fixed; z-index:10000;
 .stat-card.danger .stat-val { color:var(--red); }
 .stat-card.success .stat-val { color:var(--green); }
 
+/* DASHBOARD EXTRA */
+.stat-card.amber { border-color:rgba(184,134,11,0.25); }
+.stat-card.amber::before { background:linear-gradient(90deg,transparent,#b8860b,transparent); }
+.stat-card.amber .stat-val { color:#b8860b; }
+.stat-val.sm { font-size:26px; }
+.stat-trend { font-size:9px; font-weight:200; letter-spacing:0.15em; margin-top:4px; }
+.stat-trend.up { color:var(--green); }
+.stat-trend.dn { color:var(--red); }
+.stat-trend.neutral { color:var(--text3); }
+.wide-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 18px; margin-bottom:10px; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
+.wide-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
+.wide-card-title { font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); margin-bottom:14px; }
+.rev-big { display:flex; align-items:baseline; gap:6px; margin-bottom:4px; }
+.rev-num { font-family:'Cormorant Garamond',serif; font-size:46px; font-weight:300; color:var(--green); line-height:1; }
+.rev-cur { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--green); opacity:0.6; }
+.rev-sub { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); }
+.rev-avg { font-size:11px; font-weight:200; letter-spacing:0.1em; color:var(--text2); margin-top:2px; }
+.spark-row { display:flex; align-items:flex-end; gap:3px; height:32px; margin-top:10px; }
+.spark-bar { flex:1; border-radius:2px 2px 0 0; background:rgba(232,228,220,0.12); min-height:3px; transition:height 0.6s cubic-bezier(0.16,1,0.3,1); }
+.spark-bar.hi { background:rgba(232,228,220,0.5); }
+.spark-labels { display:flex; margin-top:4px; }
+.spark-label { flex:1; font-size:7px; font-weight:200; letter-spacing:0.1em; color:var(--text3); text-align:center; }
+.funnel-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.funnel-label { font-size:8px; font-weight:200; letter-spacing:0.18em; color:var(--text2); min-width:72px; text-transform:uppercase; }
+.funnel-bar-wrap { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+.funnel-bar { height:100%; border-radius:2px; transition:width 1.1s cubic-bezier(0.16,1,0.3,1); }
+.funnel-count { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text2); min-width:28px; text-align:right; }
+.pending-row { display:flex; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); }
+.pending-row:last-child { border-bottom:none; }
+.pending-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-right:12px; }
+.pending-dot.red { background:var(--red); box-shadow:0 0 6px rgba(204,51,51,0.5); }
+.pending-dot.amber-d { background:#b8860b; }
+.pending-dot.green { background:var(--green); }
+.pending-label { font-size:10px; font-weight:200; letter-spacing:0.1em; color:var(--text2); flex:1; }
+.pending-val { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); }
+.dash-sub-head { font-size:9px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); padding:0 0 10px; border-bottom:1px solid var(--border); margin:0 0 12px; }
+.dash-top-item { display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); padding:10px 0; }
+.dash-top-item:last-child { border-bottom:none; padding-bottom:0; }
+.dash-top-rank { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text3); font-style:italic; min-width:26px; }
+.dash-top-info { flex:1; min-width:0; }
+.dash-top-name { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dash-top-sub { font-size:8px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-top:2px; }
+.dash-top-bar { width:100%; height:2px; background:var(--border); border-radius:1px; margin-top:5px; overflow:hidden; }
+.dash-top-bar-fill { height:100%; background:linear-gradient(90deg,rgba(232,228,220,0.25),rgba(232,228,220,0.65)); border-radius:1px; transition:width 1s cubic-bezier(0.16,1,0.3,1); }
+.dash-top-rev { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--accent); white-space:nowrap; }
+.insight-card { background:var(--accent2); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:12px 14px; margin-bottom:8px; }
+.insight-glyph { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--accent); opacity:0.5; margin-bottom:5px; }
+.insight-text { font-size:12px; font-weight:200; color:var(--text2); line-height:1.65; letter-spacing:0.03em; }
+.insight-text b { font-weight:400; color:var(--text); }
+.dash-ts { font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); text-align:right; padding:0 0 10px; text-transform:uppercase; }
+
 /* TOP PRODUCTS */
 .top-wrap { padding:0 14px 16px; }
 .top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; box-shadow:0 2px 12px rgba(0,0,0,0.35); }
@@ -1067,62 +1118,190 @@ async function loadBadges() {
 
 // ═══ DASHBOARD ═══
 const CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
+const ROMAN = ['I','II','III','IV','V'];
+
+function dashRenderFunnel(orders) {
+  const statuses = [
+    { key:'searching',  label:'В поиске',  color:'#cc3333' },
+    { key:'ordered',    label:'Заказано',  color:'#b8860b' },
+    { key:'in_transit', label:'В пути',    color:'#4a90d9' },
+    { key:'arrived',    label:'Прибыл',    color:'#9b59b6' },
+    { key:'delivered',  label:'Получен',   color:'#338833' },
+    { key:'cancelled',  label:'Отменён',   color:'rgba(240,236,228,0.18)' },
+  ];
+  const counts = {};
+  statuses.forEach(s => counts[s.key] = 0);
+  orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
+  const maxVal = Math.max(...Object.values(counts), 1);
+  return statuses.map(s => {
+    const w = Math.round((counts[s.key] / maxVal) * 100);
+    return `<div class="funnel-row">
+      <div class="funnel-label">${s.label}</div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:0%;background:${s.color}" data-w="${w}%"></div></div>
+      <div class="funnel-count">${counts[s.key]}</div>
+    </div>`;
+  }).join('');
+}
+
+function dashBuildInsights(stats, orders) {
+  const totalO = stats.total_orders || 0;
+  const delivered = orders.filter(o => o.status === 'delivered').length;
+  const cancelled = orders.filter(o => o.status === 'cancelled').length;
+  const cancRate = totalO > 0 ? Math.round((cancelled / totalO) * 100) : 0;
+  const convRate = totalO > 0 ? Math.round((delivered / totalO) * 100) : 0;
+  const avgOrder = delivered > 0 ? (stats.revenue / delivered).toFixed(0) : 0;
+  const insights = [];
+  if (stats.new_orders > 5) insights.push(`<b>${stats.new_orders} необработанных заказов</b> — срочно требуют внимания.`);
+  if (cancRate > 15) insights.push(`<b>Высокий процент отмен (${cancRate}%)</b> — стоит проверить причины.`);
+  if (stats.avg_rating > 0 && stats.avg_rating < 3.5) insights.push(`<b>Средний рейтинг ${stats.avg_rating} ★</b> — низкий показатель, нужен анализ отзывов.`);
+  if (convRate > 60) insights.push(`<b>Конверсия ${convRate}%</b> — отличный показатель завершённых заказов.`);
+  if (avgOrder > 0) insights.push(`<b>Средний чек ${avgOrder} €</b> на завершённый заказ.`);
+  if (!insights.length) insights.push('Накапливайте заказы — здесь появятся инсайты.');
+  return insights.map(t => `<div class="insight-card"><div class="insight-glyph">◈</div><div class="insight-text">${t}</div></div>`).join('');
+}
+
 async function loadDashboard() {
   const el = document.getElementById('statsContent');
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
   try {
-    const r = await fetch(`${API}/api/admin/stats?admin_id=${userId}`);
-    const d = await r.json();
+    const [statsRes, ordersRes] = await Promise.all([
+      fetch(`${API}/api/admin/stats?admin_id=${userId}`).then(r => r.json()),
+      fetch(`${API}/api/admin/orders?admin_id=${userId}`).then(r => r.json()).catch(() => [])
+    ]);
+    const s = statsRes;
+    const orders = Array.isArray(ordersRes) ? ordersRes : [];
+    const totalO = s.total_orders || 0;
+    const delivered = orders.filter(o => o.status === 'delivered').length;
+    const cancelled = orders.filter(o => o.status === 'cancelled').length;
+    const active = s.active_orders || 0;
+    const convRate = totalO > 0 ? Math.round((delivered / totalO) * 100) : 0;
+    const cancRate = totalO > 0 ? Math.round((cancelled / totalO) * 100) : 0;
+    const avgOrder = delivered > 0 ? (s.revenue / delivered) : 0;
+    const topMax = s.top_products?.length ? Math.max(...s.top_products.map(p => +p.revenue), 1) : 1;
+    const now = new Date();
+    const weekBuckets = Array(7).fill(0);
+    orders.forEach(o => {
+      if (!o.created_at) return;
+      const diff = Math.floor((now - new Date(o.created_at)) / 86400000);
+      if (diff >= 0 && diff < 7) weekBuckets[6 - diff]++;
+    });
+    const sparkMax = Math.max(...weekBuckets, 1);
+    const hiIdx = weekBuckets.indexOf(Math.max(...weekBuckets));
+    const days = ['пн','вт','ср','чт','пт','сб','вс'];
+    const sparkHTML = weekBuckets.map((v, i) =>
+      `<div class="spark-bar${i===hiIdx?' hi':''}" style="height:${Math.round((v/sparkMax)*100)}%;min-height:3px"></div>`
+    ).join('');
+    const ts = `${now.toLocaleDateString('ru-RU')} · ${now.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}`;
+
     el.innerHTML = `
+      <div class="dash-ts">${ts}</div>
       <div class="stats-grid" style="margin-bottom:10px">
         <div class="stat-card danger">
-          <div class="stat-val">${d.new_orders}</div>
+          <div class="stat-val">${s.new_orders}</div>
           <div class="stat-key">новых заказов</div>
+          <div class="stat-trend ${s.new_orders > 0 ? 'dn' : 'up'}">${s.new_orders > 0 ? '⚠ обработать' : '✓ готово'}</div>
         </div>
         <div class="stat-card accent">
-          <div class="stat-val">${d.active_orders}</div>
+          <div class="stat-val">${active}</div>
           <div class="stat-key">активных</div>
+          <div class="stat-trend neutral">${totalO} всего</div>
+        </div>
+      </div>
+      <div class="wide-card">
+        <div class="wide-card-title">выручка · доставленные заказы</div>
+        <div class="rev-big">
+          <div class="rev-num">${s.revenue.toFixed(0)}</div>
+          <div class="rev-cur">€</div>
+        </div>
+        <div class="rev-sub">завершено: ${delivered} · средний чек: ${avgOrder.toFixed(0)} €</div>
+        <div style="margin-top:14px">
+          <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">заказы за 7 дней</div>
+          <div class="spark-row">${sparkHTML}</div>
+          <div class="spark-labels">${days.map(d => `<div class="spark-label">${d}</div>`).join('')}</div>
         </div>
       </div>
       <div class="stats-grid three" style="margin-bottom:10px">
+        <div class="stat-card">
+          <div class="stat-val">${s.users}</div>
+          <div class="stat-key">польз.</div>
+        </div>
         <div class="stat-card success">
-          <div class="stat-val">${d.revenue.toFixed(0)}<span style="font-size:16px">€</span></div>
-          <div class="stat-key">выручка</div>
+          <div class="stat-val sm">${convRate}%</div>
+          <div class="stat-key">конверсия</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-val sm">${cancRate}%</div>
+          <div class="stat-key">отменено</div>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-bottom:10px">
+        <div class="stat-card amber">
+          <div class="stat-val">${s.avg_rating.toFixed(1)}<span style="font-size:16px">★</span></div>
+          <div class="stat-key">рейтинг</div>
+          <div class="stat-trend neutral">${s.reviews_count} отзывов</div>
         </div>
         <div class="stat-card">
-          <div class="stat-val">${d.users}</div>
-          <div class="stat-key">пользователей</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val">${d.total_orders}</div>
+          <div class="stat-val">${s.total_orders}</div>
           <div class="stat-key">заказов всего</div>
         </div>
       </div>
-      <div class="stats-grid" style="margin-bottom:16px">
-        <div class="stat-card">
-          <div class="stat-val">${d.avg_rating.toFixed(1)}</div>
-          <div class="stat-key">средний рейтинг</div>
+      <div class="dash-sub-head">воронка заказов</div>
+      <div class="wide-card">
+        <div class="wide-card-title">распределение по статусу</div>
+        ${dashRenderFunnel(orders)}
+      </div>
+      <div class="dash-sub-head">операции</div>
+      <div class="wide-card">
+        <div class="wide-card-title">требуют внимания</div>
+        <div class="pending-row">
+          <div class="pending-dot ${s.new_orders > 0 ? 'red' : 'green'}"></div>
+          <div class="pending-label">Необработанные заказы</div>
+          <div class="pending-val">${s.new_orders}</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-val">${d.reviews_count}</div>
-          <div class="stat-key">отзывов</div>
+        <div class="pending-row">
+          <div class="pending-dot ${active > 10 ? 'amber-d' : 'green'}"></div>
+          <div class="pending-label">Активных в работе</div>
+          <div class="pending-val">${active}</div>
+        </div>
+        <div class="pending-row">
+          <div class="pending-dot ${s.avg_rating > 0 && s.avg_rating < 3.5 ? 'red' : s.avg_rating >= 4 ? 'green' : 'amber-d'}"></div>
+          <div class="pending-label">Средний рейтинг</div>
+          <div class="pending-val">${s.avg_rating.toFixed(1)} ★</div>
+        </div>
+        <div class="pending-row">
+          <div class="pending-dot ${cancRate > 15 ? 'red' : 'green'}"></div>
+          <div class="pending-label">Процент отмен</div>
+          <div class="pending-val">${cancRate}%</div>
         </div>
       </div>
-      ${d.top_products?.length ? `
-        <div style="padding:0 0 12px"><div style="font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);">топ товары</div></div>
-        <div class="top-wrap" style="padding:0">
-          ${d.top_products.map((p,i) => `
-            <div class="top-item">
-              <div class="top-rank">${['I','II','III','IV','V'][i] || i+1}</div>
-              <div class="top-info">
-                <div class="top-name">${CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
-                <div class="top-sub">${p.sold} шт. продано</div>
+      ${s.top_products?.length ? `
+        <div class="dash-sub-head">топ товары</div>
+        <div class="wide-card">
+          <div class="wide-card-title">по выручке · доставленные</div>
+          ${s.top_products.map((p, i) => `
+            <div class="dash-top-item">
+              <div class="dash-top-rank">${ROMAN[i] || i+1}</div>
+              <div class="dash-top-info">
+                <div class="dash-top-name">${CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
+                <div class="dash-top-sub">${p.sold} шт. продано</div>
+                <div class="dash-top-bar"><div class="dash-top-bar-fill" style="width:0%" data-w="${Math.round((+p.revenue/topMax)*100)}%"></div></div>
               </div>
-              <div class="top-rev">${(+p.revenue).toFixed(2)} €</div>
+              <div class="dash-top-rev">${(+p.revenue).toFixed(0)} €</div>
             </div>`).join('')}
-        </div>` : ''}`;
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+        </div>` : ''}
+      <div class="dash-sub-head">инсайты</div>
+      ${dashBuildInsights(s, orders)}
+      <div style="height:16px"></div>
+    `;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.querySelectorAll('[data-w]').forEach(b => { b.style.width = b.dataset.w; });
+      });
+    });
+  } catch(e) {
+    el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">ошибка загрузки</div></div>';
+  }
 }
-
 // ═══ ORDERS ═══
 const STATUS = { searching:'в поиске', ordered:'заказано', in_transit:'в пути', arrived:'прибыл', delivered:'получен', cancelled:'отменён' };
 const STATUS_PCT = { searching:10, ordered:30, in_transit:60, arrived:85, delivered:100, cancelled:0 };
