@@ -340,6 +340,9 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 2;
+  pointer-events: all;
 }
 .empty-art {
   font-family: 'Cormorant Garamond', serif;
@@ -380,19 +383,24 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 }
 .empty-cta {
   background: none;
-  border: 1px solid rgba(204,34,34,0.25);
+  border: 1px solid rgba(204,34,34,0.3);
   color: var(--text2);
   font-family: 'Jost', sans-serif;
   font-size: 9px;
   font-weight: 200;
   letter-spacing: 0.45em;
   text-transform: uppercase;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-radius: 99px;
   cursor: pointer;
   touch-action: manipulation;
   transition: all 0.3s;
+  pointer-events: all;
+  position: relative;
+  z-index: 10;
+  display: inline-block;
 }
+.empty-cta:active { background: rgba(204,34,34,0.1); border-color: rgba(204,34,34,0.5); }
 .empty-cta:active { background: rgba(204,34,34,0.08); border-color: rgba(204,34,34,0.4); }
 .empty-quote {
   font-family: 'Cormorant Garamond', serif;
@@ -1108,7 +1116,7 @@ header { position: relative; z-index: 1; }
         <div class="more-item-glyph">S</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="size">Размер</div>
-          <div class="more-item-sub">подобрать по росту и весу</div>
+          <div class="more-item-sub"><span data-i18n="sizeDesc">подобрать по росту и весу</span></div>
         </div>
         <div class="more-item-arrow">›</div>
       </div>
@@ -1324,6 +1332,27 @@ async function deleteCat(id) {
 const LANGS = {
   ru: {
     catalog:'Каталог', orders:'Заказы', cart:'Корзина', profile:'Профиль', more:'Ещё',
+    cartTitle:'корзина', moreTitle:'ещё',
+    size:'Размер', sizeDesc:'<span data-i18n="sizeDesc">подобрать по росту и весу</span>',
+    referrals:'Рефералы', referralsDesc:'скидка за приглашённых друзей',
+    notifications:'Уведомления', notifDesc:'подписки на новинки',
+    support:'Поддержка', supportDesc:'написать продавцу',
+    delivery:'Доставка', deliveryDesc:'зоны и стоимость',
+    sizeTitle:'размер', heightLabel:'рост (см)', weightLabel:'вес (кг)',
+    refTitle:'рефералы', notifTitle:'уведомления',
+    supportTitle:'поддержка', deliveryTitle:'зоны доставки',
+    myOrders:'мои заказы', ordersTitle:'заказы',
+    checkout:'оформить заказ', clearCart:'очистить корзину',
+    nameLabel:'имя и фамилия', phoneLabel:'телефон',
+    addressLabel:'адрес', commentLabel:'комментарий',
+    submitOrder:'подтвердить заказ', backToCart:'← корзина',
+    linkCopied:'ссылка скопирована',
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
+    cartEmpty:'корзина пуста', cartEmptyDesc:'добавьте товары из каталога', openCatalog:'открыть каталог',
+    ordersEmpty:'заказов пока нет', ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
+    wishEmpty:'избранное пусто', wishEmptyDesc:'сохраняйте понравившиеся товары',
+    noConn:'нет соединения', noConnDesc:'проверьте подключение к сети', tryAgain:'попробовать снова',
+    catEmpty:'архив пуст', catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
     addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
     size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
     support:'Поддержка', delivery:'Доставка',
@@ -1376,6 +1405,27 @@ const LANGS = {
   },
   en: {
     catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
+    cartTitle:'cart', moreTitle:'more',
+    size:'Size', sizeDesc:'find by height and weight',
+    referrals:'Referrals', referralsDesc:'discount for invited friends',
+    notifications:'Notifications', notifDesc:'subscribe to new arrivals',
+    support:'Support', supportDesc:'write to seller',
+    delivery:'Delivery', deliveryDesc:'zones and costs',
+    sizeTitle:'size', heightLabel:'height (cm)', weightLabel:'weight (kg)',
+    refTitle:'referrals', notifTitle:'notifications',
+    supportTitle:'support', deliveryTitle:'delivery zones',
+    myOrders:'my orders', ordersTitle:'orders',
+    checkout:'place order', clearCart:'clear cart',
+    nameLabel:'full name', phoneLabel:'phone',
+    addressLabel:'address', commentLabel:'comment',
+    submitOrder:'confirm order', backToCart:'← cart',
+    linkCopied:'link copied',
+    ordersCount:'orders', referralsCount:'referrals', discountCount:'discount',
+    cartEmpty:'cart is empty', cartEmptyDesc:'add items from the catalog', openCatalog:'open catalog',
+    ordersEmpty:'no orders yet', ordersEmptyDesc:'your orders will appear here', goToCatalog:'go to catalog',
+    wishEmpty:'wishlist is empty', wishEmptyDesc:'save items you like',
+    noConn:'no connection', noConnDesc:'check your network connection', tryAgain:'try again',
+    catEmpty:'archive empty', catEmptyDesc:'no items in this category', allItems:'all items',
     addCart:'add to cart', noStock:'out of stock', loading:'loading archive',
     size:'Size', referrals:'Referrals', notifications:'Notifications',
     support:'Support', delivery:'Delivery',
@@ -1633,7 +1683,7 @@ function renderCartPage() {
   const body = document.getElementById('cartPageBody');
   const foot = document.getElementById('cartPageFoot');
   if (!items.length) {
-    body.innerHTML = emptyState('⚰†⚰','корзина пуста','добавьте товары из каталога','открыть каталог',"switchView('catalog')", 'memento mori');
+    body.innerHTML = emptyState('⚰†⚰', t('cartEmpty'), t('cartEmptyDesc'), t('openCatalog'), "switchView('catalog')", 'memento mori');
     foot.innerHTML = ''; return;
   }
   body.innerHTML = items.map(i => `
@@ -1742,7 +1792,7 @@ async function loadProducts() {
     allProducts = await r.json();
   } catch (e) {
     allProducts = [];
-    if (grid) grid.innerHTML = emptyState('✦','нет соединения','проверьте подключение к сети','попробовать снова','loadProducts()', 'ex nihilo nihil fit');
+    if (grid) grid.innerHTML = emptyState('✦', t('noConn'), t('noConnDesc'), t('tryAgain'), 'loadProducts()', 'ex nihilo nihil fit');
     return;
   }
   renderGrid();
@@ -1796,7 +1846,7 @@ function renderGrid() {
   const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
   const grid = document.getElementById('productGrid');
   if (!list.length) {
-    grid.innerHTML = '<div style="grid-column:1/-1">' + emptyState('◆','архив пуст','в этой категории нет товаров','все товары',"activeCat='all';renderGrid()", 'ars longa') + '</div>'; return;
+    grid.innerHTML = '<div style="grid-column:1/-1">' + emptyState('◆', t('catEmpty'), t('catEmptyDesc'), t('allItems'), "activeCat='all';renderGrid()", 'ars longa') + '</div>'; return;
   }
   grid.innerHTML = list.map(cardHtml).join('');
   if (window._fixTouchAfterLoad) window._fixTouchAfterLoad();
@@ -1866,7 +1916,7 @@ async function loadWishlist() {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
     wishIds = new Set(items.map(p => p.id));
-    if (!items.length) { grid.innerHTML = emptyState('♡','избранное пусто','сохраняйте понравившиеся товары нажав ♡','перейти в каталог',"switchView('catalog')", 'de gustibus'); return; }
+    if (!items.length) { grid.innerHTML = emptyState('♡', t('wishEmpty'), t('wishEmptyDesc') + ' ♡', t('goToCatalog'), "switchView('catalog')", 'de gustibus'); return; }
     grid.innerHTML = items.map(p => {
       const ph = p.photo_id
         ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
@@ -1902,7 +1952,7 @@ async function loadOrders() {
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
     const orders = await r.json();
-    if (!orders.length) { el.innerHTML = emptyState('☩','заказов пока нет','ваши заказы появятся здесь','перейти в каталог',"switchView('catalog')", 'in fashion veritas'); return; }
+    if (!orders.length) { el.innerHTML = emptyState('☩', t('ordersEmpty'), t('ordersEmptyDesc'), t('goToCatalog'), "switchView('catalog')", 'in fashion veritas'); return; }
     el.innerHTML = orders.map(o => {
       const isActive = STATUS_ACTIVE.includes(o.status);
       const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -3295,7 +3345,7 @@ init();
   <!-- Support -->
   <div class="more-sub-a" id="aMoreSupport">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">поддержка</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="supportTitle">поддержка</div></div>
     <div class="support-wrap" id="aSupportContent">
       <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
     </div>
