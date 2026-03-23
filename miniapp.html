@@ -733,6 +733,8 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 
 /* ADMIN NAV */
 .admin-nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(2,2,2,0.92)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:none; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+body.admin-mode .admin-nav { display:flex; }
+body.admin-mode #mainNav { display:none !important; }
 .admin-nav .nav-btn::before { background: var(--red, #c0392b); }
 </style>
 </head>
@@ -1180,7 +1182,7 @@ function openDetail(pid) {
   if (!p) return;
   document.getElementById('detailBody').innerHTML =
     '<div class="detail-img" style="width:calc(100% + 40px);margin:-20px -20px 0;aspect-ratio:3/4;background:var(--bg3);overflow:hidden;display:flex;align-items:center;justify-content:center;">'
-    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:'Cormorant Garamond',serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (catGlyph[p.category]||'✦') + '</span>')
+    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (catGlyph[p.category]||'✦') + '</span>')
     + '</div>'
     + '<div class="detail-meta">'
     + '<div class="detail-cat">' + (catLabel[p.category]||p.category) + ' / ' + String(p.id).padStart(4,'0') + '</div>'
@@ -1311,7 +1313,7 @@ async function priceDecision(orderId, action) {
 function openReview(orderId) {
   reviewOrderId = orderId; reviewStars = 0;
   document.getElementById('reviewBody').innerHTML = `
-    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
+    <div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
     <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">оценка</div>
     <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
     <textarea class="inp" id="revText" placeholder="Комментарий (необязательно)..."></textarea>
@@ -1477,7 +1479,7 @@ function loadDelivery() {
       <div class="zone-name">${z.name}</div>
       <div class="zone-area">${z.area}</div>
       <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
-    </div>`).join('') + '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">Оплата наличными при встрече с продавцом</p>';
+    </div>`).join('') + '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">Оплата наличными при встрече с продавцом</p>';
 }
 
 // ═══ NAVIGATION ═══
@@ -1525,9 +1527,9 @@ function openAdminPage(key) {
   });
   const el = document.getElementById('v' + key);
   if (el) el.classList.add('on');
-  // Hide main nav, show admin nav
-  document.getElementById('mainNav').style.display = 'none';
-  document.getElementById('adminNav').style.display = adminStack.length <= 1 ? '' : 'none';
+  // subpage: hide admin nav too
+  if (adminStack.length > 1) document.getElementById('adminNav').style.display = 'none';
+  else if (document.body.classList.contains('admin-mode')) document.getElementById('adminNav').style.display = 'flex';
   window.scrollTo(0, 0);
 }
 
@@ -1542,8 +1544,7 @@ function switchAdminView(v) {
     const nel = document.getElementById('na' + k);
     if (nel) nel.classList.toggle('on', k === v);
   });
-  document.getElementById('adminNav').style.display = '';
-  document.getElementById('mainNav').style.display = 'none';
+
   adminStack = [v];
   if (v === 'aDashboard') loadDashboard();
   if (v === 'aOrders') loadAdminOrders();
@@ -1555,6 +1556,7 @@ function switchAdminView(v) {
 function adminGoBack() {
   if (adminStack.length > 1) adminStack.pop();
   const prev = adminStack[adminStack.length - 1] || 'aDashboard';
+  document.getElementById('adminNav').style.display = 'flex';
   if (['aDashboard','aOrders','aProducts','aMore'].includes(prev)) {
     switchAdminView(prev);
   } else {
@@ -1574,8 +1576,7 @@ function exitAdmin() {
     const el = document.getElementById('v' + k);
     if (el) el.classList.remove('on');
   });
-  document.getElementById('adminNav').style.display = 'none';
-  document.getElementById('mainNav').style.display = '';
+  document.body.classList.remove('admin-mode');
   switchView('profile');
 }
 
@@ -1591,7 +1592,7 @@ function openAdmin() {
     const el = document.getElementById(vid);
     if (el) el.classList.remove('on');
   });
-  document.getElementById('mainNav').style.display = 'none';
+  document.body.classList.add('admin-mode');
   switchAdminView('aDashboard');
 }
 
@@ -1608,7 +1609,7 @@ async function loadBadges() {
 }
 
 // ═══ DASHBOARD ═══
-const CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
+const ADMIN_CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
 async function loadDashboard() {
   const el = document.getElementById('aStatsContent');
   try {
@@ -1656,7 +1657,7 @@ async function loadDashboard() {
             <div class="top-item">
               <div class="top-rank">${['I','II','III','IV','V'][i] || i+1}</div>
               <div class="top-info">
-                <div class="top-name">${CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
+                <div class="top-name">${ADMIN_CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
                 <div class="top-sub">${p.sold} шт. продано</div>
               </div>
               <div class="top-rev">${(+p.revenue).toFixed(2)} €</div>
@@ -1666,9 +1667,9 @@ async function loadDashboard() {
 }
 
 // ═══ ORDERS ═══
-const STATUS = { searching:'в поиске', ordered:'заказано', in_transit:'в пути', arrived:'прибыл', delivered:'получен', cancelled:'отменён' };
-const STATUS_PCT = { searching:10, ordered:30, in_transit:60, arrived:85, delivered:100, cancelled:0 };
-const STATUS_ACTIVE = ['searching','ordered','in_transit','arrived'];
+const ADMIN_STATUS = { searching:'в поиске', ordered:'заказано', in_transit:'в пути', arrived:'прибыл', delivered:'получен', cancelled:'отменён' };
+const ADMIN_STATUS_PCT = { searching:10, ordered:30, in_transit:60, arrived:85, delivered:100, cancelled:0 };
+const ADMIN_STATUS_ACTIVE = ['searching','ordered','in_transit','arrived'];
 
 async function loadAdminOrders() {
   const el = document.getElementById('aOrdersContent');
@@ -1700,7 +1701,7 @@ function renderAdminOrders() {
   if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
   if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов нет</div></div>'; return; }
   el.innerHTML = orders.map(o => {
-    const isActive = STATUS_ACTIVE.includes(o.status);
+    const isActive = ADMIN_STATUS_ACTIVE.includes(o.status);
     const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
     const tgHandle = o.tg || (o.username ? '@'+o.username : `id${o.telegram_id}`);
     return `<div class="order-card ${isActive?'is-active':''}">
@@ -1709,7 +1710,7 @@ function renderAdminOrders() {
           <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
           <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0,10)||''}</div>
         </div>
-        <div class="order-badge">${STATUS[o.status]||o.status}</div>
+        <div class="order-badge">${ADMIN_STATUS[o.status]||o.status}</div>
       </div>
       <div class="order-divider"></div>
       <div class="order-items">${items||'—'}</div>
@@ -1717,7 +1718,7 @@ function renderAdminOrders() {
         👤 ${o.customer_name||'—'} · ${tgHandle}<br>
         📞 ${o.phone||'—'} · 📍 ${o.address||'—'}
       </div>
-      <div class="order-bar"><div class="order-bar-fill" style="width:${STATUS_PCT[o.status]||0}%"></div></div>
+      <div class="order-bar"><div class="order-bar-fill" style="width:${ADMIN_STATUS_PCT[o.status]||0}%"></div></div>
       <div class="order-card-foot">
         <select class="status-select" onchange="updateStatus(${o.id},this.value)">
           ${['searching','ordered','in_transit','arrived','delivered','cancelled'].map(s =>
@@ -1802,8 +1803,8 @@ async function loadAdminProducts() {
       <div class="prod-card" id="apc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
           ${p.photo_id
-            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${CAT_ICONS[p.category]||'🛍'}';">`
-            : CAT_ICONS[p.category]||'🛍'}</div>
+            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${ADMIN_CAT_ICONS[p.category]||'🛍'}';">`
+            : ADMIN_CAT_ICONS[p.category]||'🛍'}</div>
         <div class="prod-info">
           <div class="prod-name">${p.name}</div>
           <div class="prod-meta">${p.category} · #${p.id}</div>
