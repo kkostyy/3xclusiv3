@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark" data-lang="ru">
 <head>
@@ -616,6 +615,52 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 
 
+
+
+
+/* Admin empty states */
+.more-sub-a .empty-rich { padding: 40px 20px; }
+.more-sub-a .empty-art { font-size: 44px; }
+.more-sub-a .empty-title { font-size: 20px; }
+
+/* ADMIN HUB CARDS */
+.admin-hub-card {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px 20px; margin-bottom: 10px;
+  cursor: pointer; touch-action: manipulation;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.4);
+}
+.admin-hub-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204,34,34,0.2), transparent);
+}
+.admin-hub-card:active { border-color: rgba(204,34,34,0.3); box-shadow: 0 0 20px rgba(204,34,34,0.06); }
+.ahc-icon {
+  font-family: var(--font-serif); font-size: 28px;
+  color: rgba(204,34,34,0.5); font-style: italic;
+  width: 36px; text-align: center; flex-shrink: 0; line-height: 1;
+}
+.ahc-body { flex: 1; min-width: 0; }
+.ahc-title {
+  font-family: var(--font-serif); font-size: 20px;
+  font-weight: 300; color: var(--text); margin-bottom: 2px;
+}
+.ahc-sub {
+  font-size: 8px; font-weight: 200; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 6px;
+}
+.ahc-meta {
+  font-size: 10px; font-weight: 200; letter-spacing: 0.1em;
+  color: var(--text2); line-height: 1.4;
+}
+.ahc-arrow {
+  font-family: var(--font-serif); font-size: 20px;
+  color: var(--text3); flex-shrink: 0;
+}
 
 /* DEV PANEL */
 .dev-btn { background:var(--bg2); border:1px solid var(--border); border-radius:14px; color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:14px 8px; cursor:pointer; transition:all 0.25s; display:flex; flex-direction:column; align-items:center; gap:6px; touch-action:manipulation; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
@@ -2038,6 +2083,13 @@ function openAdmin() {
   });
   document.body.classList.add('admin-mode');
   switchAdminView('aDashboard');
+  // Pre-populate hub metas
+  setTimeout(() => {
+    const _sm = document.getElementById('hubSettingsMeta');
+    if(_sm) { const curr = localStorage.getItem('currency_3x')||'€'; const name = localStorage.getItem('shop_name_3x')||'3xclusiv33'; _sm.textContent = name + ' · ' + curr; }
+    const _dm = document.getElementById('hubDevMeta');
+    if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform || navigator.platform || '—');
+  }, 100);
   // Auto-refresh badges every 60s
   if (_badgeTimer) clearInterval(_badgeTimer);
   _badgeTimer = setInterval(() => { if (document.body.classList.contains('admin-mode')) loadBadges(); }, 60000);
@@ -2152,7 +2204,7 @@ function renderAdminOrders() {
   const el = document.getElementById('aOrdersContent');
   let orders = allOrders;
   if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
-  if (!orders.length) { el.innerHTML = emptyState('◇','заказов нет','новые заказы появятся здесь','','', ''); return; }
+  if (!orders.length) { el.innerHTML = emptyState('◇','заказов пока нет','новые заказы покупателей появятся здесь · нажмите обновить','обновить','loadAdminOrders()', 'tempus fugit'); return; }
   el.innerHTML = orders.map(o => {
     const isActive = ADMIN_STATUS_ACTIVE.includes(o.status);
     const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -2311,7 +2363,7 @@ async function loadAdminProducts() {
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
     const products = await r.json();
-    if (!products.length) { el.innerHTML = emptyState('†','архив пуст','добавьте первый товар в форме выше','','', ''); return; }
+    if (!products.length) { el.innerHTML = emptyState('†','архив пуст','добавьте первый товар через форму выше','прокрутить вверх','document.getElementById(\'vaProducts\').scrollTop=0', 'ars longa vita brevis'); return; }
     el.innerHTML = products.map(p => `
       <div class="prod-card" id="apc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
@@ -2414,7 +2466,7 @@ async function loadReviews() {
   try {
     const r = await fetch(`${API}/api/admin/reviews?admin_id=${userId}`);
     const reviews = await r.json();
-    if (!reviews.length) { el.innerHTML = emptyState('⋆','отзывов пока нет','покупатели оставят оценки после получения заказов','','', ''); return; }
+    if (!reviews.length) { el.innerHTML = emptyState('⋆','отзывов пока нет','оценки появятся после первых выполненных заказов','','', 'vox populi vox dei'); return; }
     el.innerHTML = reviews.map(rv => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</div>
@@ -2436,7 +2488,7 @@ async function loadSupport() {
     const unread = msgs.filter(m => !m.is_read).length;
     const badge = document.getElementById('supportUnreadBadge');
     if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'inline' : 'none'; }
-    if (!msgs.length) { el.innerHTML = emptyState('✦','сообщений нет','входящие сообщения покупателей появятся здесь','','', ''); return; }
+    if (!msgs.length) { el.innerHTML = emptyState('✦','тишина','покупатели пишут через раздел Поддержка в приложении','','', 'silentium est aureum'); return; }
     el.innerHTML = msgs.map(m => `
       <div class="support-card" style="${!m.is_read ? 'border-color:rgba(204,34,34,0.25)' : ''}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
@@ -2530,6 +2582,7 @@ async function loadAdminUsers() {
     allUsers = await r.json();
     document.getElementById('usrTotal').textContent = allUsers.length;
     document.getElementById('usrActive').textContent = allUsers.filter(u => u.orders > 0).length;
+    const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
     renderUsers();
   } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
 }
@@ -2591,6 +2644,7 @@ async function loadSettings() {
     const s = await r.json();
     if (nameEl) nameEl.value = s.shop_name || '';
     if (minEl) minEl.value = s.min_order || '';
+    const _sm = document.getElementById('hubSettingsMeta'); if(_sm) _sm.textContent = (s.shop_name||'3xclusiv33') + ' · ' + (s.currency||'€') + ' · мин. ' + (s.min_order||0) + '€';
     const serverCurr = s.currency || '€';
     localStorage.setItem('currency_3x', serverCurr);
     document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
@@ -2718,6 +2772,7 @@ function loadDevInfo() {
     + '</div>'
   ).join('');
   devLog('✓ info refreshed');
+  const _dm = document.getElementById('hubDevMeta'); if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform||navigator.platform||'—');
 }
 
 function devLog(msg) {
@@ -2920,29 +2975,32 @@ init();
         </div>
         <div class="more-arrow">›</div>
       </div>
-      <div class="more-item-a" onclick="openMoreSubA('aMoreUsers');loadAdminUsers()">
-        <div class="more-glyph">◇</div>
-        <div class="more-info">
-          <div class="more-title" data-i18n="users">Пользователи</div>
-          <div class="more-sub-lbl">список и статистика</div>
+      <div class="admin-hub-card" onclick="openMoreSubA('aMoreUsers');loadAdminUsers()">
+        <div class="ahc-icon">◇</div>
+        <div class="ahc-body">
+          <div class="ahc-title" data-i18n="users">Пользователи</div>
+          <div class="ahc-sub">список и статистика</div>
+          <div class="ahc-meta" id="hubUsersMeta">—</div>
         </div>
-        <div class="more-arrow">›</div>
+        <div class="ahc-arrow">›</div>
       </div>
-      <div class="more-item-a" onclick="openMoreSubA('aMoreSettings');loadSettings()">
-        <div class="more-glyph">⚙</div>
-        <div class="more-info">
-          <div class="more-title" data-i18n="settings">Настройки</div>
-          <div class="more-sub-lbl">магазин и параметры</div>
+      <div class="admin-hub-card" onclick="openMoreSubA('aMoreSettings');loadSettings()">
+        <div class="ahc-icon">⚙</div>
+        <div class="ahc-body">
+          <div class="ahc-title" data-i18n="settings">Настройки</div>
+          <div class="ahc-sub">магазин и параметры</div>
+          <div class="ahc-meta" id="hubSettingsMeta">—</div>
         </div>
-        <div class="more-arrow">›</div>
+        <div class="ahc-arrow">›</div>
       </div>
-      <div class="more-item-a" onclick="openMoreSubA('aMoreDev');loadDevInfo()">
-        <div class="more-glyph">⌥</div>
-        <div class="more-info">
-          <div class="more-title" data-i18n="developer">Разработчик</div>
-          <div class="more-sub-lbl">отладка и диагностика</div>
+      <div class="admin-hub-card" onclick="openMoreSubA('aMoreDev');loadDevInfo()">
+        <div class="ahc-icon">⌥</div>
+        <div class="ahc-body">
+          <div class="ahc-title" data-i18n="developer">Разработчик</div>
+          <div class="ahc-sub">отладка и диагностика</div>
+          <div class="ahc-meta" id="hubDevMeta">—</div>
         </div>
-        <div class="more-arrow">›</div>
+        <div class="ahc-arrow">›</div>
       </div>
     </div>
   </div>
