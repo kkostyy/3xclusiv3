@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>3XCLUSIV33 — Сводка</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000000; --bg2: rgba(8,8,8,0.98); --bg3: rgba(12,12,12,0.99);
+  --border: rgba(255,255,255,0.06); --borderh: rgba(255,255,255,0.12);
+  --text: #f0ece4; --text2: rgba(240,236,228,0.45); --text3: rgba(240,236,228,0.18);
+  --accent: #e8e4dc; --accent2: rgba(232,228,220,0.07);
+  --red: #cc3333; --red2: rgba(180,40,40,0.12);
+  --green: #338833; --green2: rgba(40,120,40,0.12);
+  --amber: #b8860b; --amber2: rgba(184,134,11,0.12);
+  --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; }
+body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100%; -webkit-font-smoothing:antialiased; }
+
+/* CANVAS */
+#gothicCanvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+
+.wrap { position:relative; z-index:1; padding:0 0 40px; }
+
+/* HEADER */
+.hd { padding:28px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
+.logo { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; letter-spacing:0.08em; color:var(--text); line-height:1; text-shadow:0 0 40px rgba(255,255,255,0.15); }
+.logo sup { font-size:10px; color:var(--accent); font-weight:300; vertical-align:super; }
+.logo-eye { font-size:8px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:3px; }
+.admin-badge { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--red); border:1px solid rgba(200,40,40,0.45); border-radius:99px; padding:4px 10px; box-shadow:0 0 12px rgba(200,40,40,0.12); }
+
+/* RULE */
+.rule { display:flex; align-items:center; gap:12px; padding:18px 20px; }
+.rule-line { flex:1; height:1px; background:var(--border); }
+.rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--red); opacity:0.5; font-style:italic; letter-spacing:0.4em; }
+
+/* SECTION HEADER */
+.sec-head { padding:0 20px 20px; position:relative; }
+.sec-num { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:300; color:var(--text3); font-style:italic; position:absolute; top:-6px; right:16px; }
+.sec-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); padding-bottom:10px; border-bottom:1px solid var(--border); }
+
+/* STATS GRID */
+.stats-wrap { padding:0 14px 16px; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+.stats-grid.three { grid-template-columns:1fr 1fr 1fr; }
+.stats-grid.four { grid-template-columns:1fr 1fr 1fr 1fr; }
+.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 12px; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.5); min-width:0; }
+.stat-card.accent { border-color:rgba(255,255,255,0.2); }
+.stat-card.danger { border-color:rgba(192,57,43,0.2); }
+.stat-card.success { border-color:rgba(39,174,96,0.18); }
+.stat-card.amber { border-color:rgba(184,134,11,0.25); }
+.stat-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
+.stat-card.danger::before { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+.stat-card.success::before { background:linear-gradient(90deg,transparent,var(--green),transparent); }
+.stat-card.amber::before { background:linear-gradient(90deg,transparent,var(--amber),transparent); }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:var(--text); line-height:1; margin-bottom:5px; }
+.stat-val.sm { font-size:26px; }
+.stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); }
+.stat-trend { font-size:9px; font-weight:200; letter-spacing:0.15em; margin-top:4px; }
+.stat-trend.up { color:var(--green); }
+.stat-trend.dn { color:var(--red); }
+.stat-card.accent .stat-val { color:var(--accent); }
+.stat-card.danger .stat-val { color:var(--red); }
+.stat-card.success .stat-val { color:var(--green); }
+.stat-card.amber .stat-val { color:var(--amber); }
+
+/* WIDE CARD */
+.wide-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 18px; margin:0 14px 10px; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
+.wide-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
+.wide-card-title { font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); margin-bottom:14px; }
+
+/* FUNNEL / ORDER STATUS */
+.funnel-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.funnel-label { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text2); min-width:80px; text-transform:uppercase; }
+.funnel-bar-wrap { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.funnel-bar { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.funnel-count { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text2); min-width:32px; text-align:right; }
+
+/* MINI SPARKLINE */
+.spark-row { display:flex; align-items:flex-end; gap:3px; height:32px; margin-top:10px; }
+.spark-bar { flex:1; border-radius:2px 2px 0 0; background:rgba(232,228,220,0.15); min-height:3px; transition:height 0.6s cubic-bezier(0.16,1,0.3,1); position:relative; }
+.spark-bar.hi { background:rgba(232,228,220,0.45); }
+
+/* REVENUE INLINE */
+.rev-big { display:flex; align-items:baseline; gap:6px; margin-bottom:6px; }
+.rev-num { font-family:'Cormorant Garamond',serif; font-size:46px; font-weight:300; color:var(--green); line-height:1; }
+.rev-cur { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--green); opacity:0.6; }
+.rev-sub { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); }
+.rev-avg { font-size:11px; font-weight:200; letter-spacing:0.1em; color:var(--text2); margin-top:2px; }
+
+/* TOP PRODUCTS */
+.top-item { display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); padding:10px 0; }
+.top-item:last-child { border-bottom:none; padding-bottom:0; }
+.top-rank { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text3); font-style:italic; min-width:26px; }
+.top-info { flex:1; min-width:0; }
+.top-name { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.top-sub { font-size:8px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-top:2px; }
+.top-rev { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--accent); white-space:nowrap; }
+.top-bar { width:100%; height:2px; background:var(--border); border-radius:1px; margin-top:5px; overflow:hidden; }
+.top-bar-fill { height:100%; background:linear-gradient(90deg,rgba(232,228,220,0.3),rgba(232,228,220,0.7)); border-radius:1px; transition:width 1s cubic-bezier(0.16,1,0.3,1); }
+
+/* REFERRAL / USERS BLOCK */
+.ref-grid { display:flex; gap:10px; }
+.ref-cell { flex:1; text-align:center; padding:10px 6px; background:var(--bg3); border:1px solid var(--border); border-radius:12px; }
+.ref-num { font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--text); }
+.ref-lbl { font-size:8px; font-weight:200; letter-spacing:0.25em; text-transform:uppercase; color:var(--text3); margin-top:2px; }
+
+/* CONVERSION GAUGE */
+.gauge-wrap { display:flex; align-items:center; gap:16px; }
+.gauge-arc { flex-shrink:0; }
+.gauge-info { flex:1; }
+.gauge-pct { font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--text); }
+.gauge-lbl { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); margin-top:2px; }
+.gauge-note { font-size:10px; font-weight:200; color:var(--text2); margin-top:6px; line-height:1.5; }
+
+/* QC / PENDING ROW */
+.pending-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+.pending-row:last-child { border-bottom:none; }
+.pending-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-right:10px; }
+.pending-dot.red { background:var(--red); box-shadow:0 0 6px rgba(204,51,51,0.5); }
+.pending-dot.amber { background:var(--amber); }
+.pending-dot.green { background:var(--green); }
+.pending-label { font-size:10px; font-weight:200; letter-spacing:0.1em; color:var(--text2); flex:1; }
+.pending-val { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); }
+
+/* LOADER */
+.loader { padding:80px 20px; text-align:center; }
+.loader-sym { font-family:'Cormorant Garamond',serif; font-size:36px; font-style:italic; color:var(--text3); animation:pulse 2s ease-in-out infinite; }
+.loader-txt { font-size:9px; font-weight:200; letter-spacing:0.5em; color:var(--text3); text-transform:uppercase; margin-top:14px; }
+@keyframes pulse { 0%,100%{opacity:0.2;transform:scale(0.95)} 50%{opacity:0.8;transform:scale(1.05)} }
+
+/* REFRESH */
+.refresh-btn { display:flex; align-items:center; gap:7px; background:none; border:1px solid var(--border); border-radius:12px; padding:8px 14px; cursor:pointer; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; transition:all 0.3s; }
+.refresh-btn:hover { border-color:var(--borderh); color:var(--text); }
+.refresh-btn.spin { animation:spin 1s linear; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.refresh-sym { display:inline-block; }
+
+/* TIMESTAMP */
+.ts-line { font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); text-align:right; padding:0 20px 8px; text-transform:uppercase; }
+
+/* SECTION DIVIDER */
+.sub-head { font-size:9px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); padding:0 0 10px; border-bottom:1px solid var(--border); margin:0 14px 12px; }
+
+/* INSIGHT CARD */
+.insight { background:var(--accent2); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:14px 16px; margin:0 14px 10px; }
+.insight-glyph { font-family:'Cormorant Garamond',serif; font-size:20px; font-style:italic; color:var(--accent); opacity:0.6; margin-bottom:6px; }
+.insight-text { font-size:12px; font-weight:200; color:var(--text2); line-height:1.7; letter-spacing:0.03em; }
+.insight-text strong { font-weight:400; color:var(--text); }
+</style>
+</head>
+<body>
+<canvas id="gothicCanvas"></canvas>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hd">
+    <div>
+      <div class="logo-eye">admin</div>
+      <div class="logo">3<span style="font-style:italic">x</span>clusiv<sup>3</sup></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="refresh-btn" id="refreshBtn" onclick="loadAll()">
+        <span class="refresh-sym" id="refreshSym">↻</span> обновить
+      </button>
+      <div class="admin-badge">admin</div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-sym">✦ сводка ✦</div><div class="rule-line"></div></div>
+
+  <div class="sec-head">
+    <div class="sec-num">I</div>
+    <div class="sec-title">обзор магазина</div>
+  </div>
+
+  <div id="mainContent">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка данных</div></div>
+  </div>
+
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API = 'https://3xclusiv3-production.up.railway.app';
+const ADMIN_ID = new URLSearchParams(location.search).get('admin_id') || 0;
+const CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
+const ROMAN = ['I','II','III','IV','V'];
+
+// ── CANVAS ──────────────────────────────────────────────────────────────────
+(function initCanvas() {
+  const c = document.getElementById('gothicCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  const particles = [];
+  function resize() {
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i = 0; i < 28; i++) particles.push({
+    x: Math.random()*1000, y: Math.random()*1200,
+    vy: 0.08 + Math.random()*0.12, alpha: 0.03 + Math.random()*0.08, size: 1 + Math.random()*1.5
+  });
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x % W, p.y % H, p.size, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(232,228,220,${p.alpha})`;
+      ctx.fill();
+      p.y += p.vy;
+      if (p.y > H+10) p.y = -10;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── GAUGES ──────────────────────────────────────────────────────────────────
+function drawGauge(canvasId, pct, color='#338833') {
+  const cv = document.getElementById(canvasId);
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const cx = 38, cy = 38, r = 28;
+  ctx.clearRect(0,0,76,76);
+  // bg arc
+  ctx.beginPath(); ctx.arc(cx,cy,r, Math.PI*0.75, Math.PI*0.25);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.stroke();
+  // fill arc
+  const end = Math.PI*0.75 + (Math.PI*1.5)*(pct/100);
+  ctx.beginPath(); ctx.arc(cx,cy,r, Math.PI*0.75, end);
+  ctx.strokeStyle = color; ctx.lineWidth = 5; ctx.stroke();
+}
+
+// ── SPARK ───────────────────────────────────────────────────────────────────
+function renderSpark(data, hiIdx) {
+  const max = Math.max(...data, 1);
+  return data.map((v,i) =>
+    `<div class="spark-bar ${i===hiIdx?'hi':''}" style="height:${Math.round((v/max)*100)+'%'}"></div>`
+  ).join('');
+}
+
+// ── STATUS FUNNEL ────────────────────────────────────────────────────────────
+function renderFunnel(orders) {
+  const statuses = [
+    { key:'searching',  label:'В поиске',  color:'#cc3333' },
+    { key:'ordered',    label:'Заказано',  color:'#b8860b' },
+    { key:'in_transit', label:'В пути',    color:'#4a90d9' },
+    { key:'arrived',    label:'Прибыл',    color:'#9b59b6' },
+    { key:'delivered',  label:'Получен',   color:'#338833' },
+    { key:'cancelled',  label:'Отменён',   color:'rgba(240,236,228,0.2)' },
+  ];
+  const counts = {};
+  statuses.forEach(s => counts[s.key] = 0);
+  orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
+  const maxVal = Math.max(...Object.values(counts), 1);
+  return statuses.map(s => {
+    const w = Math.round((counts[s.key]/maxVal)*100);
+    return `<div class="funnel-row">
+      <div class="funnel-label">${s.label}</div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:0%;background:${s.color}" data-w="${w}%"></div></div>
+      <div class="funnel-count">${counts[s.key]}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── LOAD ORDERS ──────────────────────────────────────────────────────────────
+async function fetchOrders() {
+  try {
+    const r = await fetch(`${API}/api/admin/orders?admin_id=${ADMIN_ID}`);
+    return await r.json();
+  } catch { return []; }
+}
+
+// ── LOAD USERS ───────────────────────────────────────────────────────────────
+async function fetchUsers() {
+  try {
+    const r = await fetch(`${API}/api/admin/users?admin_id=${ADMIN_ID}&limit=200`);
+    const d = await r.json();
+    return Array.isArray(d) ? d : (d.users || []);
+  } catch { return []; }
+}
+
+// ── LOAD QC ───────────────────────────────────────────────────────────────────
+async function fetchQC() {
+  try {
+    const r = await fetch(`${API}/api/admin/qc?admin_id=${ADMIN_ID}`);
+    const d = await r.json();
+    return Array.isArray(d) ? d : [];
+  } catch { return []; }
+}
+
+// ── INSIGHTS ─────────────────────────────────────────────────────────────────
+function buildInsight(stats, orders, users) {
+  const insights = [];
+  const totalO = stats.total_orders || 0;
+  const delivered = orders.filter(o=>o.status==='delivered').length;
+  const cancelled = orders.filter(o=>o.status==='cancelled').length;
+  const cancRate = totalO > 0 ? Math.round((cancelled/totalO)*100) : 0;
+  const convRate = totalO > 0 ? Math.round((delivered/totalO)*100) : 0;
+
+  if (cancRate > 15) insights.push(`<strong>Высокий процент отмен (${cancRate}%)</strong> — стоит проверить причины и связаться с клиентами.`);
+  if (stats.new_orders > 5) insights.push(`<strong>${stats.new_orders} необработанных заказов</strong> — срочно требуют внимания.`);
+  if (stats.avg_rating > 0 && stats.avg_rating < 3.5) insights.push(`<strong>Средний рейтинг ${stats.avg_rating} ★</strong> — низкий показатель качества, нужен анализ отзывов.`);
+  if (convRate > 60) insights.push(`<strong>Конверсия ${convRate}%</strong> — отличный показатель завершённых заказов.`);
+  if (stats.revenue > 0 && totalO > 0) {
+    const avg = (stats.revenue / Math.max(delivered,1)).toFixed(0);
+    insights.push(`<strong>Средний чек ${avg} €</strong> на завершённый заказ.`);
+  }
+  if (!insights.length) insights.push('Данных для инсайтов пока недостаточно. Накапливайте заказы.');
+  return insights.map(t => `<div class="insight"><div class="insight-glyph">◈</div><div class="insight-text">${t}</div></div>`).join('');
+}
+
+// ── MAIN RENDER ──────────────────────────────────────────────────────────────
+async function loadAll() {
+  const btn = document.getElementById('refreshBtn');
+  const sym = document.getElementById('refreshSym');
+  sym.style.display = 'inline-block';
+  sym.style.animation = 'spin 0.8s linear infinite';
+
+  const [statsRes, ordersRes, usersRes, qcRes] = await Promise.all([
+    fetch(`${API}/api/admin/stats?admin_id=${ADMIN_ID}`).then(r=>r.json()).catch(()=>null),
+    fetchOrders(),
+    fetchUsers(),
+    fetchQC()
+  ]);
+
+  sym.style.animation = '';
+
+  if (!statsRes) {
+    document.getElementById('mainContent').innerHTML =
+      '<div class="loader"><div class="loader-sym">✕</div><div class="loader-txt">ошибка загрузки</div></div>';
+    return;
+  }
+
+  const s = statsRes;
+  const orders = Array.isArray(ordersRes) ? ordersRes : [];
+  const users = Array.isArray(usersRes) ? usersRes : [];
+  const qcPending = Array.isArray(qcRes) ? qcRes.filter(q=>q.status==='pending').length : 0;
+
+  const totalO = s.total_orders || 0;
+  const delivered = orders.filter(o=>o.status==='delivered').length;
+  const cancelled = orders.filter(o=>o.status==='cancelled').length;
+  const active = s.active_orders || 0;
+  const convRate = totalO > 0 ? Math.round((delivered/totalO)*100) : 0;
+  const cancRate = totalO > 0 ? Math.round((cancelled/totalO)*100) : 0;
+  const avgOrder = delivered > 0 ? (s.revenue / delivered) : 0;
+
+  // Referral users
+  const usersWithRef = users.filter(u => u.referral_id && u.referral_id > 0).length;
+  const refRate = users.length > 0 ? Math.round((usersWithRef/users.length)*100) : 0;
+
+  // Spark data — simulate week buckets from orders by day
+  const now = new Date();
+  const weekBuckets = Array(7).fill(0);
+  orders.forEach(o => {
+    if (!o.created_at) return;
+    const d = new Date(o.created_at);
+    const diff = Math.floor((now - d) / 86400000);
+    if (diff >= 0 && diff < 7) weekBuckets[6-diff]++;
+  });
+  const maxBucket = Math.max(...weekBuckets, 1);
+  const hiIdx = weekBuckets.indexOf(Math.max(...weekBuckets));
+
+  // Top product max revenue for bar
+  const topMax = s.top_products?.length ? Math.max(...s.top_products.map(p=>+p.revenue)) : 1;
+
+  const now_ = new Date();
+  const ts = `${now_.toLocaleDateString('ru-RU')} · ${now_.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}`;
+
+  document.getElementById('mainContent').innerHTML = `
+    <p class="ts-line">обновлено: ${ts}</p>
+
+    <!-- KPI ГЛАВНЫЕ -->
+    <div class="stats-wrap">
+      <div class="stats-grid" style="margin-bottom:10px">
+        <div class="stat-card danger">
+          <div class="stat-val">${s.new_orders}</div>
+          <div class="stat-key">новых заказов</div>
+          ${s.new_orders > 0 ? '<div class="stat-trend dn">⚠ требуют обработки</div>' : '<div class="stat-trend up">✓ всё обработано</div>'}
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-val">${active}</div>
+          <div class="stat-key">активных</div>
+          <div class="stat-trend" style="color:var(--text3)">${totalO} всего</div>
+        </div>
+      </div>
+
+      <!-- ВЫРУЧКА БЛОК -->
+      <div class="wide-card" style="margin:0 0 10px;">
+        <div class="wide-card-title">выручка (доставленные)</div>
+        <div class="rev-big">
+          <div class="rev-num">${s.revenue.toFixed(0)}</div>
+          <div class="rev-cur">€</div>
+        </div>
+        <div class="rev-sub">завершённых заказов: ${delivered}</div>
+        <div class="rev-avg">средний чек: ${avgOrder.toFixed(2)} €</div>
+        <!-- Sparkline 7 дней -->
+        <div style="margin-top:12px;">
+          <div style="font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">заказы за 7 дней</div>
+          <div class="spark-row">
+            ${weekBuckets.map((v,i)=>`<div class="spark-bar ${i===hiIdx?'hi':''}" style="height:${Math.round((v/maxBucket)*100)+'%'};min-height:3px"></div>`).join('')}
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            ${['пн','вт','ср','чт','пт','сб','вс'].map(d=>`<div style="font-size:7px;font-weight:200;letter-spacing:0.1em;color:var(--text3);flex:1;text-align:center">${d}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- ПОЛЬЗОВАТЕЛИ + КОНВЕРСИЯ -->
+      <div class="stats-grid three" style="margin-bottom:10px">
+        <div class="stat-card">
+          <div class="stat-val">${s.users}</div>
+          <div class="stat-key">пользователей</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-val sm">${convRate}%</div>
+          <div class="stat-key">конверсия</div>
+          <div class="stat-trend up">доставлено</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-val sm">${cancRate}%</div>
+          <div class="stat-key">отменено</div>
+        </div>
+      </div>
+
+      <!-- РЕЙТИНГ + QC + РЕФЕРАЛ -->
+      <div class="stats-grid three" style="margin-bottom:10px">
+        <div class="stat-card amber">
+          <div class="stat-val sm">${s.avg_rating.toFixed(1)}<span style="font-size:14px">★</span></div>
+          <div class="stat-key">рейтинг</div>
+          <div class="stat-trend" style="color:var(--text3)">${s.reviews_count} отзывов</div>
+        </div>
+        <div class="stat-card ${qcPending>0?'danger':''}">
+          <div class="stat-val sm">${qcPending}</div>
+          <div class="stat-key">QC ожид.</div>
+          ${qcPending>0?'<div class="stat-trend dn">проверить</div>':''}
+        </div>
+        <div class="stat-card">
+          <div class="stat-val sm">${refRate}%</div>
+          <div class="stat-key">реферал</div>
+          <div class="stat-trend" style="color:var(--text3)">${usersWithRef} чел.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ВОРОНКА СТАТУСОВ -->
+    <div class="sub-head">воронка заказов</div>
+    <div class="wide-card" style="margin:0 14px 10px;">
+      <div class="wide-card-title">распределение по статусу</div>
+      ${renderFunnel(orders)}
+    </div>
+
+    <!-- БЫСТРЫЕ ТРЕВОГИ -->
+    <div class="sub-head">требуют внимания</div>
+    <div class="wide-card" style="margin:0 14px 10px;">
+      <div class="wide-card-title">текущий статус операций</div>
+      <div class="pending-row">
+        <div class="pending-dot ${s.new_orders>0?'red':'green'}"></div>
+        <div class="pending-label">Необработанные заказы</div>
+        <div class="pending-val">${s.new_orders}</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-dot ${qcPending>0?'amber':'green'}"></div>
+        <div class="pending-label">QC-запросы ожидают</div>
+        <div class="pending-val">${qcPending}</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-dot ${active>10?'amber':'green'}"></div>
+        <div class="pending-label">Активных в работе</div>
+        <div class="pending-val">${active}</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-dot ${s.avg_rating>0&&s.avg_rating<3.5?'red':s.avg_rating>4?'green':'amber'}"></div>
+        <div class="pending-label">Средний рейтинг</div>
+        <div class="pending-val">${s.avg_rating.toFixed(1)} ★</div>
+      </div>
+    </div>
+
+    <!-- ТОП ТОВАРЫ -->
+    ${s.top_products?.length ? `
+    <div class="sub-head">топ товары</div>
+    <div class="wide-card" style="margin:0 14px 10px;">
+      <div class="wide-card-title">по выручке · доставленные</div>
+      ${s.top_products.map((p,i)=>`
+        <div class="top-item">
+          <div class="top-rank">${ROMAN[i]||i+1}</div>
+          <div class="top-info">
+            <div class="top-name">${CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
+            <div class="top-sub">${p.sold} шт. продано</div>
+            <div class="top-bar"><div class="top-bar-fill" style="width:0%" data-w="${Math.round((+p.revenue/topMax)*100)}%"></div></div>
+          </div>
+          <div class="top-rev">${(+p.revenue).toFixed(0)} €</div>
+        </div>`).join('')}
+    </div>` : ''}
+
+    <!-- ИНСАЙТЫ -->
+    <div class="sub-head">инсайты</div>
+    ${buildInsight(s, orders, users)}
+
+    <div style="height:20px"></div>
+  `;
+
+  // Animate bars
+  requestAnimationFrame(() => {
+    document.querySelectorAll('[data-w]').forEach(el => {
+      const w = el.dataset.w;
+      requestAnimationFrame(() => { el.style.width = w; });
+    });
+  });
+}
+
+loadAll();
+</script>
+</body>
+</html>
