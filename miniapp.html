@@ -511,7 +511,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
 
 /* NAV */
-.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.75)); backdrop-filter:blur(20px) saturate(1.5); -webkit-backdrop-filter:blur(20px) saturate(1.5); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.92)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:999; padding-bottom:env(safe-area-inset-bottom); }
 .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
@@ -732,7 +732,7 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 .denied-sub { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); }
 
 /* ADMIN NAV */
-.admin-nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(2,2,2,0.92)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:none; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.admin-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(4,2,4,0.97); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:none; z-index:999; padding-bottom:env(safe-area-inset-bottom); }
 body.admin-mode .admin-nav { display:flex; }
 body.admin-mode #mainNav { display:none !important; }
 .admin-nav .nav-btn::before { background: var(--red, #c0392b); }
@@ -743,7 +743,7 @@ body.admin-mode #mainNav { display:none !important; }
 
 <!-- HEADER -->
 <header class="hd">
-  <div>
+  <div onclick="logoTap()" style="cursor:pointer;-webkit-tap-highlight-color:transparent;">
     <div class="logo-eye">fashion archive</div>
     <div class="logo">3xclusiv<sup>33</sup></div>
   </div>
@@ -969,14 +969,19 @@ function init() {
   if (tg) {
     tg.ready();
     tg.expand();
-    // Read user data
-    userId = tg.initDataUnsafe?.user?.id || null;
-    userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+    tg.setBackgroundColor(document.documentElement.getAttribute('data-theme') === 'dark' ? '#020202' : '#b8aa92');
   }
   applyTheme(localStorage.getItem('th_3x') !== 'light');
   updateCartNum();
   loadProducts();
-  if (userId) loadWishIds();
+  // Delay user init to let Telegram populate initDataUnsafe
+  setTimeout(() => {
+    if (tg) {
+      userId = tg.initDataUnsafe?.user?.id || null;
+      userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+    }
+    if (userId) loadWishIds();
+  }, 300);
 }
 
 // ═══ THEME ═══
@@ -1257,6 +1262,7 @@ const STATUS_ACTIVE = ['searching', 'ordered', 'in_transit', 'arrived'];
 
 async function loadOrders() {
   const el = document.getElementById('ordersList');
+  if (!userId && tg) { userId = tg.initDataUnsafe?.user?.id || null; }
   if (!userId) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
@@ -1336,6 +1342,11 @@ async function submitReview() {
 // ═══ PROFILE ═══
 async function loadProfile() {
   const el = document.getElementById('profileContent');
+  // Try to get userId from Telegram if not set yet
+  if (!userId && tg) {
+    userId = tg.initDataUnsafe?.user?.id || null;
+    userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+  }
   if (!userId) {
     el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return;
   }
@@ -1904,6 +1915,19 @@ async function sendBroadcast() {
   if (!confirm(`Отправить рассылку всем пользователям?`)) return;
   // Broadcast via API - not yet exposed in REST, show guidance
   toast('⚠ рассылка через Telegram Bot', 4000);
+}
+
+
+// ═══ LOGO TAP — HIDDEN ADMIN ENTRY ═══
+let logoTapCount = 0, logoTapTimer = null;
+function logoTap() {
+  logoTapCount++;
+  clearTimeout(logoTapTimer);
+  logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1000);
+  if (logoTapCount >= 3) {
+    logoTapCount = 0;
+    openAdmin();
+  }
 }
 
 // ═══ START ═══
