@@ -225,6 +225,60 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .dash-mini.green .dash-mini-val { color:#27ae60; }
 .dash-mini-key { font-size:7px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); margin-top:4px; }
 
+/* ─── DASHBOARD v2 ─── */
+.d-stats-wrap { padding:0 14px 6px; }
+.d-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.d-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.d-stat { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 12px; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
+.d-stat::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.25; }
+.d-stat.accent { border-color:rgba(255,255,255,0.15); }
+.d-stat.danger { border-color:rgba(204,34,34,0.25); }
+.d-stat.danger::before { background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.4; }
+.d-stat.success { border-color:rgba(39,174,96,0.2); }
+.d-stat.success::before { background:linear-gradient(90deg,transparent,#338833,transparent); opacity:0.4; }
+.d-stat.amber { border-color:rgba(184,134,11,0.25); }
+.d-stat.amber::before { background:linear-gradient(90deg,transparent,#b8860b,transparent); opacity:0.4; }
+.d-stat-val { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:var(--text); line-height:1; margin-bottom:5px; }
+.d-stat-val.sm { font-size:26px; }
+.d-stat.danger .d-stat-val { color:var(--accent); }
+.d-stat.success .d-stat-val { color:#338833; }
+.d-stat.amber .d-stat-val { color:#b8860b; }
+.d-stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); }
+.d-stat-trend { font-size:9px; font-weight:200; letter-spacing:0.15em; margin-top:4px; color:var(--text3); }
+.d-stat-trend.up { color:#338833; }
+.d-stat-trend.dn { color:var(--accent); }
+.d-wide-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 18px; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
+.d-wide-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent); }
+.d-wide-title { font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); margin-bottom:14px; }
+.d-sub-head { font-size:9px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); padding:0 0 10px; border-bottom:1px solid var(--border); margin:10px 14px 12px; }
+.d-funnel-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.d-funnel-lbl { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text2); min-width:72px; text-transform:uppercase; }
+.d-funnel-wrap { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.d-funnel-bar { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.d-funnel-cnt { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text2); min-width:28px; text-align:right; }
+.d-pending-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+.d-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-right:10px; }
+.d-dot.red { background:var(--accent); box-shadow:0 0 6px rgba(204,34,34,0.5); }
+.d-dot.amber { background:#b8860b; }
+.d-dot.green { background:#338833; }
+.d-pending-lbl { font-size:10px; font-weight:200; letter-spacing:0.1em; color:var(--text2); flex:1; }
+.d-pending-val { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text); }
+.d-top-item { display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); padding:10px 0; }
+.d-top-item:last-child { border-bottom:none; }
+.d-top-rank { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text3); font-style:italic; min-width:26px; }
+.d-top-info { flex:1; min-width:0; }
+.d-top-name { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.d-top-sub { font-size:8px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-top:2px; }
+.d-top-bar { width:100%; height:2px; background:var(--border); border-radius:1px; margin-top:5px; overflow:hidden; }
+.d-top-fill { height:100%; background:linear-gradient(90deg,rgba(204,34,34,0.2),rgba(204,34,34,0.6)); border-radius:1px; transition:width 1s cubic-bezier(0.16,1,0.3,1); }
+.d-top-rev { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); white-space:nowrap; }
+.d-insight { background:var(--ra-004); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:14px 16px; margin:0 14px 10px; }
+.d-insight-glyph { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--accent); opacity:0.5; margin-bottom:6px; }
+.d-insight-txt { font-size:12px; font-weight:200; color:var(--text2); line-height:1.7; letter-spacing:0.03em; }
+.d-insight-txt strong { font-weight:400; color:var(--text); }
+.d-nav-shortcut { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:14px; font-family:'Jost',sans-serif; font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text2); cursor:pointer; touch-action:manipulation; display:flex; align-items:center; gap:8px; justify-content:center; transition:border-color 0.3s; }
+.d-nav-shortcut:active { border-color:var(--borderh); color:var(--text); }
+
 /* MODAL */
 @keyframes fadeInModal { from{opacity:0} to{opacity:1} }
 @keyframes slideUpModal { from{transform:translateY(100%)} to{transform:translateY(0)} }
@@ -3169,53 +3223,245 @@ async function loadBadges() {
 
 // ═══ DASHBOARD ═══
 const ADMIN_CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
+// ─── DASHBOARD HELPERS ───────────────────────────────────────────────────────
+function _dashFunnelHTML(orders) {
+  const statuses = [
+    { key:'searching',  label:'В поиске',  color:'#cc3333' },
+    { key:'ordered',    label:'Заказано',  color:'#b8860b' },
+    { key:'in_transit', label:'В пути',    color:'#4a90d9' },
+    { key:'arrived',    label:'Прибыл',    color:'#9b59b6' },
+    { key:'delivered',  label:'Получен',   color:'#338833' },
+    { key:'cancelled',  label:'Отменён',   color:'rgba(240,236,228,0.2)' },
+  ];
+  const counts = {};
+  statuses.forEach(s => counts[s.key] = 0);
+  orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
+  const maxVal = Math.max(...Object.values(counts), 1);
+  return statuses.map(s => {
+    const w = Math.round((counts[s.key]/maxVal)*100);
+    return `<div class="d-funnel-row">
+      <div class="d-funnel-lbl">${s.label}</div>
+      <div class="d-funnel-wrap"><div class="d-funnel-bar" style="width:0%;background:${s.color}" data-w="${w}%"></div></div>
+      <div class="d-funnel-cnt">${counts[s.key]}</div>
+    </div>`;
+  }).join('');
+}
+
+function _dashInsightsHTML(s, orders) {
+  const totalO = s.total_orders || 0;
+  const delivered = orders.filter(o=>o.status==='delivered').length;
+  const cancelled = orders.filter(o=>o.status==='cancelled').length;
+  const cancRate = totalO > 0 ? Math.round((cancelled/totalO)*100) : 0;
+  const convRate = totalO > 0 ? Math.round((delivered/totalO)*100) : 0;
+  const insights = [];
+  if (cancRate > 15) insights.push(`<strong>Высокий процент отмен (${cancRate}%)</strong> — стоит проверить причины.`);
+  if (s.new_orders > 5) insights.push(`<strong>${s.new_orders} необработанных заказов</strong> — требуют внимания.`);
+  if (s.avg_rating > 0 && s.avg_rating < 3.5) insights.push(`<strong>Рейтинг ${s.avg_rating} ★</strong> — нужен анализ отзывов.`);
+  if (convRate > 60) insights.push(`<strong>Конверсия ${convRate}%</strong> — отличный показатель.`);
+  if (s.revenue > 0 && delivered > 0) {
+    const avg = (s.revenue / delivered).toFixed(0);
+    insights.push(`<strong>Средний чек ${avg} €</strong> на завершённый заказ.`);
+  }
+  if (!insights.length) insights.push('Данных для инсайтов пока недостаточно.');
+  return insights.map(txt =>
+    `<div class="d-insight"><div class="d-insight-glyph">◈</div><div class="d-insight-txt">${txt}</div></div>`
+  ).join('');
+}
+
 async function loadDashboard() {
   const el = document.getElementById('aStatsContent');
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка данных</div></div>';
+
   try {
-    const r = await fetch(API + '/api/admin/stats?admin_id=' + userId);
-    const d = await r.json();
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('ru-RU', {day:'numeric',month:'long'});
-    const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-    el.innerHTML =
-      '<div class="dash-hero" style="margin:0 14px 12px">'
-      + '<div class="dash-hero-title">выручка · всего</div>'
-      + '<div class="dash-hero-val">' + d.revenue.toFixed(2) + '<span style="font-size:24px;font-weight:200;opacity:0.5"> €</span></div>'
-      + '<div class="dash-hero-sub">' + dateStr + ' · ' + timeStr + ' · ' + d.total_orders + ' заказов</div>'
-      + '<div style="position:absolute;top:14px;right:20px;font-family:Cormorant Garamond,serif;font-size:72px;opacity:0.04;font-style:italic;line-height:1;color:var(--accent)">€</div>'
-      + '</div>'
-      + '<div class="dash-mini-grid" style="margin:0 14px 12px">'
-      + '<div class="dash-mini accent"><div class="dash-mini-val">' + d.new_orders + '</div><div class="dash-mini-key">новых</div></div>'
-      + '<div class="dash-mini"><div class="dash-mini-val">' + d.active_orders + '</div><div class="dash-mini-key">активных</div></div>'
-      + '<div class="dash-mini green"><div class="dash-mini-val">' + d.users + '</div><div class="dash-mini-key">клиентов</div></div>'
-      + '</div>'
-      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 12px">'
-      + '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">'
-      + '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--accent);opacity:0.6">★</div>'
-      + '<div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text)">' + d.avg_rating.toFixed(1) + '</div><div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3)">рейтинг</div></div>'
-      + '</div>'
-      + '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">'
-      + '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--text3);opacity:0.6">⋆</div>'
-      + '<div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text)">' + d.reviews_count + '</div><div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3)">отзывов</div></div>'
-      + '</div>'
-      + '</div>'
-      + (d.top_products && d.top_products.length ?
-        '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin:0 14px 12px">'
-        + '<div style="padding:14px 16px 12px;font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)">топ товаров</div>'
-        + d.top_products.map((p,i) =>
-            '<div class="top-item" style="border-radius:0;border:none;border-bottom:1px solid var(--border)">'
-            + '<div class="top-rank" style="font-family:Cormorant Garamond,serif;font-size:11px;letter-spacing:0.3em;color:var(--text3)">' + (['I','II','III','IV','V'][i]||i+1) + '</div>'
-            + '<div class="top-info"><div class="top-name">' + (ADMIN_CAT_ICONS[p.category]||'🛍') + ' ' + p.name + '</div><div class="top-sub">' + p.sold + ' шт.</div></div>'
-            + '<div class="top-rev">' + (+p.revenue).toFixed(0) + ' €</div>'
-            + '</div>'
-          ).join('')
-        + '</div>'
-        : '')
-      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 20px">'
-      + '<button onclick="switchAdminView(' + String.fromCharCode(39) + 'aOrders' + String.fromCharCode(39) + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;font-family:Jost,sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:8px;justify-content:center"><span style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--accent);opacity:0.7">II</span>все заказы</button>'
-      + '<button onclick="switchAdminView(' + String.fromCharCode(39) + 'aProducts' + String.fromCharCode(39) + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;font-family:Jost,sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:8px;justify-content:center"><span style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text3);opacity:0.7">†</span>товары</button>'
-      + '</div>';
-  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
+    const [statsRes, ordersRaw, usersRaw, qcRaw] = await Promise.all([
+      fetch(`${API}/api/admin/stats?admin_id=${userId}`).then(r=>r.json()).catch(()=>null),
+      fetch(`${API}/api/admin/orders?admin_id=${userId}`).then(r=>r.json()).catch(()=>[]),
+      fetch(`${API}/api/admin/users?admin_id=${userId}&limit=200`).then(r=>r.json()).catch(()=>[]),
+      fetch(`${API}/api/admin/qc?admin_id=${userId}`).then(r=>r.json()).catch(()=>[])
+    ]);
+
+    if (!statsRes) throw new Error('no stats');
+
+    const s = statsRes;
+    const orders = Array.isArray(ordersRaw) ? ordersRaw : [];
+    const users = Array.isArray(usersRaw) ? usersRaw : (usersRaw.users||[]);
+    const qcPending = Array.isArray(qcRaw) ? qcRaw.filter(q=>q.status==='pending').length : 0;
+
+    const totalO = s.total_orders || 0;
+    const delivered = orders.filter(o=>o.status==='delivered').length;
+    const cancelled = orders.filter(o=>o.status==='cancelled').length;
+    const active = s.active_orders || 0;
+    const convRate = totalO > 0 ? Math.round((delivered/totalO)*100) : 0;
+    const cancRate = totalO > 0 ? Math.round((cancelled/totalO)*100) : 0;
+    const avgOrder = delivered > 0 ? (s.revenue / delivered) : 0;
+    const usersWithRef = users.filter(u => u.referral_id && u.referral_id > 0).length;
+    const refRate = users.length > 0 ? Math.round((usersWithRef/users.length)*100) : 0;
+
+    // 7-day sparkline
+    const now2 = new Date();
+    const weekBuckets = Array(7).fill(0);
+    orders.forEach(o => {
+      if (!o.created_at) return;
+      const diff = Math.floor((now2 - new Date(o.created_at)) / 86400000);
+      if (diff >= 0 && diff < 7) weekBuckets[6-diff]++;
+    });
+    const maxBucket = Math.max(...weekBuckets, 1);
+    const hiIdx = weekBuckets.indexOf(Math.max(...weekBuckets));
+
+    const topMax = s.top_products?.length ? Math.max(...s.top_products.map(p=>+p.revenue)) : 1;
+    const ROMAN5 = ['I','II','III','IV','V'];
+
+    const now_ = new Date();
+    const ts = `${now_.toLocaleDateString('ru-RU')} · ${now_.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}`;
+
+    el.innerHTML = `
+      <p class="ts-line" style="padding:0 20px 8px;text-align:right;font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">обновлено: ${ts}</p>
+
+      <!-- KPI -->
+      <div class="d-stats-wrap">
+        <div class="d-grid-2" style="margin-bottom:10px">
+          <div class="d-stat danger">
+            <div class="d-stat-val">${s.new_orders}</div>
+            <div class="d-stat-key">новых заказов</div>
+            ${s.new_orders > 0 ? '<div class="d-stat-trend dn">⚠ требуют обработки</div>' : '<div class="d-stat-trend up">✓ всё обработано</div>'}
+          </div>
+          <div class="d-stat accent">
+            <div class="d-stat-val">${active}</div>
+            <div class="d-stat-key">активных</div>
+            <div class="d-stat-trend" style="color:var(--text3)">${totalO} всего</div>
+          </div>
+        </div>
+
+        <!-- REVENUE -->
+        <div class="d-wide-card" style="margin-bottom:10px">
+          <div class="d-wide-title">выручка (доставленные)</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:#338833;line-height:1">${s.revenue.toFixed(0)}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#338833;opacity:0.6">€</div>
+          </div>
+          <div style="font-size:9px;font-weight:200;letter-spacing:0.3em;text-transform:uppercase;color:var(--text3)">завершённых: ${delivered} · средний чек: ${avgOrder.toFixed(2)} €</div>
+          <div style="margin-top:12px">
+            <div style="font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">заказы за 7 дней</div>
+            <div style="display:flex;align-items:flex-end;gap:3px;height:32px">
+              ${weekBuckets.map((v,i)=>`<div style="flex:1;border-radius:2px 2px 0 0;background:${i===hiIdx?'rgba(232,228,220,0.45)':'rgba(232,228,220,0.15)'};height:${Math.round((v/maxBucket)*100)+'%'};min-height:3px"></div>`).join('')}
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px">
+              ${['пн','вт','ср','чт','пт','сб','вс'].map(d=>`<div style="font-size:7px;font-weight:200;letter-spacing:0.1em;color:var(--text3);flex:1;text-align:center">${d}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS / CONV / CANC -->
+        <div class="d-grid-3" style="margin-bottom:10px">
+          <div class="d-stat">
+            <div class="d-stat-val">${s.users}</div>
+            <div class="d-stat-key">пользователей</div>
+          </div>
+          <div class="d-stat success">
+            <div class="d-stat-val sm">${convRate}%</div>
+            <div class="d-stat-key">конверсия</div>
+            <div class="d-stat-trend up">доставлено</div>
+          </div>
+          <div class="d-stat danger">
+            <div class="d-stat-val sm">${cancRate}%</div>
+            <div class="d-stat-key">отменено</div>
+          </div>
+        </div>
+
+        <!-- RATING / QC / REFERRAL -->
+        <div class="d-grid-3" style="margin-bottom:10px">
+          <div class="d-stat amber">
+            <div class="d-stat-val sm">${s.avg_rating.toFixed(1)}<span style="font-size:14px">★</span></div>
+            <div class="d-stat-key">рейтинг</div>
+            <div class="d-stat-trend" style="color:var(--text3)">${s.reviews_count} отзывов</div>
+          </div>
+          <div class="d-stat ${qcPending>0?'danger':''}">
+            <div class="d-stat-val sm">${qcPending}</div>
+            <div class="d-stat-key">QC ожид.</div>
+            ${qcPending>0?'<div class="d-stat-trend dn">проверить</div>':''}
+          </div>
+          <div class="d-stat">
+            <div class="d-stat-val sm">${refRate}%</div>
+            <div class="d-stat-key">реферал</div>
+            <div class="d-stat-trend" style="color:var(--text3)">${usersWithRef} чел.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNNEL -->
+      <div class="d-sub-head">воронка заказов</div>
+      <div class="d-wide-card" style="margin:0 14px 10px">
+        <div class="d-wide-title">распределение по статусу</div>
+        ${_dashFunnelHTML(orders)}
+      </div>
+
+      <!-- ALERTS -->
+      <div class="d-sub-head">требуют внимания</div>
+      <div class="d-wide-card" style="margin:0 14px 10px">
+        <div class="d-wide-title">текущий статус операций</div>
+        <div class="d-pending-row">
+          <div class="d-dot ${s.new_orders>0?'red':'green'}"></div>
+          <div class="d-pending-lbl">Необработанные заказы</div>
+          <div class="d-pending-val">${s.new_orders}</div>
+        </div>
+        <div class="d-pending-row">
+          <div class="d-dot ${qcPending>0?'amber':'green'}"></div>
+          <div class="d-pending-lbl">QC-запросы ожидают</div>
+          <div class="d-pending-val">${qcPending}</div>
+        </div>
+        <div class="d-pending-row">
+          <div class="d-dot ${active>10?'amber':'green'}"></div>
+          <div class="d-pending-lbl">Активных в работе</div>
+          <div class="d-pending-val">${active}</div>
+        </div>
+        <div class="d-pending-row" style="border-bottom:none">
+          <div class="d-dot ${s.avg_rating>0&&s.avg_rating<3.5?'red':s.avg_rating>4?'green':'amber'}"></div>
+          <div class="d-pending-lbl">Средний рейтинг</div>
+          <div class="d-pending-val">${s.avg_rating.toFixed(1)} ★</div>
+        </div>
+      </div>
+
+      <!-- TOP PRODUCTS -->
+      ${s.top_products?.length ? `
+      <div class="d-sub-head">топ товары</div>
+      <div class="d-wide-card" style="margin:0 14px 10px">
+        <div class="d-wide-title">по выручке · доставленные</div>
+        ${s.top_products.map((p,i)=>`
+          <div class="d-top-item">
+            <div class="d-top-rank">${ROMAN5[i]||i+1}</div>
+            <div class="d-top-info">
+              <div class="d-top-name">${(ADMIN_CAT_ICONS[p.category]||'🛍')} ${p.name}</div>
+              <div class="d-top-sub">${p.sold} шт. продано</div>
+              <div class="d-top-bar"><div class="d-top-fill" style="width:0%" data-w="${Math.round((+p.revenue/topMax)*100)}%"></div></div>
+            </div>
+            <div class="d-top-rev">${(+p.revenue).toFixed(0)} €</div>
+          </div>`).join('')}
+      </div>` : ''}
+
+      <!-- INSIGHTS -->
+      <div class="d-sub-head">инсайты</div>
+      ${_dashInsightsHTML(s, orders)}
+
+      <!-- NAV SHORTCUTS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 14px 20px">
+        <button onclick="switchAdminView('aOrders')" class="d-nav-shortcut"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--accent);opacity:0.7">II</span> все заказы</button>
+        <button onclick="switchAdminView('aProducts')" class="d-nav-shortcut"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text3);opacity:0.7">†</span> товары</button>
+      </div>
+
+      <div style="height:20px"></div>
+    `;
+
+    // Animate bars
+    requestAnimationFrame(() => {
+      document.querySelectorAll('[data-w]').forEach(el => {
+        const w = el.dataset.w;
+        requestAnimationFrame(() => { el.style.width = w; });
+      });
+    });
+
+  } catch(e) {
+    el.innerHTML = '<div class="empty"><div class="empty-sym">✕</div><div class="empty-txt">' + t('loadError') + '</div></div>';
+  }
 }
 
 // ═══ ORDERS ═══
@@ -4852,3 +5098,4 @@ init();
 
 </body>
 </html>
+
