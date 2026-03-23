@@ -1266,7 +1266,7 @@ header { position: relative; z-index: 1; }
 
   <!-- Appearance -->
   <div class="more-sub" id="moreAppearance">
-    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <button class="more-back" onclick="cancelAccent()"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="appearanceTitle">оформление</div></div>
     <div style="padding:0 20px 20px">
       <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:4px" data-i18n="accentLabel">цвет подсветки</div>
@@ -1293,6 +1293,7 @@ header { position: relative; z-index: 1; }
           <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7" data-i18n="previewArchive">АРХИВ</span>
         </div>
       </div>
+      <button class="btn" style="width:100%;margin-top:20px" onclick="saveAccent()" data-i18n="saveAccentBtn">сохранить цвет</button>
     </div>
   </div>
 
@@ -1424,6 +1425,7 @@ async function deleteCat(id) {
 // ═══ LANGUAGE ═══
 const LANGS = {
   ru: {
+    saveAccentBtn:'сохранить цвет',
     catalog:'Каталог', orders:'Заказы', cart:'Корзина', profile:'Профиль', more:'Ещё',
     cartTitle:'корзина', moreTitle:'ещё',
     size:'Размер', sizeDesc:'<span data-i18n="sizeDesc">подобрать по росту и весу</span>',
@@ -1634,6 +1636,7 @@ const LANGS = {
     aProductAdded:'✅ товар добавлен #', aProductDeleted:'✅ товар удалён',
   },
   en: {
+    saveAccentBtn:'save color',
     catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
     cartTitle:'cart', moreTitle:'more',
     size:'Size', sizeDesc:'find by height and weight',
@@ -1909,6 +1912,7 @@ const LANGS = {
     aProductAdded:'✅ product added #', aProductDeleted:'✅ product deleted',
   },
   et: {
+    saveAccentBtn:'salvesta värv',
     catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
     addCart:'lisa korvi', noStock:'otsas', loading:'arhiivi laadimine',
     size:'Suurus', referrals:'Soovitused', notifications:'Teavitused',
@@ -2206,37 +2210,65 @@ function hexToRgbStr(hex) {
   return `${r},${g},${b}`;
 }
 
-function setUserAccent(hex, swatchEl, fromPicker) {
+let _pendingAccent = null;
+let _savedAccent = null;
+
+function applyAccentToDOM(hex) {
   const rgb = hexToRgbStr(hex);
   const root = document.documentElement;
   root.style.setProperty('--red', hex);
   root.style.setProperty('--accent', hex);
   root.style.setProperty('--red-rgb', rgb);
   root.style.setProperty('--accent2', `rgba(${rgb},0.10)`);
-  // Update all opacity variants
   const accentOps = {'000':'0','002':'0.02','004':'0.04','005':'0.05','006':'0.06','007':'0.07','008':'0.08','010':'0.1','012':'0.12','015':'0.15','018':'0.18','020':'0.2','022':'0.22','025':'0.25','030':'0.3','035':'0.35','040':'0.4','050':'0.5','060':'0.6','070':'0.7'};
-  Object.entries(accentOps).forEach(([k,v]) => root.style.setProperty(`--ra-\${k}`, `rgba(\${rgb},\${v})`));
-  localStorage.setItem('accent_3x', hex);
-  // Update swatches
+  Object.entries(accentOps).forEach(([k,v]) => root.style.setProperty(`--ra-${k}`, `rgba(${rgb},${v})`));
+}
+
+function setUserAccent(hex, swatchEl, fromPicker) {
+  _pendingAccent = hex;
+  applyAccentToDOM(hex);
   document.querySelectorAll('#userAccentPalette .accent-swatch').forEach(s => {
     s.classList.toggle('on', s.dataset.color === hex);
   });
-  // Update glyph color
   const glyph = document.getElementById('appearanceGlyph');
   if (glyph) glyph.style.color = hex;
-  // Sync picker
   if (!fromPicker) {
     const picker = document.getElementById('userAccentCustom');
     if (picker) picker.value = hex;
   }
-  // Update hex label
   const lbl = document.getElementById('userAccentHex');
   if (lbl) lbl.textContent = hex.toUpperCase();
 }
 
+function saveAccent() {
+  const hex = _pendingAccent || _savedAccent || '#cc2222';
+  _savedAccent = hex;
+  localStorage.setItem('accent_3x', hex);
+  toast('✓ ' + (LANGS[currentLang]?.saveAccentBtn || 'сохранено'));
+  openMoreSub('moreHub');
+}
+
+function cancelAccent() {
+  const saved = _savedAccent || localStorage.getItem('accent_3x') || '#cc2222';
+  applyAccentToDOM(saved);
+  _pendingAccent = null;
+  openMoreSub('moreHub');
+}
+
 function loadUserAccent() {
   const saved = localStorage.getItem('accent_3x') || '#cc2222';
-  setUserAccent(saved, null, false);
+  _savedAccent = saved;
+  _pendingAccent = saved;
+  applyAccentToDOM(saved);
+  const picker = document.getElementById('userAccentCustom');
+  if (picker) picker.value = saved;
+  document.querySelectorAll('#userAccentPalette .accent-swatch').forEach(s => {
+    s.classList.toggle('on', s.dataset.color === saved);
+  });
+  const lbl = document.getElementById('userAccentHex');
+  if (lbl) lbl.textContent = saved.toUpperCase();
+  const glyph = document.getElementById('appearanceGlyph');
+  if (glyph) glyph.style.color = saved;
 }
 
 function applyTheme(dark) {
@@ -2731,6 +2763,16 @@ async function loadProfile() {
   } catch {}
 
   const usr = tg?.initDataUnsafe?.user;
+  // Try to get photo from bot API via our proxy
+  if (usr && userId && !usr.photo_url) {
+    try {
+      const pr = await fetch(`${API}/api/user_photo/${userId}`);
+      if (pr.ok) {
+        const pd = await pr.json();
+        if (pd.photo_url) usr.photo_url = pd.photo_url;
+      }
+    } catch {}
+  }
   const m = usr?.first_name?.[0]?.toUpperCase() || '?';
   const name = usr ? `${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}` : userName;
   const handle = usr?.username ? '@' + usr.username : (userId ? 'id' + userId : '—');
@@ -2766,7 +2808,9 @@ async function loadProfile() {
   el.innerHTML = adminHtml + `
     <div class="profile-hero">
       <div class="monogram-wrap">
-        <div class="monogram">${m}</div>
+        <div class="monogram" id="profileMonogram">
+          ${usr?.photo_url ? `<img src="${usr.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" onerror="this.style.display='none';this.parentElement.textContent='${m}'">` : m}
+        </div>
         <div class="monogram-ring"></div>
         <div class="monogram-ring2"></div>
       </div>
@@ -4325,7 +4369,7 @@ init();
     ctx.save(); ctx.translate(W/2,0);
     ctx.strokeStyle=c+'0.65)'; ctx.lineWidth=1.4;
     ctx.beginPath(); ctx.moveTo(-70,0); ctx.bezierCurveTo(-50,24,-14,10,0,22); ctx.bezierCurveTo(14,10,50,24,70,0); ctx.stroke();
-    ctx.fillStyle=c+'0.72)'; ctx.beginPath(); ctx.moveTo(0,12); ctx.lineTo(7,22); ctx.lineTo(0,32); ctx.lineTo(-7,22); ctx.closePath(); ctx.fill();
+    const _acc=getComputedStyle(document.documentElement).getPropertyValue('--red-rgb').trim()||'204,34,34'; ctx.fillStyle='rgba('+_acc+',0.85)'; ctx.beginPath(); ctx.moveTo(0,12); ctx.lineTo(7,22); ctx.lineTo(0,32); ctx.lineTo(-7,22); ctx.closePath(); ctx.fill();
     for(const x of[-55,55]){ctx.strokeStyle=c+'0.35)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,-4);ctx.lineTo(x,8);ctx.stroke();ctx.beginPath();ctx.moveTo(x-4,2);ctx.lineTo(x+4,2);ctx.stroke();}
     ctx.restore(); ctx.restore();
   }
