@@ -860,6 +860,39 @@ async def admin_upload_photo(product_id: int, admin_id: int, file: UploadFile = 
     return {"ok": True, "url": photo_url}
 
 
+# ── User photo via Telegram bot ───────────────────────────────────────────────
+@app.get("/api/user_photo/{user_id}")
+async def get_user_photo(user_id: int):
+    """Get Telegram user profile photo URL."""
+    if not BOT_TOKEN:
+        raise HTTPException(status_code=503, detail="No bot token")
+    try:
+        def fetch_sync():
+            import urllib.request, json
+            with urllib.request.urlopen(
+                f"https://api.telegram.org/bot{BOT_TOKEN}/getUserProfilePhotos?user_id={user_id}&limit=1",
+                timeout=8
+            ) as r:
+                data = json.loads(r.read())
+            if not data.get("ok") or not data["result"]["total_count"]:
+                return None
+            file_id = data["result"]["photos"][0][-1]["file_id"]
+            with urllib.request.urlopen(
+                f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}",
+                timeout=8
+            ) as r:
+                fdata = json.loads(r.read())
+            if not fdata.get("ok"):
+                return None
+            file_path = fdata["result"]["file_path"]
+            return f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
+        photo_url = await asyncio.get_event_loop().run_in_executor(None, fetch_sync)
+        if photo_url:
+            return {"photo_url": photo_url}
+        return {"photo_url": None}
+    except:
+        return {"photo_url": None}
+
 # ── Photo proxy ───────────────────────────────────────────────────────────────
 from fastapi.responses import Response
 import asyncio
@@ -902,3 +935,5 @@ async def proxy_photo(file_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
