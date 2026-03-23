@@ -27,6 +27,12 @@ async def serve_miniapp():
     try: return open("miniapp.html", encoding="utf-8").read()
     except FileNotFoundError: return "<h1>miniapp.html not found</h1>"
 
+
+@app.get("/test", response_class=HTMLResponse)
+async def serve_test():
+    try: return open("test.html", encoding="utf-8").read()
+    except FileNotFoundError: return "<h1>test.html not found</h1>"
+
 @app.get("/admin", response_class=HTMLResponse)
 async def serve_admin():
     try: return open("admin.html", encoding="utf-8").read()
