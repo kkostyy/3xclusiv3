@@ -1206,7 +1206,8 @@ function renderGrid() {
   grid.innerHTML = list.map(cardHtml).join('');
 }
 
-document.getElementById('filterBar').addEventListener('click', e => {
+const _filterBarEl = document.getElementById('filterBar');
+if (_filterBarEl) _filterBarEl.addEventListener('click', e => {
   const btn = e.target.closest('.fb');
   if (!btn) return;
   document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
@@ -1595,7 +1596,7 @@ function switchAdminView(v) {
 
   adminStack = [v];
   if (v === 'aDashboard') loadDashboard();
-  if (v === 'aOrders') loadAdminOrders();
+  if (v === 'aOrders') { setupAdminFilterListener(); loadAdminOrders(); }
   if (v === 'aProducts') loadAdminProducts();
   if (v === 'aMore') openMoreSubA('aMoreHub');
   window.scrollTo(0, 0);
@@ -1734,14 +1735,20 @@ async function loadAdminOrders() {
 }
 
 // Filter buttons
-document.getElementById('aOrderFilter').addEventListener('click', e => {
-  const btn = e.target.closest('.fb');
-  if (!btn) return;
-  document.querySelectorAll('#aOrderFilter .fb').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  activeOrderFilter = btn.dataset.status;
-  renderAdminOrders();
-});
+// Admin order filter - set up lazily when admin panel opens
+function setupAdminFilterListener() {
+  const el = document.getElementById('aOrderFilter');
+  if (!el || el._listenerAdded) return;
+  el._listenerAdded = true;
+  el.addEventListener('click', e => {
+    const btn = e.target.closest('.fb');
+    if (!btn) return;
+    document.querySelectorAll('#aOrderFilter .fb').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    activeOrderFilter = btn.dataset.status;
+    renderAdminOrders();
+  });
+}
 
 function renderAdminOrders() {
   const el = document.getElementById('aOrdersContent');
@@ -2550,4 +2557,3 @@ init();
 </nav>
 </body>
 </html>
-
