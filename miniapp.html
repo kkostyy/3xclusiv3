@@ -583,6 +583,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* TOAST */
 
+.toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(12px); background:rgba(20,16,20,0.95); color:var(--text); font-family:'Jost',sans-serif; font-size:12px; font-weight:200; letter-spacing:0.15em; padding:10px 20px; border-radius:99px; border:1px solid var(--border); z-index:10000; opacity:0; pointer-events:none; transition:opacity 0.3s, transform 0.3s; white-space:nowrap; backdrop-filter:blur(10px); box-shadow:0 4px 20px rgba(0,0,0,0.5); }
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* CART NOTIFICATION */
@@ -877,7 +878,6 @@ body.admin-mode #mainNav { display:none !important; }
 }
 /* Ensure all content is above canvas */
 header { position: relative; z-index: 1; }
-.toast { position: fixed; z-index: 10000; }
 
 
 /* ═══ ADMIN FORM ═══ */
