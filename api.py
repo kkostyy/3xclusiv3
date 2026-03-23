@@ -529,3 +529,33 @@ async def admin_get_support(admin_id: int = 0):
                 return [dict(r) for r in await cur.fetchall()]
         except Exception:
             return []
+
+# ── Photo proxy ───────────────────────────────────────────────────────────────
+from fastapi.responses import Response
+import httpx
+
+@app.get("/api/photo/{file_id:path}")
+async def proxy_photo(file_id: str):
+    """Proxy Telegram photo by file_id → actual image bytes."""
+    if not BOT_TOKEN:
+        raise HTTPException(status_code=503, detail="No bot token")
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            # 1. Get file path
+            r = await client.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}")
+            data = r.json()
+            if not data.get("ok"):
+                raise HTTPException(status_code=404, detail="File not found")
+            file_path = data["result"]["file_path"]
+            # 2. Download file
+            img = await client.get(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}")
+            content_type = "image/jpeg"
+            if file_path.endswith(".png"): content_type = "image/png"
+            elif file_path.endswith(".webp"): content_type = "image/webp"
+            return Response(content=img.content, media_type=content_type,
+                          headers={"Cache-Control": "public, max-age=86400"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
