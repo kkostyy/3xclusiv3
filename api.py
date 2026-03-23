@@ -6,7 +6,7 @@ import os
 import logging
 
 import aiosqlite
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -20,6 +20,12 @@ ADMIN_IDS     = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "0").split(",") 
 
 app = FastAPI(title="3xclusiv33 API", version="3.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
+# ── Serve uploaded photos ─────────────────────────────────────────────────────
+from fastapi.staticfiles import StaticFiles as _SF
+import os as _os
+_os.makedirs("uploads", exist_ok=True)
+app.mount("/uploads", _SF(directory="uploads", html=False), name="uploads")
 
 # ── Serve HTML ────────────────────────────────────────────────────────────────
 @app.get("/", response_class=HTMLResponse)
@@ -834,12 +840,24 @@ async def admin_set_photo_url(product_id: int, body: PhotoUrl):
     return {"ok": True}
 
 @app.post("/api/admin/products/{product_id}/upload_photo")
-async def admin_upload_photo(product_id: int, admin_id: int = 0, file: bytes = None):
-    """Upload photo as base64 or file - store URL/path."""
+async def admin_upload_photo(product_id: int, admin_id: int, file: UploadFile = File(...)):
+    """Upload photo file — save to disk, return public URL."""
     require_admin(admin_id)
-    # For Telegram Mini App: photos come as Telegram file_id from bot
-    # This endpoint stores whatever identifier is passed
-    return {"ok": True, "message": "Use photo_url endpoint or send via Telegram bot"}
+    import uuid, shutil
+    ext = os.path.splitext(file.filename or "photo.jpg")[1].lower()
+    if ext not in (".jpg", ".jpeg", ".png", ".webp", ".gif"):
+        ext = ".jpg"
+    uploads_dir = "uploads"
+    os.makedirs(uploads_dir, exist_ok=True)
+    filename = f"{uuid.uuid4().hex}{ext}"
+    filepath = os.path.join(uploads_dir, filename)
+    with open(filepath, "wb") as out:
+        shutil.copyfileobj(file.file, out)
+    photo_url = f"/uploads/{filename}"
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("UPDATE products SET photo_id=? WHERE id=?", (photo_url, product_id))
+        await db.commit()
+    return {"ok": True, "url": photo_url}
 
 
 # ── Photo proxy ───────────────────────────────────────────────────────────────
@@ -884,4 +902,3 @@ async def proxy_photo(file_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
