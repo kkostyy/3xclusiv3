@@ -214,6 +214,11 @@ header { position:relative; z-index:1; } .toast { position:fixed; z-index:10000;
 
 
 /* MORE HUB */
+.photo-upload-wrap { width:100%; height:140px; border:1px dashed var(--border); border-radius:14px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; margin-bottom:14px; background:var(--bg2); transition:border-color 0.3s; position:relative; }
+.photo-upload-wrap:active { border-color:rgba(255,255,255,0.3); }
+.photo-upload-placeholder { display:flex; flex-direction:column; align-items:center; gap:4px; pointer-events:none; }
+.photo-upload-wrap.has-photo { border-style:solid; border-color:rgba(255,255,255,0.1); }
+.photo-remove-btn { position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.15); color:var(--text2); border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:10px; cursor:pointer; z-index:2; }
 .more-wrap-a { padding:0 14px; }
 .more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); }
 .admin-hub-card { display:flex; align-items:center; gap:14px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 18px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); }
@@ -235,7 +240,7 @@ header { position:relative; z-index:1; } .toast { position:fixed; z-index:10000;
 .more-sub-lbl { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); }
 .more-arrow { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text3); }
 .more-sub-a { display:none; }
-.more-sub-a.on { display:block; }
+.more-sub-a.on { display:block; padding-top:14px; }
 .more-back-a { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
 .more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
 
@@ -704,6 +709,15 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
     </div>
     <label class="inp-label">описание</label>
     <textarea class="inp inp-sm" id="pDesc" placeholder="Описание..." style="min-height:70px;resize:none;font-size:13px;"></textarea>
+    <label class="inp-label">фото</label>
+    <div class="photo-upload-wrap" id="photoUploadWrap" onclick="document.getElementById('pPhoto').click()">
+      <input type="file" id="pPhoto" accept="image/*" style="display:none" onchange="previewPhoto(this)">
+      <div class="photo-upload-placeholder" id="photoPlaceholder">
+        <span style="font-family:var(--font-serif);font-size:22px;opacity:0.4">◈</span>
+        <span style="font-size:10px;font-weight:200;letter-spacing:0.3em;color:var(--text3);margin-top:4px">нажмите чтобы добавить фото</span>
+      </div>
+      <img id="photoPreview" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:14px;">
+    </div>
     <button class="btn-act" style="width:100%" onclick="addProduct()">добавить товар</button>
   </div>
   <div class="products-wrap" id="productsContent">
@@ -1037,6 +1051,7 @@ function openMoreSub(id) {
   document.querySelectorAll('.more-sub-a').forEach(el => el.classList.remove('on'));
   const el = document.getElementById(id);
   if (el) el.classList.add('on');
+  window.scrollTo(0, 0);
 }
 
 // ═══ BADGES ═══
@@ -1245,7 +1260,7 @@ async function loadProducts() {
       <div class="prod-card" id="pc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
           ${p.photo_id
-            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${CAT_ICONS[p.category]||'🛍'}';">`
+            ? `<img src="${p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id : p.photo_id.startsWith('/uploads/') ? API+p.photo_id : API+'/api/photo/'+p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${CAT_ICONS[p.category]||'🛍'}';">`
             : CAT_ICONS[p.category]||'🛍'}</div>
         <div class="prod-info">
           <div class="prod-name">${p.name}</div>
@@ -1279,20 +1294,72 @@ async function toggleProduct(id, current) {
   } catch { toast('ошибка'); }
 }
 
+function previewPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) { toast('фото не более 5 МБ'); input.value = ''; return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('photoPreview');
+    const placeholder = document.getElementById('photoPlaceholder');
+    const wrap = document.getElementById('photoUploadWrap');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+    wrap.classList.add('has-photo');
+    // Add remove button if not exists
+    if (!document.getElementById('photoRemoveBtn')) {
+      const btn = document.createElement('div');
+      btn.id = 'photoRemoveBtn';
+      btn.className = 'photo-remove-btn';
+      btn.innerHTML = '✕';
+      btn.onclick = e => { e.stopPropagation(); removePhoto(); };
+      wrap.appendChild(btn);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  document.getElementById('pPhoto').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoPreview').src = '';
+  document.getElementById('photoPlaceholder').style.display = 'flex';
+  document.getElementById('photoUploadWrap').classList.remove('has-photo');
+  const btn = document.getElementById('photoRemoveBtn');
+  if (btn) btn.remove();
+}
+
 async function addProduct() {
   const name = document.getElementById('pName').value.trim();
   const price = parseFloat(document.getElementById('pPrice').value);
   const desc = document.getElementById('pDesc').value.trim();
   if (!name || !price) { toast('введите название и цену'); return; }
   try {
+    // Get photo data URL if selected
+    const photoPreview = document.getElementById('photoPreview');
+    const photoDataUrl = (photoPreview.style.display !== 'none' && photoPreview.src) ? photoPreview.src : null;
+
     const r = await fetch(`${API}/api/admin/products`, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ admin_id: userId, name, price, category: selectedCat, description: desc })
     });
     const d = await r.json();
+
+    // Upload photo file if selected
+    const photoFile = document.getElementById('pPhoto').files[0];
+    if (photoFile && d.id) {
+      const fd = new FormData();
+      fd.append('file', photoFile);
+      await fetch(`${API}/api/admin/products/${d.id}/upload_photo?admin_id=${userId}`, {
+        method:'POST', body: fd
+      }).catch(() => {});
+    }
+
     document.getElementById('pName').value = '';
     document.getElementById('pPrice').value = '';
     document.getElementById('pDesc').value = '';
+    removePhoto();
     toast(`✅ товар добавлен #${d.id}`);
     loadProducts();
   } catch { toast('ошибка'); }
