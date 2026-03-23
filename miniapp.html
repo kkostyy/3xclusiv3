@@ -23,6 +23,7 @@
   --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+button, a, [onclick] { touch-action:manipulation; cursor:pointer; }
 html, body { height:100%; }
 body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
@@ -948,6 +949,7 @@ body.admin-mode #mainNav { display:none !important; }
 </div>
 
 <script>
+
 // ═══ CONFIG ═══
 const API = 'https://3xclusiv3-production.up.railway.app';
 const tg = window.Telegram?.WebApp;
@@ -1182,13 +1184,13 @@ function cardHtml(p) {
     ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
     : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
   const addBtn = p.is_available
-    ? '<button class="card-add" data-action="cart" data-pid="' + p.id + '">+</button>'
+    ? '<button class="card-add" onclick="event.stopPropagation();doCart(' + p.id + ')">+</button>'
     : '';
   const archLbl = !p.is_available ? '<div class="card-void">архив</div>' : '';
   const heart = wishIds.has(p.id) ? '❤️' : '🤍';
-  return '<div class="card' + (!p.is_available ? ' void' : '') + '" data-action="detail" data-pid="' + p.id + '">'
+  return '<div class="card' + (!p.is_available ? ' void' : '') + '" onclick="openDetail(' + p.id + ')">'
     + '<div class="card-img" style="position:relative;">' + ph + archLbl + addBtn
-    + '<button class="card-wish" data-action="wish" data-pid="' + p.id + '">' + heart + '</button>'
+    + '<button class="card-wish" onclick="event.stopPropagation();doWish(' + p.id + ')">' + heart + '</button>'
     + '</div>'
     + '<div class="card-body">'
     + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
@@ -1196,6 +1198,16 @@ function cardHtml(p) {
     + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
     + '</div></div>';
 }
+
+function doCart(pid) {
+  const p = allProducts.find(x => x.id === pid);
+  if (p) addToCart({id:p.id, name:p.name, price:p.price, category:p.category});
+}
+
+function doWish(pid) {
+  toggleWish(pid);
+}
+
 
 function renderGrid() {
   const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
@@ -1216,24 +1228,6 @@ if (_filterBarEl) _filterBarEl.addEventListener('click', e => {
   renderGrid();
 });
 
-// Delegated click handler for product grid - avoids onclick= attribute issues
-document.getElementById('productGrid').addEventListener('click', e => {
-  const btn = e.target.closest('[data-action]');
-  if (!btn) return;
-  const action = btn.dataset.action;
-  const pid = parseInt(btn.dataset.pid);
-  if (!pid) return;
-  if (action === 'cart') {
-    e.stopPropagation();
-    const p = allProducts.find(x => x.id === pid);
-    if (p) addToCart({id:p.id, name:p.name, price:p.price, category:p.category});
-  } else if (action === 'wish') {
-    e.stopPropagation();
-    toggleWish(pid);
-  } else if (action === 'detail') {
-    openDetail(pid);
-  }
-});
 
 function openDetail(pid) {
   const p = allProducts.find(x => x.id === pid);
@@ -1249,23 +1243,11 @@ function openDetail(pid) {
     + (p.description ? '<div class="detail-desc">' + p.description + '</div>' : '')
     + '<div class="detail-actions">'
     + (p.is_available
-        ? '<button class="btn" style="flex:1" data-action="cart-detail" data-pid="' + p.id + '">в корзину</button>'
+        ? '<button class="btn" style="flex:1" onclick="doCart(' + p.id + ');goBack()">в корзину</button>'
         : '<button class="btn" style="flex:1" disabled>нет в наличии</button>')
-    + '<button data-action="wish-detail" data-pid="' + p.id + '" id="dwb' + p.id + '" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">' + (wishIds.has(p.id) ? '❤️' : '🤍') + '</button>'
+    + '<button onclick="doWish(' + p.id + ')" id="dwb' + p.id + '" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">' + (wishIds.has(p.id) ? '❤️' : '🤍') + '</button>'
     + '</div></div>';
   openPage('detail');
-  // Delegated handler for detail buttons
-  const db = document.getElementById('detailBody');
-  if (db) db.onclick = e => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    if (btn.dataset.action === 'cart-detail') {
-      const p = allProducts.find(x => x.id === pid);
-      if (p) { addToCart({id:p.id,name:p.name,price:p.price,category:p.category}); goBack(); }
-    } else if (btn.dataset.action === 'wish-detail') {
-      toggleWish(pid);
-    }
-  };
 }
 
 // ═══ WISHLIST ═══
@@ -1306,7 +1288,7 @@ async function loadWishlist() {
         ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
         : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
       const addBtn = p.is_available
-        ? '<button class="card-add" data-action="cart" data-pid="' + p.id + '">+</button>'
+        ? '<button class="card-add" onclick="event.stopPropagation();doCart(' + p.id + ')">+</button>'
         : '';
       return '<div class="card" onclick="openDetail(' + p.id + ')">'
         + '<div class="card-img" style="position:relative;">' + ph
@@ -1319,24 +1301,6 @@ async function loadWishlist() {
         + '</div></div>';
     }).join('');
   } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
-  // Delegation for wishlist
-  if (grid) grid.onclick = e => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const pid = parseInt(btn.dataset.pid);
-    if (!pid) return;
-    const action = btn.dataset.action;
-    if (action === 'cart') {
-      e.stopPropagation();
-      const p = allProducts.find(x => x.id === pid);
-      if (p) addToCart({id:p.id,name:p.name,price:p.price,category:p.category});
-    } else if (action === 'wish') {
-      e.stopPropagation();
-      toggleWish(pid).then(()=>loadWishlist());
-    } else if (action === 'detail') {
-      openDetail(pid);
-    }
-  };
 }
 
 // ═══ ORDERS ═══
@@ -1582,6 +1546,7 @@ function loadDelivery() {
 
 // ═══ NAVIGATION ═══
 function switchView(v) {
+  toast('→ ' + v, 1500);
   ['catalog', 'orders', 'cart', 'profile', 'more', 'detail', 'checkout', 'review'].forEach(k => {
     const vId = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const nId = 'n' + k.charAt(0).toUpperCase() + k.slice(1);
