@@ -2817,22 +2817,35 @@ function filterUsers(query) {
 async function loadAdminUsers() {
   const el = document.getElementById('aUsersContent');
   if (!el) return;
-  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
   try {
-    devLog('↺ загрузка пользователей, userId=' + userId);
     const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
-    if (!r.ok) {
-      const err = await r.json().catch(()=>({detail:'HTTP '+r.status}));
-      throw new Error(err.detail || 'HTTP ' + r.status);
+    if (r.status === 403) {
+      el.innerHTML = '<div style="padding:20px;text-align:center">'
+        + '<div style="font-family:var(--font-serif);font-size:32px;color:rgba(204,34,34,0.4);margin-bottom:12px">†</div>'
+        + '<div style="font-family:var(--font-serif);font-size:18px;color:var(--text2);margin-bottom:8px">нет доступа</div>'
+        + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);line-height:1.8">'
+        + 'добавь в Railway Variables:<br>'
+        + '<span style="font-family:monospace;color:var(--text2);background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:6px">ADMIN_IDS=' + userId + '</span>'
+        + '</div>'
+        + '<button class="adm-btn-save" style="margin-top:16px;width:100%" onclick="loadAdminUsers()">↺ повторить</button>'
+        + '</div>';
+      return;
     }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     allUsers = await r.json();
     const withDisc = allUsers.filter(u => (u.discount||0) > 0).length;
     const el1 = document.getElementById('usStat1'); if(el1) el1.textContent = allUsers.length;
     const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
     const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
-    const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
+    const _um = document.getElementById('hubUsersMeta');
+    if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
     renderUsers();
-  } catch(e) { el.innerHTML = emptyState('✗','ошибка загрузки',e.message||'проверьте подключение','повторить','loadAdminUsers()',''); }
+  } catch(e) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text3);font-size:10px">'
+      + (e.message||'ошибка') + '<br><br>'
+      + '<button class="adm-btn-save" onclick="loadAdminUsers()">↺ повторить</button></div>';
+  }
 }
 
 function renderUsers() {
@@ -2897,7 +2910,12 @@ async function loadSettings() {
   // Then load from server
   try {
     const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
-    if (!r.ok) { const e = await r.json().catch(()=>({detail:'HTTP '+r.status})); throw new Error(e.detail); }
+    if (r.status === 403) {
+      const res = document.getElementById('settingsResult');
+      if(res) res.textContent = '⚠ ADMIN_IDS=' + userId + ' не задан в Railway';
+      return;
+    }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     const s = await r.json();
     if (nameEl) nameEl.value = s.shop_name || '';
     if (minEl) minEl.value = s.min_order || '';
