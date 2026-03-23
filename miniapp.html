@@ -198,10 +198,10 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .view { transition: transform 0.28s cubic-bezier(0.16,1,0.3,1), opacity 0.28s; }
 
 /* CART TABS */
-.cart-tabs { display:flex; padding:16px 20px 0; border-bottom:1px solid var(--border); }
-.cart-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; background:none; border:none; border-bottom:2px solid transparent; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:10px 0 14px; cursor:pointer; transition:all 0.3s; touch-action:manipulation; }
+.cart-tabs { display:flex; padding:0; border-bottom:none; }
+.cart-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; background:var(--bg2); border:1px solid var(--border); border-bottom:none; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; padding:9px 12px; cursor:pointer; transition:all 0.3s; touch-action:manipulation; }
 .cart-tab-sym { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; }
-.cart-tab.on { color:var(--text); border-bottom-color:var(--accent); }
+.cart-tab.on { color:var(--text); background:rgba(204,34,34,0.06); border-color:var(--ra-018); }
 
 /* DRAG SORT */
 .prod-card[draggable] { cursor:grab; }
@@ -635,20 +635,118 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 
 
-/* CART PAGE */
-.cart-body { padding:0 20px; }
-.cart-foot { padding:0 20px 8px; }
-/* CART */
-.cart-row { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
-.cart-name { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
-.cart-sub { font-size:11px; font-weight:200; letter-spacing:0.15em; color:var(--accent); margin-bottom:8px; }
-.qty-ctrl { display:flex; align-items:center; gap:10px; }
-.qty-btn { width:26px; height:26px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); border-radius:50%; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; touch-action:manipulation; }
-.qty-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); min-width:18px; text-align:center; }
-.rm-btn { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); background:none; border:none; cursor:pointer; writing-mode:vertical-rl; align-self:start; margin-top:2px; }
-.total-row { display:flex; justify-content:space-between; align-items:baseline; padding:16px 0; }
+/* ─── CART PAGE ─── */
+.cart-body { padding:0 14px; }
+.cart-foot { padding:0 14px 8px; }
+
+/* Cart header rule */
+.cart-head-rule { display:flex; align-items:center; gap:12px; padding:14px 14px 10px; }
+.cart-head-rule-line { flex:1; height:1px; background:var(--border); }
+.cart-head-rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--accent); opacity:0.45; font-style:italic; letter-spacing:0.4em; }
+
+/* Gothic cart item card — matches catalog card style */
+.cart-card {
+  background: rgba(8,4,8,0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.cart-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:18%; right:18%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0.18;
+}
+.cart-card:active { border-color: var(--ra-018); box-shadow: 0 0 0 1px var(--ra-010), 0 4px 28px rgba(0,0,0,0.6); }
+
+/* Left image thumb */
+.cart-card-img {
+  width: 64px;
+  min-width: 64px;
+  height: 80px;
+  border-radius: 13px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.cart-card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* Content */
+.cart-card-body { flex:1; min-width:0; display:flex; flex-direction:column; justify-content:space-between; }
+.cart-card-cat { font-size:7px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); margin-bottom:4px; }
+.cart-name { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:300; color:var(--text); line-height:1.2; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cart-sub { font-size:10px; font-weight:200; letter-spacing:0.15em; color:var(--accent); }
+
+/* Qty + remove row */
+.cart-card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+.qty-ctrl { display:flex; align-items:center; gap:0; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:99px; overflow:hidden; }
+.qty-btn {
+  width:30px; height:28px;
+  border:none; background:none;
+  color:var(--text2); font-size:16px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  touch-action:manipulation; transition:color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.qty-btn:active { background:var(--ra-008); color:var(--accent); }
+.qty-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); min-width:26px; text-align:center; line-height:28px; }
+.rm-btn {
+  font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--text3); background:none; border:1px solid transparent;
+  border-radius:99px; padding:5px 10px; cursor:pointer;
+  transition:color 0.2s, border-color 0.2s; touch-action:manipulation;
+}
+.rm-btn:active { color:var(--accent); border-color:var(--ra-018); }
+
+/* Right price column */
+.cart-card-price {
+  display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between;
+  flex-shrink:0; min-width:60px;
+}
+.cart-price-total { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:var(--text); line-height:1; }
+.cart-price-unit { font-size:8px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-top:3px; }
+
+/* Summary card */
+.cart-summary-card {
+  background:rgba(8,4,8,0.72);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:22px;
+  padding:18px 20px 14px;
+  margin-bottom:12px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 28px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.cart-summary-card::before {
+  content:'';
+  position:absolute; top:0; left:15%; right:15%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0.35;
+}
+.cart-summary-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+.cart-summary-lbl { font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text3); }
+.cart-summary-cnt { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text2); }
+.total-row { display:flex; justify-content:space-between; align-items:baseline; padding:12px 0 0; border-top:1px solid var(--border); margin-top:6px; }
 .total-lbl { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; }
-.total-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); }
+.total-val { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--text); }
 
 /* BUTTONS */
 .btn { width:100%; border:1px solid var(--ra-004); background:transparent; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; padding:16px; cursor:pointer; border-radius:14px; margin-bottom:8px; transition:all 0.35s; box-shadow:inset 0 0 30px var(--ra-002); }
@@ -1233,14 +1331,25 @@ header { position: relative; z-index: 1; }
 
 <!-- CART + ORDERS MERGED -->
 <div class="view" id="vCart">
-  <div class="cart-tabs">
-    <button class="cart-tab on" id="tabCart" onclick="switchCartTab('cart')">
-      <span class="cart-tab-sym">◇</span><span data-i18n="cart">Корзина</span>
-    </button>
-    <button class="cart-tab" id="tabOrders" onclick="switchCartTab('orders')">
-      <span class="cart-tab-sym">II</span><span data-i18n="orders">Заказы</span>
-    </button>
+  <!-- Gothic section header -->
+  <div class="hd" style="padding-bottom:0">
+    <div>
+      <div class="logo-eye" data-i18n="cartTitle">корзина</div>
+      <div class="logo" style="font-size:22px">◇ <span style="font-style:italic" data-i18n="cart">Корзина</span></div>
+    </div>
+    <div>
+      <div class="cart-tabs" style="border:none;padding:0">
+        <button class="cart-tab on" id="tabCart" onclick="switchCartTab('cart')" style="padding:8px 12px;border-radius:99px 0 0 99px;border:1px solid var(--border);background:var(--bg2)">
+          <span class="cart-tab-sym">◇</span><span data-i18n="cart">Корзина</span>
+        </button>
+        <button class="cart-tab" id="tabOrders" onclick="switchCartTab('orders')" style="padding:8px 12px;border-radius:0 99px 99px 0;border:1px solid var(--border);border-left:none;background:var(--bg2)">
+          <span class="cart-tab-sym">II</span><span data-i18n="orders">Заказы</span>
+        </button>
+      </div>
+    </div>
   </div>
+  <div class="rule"><div class="rule-line"></div><div class="rule-sym">✦ архив ✦</div><div class="rule-line"></div></div>
+
   <div id="cartTabPane">
     <div class="cart-body" id="cartPageBody"></div>
     <div class="cart-foot" id="cartPageFoot"></div>
@@ -2482,21 +2591,57 @@ function renderCartPage() {
     body.innerHTML = emptyState('⚰†⚰', t('cartEmpty'), t('cartEmptyDesc'), t('openCatalog'), "switchView('catalog')", 'memento mori');
     foot.innerHTML = ''; return;
   }
-  body.innerHTML = items.map(i => `
-    <div class="cart-row">
-      <div>
+
+  // Build gothic cart cards
+  body.innerHTML = items.map(i => {
+    const cat = i.category ? (catLabel[i.category] || i.category) : '';
+    const unitPrice = i.price ? `${i.price.toFixed(2)} € / шт.` : '';
+    const totalPrice = i.price ? (i.price * i.qty).toFixed(2) : '—';
+    const thumb = i.photo
+      ? `<img src="${i.photo}" alt="${i.name}" loading="lazy">`
+      : (i.emoji || '🛍');
+    return `
+    <div class="cart-card">
+      <div class="cart-card-img">${typeof thumb === 'string' && thumb.startsWith('<img') ? thumb : `<span style="font-size:26px">${thumb}</span>`}</div>
+      <div class="cart-card-body">
+        ${cat ? `<div class="cart-card-cat">${cat}</div>` : ''}
         <div class="cart-name">${i.name}</div>
-        <div class="cart-sub">${(i.price * i.qty).toFixed(2)} €</div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="chQty(${i.id},-1)">−</button>
-          <span class="qty-num">${i.qty}</span>
-          <button class="qty-btn" onclick="chQty(${i.id},1)">+</button>
+        <div class="cart-sub">${i.size ? `размер ${i.size}` : ''}</div>
+        <div class="cart-card-foot">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chQty(${i.id},-1)">−</button>
+            <span class="qty-num">${i.qty}</span>
+            <button class="qty-btn" onclick="chQty(${i.id},1)">+</button>
+          </div>
+          <button class="rm-btn" onclick="rmItem(${i.id})">✕ убрать</button>
         </div>
       </div>
-      <button class="rm-btn" onclick="rmItem(${i.id})">' + t('removeItem') + '</button>
-    </div>`).join('');
+      <div class="cart-card-price">
+        <div>
+          <div class="cart-price-total">${totalPrice}</div>
+          <div class="cart-price-unit">€</div>
+        </div>
+        ${i.qty > 1 ? `<div style="font-size:8px;font-weight:200;letter-spacing:0.15em;color:var(--text3);text-align:right">${i.price?.toFixed(2)} €<br>за шт.</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const count = items.reduce((s, i) => s + i.qty, 0);
   foot.innerHTML = `
-    <div class="total-row"><span class="total-lbl">' + t('totalLabel') + '</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
+    <div class="cart-summary-card">
+      <div class="cart-summary-row">
+        <span class="cart-summary-lbl">позиций</span>
+        <span class="cart-summary-cnt">${items.length} ${items.length === 1 ? 'товар' : items.length < 5 ? 'товара' : 'товаров'}</span>
+      </div>
+      <div class="cart-summary-row">
+        <span class="cart-summary-lbl">количество</span>
+        <span class="cart-summary-cnt">${count} шт.</span>
+      </div>
+      <div class="total-row">
+        <span class="total-lbl">${t('totalLabel')}</span>
+        <span class="total-val">${cartTotal().toFixed(2)} <span style="font-size:18px;opacity:0.5">€</span></span>
+      </div>
+    </div>
     <button class="btn" onclick="openCheckout()">${t('checkout')}</button>
     <button class="btn-ghost" onclick="clearCartFn()">${t('clearCart')}</button>`;
 }
