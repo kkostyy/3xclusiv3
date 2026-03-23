@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark" data-lang="ru">
 <head>
@@ -13,15 +14,11 @@
   --text: #f0ece4; --text2: rgba(240,236,228,0.45); --text3: rgba(240,236,228,0.18);
   --accent: #cc2222; --accent2: rgba(180,20,20,0.10); --red: #cc2222; --green: #1a4a2a;
   --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Jost', sans-serif;
 }
 
-[data-theme="light"] { --navbg: rgba(155,140,118,0.97); --panelbg: rgba(150,135,112,0.97); }
-[data-theme="light"] {
-  --bg: #b8aa92; --bg2: rgba(175,160,136,0.97); --bg3: rgba(158,143,118,0.97);
-  --border: rgba(0,0,0,0.07); --borderh: rgba(0,0,0,0.14);
-  --text: #050402; --text2: rgba(5,4,2,0.7); --text3: rgba(5,4,2,0.42);
-  --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
-}
+
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
 html, body { height:100%; }
@@ -59,7 +56,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .fb.on::after { transform:scaleX(1); }
 
 /* GRID */
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 12px; box-sizing:border-box; width:100%; overflow-x:hidden; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px; box-sizing:border-box; width:100%; overflow-x:hidden; }
 
 .card {
   background: var(--bg2);
@@ -85,18 +82,9 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 [data-theme="dark"] .card::after { opacity: 1; }
 .card:active { opacity: 0.88; }
 .card:active { box-shadow:0 0 0 1px rgba(204,34,34,0.18), 0 0 20px rgba(204,34,34,0.05); border-color:rgba(204,34,34,0.2); }
-[data-theme="light"] .card:active { box-shadow: 0 4px 20px rgba(0,0,0,0.18); border-color: rgba(0,0,0,0.2); }
 
 /* Photo area */
-.card-img {
-  aspect-ratio: 3/4;
-  background: var(--bg3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
+
 .card-img img {
   width: 100%;
   height: 100%;
@@ -124,9 +112,6 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
   animation: shimmer 1.6s infinite;
 }
-[data-theme="light"] .card-img.loading::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
-}
 @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
 
@@ -144,7 +129,6 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   border-bottom: 1px solid rgba(232,228,220,0.2);
   padding-bottom: 1px;
 }
-[data-theme="light"] .card-void { color: rgba(5,4,2,0.45); border-color: rgba(5,4,2,0.2); }
 
 /* Card info */
 .card-body {
@@ -204,7 +188,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .sec-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); padding-bottom:10px; border-bottom:1px solid var(--border); }
 
 /* ORDERS */
-.orders-wrap { padding:0 14px; box-sizing:border-box; width:100%; overflow-x:hidden; }
+
 
 /* ── Order card: fully rounded luxury block ── */
 .order-card {
@@ -221,9 +205,6 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .order-card.is-active {
   border-color: rgba(255,255,255,0.25);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.18);
-}
-[data-theme="light"] .order-card.is-active {
-  box-shadow: 0 0 0 1px rgba(92,74,40,0.1), 0 6px 24px rgba(92,74,40,0.07);
 }
 
 /* Top accent stripe on active */
@@ -339,89 +320,123 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 }
 
 /* Price adjustment block */
-.price-adj {
-  background: var(--accent2);
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 16px;
-  padding: 16px;
-}
-.price-adj-title {
-  font-size: 8px;
-  font-weight: 200;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-.price-adj-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  color: var(--text);
-  line-height: 1;
-}
-.price-adj-reason {
-  font-size: 11px;
-  font-weight: 200;
-  color: var(--text2);
-  margin-top: 6px;
-  line-height: 1.5;
-}
+
+
+
+
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.btn-accept {
-  background: var(--accent);
-  color: var(--bg);
-  border: none;
-  border-radius: 12px;
-  padding: 11px;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: opacity 0.25s;
-}
+
 .btn-accept:active { opacity: 0.75; }
-.btn-reject {
-  background: none;
-  color: var(--text2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 11px;
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
+
 .btn-reject:active { border-color: var(--borderh); }
-.review-btn {
-  width: 100%;
-  padding: 11px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text2);
-  font-size: 9px;
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.25s, color 0.25s;
-}
+
 .review-btn:hover { border-color: var(--borderh); color: var(--text); }
 
 /* PROFILE */
+
+/* ── RICH EMPTY STATES ── */
+.empty-rich {
+  padding: 48px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.empty-art {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  color: var(--text3);
+  line-height: 1;
+  margin-bottom: 6px;
+  opacity: 0.5;
+  letter-spacing: -2px;
+}
+.empty-art-sub {
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: 0.6em;
+  color: rgba(255,255,255,0.06);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+.empty-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--text2);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.empty-desc {
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.25em;
+  color: var(--text3);
+  text-transform: uppercase;
+  line-height: 1.8;
+  max-width: 240px;
+  margin-bottom: 24px;
+}
+.empty-cta {
+  background: none;
+  border: 1px solid rgba(204,34,34,0.25);
+  color: var(--text2);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 99px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+.empty-cta:active { background: rgba(204,34,34,0.08); border-color: rgba(204,34,34,0.4); }
+.empty-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255,255,255,0.08);
+  line-height: 1.6;
+  max-width: 200px;
+  margin-top: 28px;
+}
+
+/* ── PROFILE ── */
 .profile-wrap { padding:0 20px; }
-.admin-btn { width:100%; padding:16px; background:var(--accent2); border:1px solid var(--accent); border-radius:12px; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; cursor:pointer; margin-bottom:16px; text-align:center; }
-.profile-id { display:flex; align-items:flex-end; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border); margin-bottom:24px; }
-.monogram { width:52px; height:52px; border-radius:50%; background:var(--bg2); border:1px solid var(--borderh); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--accent); flex-shrink:0; }
-.profile-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); }
-.profile-handle { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-top:3px; }
-.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
-.stat { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; }
-.stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--text); line-height:1; }
-.stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
+.profile-hero { display:flex; flex-direction:column; align-items:center; padding:8px 0 20px; }
+.monogram-wrap { position:relative; width:92px; height:92px; margin-bottom:14px; }
+.monogram { width:92px; height:92px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(204,34,34,0.10), rgba(8,4,8,0.97)); border:1px solid rgba(204,34,34,0.22); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:40px; color:var(--text2); box-shadow:0 0 40px rgba(204,34,34,0.07), inset 0 1px 0 rgba(255,255,255,0.07); }
+.monogram-ring { position:absolute; inset:-5px; border-radius:50%; border:1px solid rgba(204,34,34,0.12); pointer-events:none; }
+.monogram-ring2 { position:absolute; inset:-11px; border-radius:50%; border:1px dashed rgba(255,255,255,0.04); pointer-events:none; }
+.profile-name { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; color:var(--text); text-align:center; letter-spacing:0.03em; margin-bottom:3px; }
+.profile-handle { font-size:8px; font-weight:200; letter-spacing:0.5em; color:var(--text3); text-transform:uppercase; text-align:center; margin-bottom:12px; }
+.profile-tier { display:inline-flex; align-items:center; gap:6px; background:var(--bg2); border:1px solid rgba(204,34,34,0.18); border-radius:99px; padding:5px 14px; font-size:8px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--accent); }
+/* stats */
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
+.stat { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:14px 10px; text-align:center; position:relative; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.35); }
+.stat::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent); }
+.stat.red::before { background:linear-gradient(90deg,transparent,rgba(204,34,34,0.25),transparent); }
+
+.stat.red .stat-val { color:var(--accent); }
+
+/* info cards */
+.pcards { display:flex; flex-direction:column; gap:9px; margin-bottom:14px; }
+.pcard { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 16px; display:flex; align-items:center; gap:14px; box-shadow:0 2px 14px rgba(0,0,0,0.3); position:relative; overflow:hidden; }
+.pcard::before { content:''; position:absolute; top:0; left:15%; right:15%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent); }
+.pcard-glyph { font-family:'Cormorant Garamond',serif; font-size:24px; color:rgba(204,34,34,0.4); font-style:italic; width:28px; flex-shrink:0; text-align:center; line-height:1; }
+.pcard-body { flex:1; min-width:0; }
+.pcard-lbl { font-size:7px; font-weight:200; letter-spacing:0.45em; text-transform:uppercase; color:var(--text3); margin-bottom:3px; }
+.pcard-val { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:300; color:var(--text); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pcard-sub { font-size:8px; font-weight:200; letter-spacing:0.15em; color:var(--text3); margin-top:2px; }
+/* tier progress */
+.tier-bar-wrap { margin-bottom:14px; }
+.tier-bar-track { height:2px; background:var(--border); border-radius:2px; overflow:hidden; margin:6px 0 3px; }
+.tier-bar-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.8s cubic-bezier(0.16,1,0.3,1); }
+/* compat */
 .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .menu-item { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px 12px; text-align:center; cursor:pointer; }
 .menu-item-icon { font-size:20px; margin-bottom:6px; }
@@ -435,7 +450,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 /* SIZE */
 .size-form { padding:0 20px; }
-.inp-label { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text2); margin-bottom:6px; display:block; }
+
 .inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:18px; padding:12px 16px; border-radius:12px; outline:none; margin-bottom:12px; transition:border-color 0.3s; box-sizing:border-box; }
 .inp:focus { border-color:rgba(204,34,34,0.35); box-shadow:0 0 20px rgba(204,34,34,0.05); }
 select.inp { font-family:'Jost',sans-serif; font-size:15px; cursor:pointer; }
@@ -480,7 +495,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* DELIVERY */
 .delivery-wrap { padding:0 20px; }
-.zone-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; }
+.zone-card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:8px; }
 .zone-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); margin-bottom:4px; }
 .zone-area { font-size:10px; font-weight:200; letter-spacing:0.15em; color:var(--text3); margin-bottom:10px; }
 .zone-meta { display:flex; gap:14px; }
@@ -489,7 +504,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* NAV */
 .nav { position:fixed; bottom:0; left:0; right:0; width:100%; background:rgba(5,3,8,0.97); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid rgba(180,150,200,0.1); border-radius:22px 22px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom,0px); min-height:58px; box-sizing:border-box; box-shadow:0 -8px 40px rgba(0,0,0,0.6); }
-.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
 .nav-btn.on::before { transform:scaleX(1); }
@@ -501,12 +516,16 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .panel.on { transform:translateY(0); }
 
 
+
+/* CART PAGE */
+.cart-body { padding:0 20px; }
+.cart-foot { padding:0 20px 8px; }
 /* CART */
 .cart-row { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
 .cart-name { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
 .cart-sub { font-size:11px; font-weight:200; letter-spacing:0.15em; color:var(--accent); margin-bottom:8px; }
 .qty-ctrl { display:flex; align-items:center; gap:10px; }
-.qty-btn { width:26px; height:26px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); border-radius:50%; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.qty-btn { width:26px; height:26px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); border-radius:50%; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; touch-action:manipulation; }
 .qty-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); min-width:18px; text-align:center; }
 .rm-btn { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); background:none; border:none; cursor:pointer; writing-mode:vertical-rl; align-self:start; margin-top:2px; }
 .total-row { display:flex; justify-content:space-between; align-items:baseline; padding:16px 0; }
@@ -535,7 +554,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .star-btn.on { opacity:1; }
 
 /* TOAST */
-.toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-12px); background:var(--text); color:var(--bg); font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:10px 20px; border-radius:20px; opacity:0; pointer-events:none; z-index:200; transition:all 0.35s; white-space:nowrap; }
+
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
 
@@ -546,7 +565,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 /* MORE PAGE */
 .more-wrap { padding:0 14px; }
 .more-section-title { font-size:9px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text3); padding:0 6px 12px; border-bottom:1px solid var(--border); margin-bottom:14px; }
-.more-item { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); }
+.more-item { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); touch-action:manipulation; }
 .more-item::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item:active::before { opacity:0.4; }
 .more-item:active { border-color:var(--borderh); }
@@ -560,7 +579,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-sub { display:none; }
 .more-sub.on { display:block; }
 .more-back { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
-.more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
+
 
 
 /* FULLSCREEN PAGE NAVIGATION */
@@ -625,7 +644,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* MORE HUB */
 .more-wrap-a { padding:0 14px; }
-.more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
+.more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 14px rgba(0,0,0,0.35); touch-action:manipulation; }
 .more-item-a::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item-a:active::before { opacity:0.35; }
 .more-item-a:active { border-color:var(--borderh); }
@@ -681,8 +700,8 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .unread-dot { width:7px; height:7px; border-radius:50%; background:var(--red); display:inline-block; margin-left:6px; vertical-align:middle; }
 
 /* BROADCAST */
-.broadcast-wrap { padding:0 14px; }
-.broadcast-box { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:24px; padding:20px; }
+
+
 
 /* ACCESS DENIED */
 .denied { padding:80px 30px; text-align:center; }
@@ -794,8 +813,8 @@ header { position: relative; z-index: 1; }
 <!-- CART -->
 <div class="view" id="vCart">
   <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title" data-i18n="cartTitle">корзина</div></div>
-  <div style="padding:0 20px 0" id="cartPageBody"></div>
-  <div style="padding:0 20px" id="cartPageFoot"></div>
+  <div class="cart-body" id="cartPageBody"></div>
+  <div class="cart-foot" id="cartPageFoot"></div>
 </div>
 
 <!-- MORE -->
@@ -937,7 +956,7 @@ header { position: relative; z-index: 1; }
     <span class="page-back-sym">←</span>
     <span class="page-back-lbl" data-i18n="back">назад</span>
   </div>
-  <div class="page-body" id="detailBody"></div>
+  <div class="page-body" style="padding-bottom:20px" id="detailBody"></div>
 </div>
 
 <!-- CHECKOUT PAGE -->
@@ -949,7 +968,7 @@ header { position: relative; z-index: 1; }
   <div class="sec-head"><div class="sec-title" data-i18n="checkoutTitle">оформление заказа</div></div>
   <div class="page-body">
     <label class="inp-label" data-i18n="nameLabel">имя и фамилия</label>
-    <input class="inp" id="coName" data-i18n="namePh" data-i18n-attr="placeholder" placeholder="Иван Иванов">
+    <input class="inp" id="coName" style="margin-bottom:14px" data-i18n="namePh" data-i18n-attr="placeholder" placeholder="Иван Иванов">
     <label class="inp-label" data-i18n="userLabel">telegram username</label>
     <input class="inp" id="coUser" data-i18n="userPh" data-i18n-attr="placeholder" placeholder="username (без @)">
     <label class="inp-label" data-i18n="phoneLabel">телефон (Эстония)</label>
@@ -1219,6 +1238,17 @@ function setLang(lang) {
 }
 
 
+
+function emptyState(art, title, desc, ctaText, ctaAction, quote) {
+  return '<div class="empty-rich">'
+    + '<div class="empty-art">' + art + '</div>'
+    + (quote ? '<div class="empty-art-sub">' + quote + '</div>' : '<div style="margin-bottom:22px"></div>')
+    + '<div class="empty-title">' + title + '</div>'
+    + '<div class="empty-desc">' + desc + '</div>'
+    + (ctaText ? '<button class="empty-cta" onclick="' + ctaAction + '">' + ctaText + '</button>' : '')
+    + '</div>';
+}
+
 // ═══ STATE ═══
 let userId = null, userName = 'Гость', userProfile = null;
 let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
@@ -1322,7 +1352,7 @@ function renderCartPage() {
   const body = document.getElementById('cartPageBody');
   const foot = document.getElementById('cartPageFoot');
   if (!items.length) {
-    body.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">' + t('cartEmpty') + '</div></div>';
+    body.innerHTML = emptyState('⚰†⚰','корзина пуста','добавьте товары из каталога','открыть каталог',"switchView('catalog')", 'memento mori');
     foot.innerHTML = ''; return;
   }
   body.innerHTML = items.map(i => `
@@ -1431,7 +1461,7 @@ async function loadProducts() {
     allProducts = await r.json();
   } catch (e) {
     allProducts = [];
-    if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">✦</div><div class="empty-txt">' + t('noConnection') + '</div></div>';
+    if (grid) grid.innerHTML = emptyState('✦','нет соединения','проверьте подключение к сети','попробовать снова','loadProducts()', 'ex nihilo nihil fit');
     return;
   }
   renderGrid();
@@ -1485,7 +1515,7 @@ function renderGrid() {
   const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
   const grid = document.getElementById('productGrid');
   if (!list.length) {
-    grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">○</div><div class="empty-txt">нет товаров</div></div>'; return;
+    grid.innerHTML = '<div style="grid-column:1/-1">' + emptyState('◆','архив пуст','в этой категории нет товаров','все товары',"activeCat='all';renderGrid()", 'ars longa') + '</div>'; return;
   }
   grid.innerHTML = list.map(cardHtml).join('');
   if (window._fixTouchAfterLoad) window._fixTouchAfterLoad();
@@ -1555,7 +1585,7 @@ async function loadWishlist() {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
     wishIds = new Set(items.map(p => p.id));
-    if (!items.length) { grid.innerHTML = '<div class="empty"><div class="empty-sym">♡</div><div class="empty-txt">избранное пусто</div></div>'; return; }
+    if (!items.length) { grid.innerHTML = emptyState('♡','избранное пусто','сохраняйте понравившиеся товары нажав ♡','перейти в каталог',"switchView('catalog')", 'de gustibus'); return; }
     grid.innerHTML = items.map(p => {
       const ph = p.photo_id
         ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
@@ -1586,12 +1616,12 @@ async function loadOrders() {
   if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; }
   if (!userId) {
     setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; loadOrders(); } }, 500);
-    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">' + t('loading') + '</div></div>'; return;
+    el.innerHTML = '<div class="loader"><div class="loader-sym" style="animation:pulse 1.5s ease-in-out infinite">∞</div></div>'; return;
   }
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
     const orders = await r.json();
-    if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">' + t('noOrders') + '</div></div>'; return; }
+    if (!orders.length) { el.innerHTML = emptyState('☩','заказов пока нет','ваши заказы появятся здесь','перейти в каталог',"switchView('catalog')", 'in fashion veritas'); return; }
     el.innerHTML = orders.map(o => {
       const isActive = STATUS_ACTIVE.includes(o.status);
       const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -1694,20 +1724,98 @@ async function loadProfile() {
   const name = usr ? `${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}` : userName;
   const handle = usr?.username ? '@' + usr.username : (userId ? 'id' + userId : '—');
 
+  const orders    = db?.orders || 0;
+  const referrals = db?.referrals || 0;
+  const discount  = db?.discount || 0;
+  const spent     = db?.total_spent ? db.total_spent.toFixed(2) : '0.00';
+  const completed = db?.completed_orders || 0;
+  const lastOrder = db?.last_order ? db.last_order.slice(0,10) : '—';
+  const favCat    = db?.fav_category ? (catLabel[db.fav_category] || db.fav_category) : '—';
+  const nextTier  = db?.next_tier;
+
+  // Tier name
+  const tierName = discount >= 15 ? '✦ архивариус' :
+                   discount >= 10 ? '† постоянный гость' :
+                   discount >= 5  ? '◆ ценитель' :
+                   discount >= 3  ? '⋆ знакомый' : '· новый гость';
+
+  // Tier progress for next discount
+  let tierPct = 0, tierNext = '';
+  if (nextTier) {
+    const tiers = [[1,3],[2,5],[5,10],[10,15]];
+    const prev = tiers.filter(([n])=> n <= referrals).pop();
+    const prevN = prev ? prev[0] : 0;
+    tierPct = Math.min(100, Math.round((referrals - prevN) / (nextTier.need + referrals - prevN) * 100));
+    tierNext = 'ещё ' + nextTier.need + ' → ' + nextTier.pct + '%';
+  } else {
+    tierPct = 100;
+    tierNext = 'максимальная скидка';
+  }
+
   el.innerHTML = adminHtml + `
-    <div class="profile-id">
-      <div class="monogram">${m}</div>
-      <div>
-        <div class="profile-name">${name}</div>
-        <div class="profile-handle">${handle}</div>
+    <div class="profile-hero">
+      <div class="monogram-wrap">
+        <div class="monogram">${m}</div>
+        <div class="monogram-ring"></div>
+        <div class="monogram-ring2"></div>
+      </div>
+      <div class="profile-name">${name}</div>
+      <div class="profile-handle">${handle}</div>
+      <div class="profile-tier"><span>✦</span> ${tierName}</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-val">${orders}</div>
+        <div class="stat-key">${t('ordersCount')}</div>
+      </div>
+      <div class="stat red">
+        <div class="stat-val">${discount}%</div>
+        <div class="stat-key">${t('discountCount')}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">${referrals}</div>
+        <div class="stat-key">${t('referralsCount')}</div>
       </div>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="stat-val">${db?.orders || 0}</div><div class="stat-key">' + t('ordersCount') + '</div></div>
-      <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">' + t('referralsCount') + '</div></div>
-      <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">' + t('discountCount') + '</div></div>
+
+    ${nextTier || referrals > 0 ? `
+    <div class="tier-bar-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3)">${tierNext}</div>
+        <div style="font-size:7px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">${tierPct}%</div>
+      </div>
+      <div class="tier-bar-track"><div class="tier-bar-fill" style="width:${tierPct}%"></div></div>
     </div>
-`;
+    ` : ''}
+
+    <div class="pcards">
+      <div class="pcard">
+        <div class="pcard-glyph">€</div>
+        <div class="pcard-body">
+          <div class="pcard-lbl">потрачено всего</div>
+          <div class="pcard-val">${spent} €</div>
+          <div class="pcard-sub">${completed} завершённых заказов</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-glyph">†</div>
+        <div class="pcard-body">
+          <div class="pcard-lbl">любимая категория</div>
+          <div class="pcard-val">${favCat}</div>
+          <div class="pcard-sub">последний заказ: ${lastOrder}</div>
+        </div>
+      </div>
+      <div class="pcard" onclick="navigator.clipboard?.writeText(db?.ref_link||'').then(()=>toast(t('linkCopied')))" style="cursor:pointer">
+        <div class="pcard-glyph">∞</div>
+        <div class="pcard-body">
+          <div class="pcard-lbl">реферальная ссылка</div>
+          <div class="pcard-val" style="font-size:12px;color:var(--text3)">${db?.ref_link || '—'}</div>
+          <div class="pcard-sub">нажмите чтобы скопировать</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function showSub(id) {
@@ -1906,6 +2014,7 @@ function openMoreSubA(id) {
 }
 
 function exitAdmin() {
+  if (_badgeTimer) { clearInterval(_badgeTimer); _badgeTimer = null; }
   // Hide all admin views
   ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'].forEach(k => {
     const el = document.getElementById('v' + k);
@@ -1915,13 +2024,13 @@ function exitAdmin() {
   switchView('profile');
 }
 
+let _badgeTimer = null;
 function openAdmin() {
   const entered = prompt('пароль администратора');
   if (entered !== '3xclusivv33') {
     if (entered !== null) toast('неверный пароль');
     return;
   }
-  // Hide all user views
   ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
     const vid = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const el = document.getElementById(vid);
@@ -1929,6 +2038,9 @@ function openAdmin() {
   });
   document.body.classList.add('admin-mode');
   switchAdminView('aDashboard');
+  // Auto-refresh badges every 60s
+  if (_badgeTimer) clearInterval(_badgeTimer);
+  _badgeTimer = setInterval(() => { if (document.body.classList.contains('admin-mode')) loadBadges(); }, 60000);
 }
 
 // ═══ ADMIN FUNCTIONS ═══
@@ -2040,7 +2152,7 @@ function renderAdminOrders() {
   const el = document.getElementById('aOrdersContent');
   let orders = allOrders;
   if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
-  if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов нет</div></div>'; return; }
+  if (!orders.length) { el.innerHTML = emptyState('◇','заказов нет','новые заказы появятся здесь','','', ''); return; }
   el.innerHTML = orders.map(o => {
     const isActive = ADMIN_STATUS_ACTIVE.includes(o.status);
     const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -2199,7 +2311,7 @@ async function loadAdminProducts() {
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
     const products = await r.json();
-    if (!products.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">товаров нет</div></div>'; return; }
+    if (!products.length) { el.innerHTML = emptyState('†','архив пуст','добавьте первый товар в форме выше','','', ''); return; }
     el.innerHTML = products.map(p => `
       <div class="prod-card" id="apc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
@@ -2235,6 +2347,20 @@ async function toggleProduct(id, current) {
       pill.parentElement.onclick = () => toggleProduct(id, d.is_available);
     }
     toast(d.is_available ? '✅ в наличии' : '🚫 нет в наличии');
+  } catch { toast('ошибка'); }
+}
+
+
+async function editProductPhoto(id) {
+  const url = window.prompt ? window.prompt('URL фото для товара #' + id + ':') : null;
+  if (url === null) return;
+  try {
+    await fetch(`${API}/api/admin/products/${id}/photo_url`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ admin_id: userId, photo_url: url || '' })
+    });
+    toast('✅ фото обновлено');
+    loadAdminProducts();
   } catch { toast('ошибка'); }
 }
 
@@ -2288,7 +2414,7 @@ async function loadReviews() {
   try {
     const r = await fetch(`${API}/api/admin/reviews?admin_id=${userId}`);
     const reviews = await r.json();
-    if (!reviews.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">⋆</div><div class="empty-txt">отзывов нет</div></div>'; return; }
+    if (!reviews.length) { el.innerHTML = emptyState('⋆','отзывов пока нет','покупатели оставят оценки после получения заказов','','', ''); return; }
     el.innerHTML = reviews.map(rv => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</div>
@@ -2301,17 +2427,33 @@ async function loadReviews() {
 // ═══ SUPPORT ═══
 async function loadSupport() {
   const el = document.getElementById('aSupportContent');
+  if (!el) return;
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
   try {
     const r = await fetch(`${API}/api/admin/support?admin_id=${userId}`);
     const msgs = await r.json();
-    if (!msgs.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">✦</div><div class="empty-txt">сообщений нет</div></div>'; return; }
+    // Update unread badge
+    const unread = msgs.filter(m => !m.is_read).length;
+    const badge = document.getElementById('supportUnreadBadge');
+    if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'inline' : 'none'; }
+    if (!msgs.length) { el.innerHTML = emptyState('✦','сообщений нет','входящие сообщения покупателей появятся здесь','','', ''); return; }
     el.innerHTML = msgs.map(m => `
-      <div class="support-card">
-        <div class="support-from">${m.name||'Аноним'} ${!m.is_read?'<span class="unread-dot"></span>':''}</div>
+      <div class="support-card" style="${!m.is_read ? 'border-color:rgba(204,34,34,0.25)' : ''}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+          <div class="support-from">${m.name||'Аноним'} ${!m.is_read?'<span class="unread-dot"></span>':''}</div>
+          <button onclick="replyToUser(${m.telegram_id})" style="background:none;border:1px solid var(--border);color:var(--text3);font-size:8px;font-weight:200;letter-spacing:0.3em;padding:3px 8px;border-radius:8px;cursor:pointer;touch-action:manipulation;text-transform:uppercase">ответить</button>
+        </div>
         <div class="support-date">id${m.telegram_id} · ${m.created_at?.slice(0,16)||''}</div>
         <div class="support-text">${m.text||'—'}</div>
       </div>`).join('');
   } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+function replyToUser(telegramId) {
+  // Open write page pre-filled for this user
+  writeOrderId = null; writeUserId = telegramId;
+  document.getElementById('aWriteText').value = '';
+  openAdminPage('write');
 }
 
 // ═══ BROADCAST ═══
@@ -2333,7 +2475,7 @@ async function sendBroadcast() {
     const d = await r.json();
     if (d.ok) {
       document.getElementById('aBroadcastText').value = '';
-      toast('✅ рассылка отправлена · ' + (d.sent || 0) + ' получателей', 4000);
+      toast('✅ рассылка · ' + (d.sent || 0) + ' чел. · ' + (d.failed || 0) + ' ошибок', 5000);
     } else { toast('✗ ' + (d.detail || 'ошибка'), 3000); }
   } catch { toast('ошибка соединения'); }
 }
@@ -2342,6 +2484,43 @@ async function sendBroadcast() {
 
 // ═══ ADMIN USERS ═══
 let allUsers = [];
+
+function filterUsers(query) {
+  if (!allUsers.length) return;
+  const q = query.toLowerCase().trim();
+  if (!q) { renderUsers(); return; }
+  const filtered = allUsers.filter(u =>
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.username || '').toLowerCase().includes(q) ||
+    String(u.telegram_id).includes(q)
+  );
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  // Temporarily replace allUsers for rendering
+  const orig = allUsers;
+  // Render filtered subset
+  el.innerHTML = filtered.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div></div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+      ).join('')
+    + '</div></div></div>'
+  ).join('');
+}
+
 async function loadAdminUsers() {
   const el = document.getElementById('aUsersContent');
   if (!el) return;
@@ -2396,18 +2575,28 @@ async function setUserDiscount(telegramId, discount, btn) {
 }
 
 // ═══ ADMIN SETTINGS ═══
-function loadSettings() {
-  const name = localStorage.getItem('shop_name_3x') || '';
-  const minOrder = localStorage.getItem('min_order_3x') || '';
-  const curr = localStorage.getItem('currency_3x') || '€';
+async function loadSettings() {
+  // Load from localStorage first (instant)
   const nameEl = document.getElementById('sShopName');
   const minEl = document.getElementById('sMinOrder');
-  if (nameEl) nameEl.value = name;
-  if (minEl) minEl.value = minOrder;
-  // Mark active currency
+  const curr = localStorage.getItem('currency_3x') || '€';
+  if (nameEl) nameEl.value = localStorage.getItem('shop_name_3x') || '';
+  if (minEl) minEl.value = localStorage.getItem('min_order_3x') || '';
   document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
     b.classList.toggle('on', b.textContent.includes(curr));
   });
+  // Then load from server
+  try {
+    const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
+    const s = await r.json();
+    if (nameEl) nameEl.value = s.shop_name || '';
+    if (minEl) minEl.value = s.min_order || '';
+    const serverCurr = s.currency || '€';
+    localStorage.setItem('currency_3x', serverCurr);
+    document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
+      b.classList.toggle('on', b.textContent.includes(serverCurr));
+    });
+  } catch {}
 }
 
 function setCurr(btn, symbol) {
@@ -2415,6 +2604,11 @@ function setCurr(btn, symbol) {
   btn.classList.add('on');
   localStorage.setItem('currency_3x', symbol);
   toast('валюта: ' + symbol);
+  // Auto-save to server
+  fetch(`${API}/api/admin/settings`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ admin_id: userId, currency: symbol })
+  }).catch(() => {});
 }
 
 function saveSettings() {
@@ -2427,15 +2621,31 @@ function saveSettings() {
 
 async function exportData() {
   if (!userId) { toast('нет доступа'); return; }
+  toast('формируем отчёт...', 2000);
   try {
-    const [orders, products] = await Promise.all([
+    const [orders, products, users] = await Promise.all([
       fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
       fetch(API + '/api/admin/products?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/users?admin_id=' + userId).then(r=>r.json()).catch(()=>[]),
     ]);
-    const total_rev = orders.filter(o=>o.status==='delivered').reduce((s,o)=>s+(+o.total_price||0),0);
-    toast('заказов: ' + orders.length + ' · товаров: ' + products.length + ' · выручка: ' + total_rev.toFixed(2) + '€', 5000);
-  } catch(e) { toast('✗ ' + e.message); }
+    const delivered = orders.filter(o=>o.status==='delivered');
+    const revenue = delivered.reduce((s,o)=>s+(+o.total_price||0),0);
+    const active_prod = products.filter(p=>p.is_available).length;
+    const report = '3xclusiv33 Export ' + new Date().toISOString().slice(0,10)
+      + ' | orders:' + orders.length
+      + ' completed:' + delivered.length
+      + ' revenue:' + revenue.toFixed(2) + 'EUR'
+      + ' users:' + users.length
+      + ' products:' + products.length + '(' + active_prod + ' active)';
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(report);
+      toast('отчёт скопирован: ' + orders.length + ' заказов, ' + revenue.toFixed(2) + ' €', 5000);
+    } else {
+      toast('заказов:' + orders.length + ' выручка:' + revenue.toFixed(2) + '€', 5000);
+    }
+  } catch(e) { toast('ошибка: ' + e.message); }
 }
+
 
 async function wipeOldOrders() {
   toast('⚠ удаление только через базу данных', 3000);
@@ -2485,23 +2695,29 @@ function loadDevInfo() {
   const info = document.getElementById('devInfo');
   if (!info) return;
   const tg = window.Telegram?.WebApp;
+  const mem = performance?.memory;
   const lines = [
-    'userId: ' + (userId || 'null'),
-    'userName: ' + (userName || '—'),
-    'lang: ' + currentLang,
-    'API: ' + API,
-    'tg version: ' + (tg?.version || '—'),
-    'platform: ' + (tg?.platform || navigator.platform || '—'),
-    'cart items: ' + Object.keys(cart).length,
-    'products: ' + allProducts.length,
-    'categories: ' + allCategories.length,
-    'userAgent: ' + navigator.userAgent.substring(0, 60) + '...',
+    ['userId', userId || 'null'],
+    ['userName', userName || '—'],
+    ['lang', currentLang],
+    ['API', API],
+    ['tg version', tg?.version || '—'],
+    ['platform', tg?.platform || navigator.platform || '—'],
+    ['colorScheme', tg?.colorScheme || '—'],
+    ['viewport', window.innerWidth + '×' + window.innerHeight],
+    ['cart items', Object.keys(cart).length],
+    ['products loaded', allProducts.length],
+    ['categories', allCategories.length],
+    ['admin mode', document.body.classList.contains('admin-mode') ? 'да' : 'нет'],
+    ['memory', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
   ];
-  info.innerHTML = lines.map(l => {
-    const [k, v] = l.split(': ');
-    return '<span style="color:var(--text3)">' + k + ':</span> ' + (v||'');
-  }).join('\n');
-  devLog('✓ info loaded');
+  info.innerHTML = lines.map(([k,v]) =>
+    '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.04)">'
+    + '<span style="color:var(--text3);font-size:9px;letter-spacing:0.2em">' + k + '</span>'
+    + '<span style="color:var(--text2);font-size:10px">' + v + '</span>'
+    + '</div>'
+  ).join('');
+  devLog('✓ info refreshed');
 }
 
 function devLog(msg) {
@@ -2691,7 +2907,7 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreSupport');loadSupport()">
         <div class="more-glyph">✦</div>
         <div class="more-info">
-          <div class="more-title">Поддержка</div>
+          <div class="more-title">Поддержка <span id="supportUnreadBadge" style="display:none;background:var(--accent);color:var(--bg);font-size:8px;border-radius:99px;padding:1px 6px;margin-left:4px;font-weight:300"></span></div>
           <div class="more-sub-lbl">входящие сообщения</div>
         </div>
         <div class="more-arrow">›</div>
@@ -2766,9 +2982,12 @@ init();
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
     <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title" data-i18n="users">пользователи</div></div>
     <div style="padding:0 14px">
-      <div class="stats-grid" style="margin-bottom:14px">
+      <div class="stats-grid" style="margin-bottom:10px">
         <div class="stat-card"><div class="stat-val" id="usrTotal">—</div><div class="stat-key">всего</div></div>
         <div class="stat-card accent"><div class="stat-val" id="usrActive">—</div><div class="stat-key">активных</div></div>
+      </div>
+      <div style="margin-bottom:10px">
+        <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username" style="margin-bottom:0" oninput="filterUsers(this.value)">
       </div>
       <div id="aUsersContent">
         <div class="loader"><div class="loader-sym">∞</div></div>
@@ -3032,4 +3251,3 @@ init();
 
 </body>
 </html>
-
