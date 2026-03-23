@@ -15,7 +15,7 @@
   --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
 }
 
-[data-theme="light"] { --navbg: rgba(165,150,128,0.92); --panelbg: rgba(162,147,124,0.95); }
+[data-theme="light"] { --navbg: rgba(155,140,118,0.97); --panelbg: rgba(150,135,112,0.97); }
 [data-theme="light"] {
   --bg: #b8aa92; --bg2: rgba(175,160,136,0.97); --bg3: rgba(158,143,118,0.97);
   --border: rgba(0,0,0,0.07); --borderh: rgba(0,0,0,0.14);
@@ -23,8 +23,9 @@
   --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { overflow-x:hidden; max-width:100vw; }
 html, body { height:100%; }
-body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
+body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; overflow-y:auto; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
 /* HEADER */
 .hd { padding:24px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
@@ -47,7 +48,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--accent); opacity:0.4; font-style:italic; letter-spacing:0.4em; }
 
 /* VIEWS */
-.view { display:none; padding:0 0 110px; -webkit-overflow-scrolling:touch; }
+.view { display:none; padding:0 0 80px; -webkit-overflow-scrolling:touch; }
 .view.on { display:block; }
 
 /* FILTER */
@@ -228,7 +229,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .sec-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); padding-bottom:10px; border-bottom:1px solid var(--border); }
 
 /* ORDERS */
-.orders-wrap { padding:0 14px; }
+.orders-wrap { padding:0 14px; box-sizing:border-box; width:100%; overflow-x:hidden; }
 
 /* ── Order card: fully rounded luxury block ── */
 .order-card {
@@ -511,7 +512,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
 
 /* NAV */
-.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.92)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:999; padding-bottom:env(safe-area-inset-bottom); }
+.nav { position:fixed !important; bottom:0 !important; left:0; right:0; width:100%; background:var(--navbg,rgba(5,3,5,0.97)); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom); min-height:56px; }
 .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
@@ -641,8 +642,6 @@ body::after {
   z-index: 0;
   opacity: 1;
   transition: opacity 0.8s;
-  will-change: transform;
-  transform: translateZ(0);
 }
 [data-theme="light"] #gothicCanvas { opacity: 0.18; }
 body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
@@ -681,9 +680,9 @@ body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
 .more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
 
 /* STATS GRID */
-.stats-wrap { padding:0 14px 16px; }
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
-.stats-grid.three { grid-template-columns:1fr 1fr 1fr; }
+.stats-wrap { padding:0 14px 16px; box-sizing:border-box; width:100%; overflow:hidden; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; width:100%; box-sizing:border-box; }
+.stats-grid.three { grid-template-columns:1fr 1fr 1fr; width:100%; box-sizing:border-box; }
 .stat-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 16px; position:relative; overflow:hidden; }
 .stat-card.accent { border-color:rgba(212,196,160,0.2); }
 .stat-card.danger { border-color:rgba(192,57,43,0.2); }
@@ -743,7 +742,7 @@ body.admin-mode #mainNav { display:none !important; }
 
 <!-- HEADER -->
 <header class="hd">
-  <div onclick="logoTap()" style="cursor:pointer;-webkit-tap-highlight-color:transparent;">
+  <div id="logoWrap" style="-webkit-tap-highlight-color:transparent;user-select:none;">
     <div class="logo-eye">fashion archive</div>
     <div class="logo">3xclusiv<sup>33</sup></div>
   </div>
@@ -966,22 +965,32 @@ let navStack = ['catalog']; // history stack for back navigation
 
 // ═══ INIT ═══
 function init() {
+  applyTheme(localStorage.getItem('th_3x') !== 'light');
+  updateCartNum();
+
   if (tg) {
     tg.ready();
     tg.expand();
-    tg.setBackgroundColor(document.documentElement.getAttribute('data-theme') === 'dark' ? '#020202' : '#b8aa92');
+    const theme = document.documentElement.getAttribute('data-theme');
+    tg.setHeaderColor(theme === 'dark' ? '#020202' : '#b8aa92');
+    tg.setBackgroundColor(theme === 'dark' ? '#020202' : '#b8aa92');
   }
-  applyTheme(localStorage.getItem('th_3x') !== 'light');
-  updateCartNum();
-  loadProducts();
-  // Delay user init to let Telegram populate initDataUnsafe
-  setTimeout(() => {
-    if (tg) {
-      userId = tg.initDataUnsafe?.user?.id || null;
-      userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+
+  // Read Telegram user — retry up to 10 times with 200ms interval
+  let attempts = 0;
+  function tryGetUser() {
+    if (tg && tg.initDataUnsafe?.user?.id) {
+      userId = tg.initDataUnsafe.user.id;
+      userName = tg.initDataUnsafe.user.first_name || 'Гость';
+      loadWishIds();
+    } else if (attempts < 10) {
+      attempts++;
+      setTimeout(tryGetUser, 200);
     }
-    if (userId) loadWishIds();
-  }, 300);
+  }
+  tryGetUser();
+
+  loadProducts();
 }
 
 // ═══ THEME ═══
@@ -1137,10 +1146,16 @@ const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: '�
 const catGlyph = { clothes: '👕', shoes: '👟', accessories: '👜' };
 
 async function loadProducts() {
+  const grid = document.getElementById('productGrid');
+  if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>';
   try {
     const r = await fetch(`${API}/api/products`);
     allProducts = await r.json();
-  } catch { allProducts = []; }
+  } catch (e) {
+    allProducts = [];
+    if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">✦</div><div class="empty-txt">нет соединения</div></div>';
+    return;
+  }
   renderGrid();
 }
 
@@ -1205,6 +1220,7 @@ function openDetail(pid) {
 
 // ═══ WISHLIST ═══
 async function loadWishIds() {
+  if (!userId && tg?.initDataUnsafe?.user?.id) userId = tg.initDataUnsafe.user.id;
   if (!userId) return;
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
@@ -1262,8 +1278,11 @@ const STATUS_ACTIVE = ['searching', 'ordered', 'in_transit', 'arrived'];
 
 async function loadOrders() {
   const el = document.getElementById('ordersList');
-  if (!userId && tg) { userId = tg.initDataUnsafe?.user?.id || null; }
-  if (!userId) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
+  if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; }
+  if (!userId) {
+    setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; loadOrders(); } }, 500);
+    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>'; return;
+  }
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
     const orders = await r.json();
@@ -1342,13 +1361,15 @@ async function submitReview() {
 // ═══ PROFILE ═══
 async function loadProfile() {
   const el = document.getElementById('profileContent');
-  // Try to get userId from Telegram if not set yet
-  if (!userId && tg) {
-    userId = tg.initDataUnsafe?.user?.id || null;
-    userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+  // Always try to refresh userId from Telegram
+  if (tg?.initDataUnsafe?.user?.id) {
+    userId = tg.initDataUnsafe.user.id;
+    userName = tg.initDataUnsafe.user.first_name || 'Гость';
   }
   if (!userId) {
-    el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return;
+    // Retry once after short delay
+    setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; userName = tg.initDataUnsafe.user.first_name || 'Гость'; loadProfile(); } }, 500);
+    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>'; return;
   }
   let db = null;
   try { const r = await fetch(`${API}/api/user/${userId}`); db = await r.json(); userProfile = db; } catch {}
@@ -1359,7 +1380,7 @@ async function loadProfile() {
     const ar = await fetch(`${API}/api/is_admin/${userId}`);
     const ad = await ar.json();
     if (ad.is_admin) {
-      adminHtml = `<button class="admin-btn" onclick="openAdmin()">⚙ панель администратора</button>`;
+      adminHtml = ''; // admin: hold logo 3s
     }
   } catch {}
 
@@ -1381,9 +1402,7 @@ async function loadProfile() {
       <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">рефералов</div></div>
       <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">скидка</div></div>
     </div>
-    <div style="margin-top:8px">
-      <button class="btn" onclick="switchView('more')">ещё — размер, рефералы, доставка</button>
-    </div>`;
+`;
 }
 
 function showSub(id) {
@@ -1505,9 +1524,9 @@ function switchView(v) {
   });
   // Show/hide nav
   const isMain = ['catalog','orders','cart','profile','more'].includes(v);
-  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  document.getElementById('mainNav').style.display = isMain ? '' : 'none';
   // Update stack
-  if (isMain) navStack = [v];
+  if (isMain) navStack = [v]; if (v === 'more') openMoreSub('moreHub');
   if (v === 'orders') loadOrders();
   if (v === 'profile') { showSub('subMain'); loadProfile(); }
   if (v === 'cart') renderCartPage();
@@ -1918,17 +1937,22 @@ async function sendBroadcast() {
 }
 
 
-// ═══ LOGO TAP — HIDDEN ADMIN ENTRY ═══
-let logoTapCount = 0, logoTapTimer = null;
-function logoTap() {
-  logoTapCount++;
-  clearTimeout(logoTapTimer);
-  logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1000);
-  if (logoTapCount >= 3) {
-    logoTapCount = 0;
-    openAdmin();
+// ═══ LOGO LONG PRESS — HIDDEN ADMIN ENTRY ═══
+(function() {
+  let pressTimer = null;
+  const logo = document.getElementById('logoWrap');
+  if (!logo) return;
+  function startPress() {
+    pressTimer = setTimeout(() => { openAdmin(); }, 3000);
   }
-}
+  function endPress() { clearTimeout(pressTimer); }
+  logo.addEventListener('touchstart', startPress, { passive: true });
+  logo.addEventListener('touchend', endPress);
+  logo.addEventListener('touchcancel', endPress);
+  logo.addEventListener('mousedown', startPress);
+  logo.addEventListener('mouseup', endPress);
+  logo.addEventListener('mouseleave', endPress);
+})();
 
 // ═══ START ═══
 init();
