@@ -142,12 +142,42 @@ async def get_user(telegram_id: int):
             next_tier = {"need": threshold - ref_count, "pct": pct}
             break
 
+    # Get last order date and total spent
+    async with aiosqlite.connect(DATABASE_PATH) as db2:
+        db2.row_factory = aiosqlite.Row
+        async with db2.execute(
+            """SELECT MAX(o.created_at) as last_order,
+                      COALESCE(SUM(CASE WHEN o.status='delivered' THEN o.total_price ELSE 0 END),0) as total_spent,
+                      COUNT(CASE WHEN o.status='delivered' THEN 1 END) as completed
+               FROM orders o JOIN users u ON u.id=o.user_id WHERE u.telegram_id=?""",
+            (telegram_id,)
+        ) as cur:
+            stats = dict(await cur.fetchone() or {})
+
+        # Get favourite category
+        async with db2.execute(
+            """SELECT p.category, COUNT(*) as cnt
+               FROM order_items oi
+               JOIN products p ON p.id=oi.product_id
+               JOIN orders o ON o.id=oi.order_id
+               JOIN users u ON u.id=o.user_id
+               WHERE u.telegram_id=?
+               GROUP BY p.category ORDER BY cnt DESC LIMIT 1""",
+            (telegram_id,)
+        ) as cur:
+            fav_row = await cur.fetchone()
+            fav_category = fav_row["category"] if fav_row else None
+
     bot_username = os.getenv("BOT_USERNAME", "xclusivv33_bot")
     return {
         "id": telegram_id, "name": user["name"], "language": user["language"],
         "balance": user["balance"], "orders": order_count, "referrals": ref_count,
         "discount": discount, "next_tier": next_tier,
         "ref_link": f"https://t.me/{bot_username}?start=ref_{telegram_id}",
+        "total_spent": float(stats.get("total_spent") or 0),
+        "completed_orders": int(stats.get("completed") or 0),
+        "last_order": stats.get("last_order"),
+        "fav_category": fav_category,
     }
 
 # ── Wishlist ──────────────────────────────────────────────────────────────────
@@ -679,6 +709,48 @@ async def admin_send_message(body: DirectMsg):
         return {"ok": True}
     except Exception as e:
         return {"ok": False, "detail": str(e)}
+
+
+
+# ── Settings ──────────────────────────────────────────────────────────────────
+class StoreSettings(BaseModel):
+    admin_id: int
+    shop_name: Optional[str] = None
+    currency: Optional[str] = "€"
+    min_order: Optional[float] = 0
+    delivery_enabled: Optional[bool] = True
+
+@app.get("/api/admin/settings")
+async def get_settings(admin_id: int = 0):
+    require_admin(admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("""CREATE TABLE IF NOT EXISTS settings (
+            key TEXT PRIMARY KEY, value TEXT
+        )""")
+        async with db.execute("SELECT key, value FROM settings") as cur:
+            rows = await cur.fetchall()
+    s = dict(rows)
+    return {
+        "shop_name": s.get("shop_name", "3xclusiv33"),
+        "currency": s.get("currency", "€"),
+        "min_order": float(s.get("min_order", 0)),
+        "delivery_enabled": s.get("delivery_enabled", "true") == "true",
+    }
+
+@app.post("/api/admin/settings")
+async def save_settings(body: StoreSettings):
+    require_admin(body.admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT)")
+        if body.shop_name is not None:
+            await db.execute("INSERT OR REPLACE INTO settings VALUES ('shop_name',?)", (body.shop_name,))
+        if body.currency:
+            await db.execute("INSERT OR REPLACE INTO settings VALUES ('currency',?)", (body.currency,))
+        if body.min_order is not None:
+            await db.execute("INSERT OR REPLACE INTO settings VALUES ('min_order',?)", (str(body.min_order),))
+        await db.execute("INSERT OR REPLACE INTO settings VALUES ('delivery_enabled',?)", (str(body.delivery_enabled).lower(),))
+        await db.commit()
+    return {"ok": True}
 
 
 # ── Categories ────────────────────────────────────────────────────────────────
