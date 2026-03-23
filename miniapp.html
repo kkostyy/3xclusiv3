@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru" data-theme="dark" data-lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -33,14 +33,13 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .logo sup { font-size:11px; color:var(--accent); font-weight:300; vertical-align:super; }
 .logo-eye { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:3px; }
 .hd-right { display:flex; align-items:center; gap:18px; }
-.theme-tog { display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none; }
-.th-lbl { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); transition:color var(--tr); }
-.th-lbl.on { color:var(--text); }
-.th-pip { width:22px; height:1px; background:var(--borderh); position:relative; }
-.th-pip::after { content:''; position:absolute; top:-2.5px; width:6px; height:6px; border-radius:50%; background:var(--accent); transition:left var(--tr); }
-[data-theme="dark"] .th-pip::after { left:0; }
-[data-theme="light"] .th-pip::after { left:16px; }
 
+
+
+/* LANGUAGE SWITCHER */
+.lang-sw { display:flex; align-items:center; gap:2px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:20px; padding:3px; }
+.lang-btn { font-size:10px; font-weight:300; letter-spacing:0.12em; color:var(--text2); background:none; border:none; border-radius:16px; padding:5px 10px; cursor:pointer; transition:all 0.2s; text-transform:uppercase; }
+.lang-btn.on { background:var(--text); color:var(--bg); font-weight:400; }
 
 /* DIVIDER */
 .rule { display:flex; align-items:center; gap:12px; padding:18px 20px; }
@@ -435,7 +434,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 /* SIZE */
 .size-form { padding:0 20px; }
 .inp-label { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text2); margin-bottom:6px; display:block; }
-.inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:20px; padding:14px 16px; border-radius:12px; outline:none; margin-bottom:14px; transition:border-color 0.3s; }
+.inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:18px; padding:12px 16px; border-radius:12px; outline:none; margin-bottom:12px; transition:border-color 0.3s; box-sizing:border-box; }
 .inp:focus { border-color:var(--borderh); }
 select.inp { font-family:'Jost',sans-serif; font-size:15px; cursor:pointer; }
 textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; min-height:90px; resize:none; }
@@ -640,7 +639,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .stat-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
 .stat-card.danger::before { background:linear-gradient(90deg,transparent,var(--red),transparent); }
 .stat-card.success::before { background:linear-gradient(90deg,transparent,var(--green),transparent); }
-.stat-val { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:var(--text); line-height:1; margin-bottom:5px; }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); line-height:1; margin-bottom:5px; word-break:break-all; }
 .stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); }
 .stat-card.accent .stat-val { color:var(--accent); }
 .stat-card.danger .stat-val { color:var(--red); }
@@ -693,14 +692,15 @@ body.admin-mode #mainNav { display:none !important; }
   width: 100%;
   height: 100%;
   pointer-events: none !important;
-  z-index: -1;
+  z-index: 0;
   opacity: 1;
   transition: opacity 0.8s;
   -webkit-user-select: none;
   user-select: none;
   touch-action: none;
 }
-[data-theme="light"] #gothicCanvas { opacity: 0.18; }
+/* Ensure all content is above canvas */
+header, .view, .nav, .admin-nav, .toast { position: relative; z-index: 1; }
 
 </style>
 </head>
@@ -710,14 +710,15 @@ body.admin-mode #mainNav { display:none !important; }
 <!-- HEADER -->
 <header class="hd">
   <div id="logoWrap" style="-webkit-tap-highlight-color:transparent;user-select:none;">
-    <div class="logo-eye">fashion archive</div>
+    <div class="logo-eye" data-i18n="fashionArchive">fashion archive</div>
     <div class="logo">3xclusiv<sup>33</sup></div>
   </div>
   <div class="hd-right">
-    <div class="theme-tog" id="themeTog">
-      <span class="th-lbl" id="thL">L</span>
-      <div class="th-pip"></div>
-      <span class="th-lbl on" id="thD">D</span>
+
+  <div class="lang-sw">
+      <button class="lang-btn on" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('et')">ET</button>
     </div>
   </div>
 </header>
@@ -739,7 +740,7 @@ body.admin-mode #mainNav { display:none !important; }
 
 <!-- CART -->
 <div class="view" id="vCart">
-  <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title">корзина</div></div>
+  <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title" data-i18n="cartTitle">корзина</div></div>
   <div style="padding:0 20px 0" id="cartPageBody"></div>
   <div style="padding:0 20px" id="cartPageFoot"></div>
 </div>
@@ -748,12 +749,12 @@ body.admin-mode #mainNav { display:none !important; }
 <div class="view" id="vMore">
   <!-- Hub -->
   <div class="more-sub on" id="moreHub">
-    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title">ещё</div></div>
+    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title" data-i18n="moreTitle">ещё</div></div>
     <div class="more-wrap">
       <div class="more-item" onclick="openMoreSub('moreSize')">
         <div class="more-item-glyph">S</div>
         <div class="more-item-info">
-          <div class="more-item-title">Размер</div>
+          <div class="more-item-title" data-i18n="size">Размер</div>
           <div class="more-item-sub">подобрать по росту и весу</div>
         </div>
         <div class="more-item-arrow">›</div>
@@ -761,7 +762,7 @@ body.admin-mode #mainNav { display:none !important; }
       <div class="more-item" onclick="openMoreSub('moreRef');loadRef()">
         <div class="more-item-glyph">∞</div>
         <div class="more-item-info">
-          <div class="more-item-title">Рефералы</div>
+          <div class="more-item-title" data-i18n="referrals">Рефералы</div>
           <div class="more-item-sub">скидка за приглашённых друзей</div>
         </div>
         <div class="more-item-arrow">›</div>
@@ -769,7 +770,7 @@ body.admin-mode #mainNav { display:none !important; }
       <div class="more-item" onclick="openMoreSub('moreNotif');loadNotif()">
         <div class="more-item-glyph">†</div>
         <div class="more-item-info">
-          <div class="more-item-title">Уведомления</div>
+          <div class="more-item-title" data-i18n="notifications">Уведомления</div>
           <div class="more-item-sub">подписки на новинки</div>
         </div>
         <div class="more-item-arrow">›</div>
@@ -777,7 +778,7 @@ body.admin-mode #mainNav { display:none !important; }
       <div class="more-item" onclick="openMoreSub('moreSupport')">
         <div class="more-item-glyph">✦</div>
         <div class="more-item-info">
-          <div class="more-item-title">Поддержка</div>
+          <div class="more-item-title" data-i18n="support">Поддержка</div>
           <div class="more-item-sub">написать продавцу</div>
         </div>
         <div class="more-item-arrow">›</div>
@@ -785,7 +786,7 @@ body.admin-mode #mainNav { display:none !important; }
       <div class="more-item" onclick="openMoreSub('moreDelivery');loadDelivery()">
         <div class="more-item-glyph">◆</div>
         <div class="more-item-info">
-          <div class="more-item-title">Доставка</div>
+          <div class="more-item-title" data-i18n="delivery">Доставка</div>
           <div class="more-item-sub">зоны и стоимость</div>
         </div>
         <div class="more-item-arrow">›</div>
@@ -796,13 +797,13 @@ body.admin-mode #mainNav { display:none !important; }
   <!-- Size -->
   <div class="more-sub" id="moreSize">
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">размер</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="sizeTitle">размер</div></div>
     <div class="size-form">
-      <label class="inp-label">рост (см)</label>
+      <label class="inp-label" data-i18n="heightLabel">рост (см)</label>
       <input class="inp" type="number" id="sH" placeholder="170" min="140" max="220">
-      <label class="inp-label">вес (кг)</label>
+      <label class="inp-label" data-i18n="weightLabel">вес (кг)</label>
       <input class="inp" type="number" id="sW" placeholder="65" min="30" max="200">
-      <button class="btn" onclick="calcSize()">определить размер</button>
+      <button class="btn" data-i18n="sizeCalc" onclick="calcSize()">определить размер</button>
       <div id="sizeRes"></div>
     </div>
   </div>
@@ -810,7 +811,7 @@ body.admin-mode #mainNav { display:none !important; }
   <!-- Referral -->
   <div class="more-sub" id="moreRef">
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">рефералы</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="refTitle">рефералы</div></div>
     <div class="ref-wrap" id="refContent">
       <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
     </div>
@@ -819,7 +820,7 @@ body.admin-mode #mainNav { display:none !important; }
   <!-- Notifications -->
   <div class="more-sub" id="moreNotif">
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">уведомления</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="notifTitle">уведомления</div></div>
     <div class="notif-wrap" id="notifContent">
       <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
     </div>
@@ -828,25 +829,25 @@ body.admin-mode #mainNav { display:none !important; }
   <!-- Support -->
   <div class="more-sub" id="moreSupport">
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">поддержка</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="supportTitle">поддержка</div></div>
     <div class="chat-wrap">
       <p class="chat-intro">Есть вопрос? Напишите — ответим в Telegram.</p>
       <textarea class="inp" id="chatText" placeholder="Ваше сообщение..."></textarea>
-      <button class="btn" onclick="sendSupport()">отправить</button>
+      <button class="btn" data-i18n="sendMsg" onclick="sendSupport()">отправить</button>
     </div>
   </div>
 
   <!-- Delivery -->
   <div class="more-sub" id="moreDelivery">
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">зоны доставки</div></div>
+    <div class="sec-head"><div class="sec-title" data-i18n="deliveryTitle">зоны доставки</div></div>
     <div class="delivery-wrap" id="deliveryContent"></div>
   </div>
 </div>
 
 <!-- ORDERS -->
 <div class="view" id="vOrders">
-  <div class="sec-head"><div class="sec-num">02</div><div class="sec-title">мои заказы</div></div>
+  <div class="sec-head"><div class="sec-num">02</div><div class="sec-title" data-i18n="ordersTitle">мои заказы</div></div>
   <div class="orders-wrap" id="ordersList">
     <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
   </div>
@@ -854,7 +855,7 @@ body.admin-mode #mainNav { display:none !important; }
 
 <!-- PROFILE -->
 <div class="view" id="vProfile">
-  <div class="sec-head"><div class="sec-num">03</div><div class="sec-title">профиль</div></div>
+  <div class="sec-head"><div class="sec-num">03</div><div class="sec-title" data-i18n="profileTitle">профиль</div></div>
 
   <!-- Main -->
   <div class="sub on" id="subMain">
@@ -868,11 +869,11 @@ body.admin-mode #mainNav { display:none !important; }
 
 <!-- NAV -->
 <nav class="nav" id="mainNav">
-  <button class="nav-btn on" id="nCatalog" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl">Каталог</span></button>
-  <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span></button>
-  <button class="nav-btn" id="nCart" onclick="switchView('cart')"><span class="nav-sym">◇</span><span class="nav-lbl">Корзина</span><span class="nav-cart-badge" id="cartBadge"></span></button>
-  <button class="nav-btn" id="nProfile" onclick="switchView('profile')"><span class="nav-sym">III</span><span class="nav-lbl">Профиль</span></button>
-  <button class="nav-btn" id="nMore" onclick="switchView('more')"><span class="nav-sym">✦</span><span class="nav-lbl">Ещё</span></button>
+  <button class="nav-btn on" id="nCatalog" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl" data-i18n="catalog">Каталог</span></button>
+  <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span></button>
+  <button class="nav-btn" id="nCart" onclick="switchView('cart')"><span class="nav-sym">◇</span><span class="nav-lbl" data-i18n="cart">Корзина</span><span class="nav-cart-badge" id="cartBadge"></span></button>
+  <button class="nav-btn" id="nProfile" onclick="switchView('profile')"><span class="nav-sym">III</span><span class="nav-lbl" data-i18n="profile">Профиль</span></button>
+  <button class="nav-btn" id="nMore" onclick="switchView('more')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -881,7 +882,7 @@ body.admin-mode #mainNav { display:none !important; }
 <div class="view" id="vDetail">
   <div class="page-back" onclick="goBack()">
     <span class="page-back-sym">←</span>
-    <span class="page-back-lbl">назад</span>
+    <span class="page-back-lbl" data-i18n="back">назад</span>
   </div>
   <div class="page-body" id="detailBody"></div>
 </div>
@@ -890,21 +891,21 @@ body.admin-mode #mainNav { display:none !important; }
 <div class="view" id="vCheckout">
   <div class="page-back" onclick="goBack()">
     <span class="page-back-sym">←</span>
-    <span class="page-back-lbl">корзина</span>
+    <span class="page-back-lbl" data-i18n="backCart">корзина</span>
   </div>
-  <div class="sec-head"><div class="sec-title">оформление заказа</div></div>
+  <div class="sec-head"><div class="sec-title" data-i18n="checkoutTitle">оформление заказа</div></div>
   <div class="page-body">
-    <label class="inp-label">имя и фамилия</label>
-    <input class="inp" id="coName" placeholder="Иван Иванов">
-    <label class="inp-label">telegram username</label>
-    <input class="inp" id="coUser" placeholder="username (без @)">
-    <label class="inp-label">телефон (Эстония)</label>
+    <label class="inp-label" data-i18n="nameLabel">имя и фамилия</label>
+    <input class="inp" id="coName" data-i18n="namePh" data-i18n-attr="placeholder" placeholder="Иван Иванов">
+    <label class="inp-label" data-i18n="userLabel">telegram username</label>
+    <input class="inp" id="coUser" data-i18n="userPh" data-i18n-attr="placeholder" placeholder="username (без @)">
+    <label class="inp-label" data-i18n="phoneLabel">телефон (Эстония)</label>
     <input class="inp" id="coPhone" placeholder="5xxxxxxx" type="tel">
-    <label class="inp-label">район встречи</label>
+    <label class="inp-label" data-i18n="addrLabel">район встречи</label>
     <input class="inp" id="coAddr" placeholder="Kesklinn, Lasnamäe...">
     <div id="savedAddrs" style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px"></div>
-    <button class="btn" onclick="submitOrder()">подтвердить заказ</button>
-    <button class="btn-ghost" onclick="goBack()">отмена</button>
+    <button class="btn" data-i18n="confirmOrder" onclick="submitOrder()">подтвердить заказ</button>
+    <button class="btn-ghost" data-i18n="cancel" onclick="goBack()">отмена</button>
   </div>
 </div>
 
@@ -912,9 +913,9 @@ body.admin-mode #mainNav { display:none !important; }
 <div class="view" id="vReview">
   <div class="page-back" onclick="goBack()">
     <span class="page-back-sym">←</span>
-    <span class="page-back-lbl">заказы</span>
+    <span class="page-back-lbl" data-i18n="backOrders">заказы</span>
   </div>
-  <div class="sec-head"><div class="sec-title">отзыв</div></div>
+  <div class="sec-head"><div class="sec-title" data-i18n="reviewTitle">отзыв</div></div>
   <div class="page-body" id="reviewBody"></div>
 </div>
 
@@ -923,6 +924,184 @@ body.admin-mode #mainNav { display:none !important; }
 // ═══ CONFIG ═══
 const API = 'https://3xclusiv3-production.up.railway.app';
 const tg = window.Telegram?.WebApp;
+
+
+
+
+
+function refreshCatList() {
+  const list = document.getElementById('aCatList');
+  if (!list) return;
+  const builtin = ['clothes','shoes','accessories'];
+  const custom = allCategories.filter(id => !builtin.includes(id));
+  if (!custom.length) { list.innerHTML = ''; return; }
+  list.innerHTML = custom.map(id => 
+    '<div style="display:inline-flex;align-items:center;gap:4px;background:var(--accent2);border:1px solid var(--border);border-radius:20px;padding:4px 10px">'
+    + '<span style="font-size:12px;font-weight:200;color:var(--text2)">' + (catGlyph[id]||'✦') + ' ' + (catLabel[id]||id) + '</span>'
+    + '<button data-delcat="' + id + '" style="background:none;border:none;color:var(--text3);cursor:pointer;padding:0 0 0 4px;font-size:14px;line-height:1">×</button>'
+    + '</div>'
+  ).join('');
+  list.querySelectorAll('[data-delcat]').forEach(btn => {
+    btn.onclick = () => deleteCat(btn.dataset.delcat);
+  });
+}
+
+async function deleteCat(id) {
+  if (pendingDelete !== id) {
+    pendingDelete = id;
+    toast('нажмите ещё раз для удаления', 2500);
+    setTimeout(()=>{ if(pendingDelete===id) pendingDelete=null; }, 2700);
+    return;
+  }
+  pendingDelete = null;
+  try {
+    await fetch(API + '/api/admin/categories/' + id + '?admin_id=' + userId, { method:'DELETE' });
+    allCategories = allCategories.filter(x => x !== id);
+    delete catLabel[id]; delete catGlyph[id];
+    // Remove from cat grid
+    document.querySelectorAll('#aCatGrid .cat-btn').forEach(b => { if (b.dataset.cat === id) b.remove(); });
+    // Remove from filter bar
+    document.querySelectorAll('#filterBar .fb').forEach(b => { if (b.dataset.cat === id) b.remove(); });
+    refreshCatList();
+    toast('✅ категория удалена');
+  } catch { toast('ошибка'); }
+}
+
+// ═══ LANGUAGE ═══
+const LANGS = {
+  ru: {
+    catalog:'Каталог', orders:'Заказы', cart:'Корзина', profile:'Профиль', more:'Ещё',
+    addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
+    size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
+    support:'Поддержка', delivery:'Доставка',
+    noConnection:'нет соединения', noOrders:'заказов пока нет',
+    cartEmpty:'корзина пуста', openTg:'откройте через Telegram',
+    total:'итого', checkout:'оформить заказ', clearCart:'очистить корзину',
+    sendMsg:'отправить', sizeCalc:'определить размер',
+    ordersTitle:'мои заказы', cartTitle:'корзина', profileTitle:'профиль',
+    moreTitle:'ещё', sizeTitle:'размер', refTitle:'рефералы',
+    notifTitle:'уведомления', supportTitle:'поддержка', deliveryTitle:'доставка',
+    fashionArchive:'fashion archive',
+    heightLabel:'рост (см)', weightLabel:'вес (кг)', heightPh:'170', weightPh:'65',
+    msgPh:'Ваше сообщение...', msgSent:'✅ сообщение отправлено',
+    refLink:'реферальная ссылка — нажмите чтобы скопировать',
+    linkCopied:'ссылка скопирована',
+    checkoutTitle:'оформление заказа',
+    namePh:'Иван Иванов', userPh:'username (без @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'имя и фамилия', userLabel:'telegram username',
+    phoneLabel:'телефон (Эстония)', addrLabel:'район встречи',
+    confirmOrder:'подтвердить заказ', cancel:'отмена',
+    reviewTitle:'отзыв', reviewBtn:'оставить отзыв', sendReview:'отправить отзыв',
+    ratingLabel:'оценка', commentPh:'Комментарий (необязательно)...',
+    back:'назад', backCart:'корзина', backOrders:'заказы',
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
+    recommended:'рекомендуемый размер',
+    invited:'приглашено', discount:'скидка',
+    friend:'друг', friends:'друзей',
+  },
+  en: {
+    catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
+    addCart:'add to cart', noStock:'out of stock', loading:'loading archive',
+    size:'Size', referrals:'Referrals', notifications:'Notifications',
+    support:'Support', delivery:'Delivery',
+    noConnection:'no connection', noOrders:'no orders yet',
+    cartEmpty:'cart is empty', openTg:'open via Telegram',
+    total:'total', checkout:'place order', clearCart:'clear cart',
+    sendMsg:'send', sizeCalc:'find size',
+    ordersTitle:'my orders', cartTitle:'cart', profileTitle:'profile',
+    moreTitle:'more', sizeTitle:'size', refTitle:'referrals',
+    notifTitle:'notifications', supportTitle:'support', deliveryTitle:'delivery',
+    fashionArchive:'fashion archive',
+    heightLabel:'height (cm)', weightLabel:'weight (kg)', heightPh:'170', weightPh:'65',
+    msgPh:'Your message...', msgSent:'✅ message sent',
+    refLink:'referral link — tap to copy',
+    linkCopied:'link copied',
+    checkoutTitle:'checkout',
+    namePh:'John Smith', userPh:'username (no @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'full name', userLabel:'telegram username',
+    phoneLabel:'phone (Estonia)', addrLabel:'meeting district',
+    confirmOrder:'confirm order', cancel:'cancel',
+    reviewTitle:'review', reviewBtn:'leave a review', sendReview:'send review',
+    ratingLabel:'rating', commentPh:'Comment (optional)...',
+    back:'back', backCart:'cart', backOrders:'orders',
+    ordersCount:'orders', referralsCount:'referrals', discountCount:'discount',
+    recommended:'recommended size',
+    invited:'invited', discount:'discount',
+    friend:'friend', friends:'friends',
+  },
+  et: {
+    catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
+    addCart:'lisa korvi', noStock:'otsas', loading:'arhiivi laadimine',
+    size:'Suurus', referrals:'Soovitused', notifications:'Teavitused',
+    support:'Tugi', delivery:'Tarne',
+    noConnection:'ühendus puudub', noOrders:'tellimusi pole',
+    cartEmpty:'ostukorv on tühi', openTg:'ava Telegrami kaudu',
+    total:'kokku', checkout:'esita tellimus', clearCart:'tühjenda korv',
+    sendMsg:'saada', sizeCalc:'leia suurus',
+    ordersTitle:'minu tellimused', cartTitle:'ostukorv', profileTitle:'profiil',
+    moreTitle:'veel', sizeTitle:'suurus', refTitle:'soovitused',
+    notifTitle:'teavitused', supportTitle:'tugi', deliveryTitle:'tarne',
+    fashionArchive:'moodi arhiiv',
+    heightLabel:'pikkus (cm)', weightLabel:'kaal (kg)', heightPh:'170', weightPh:'65',
+    msgPh:'Teie sõnum...', msgSent:'✅ sõnum saadetud',
+    refLink:'soovituslink — puudutage kopeerimiseks',
+    linkCopied:'link kopeeritud',
+    checkoutTitle:'tellimine',
+    namePh:'Jaan Tamm', userPh:'kasutajanimi (ilma @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'ees- ja perekonnanimi', userLabel:'telegram kasutajanimi',
+    phoneLabel:'telefon (Eesti)', addrLabel:'kohtumispiirkond',
+    confirmOrder:'kinnita tellimus', cancel:'tühista',
+    reviewTitle:'arvustus', reviewBtn:'jäta arvustus', sendReview:'saada arvustus',
+    ratingLabel:'hinnang', commentPh:'Kommentaar (valikuline)...',
+    back:'tagasi', backCart:'ostukorv', backOrders:'tellimused',
+    ordersCount:'tellimust', referralsCount:'soovitust', discountCount:'allahindlus',
+    recommended:'soovituslik suurus',
+    invited:'kutsutud', discount:'allahindlus',
+    friend:'sõber', friends:'sõpra',
+  }
+};
+
+let currentLang = localStorage.getItem('lang_3x') || 'ru';
+
+function t(key) {
+  return (LANGS[currentLang] && LANGS[currentLang][key]) || (LANGS.ru[key]) || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang_3x', lang);
+  document.documentElement.setAttribute('data-lang', lang);
+  // Update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('on', b.textContent.toLowerCase() === lang);
+  });
+  // Translate all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const attr = el.getAttribute('data-i18n-attr');
+    const val = t(key);
+    if (attr) el.setAttribute(attr, val);
+    else el.textContent = val;
+  });
+  // Update nav labels
+  ['catalog','orders','cart','profile','more'].forEach(k => {
+    const btn = document.getElementById('n' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (btn) { const lbl = btn.querySelector('.nav-lbl'); if (lbl) lbl.textContent = t(k); }
+  });
+  // Reload dynamic content
+  const active = ['catalog','orders','cart','profile','more'].find(v => {
+    const el = document.getElementById('v' + v.charAt(0).toUpperCase() + v.slice(1));
+    return el && el.classList.contains('on');
+  });
+  if (active === 'orders') loadOrders();
+  if (active === 'cart') renderCartPage();
+  if (active === 'profile') loadProfile();
+  renderGrid();
+}
+
 
 // ═══ STATE ═══
 let userId = null, userName = 'Гость', userProfile = null;
@@ -933,7 +1112,7 @@ let navStack = ['catalog']; // history stack for back navigation
 
 // ═══ INIT ═══
 function init() {
-  applyTheme(localStorage.getItem('th_3x') !== 'light');
+  applyTheme(true);
   updateCartNum();
 
   if (tg) {
@@ -955,20 +1134,16 @@ function init() {
   }
   tryGetUser();
 
+  setLang(currentLang);
   loadProducts();
 }
 
-// ═══ THEME ═══
+// ═══ THEME — dark only ═══
 let isDark = true;
 function applyTheme(dark) {
-  isDark = dark;
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  localStorage.setItem('th_3x', dark ? 'dark' : 'light');
-  document.getElementById('thL').classList.toggle('on', !dark);
-  document.getElementById('thD').classList.toggle('on', dark);
-  if (tg) { tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8'); tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8'); }
+  isDark = true; // always dark
+  document.documentElement.setAttribute('data-theme', 'dark');
 }
-document.getElementById('themeTog').onclick = () => applyTheme(!isDark);
 
 // ═══ TOAST ═══
 let toastTimer;
@@ -1000,7 +1175,7 @@ function addToCart(p) {
 function openPage(pageKey) {
   navStack.push(pageKey);
   // hide all views
-  ['catalog','orders','cart','profile','more','detail','checkout','review','dev'].forEach(k => {
+  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
     const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
     if (el) el.classList.remove('on');
   });
@@ -1031,7 +1206,7 @@ function renderCartPage() {
   const body = document.getElementById('cartPageBody');
   const foot = document.getElementById('cartPageFoot');
   if (!items.length) {
-    body.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">корзина пуста</div></div>';
+    body.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">' + t('cartEmpty') + '</div></div>';
     foot.innerHTML = ''; return;
   }
   body.innerHTML = items.map(i => `
@@ -1049,8 +1224,8 @@ function renderCartPage() {
     </div>`).join('');
   foot.innerHTML = `
     <div class="total-row"><span class="total-lbl">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
-    <button class="btn" onclick="openCheckout()">оформить заказ</button>
-    <button class="btn-ghost" onclick="clearCartFn()">очистить корзину</button>`;
+    <button class="btn" onclick="openCheckout()">${t('checkout')}</button>
+    <button class="btn-ghost" onclick="clearCartFn()">${t('clearCart')}</button>`;
 }
 
 function chQty(id, d) {
@@ -1134,13 +1309,13 @@ async function loadCategories() {
 async function loadProducts() {
   await loadCategories();
   const grid = document.getElementById('productGrid');
-  if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>';
+  if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="loader-sym">∞</div><div class="loader-txt">' + t('loading') + '</div></div>';
   try {
     const r = await fetch(`${API}/api/products`);
     allProducts = await r.json();
   } catch (e) {
     allProducts = [];
-    if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">✦</div><div class="empty-txt">нет соединения</div></div>';
+    if (grid) grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">✦</div><div class="empty-txt">' + t('noConnection') + '</div></div>';
     return;
   }
   renderGrid();
@@ -1248,7 +1423,7 @@ async function toggleWish(pid) {
 
 async function loadWishlist() {
   const grid = document.getElementById('wishGrid'); if (!grid) return;
-  if (!userId) { grid.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
+  if (!userId) { grid.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">' + t('openTg') + '</div></div>'; return; }
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
     const items = await r.json();
@@ -1284,12 +1459,12 @@ async function loadOrders() {
   if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; }
   if (!userId) {
     setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; loadOrders(); } }, 500);
-    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>'; return;
+    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">' + t('loading') + '</div></div>'; return;
   }
   try {
     const r = await fetch(`${API}/api/orders/${userId}`);
     const orders = await r.json();
-    if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов пока нет</div></div>'; return; }
+    if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">' + t('noOrders') + '</div></div>'; return; }
     el.innerHTML = orders.map(o => {
       const isActive = STATUS_ACTIVE.includes(o.status);
       const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -1344,8 +1519,8 @@ function openReview(orderId) {
     <div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
     <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">оценка</div>
     <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
-    <textarea class="inp" id="revText" placeholder="Комментарий (необязательно)..."></textarea>
-    <button class="btn" onclick="submitReview()">отправить отзыв</button>`;
+    <textarea class="inp" id="revText" placeholder="" + t('commentPh') + ""></textarea>
+    <button class="btn" onclick="submitReview()">${t('sendReview')}</button>`;
   openPage('review');
 }
 function setStar(n) { reviewStars = n; document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('on', i < n)); }
@@ -1372,7 +1547,7 @@ async function loadProfile() {
   if (!userId) {
     // Retry once after short delay
     setTimeout(() => { if (tg?.initDataUnsafe?.user?.id) { userId = tg.initDataUnsafe.user.id; userName = tg.initDataUnsafe.user.first_name || 'Гость'; loadProfile(); } }, 500);
-    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>'; return;
+    el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">' + t('loading') + '</div></div>'; return;
   }
   let db = null;
   try { const r = await fetch(`${API}/api/user/${userId}`); db = await r.json(); userProfile = db; } catch {}
@@ -1401,9 +1576,9 @@ async function loadProfile() {
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-val">${db?.orders || 0}</div><div class="stat-key">заказов</div></div>
-      <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">рефералов</div></div>
-      <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">скидка</div></div>
+      <div class="stat"><div class="stat-val">${db?.orders || 0}</div><div class="stat-key">' + t('ordersCount') + '</div></div>
+      <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">' + t('referralsCount') + '</div></div>
+      <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">' + t('discountCount') + '</div></div>
     </div>
 `;
 }
@@ -1620,7 +1795,7 @@ function openAdmin() {
     return;
   }
   // Hide all user views
-  ['catalog','orders','cart','profile','more','detail','checkout','review','dev'].forEach(k => {
+  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
     const vid = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const el = document.getElementById(vid);
     if (el) el.classList.remove('on');
@@ -1833,10 +2008,10 @@ function selectCat(btn) {
 }
 
 async function addCategory() {
-  const id = document.getElementById('aNewCatId').value.trim().toLowerCase().replace(/\s+/g,'_');
   const label = document.getElementById('aNewCatLabel').value.trim();
   const glyph = document.getElementById('aNewCatGlyph').value.trim() || '✦';
-  if (!id || !label) { toast('введите id и название'); return; }
+  if (!label) { toast('введите название категории'); return; }
+  const id = label.toLowerCase().replace(/[^a-zа-яёa-z0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
   try {
     await fetch(`${API}/api/admin/categories`, {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -1857,14 +2032,16 @@ async function addCategory() {
       fb.className = 'fb'; fb.dataset.cat = id; fb.textContent = label;
       bar.appendChild(fb);
     }
-    document.getElementById('aNewCatId').value = '';
     document.getElementById('aNewCatLabel').value = '';
     document.getElementById('aNewCatGlyph').value = '';
+    refreshCatList();
     toast(`✅ категория «${label}» добавлена`);
   } catch { toast('ошибка — добавьте эндпоинт /api/admin/categories в api.py'); }
 }
 
 async function loadAdminProducts() {
+  await loadCategories();
+  refreshCatList();
   const el = document.getElementById('aProductsContent');
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
@@ -1990,24 +2167,13 @@ async function sendBroadcast() {
 }
 
 
-// ═══ LOGO — LONG PRESS = ADMIN, 5 TAPS = DEV ═══
+// ═══ LOGO — LONG PRESS 3s = ADMIN ═══
 (function() {
   let pressTimer = null;
-  let tapCount = 0, tapTimer = null;
   const logo = document.getElementById('logoWrap');
   if (!logo) return;
-
-  function startPress() {
-    pressTimer = setTimeout(() => { openAdmin(); }, 3000);
-  }
-  function endPress() {
-    clearTimeout(pressTimer);
-    // Count taps for dev menu
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
-    if (tapCount >= 5) { tapCount = 0; openDevMenu(); }
-  }
+  function startPress() { pressTimer = setTimeout(() => { openAdmin(); }, 3000); }
+  function endPress() { clearTimeout(pressTimer); }
   logo.addEventListener('touchstart', startPress, { passive: true });
   logo.addEventListener('touchend', endPress);
   logo.addEventListener('touchcancel', endPress);
@@ -2040,12 +2206,14 @@ async function sendBroadcast() {
 // ═══ DEV MENU ═══
 let devTapCount = 0, devTapTimer = null;
 function openDevMenu() {
+  openAdmin();
+}
+function loadDevInfo() {
   const info = document.getElementById('devInfo');
   if (info) {
-    info.textContent = 'userId: ' + (userId||'null') + '\nAPI: ' + API + '\nuserAgent: ' + navigator.userAgent.substring(0,80);
+    info.textContent = 'userId: ' + (userId||'null') + '\nAPI: ' + API + '\nplatform: ' + (navigator.platform||'—') + '\nuserAgent: ' + navigator.userAgent.substring(0,100);
   }
-  devLog('Dev menu opened');
-  openPage('dev');
+  devLog('loaded');
 }
 function devLog(msg) {
   const el = document.getElementById('devLog');
@@ -2120,25 +2288,32 @@ init();
   <!-- Add product form -->
   <div class="add-form" id="aAddForm">
     <div class="form-title">добавить товар</div>
+    
     <label class="inp-label">название</label>
     <input class="inp inp-sm" id="aPName" placeholder="Название товара">
+    
     <label class="inp-label">цена (€)</label>
     <input class="inp inp-sm" id="aPPrice" placeholder="0.00" type="number" step="0.01">
+    
     <label class="inp-label">категория</label>
     <div class="cat-grid" id="aCatGrid">
       <button class="cat-btn on" data-cat="clothes" onclick="selectCat(this)">Одежда</button>
       <button class="cat-btn" data-cat="shoes" onclick="selectCat(this)">Обувь</button>
       <button class="cat-btn" data-cat="accessories" onclick="selectCat(this)">Аксессуары</button>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input class="inp inp-sm" id="aNewCatId" placeholder="slug (напр: bags)" style="margin-bottom:0;flex:1">
-      <input class="inp inp-sm" id="aNewCatLabel" placeholder="Название" style="margin-bottom:0;flex:1">
-      <input class="inp inp-sm" id="aNewCatGlyph" placeholder="✦" style="margin-bottom:0;width:50px">
-      <button class="btn-act" onclick="addCategory()" style="padding:0 12px;flex-shrink:0">+</button>
+    
+    <label class="inp-label" style="margin-top:10px">новая категория</label>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+      <input class="inp inp-sm" id="aNewCatLabel" placeholder="Название категории" style="margin-bottom:0;flex:1;min-width:0">
+      <input class="inp inp-sm" id="aNewCatGlyph" placeholder="👗" style="margin-bottom:0;width:52px;text-align:center;font-size:18px">
+      <button class="btn-act" onclick="addCategory()" style="padding:0 16px;height:46px;flex-shrink:0;border-radius:12px">+</button>
     </div>
-    <label class="inp-label">описание</label>
-    <textarea class="inp inp-sm" id="aPDesc" placeholder="Описание..." style="min-height:70px;resize:none;font-size:13px;"></textarea>
-    <button class="btn-act" style="width:100%" onclick="addProduct()">добавить товар</button>
+    <div id="aCatList" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px"></div>
+    
+    <label class="inp-label" style="margin-top:10px">описание</label>
+    <textarea class="inp inp-sm" id="aPDesc" placeholder="Описание..." style="min-height:60px;resize:none;font-size:13px;"></textarea>
+    
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="addProduct()">добавить товар</button>
   </div>
   <div class="products-wrap" id="aProductsContent">
     <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
@@ -2149,7 +2324,7 @@ init();
 <div class="view" id="vaMore">
   <!-- Hub -->
   <div class="more-sub-a on" id="aMoreHub">
-    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title">ещё</div></div>
+    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title" data-i18n="moreTitle">ещё</div></div>
     <div class="more-wrap-a">
       <div class="more-item-a" onclick="openMoreSubA('aMoreReviews');loadReviews()">
         <div class="more-glyph">⋆</div>
@@ -2172,6 +2347,14 @@ init();
         <div class="more-info">
           <div class="more-title">Рассылка</div>
           <div class="more-sub-lbl">отправить всем пользователям</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
+      <div class="more-item-a" onclick="openMoreSubA('aMoreDev');loadDevInfo()">
+        <div class="more-glyph">⌥</div>
+        <div class="more-info">
+          <div class="more-title">Разработчик</div>
+          <div class="more-sub-lbl">отладка и диагностика</div>
         </div>
         <div class="more-arrow">›</div>
       </div>
@@ -2207,7 +2390,21 @@ init();
         <button class="btn-act" style="width:100%" onclick="sendBroadcast()">отправить рассылку</button>
       </div>
     </div>
+  
+  <!-- Dev -->
+  <div class="more-sub-a" id="aMoreDev">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">разработчик</div></div>
+    <div style="padding:0 14px">
+      <div style="font-size:10px;font-weight:200;letter-spacing:0.2em;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;line-height:1.8" id="devInfo"></div>
+      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devReloadProducts()">перезагрузить товары</button>
+      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devCheckAPI()">проверить API</button>
+      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devClearCart()">очистить корзину</button>
+      <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:4px;font-size:11px;font-weight:200;color:var(--text2);min-height:80px;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto"></div>
+    </div>
   </div>
+
+</div>
 </div>
 
 <!-- ADMIN SUBPAGES -->
@@ -2242,30 +2439,12 @@ init();
   </div>
 </div>
 
-<!-- DEV MENU -->
-<div class="view" id="vDev">
-  <div class="page-back" onclick="goBack()">
-    <span class="page-back-sym">←</span>
-    <span class="page-back-lbl">назад</span>
-  </div>
-  <div class="sec-head"><div class="sec-title">разработчик</div></div>
-  <div style="padding:0 20px">
-    <div style="font-size:9px;font-weight:200;letter-spacing:0.3em;color:var(--text3);margin-bottom:16px" id="devInfo"></div>
-    
-    <button class="btn" onclick="devClearCart()">очистить корзину</button>
-    <button class="btn" onclick="devReloadProducts()">перезагрузить товары</button>
-    <button class="btn" onclick="devCheckAPI()">проверить API</button>
-    <button class="btn" onclick="openAdmin()">войти в админку</button>
-    <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:12px;font-size:11px;font-weight:200;color:var(--text2);min-height:80px;white-space:pre-wrap;word-break:break-all"></div>
-  </div>
-</div>
-
 <!-- ADMIN NAV -->
 <nav class="nav admin-nav" id="adminNav">
   <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl">Сводка</span></button>
-  <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
+  <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
   <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl">Товары</span></button>
-  <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl">Ещё</span></button>
+  <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
   <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl">Выйти</span></button>
 </nav>
 
@@ -2322,11 +2501,9 @@ init();
     for(let i=0;i<n;i++){const p=createParticle(false);p.life=Math.floor(Math.random()*p.maxLife);particles.push(p);}
   }
 
-  function drawOrnaments(dark){
-    const c = dark ? 'rgba(255,255,255,' : 'rgba(0,0,0,';
-    const alphas = dark
-      ? {stroke:'0.65)', fill:'0.60)', border:'0.65)', inner:'0.28)', hatch:'0.08)', center:'0.70)'}
-      : {stroke:'0.97)', fill:'0.95)', border:'0.97)', inner:'0.65)', hatch:'0.32)', center:'0.98)'};
+  function drawOrnaments(){
+    const c = 'rgba(255,255,255,';
+    const alphas = {stroke:'0.65)', fill:'0.60)', border:'0.65)', inner:'0.28)', hatch:'0.08)', center:'0.70)'};
 
     ctx.save();
     // Corner flourishes
@@ -2372,14 +2549,8 @@ init();
       const moon=ctx.createRadialGradient(W/2,-H*.05,0,W/2,-H*.05,H*.45);
       moon.addColorStop(0,'rgba(25,25,25,0.12)');moon.addColorStop(1,'rgba(0,0,0,0)');
       ctx.fillStyle=moon;ctx.fillRect(0,0,W,H*.6);
-      drawOrnaments(true);
+      drawOrnaments();
       webs.forEach(w=>{ctx.strokeStyle='rgba(255,255,255,'+Math.min(w.alpha*1.6,0.2)+')';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});
-    } else {
-      const vg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.75);
-      vg.addColorStop(0,'rgba(120,100,70,0)');vg.addColorStop(.5,'rgba(70,50,20,0.18)');vg.addColorStop(1,'rgba(20,10,2,0.45)');
-      ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
-      drawOrnaments(false);
-      webs.forEach(w=>{ctx.strokeStyle='rgba(0,0,0,'+Math.min(w.alpha*6,0.85)+')';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});
     }
 
     particles.forEach((p,i)=>{
@@ -2399,12 +2570,10 @@ init();
 
   resize();initParticles();loop();
   window.addEventListener('resize',()=>{resize();initParticles();});
-  new MutationObserver(()=>{
-    particles.forEach(p=>{p.targetAlpha=isDark()?rand(0.06,0.25):rand(0.18,0.45);});
-    buildWebs();
-  }).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
 })();
 </script>
 
 </body>
 </html>
+
