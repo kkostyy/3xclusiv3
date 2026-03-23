@@ -23,7 +23,7 @@
   --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-button, a, [onclick] { touch-action:manipulation; cursor:pointer; }
+button { touch-action:manipulation; } a { touch-action:manipulation; }
 html, body { height:100%; }
 body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
@@ -186,8 +186,8 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .card-actions { display:flex; align-items:center; gap:6px; }
 .card-wish-btn { background:none; border:none; font-size:16px; cursor:pointer; padding:4px; line-height:1; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
 .card-cart-btn { background:var(--accent); color:var(--bg); border:none; border-radius:50%; width:28px; height:28px; font-size:18px; line-height:28px; text-align:center; cursor:pointer; font-weight:300; -webkit-tap-highlight-color:transparent; touch-action:manipulation; -webkit-transform:translateZ(0); transform:translateZ(0); }
-.card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:14px 14px 0 0; }
-.card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:14px 14px 0 0; position:relative; }
+.card-img img { width:100%; height:100%; object-fit:cover; display:block; position:absolute; inset:0; }
 
 /* LOADER */
 .loader { grid-column:1/-1; padding:60px 20px; text-align:center; }
@@ -1000,7 +1000,7 @@ function addToCart(p) {
 function openPage(pageKey) {
   navStack.push(pageKey);
   // hide all views
-  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
+  ['catalog','orders','cart','profile','more','detail','checkout','review','dev'].forEach(k => {
     const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
     if (el) el.classList.remove('on');
   });
@@ -1186,6 +1186,7 @@ function renderGrid() {
     grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">○</div><div class="empty-txt">нет товаров</div></div>'; return;
   }
   grid.innerHTML = list.map(cardHtml).join('');
+  if (window._fixTouchAfterLoad) window._fixTouchAfterLoad();
 }
 
 const _filterBarEl = document.getElementById('filterBar');
@@ -1619,7 +1620,7 @@ function openAdmin() {
     return;
   }
   // Hide all user views
-  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
+  ['catalog','orders','cart','profile','more','detail','checkout','review','dev'].forEach(k => {
     const vid = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const el = document.getElementById(vid);
     if (el) el.classList.remove('on');
@@ -1989,15 +1990,24 @@ async function sendBroadcast() {
 }
 
 
-// ═══ LOGO LONG PRESS — HIDDEN ADMIN ENTRY ═══
+// ═══ LOGO — LONG PRESS = ADMIN, 5 TAPS = DEV ═══
 (function() {
   let pressTimer = null;
+  let tapCount = 0, tapTimer = null;
   const logo = document.getElementById('logoWrap');
   if (!logo) return;
+
   function startPress() {
     pressTimer = setTimeout(() => { openAdmin(); }, 3000);
   }
-  function endPress() { clearTimeout(pressTimer); }
+  function endPress() {
+    clearTimeout(pressTimer);
+    // Count taps for dev menu
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+    if (tapCount >= 5) { tapCount = 0; openDevMenu(); }
+  }
   logo.addEventListener('touchstart', startPress, { passive: true });
   logo.addEventListener('touchend', endPress);
   logo.addEventListener('touchcancel', endPress);
@@ -2005,6 +2015,61 @@ async function sendBroadcast() {
   logo.addEventListener('mouseup', endPress);
   logo.addEventListener('mouseleave', endPress);
 })();
+
+
+// Fix for Telegram WebView touch handling
+(function() {
+  function fixTouch(el) {
+    if (!el) return;
+    el.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      this.click();
+    }, {passive: false});
+  }
+  
+  // Fix nav buttons
+  document.querySelectorAll('.nav-btn, .btn, .more-item, .card-cart-btn, .card-wish-btn').forEach(fixTouch);
+  
+  // Re-run after products load
+  window._fixTouchAfterLoad = function() {
+    document.querySelectorAll('.card-cart-btn, .card-wish-btn').forEach(fixTouch);
+  };
+})();
+
+
+// ═══ DEV MENU ═══
+let devTapCount = 0, devTapTimer = null;
+function openDevMenu() {
+  const info = document.getElementById('devInfo');
+  if (info) {
+    info.textContent = 'userId: ' + (userId||'null') + '\nAPI: ' + API + '\nuserAgent: ' + navigator.userAgent.substring(0,80);
+  }
+  devLog('Dev menu opened');
+  openPage('dev');
+}
+function devLog(msg) {
+  const el = document.getElementById('devLog');
+  if (el) el.textContent += new Date().toTimeString().slice(0,8) + ' ' + msg + '\n';
+}
+function devClearCart() {
+  cart = {}; saveCart(); updateCartNum();
+  devLog('Cart cleared');
+  toast('корзина очищена');
+}
+function devReloadProducts() {
+  devLog('Reloading products...');
+  loadProducts().then(() => devLog('Products loaded: ' + allProducts.length));
+}
+async function devCheckAPI() {
+  devLog('Checking API...');
+  try {
+    const r = await fetch(API + '/health');
+    const d = await r.json();
+    devLog('API OK: ' + JSON.stringify(d));
+  } catch(e) {
+    devLog('API ERROR: ' + e.message);
+  }
+}
 
 // ═══ START ═══
 init();
@@ -2176,6 +2241,25 @@ init();
     <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
   </div>
 </div>
+
+<!-- DEV MENU -->
+<div class="view" id="vDev">
+  <div class="page-back" onclick="goBack()">
+    <span class="page-back-sym">←</span>
+    <span class="page-back-lbl">назад</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">разработчик</div></div>
+  <div style="padding:0 20px">
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.3em;color:var(--text3);margin-bottom:16px" id="devInfo"></div>
+    
+    <button class="btn" onclick="devClearCart()">очистить корзину</button>
+    <button class="btn" onclick="devReloadProducts()">перезагрузить товары</button>
+    <button class="btn" onclick="devCheckAPI()">проверить API</button>
+    <button class="btn" onclick="openAdmin()">войти в админку</button>
+    <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:12px;font-size:11px;font-weight:200;color:var(--text2);min-height:80px;white-space:pre-wrap;word-break:break-all"></div>
+  </div>
+</div>
+
 <!-- ADMIN NAV -->
 <nav class="nav admin-nav" id="adminNav">
   <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl">Сводка</span></button>
@@ -2324,4 +2408,3 @@ init();
 
 </body>
 </html>
-
