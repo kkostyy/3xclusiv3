@@ -618,6 +618,57 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 
 
+
+
+/* USER CARDS */
+.user-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:14px 16px; margin-bottom:8px; box-shadow:0 2px 14px rgba(0,0,0,0.35); position:relative; overflow:hidden; }
+.user-card::before { content:''; position:absolute; top:0; left:15%; right:15%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent); }
+.user-card-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.user-monogram { width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(204,34,34,0.08), rgba(8,4,8,0.95)); border:1px solid rgba(204,34,34,0.15); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-size:20px; color:var(--text2); flex-shrink:0; }
+.user-info { flex:1; min-width:0; }
+.user-name { font-family:var(--font-serif); font-size:17px; color:var(--text); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.user-handle { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text3); display:flex; align-items:center; gap:6px; }
+.user-orders { text-align:center; flex-shrink:0; }
+.user-discount-row { padding-top:10px; border-top:1px solid var(--border); }
+.disc-btn { background:none; border:1px solid var(--border); color:var(--text3); font-family:var(--font-sans); font-size:8px; font-weight:200; padding:4px 8px; border-radius:8px; cursor:pointer; touch-action:manipulation; transition:all 0.2s; }
+.disc-btn-on { background:rgba(204,34,34,0.12); border-color:rgba(204,34,34,0.4); color:var(--accent); }
+
+/* SETTINGS SECTION */
+.settings-block {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px 16px; margin-bottom: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  position: relative; overflow: hidden;
+}
+.settings-block::before {
+  content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+.settings-block.danger { border-color: rgba(204,34,34,0.15); }
+.settings-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.2), transparent); }
+.settings-block-title {
+  font-family: var(--font-serif); font-size: 11px; font-weight: 200;
+  letter-spacing: 0.5em; text-transform: uppercase; color: var(--text3);
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.settings-save-btn {
+  width: 100%; background: none; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; color: var(--text2); font-family: var(--font-sans);
+  font-size: 9px; font-weight: 200; letter-spacing: 0.5em; text-transform: uppercase;
+  padding: 13px; cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s;
+}
+.settings-save-btn:active { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+.settings-danger-btn {
+  width: 100%; background: none; border: 1px solid rgba(204,34,34,0.2);
+  border-radius: 14px; color: var(--accent); font-family: var(--font-sans);
+  font-size: 9px; font-weight: 200; letter-spacing: 0.45em; text-transform: uppercase;
+  padding: 12px; cursor: pointer; touch-action: manipulation; margin-bottom: 8px;
+  transition: all 0.3s;
+}
+.settings-danger-btn:active { background: rgba(204,34,34,0.08); }
+
 /* Admin empty states */
 .more-sub-a .empty-rich { padding: 40px 20px; }
 .more-sub-a .empty-art { font-size: 44px; }
@@ -707,7 +758,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .stats-wrap { padding:0 14px 16px; box-sizing:border-box; width:100%; overflow:hidden; }
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; width:100%; box-sizing:border-box; }
 .stats-grid.three { grid-template-columns:1fr 1fr 1fr; width:100%; box-sizing:border-box; }
-.stat-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 16px; position:relative; overflow:hidden; }
+.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 14px; position:relative; overflow:hidden; min-width:0; box-sizing:border-box; box-shadow:0 2px 14px rgba(0,0,0,0.4); }
 .stat-card.accent { border-color:rgba(255,255,255,0.2); }
 .stat-card.danger { border-color:rgba(192,57,43,0.2); }
 .stat-card.success { border-color:rgba(39,174,96,0.18); }
@@ -722,7 +773,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* TOP PRODUCTS */
 .top-wrap { padding:0 14px 16px; }
-.top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; }
+.top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; }
 .top-rank { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text3); font-style:italic; min-width:28px; }
 .top-info { flex:1; min-width:0; }
 .top-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -731,14 +782,14 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* REVIEWS */
 .reviews-wrap { padding:0 14px; }
-.review-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.review-card { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
 .review-stars { font-size:16px; margin-bottom:8px; letter-spacing:2px; }
 .review-user { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); margin-bottom:6px; }
 .review-text { font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.6; }
 
 /* SUPPORT */
 .support-wrap { padding:0 14px; }
-.support-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.support-card { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
 .support-from { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
 .support-date { font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-bottom:10px; }
 .support-text { font-size:13px; font-weight:200; color:var(--text2); line-height:1.7; }
@@ -2589,30 +2640,37 @@ async function loadAdminUsers() {
 
 function renderUsers() {
   const el = document.getElementById('aUsersContent');
-  if (!el || !allUsers.length) { if(el) el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">пользователей нет</div></div>'; return; }
-  el.innerHTML = allUsers.slice(0,50).map(u =>
-    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,0.3)">'
-    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-    + '<div>'
-    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
-    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
-    + '</div>'
-    + '<div style="text-align:right">'
-    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
-    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
-    + '</div>'
-    + '</div>'
-    + '<div style="display:flex;align-items:center;gap:8px">'
-    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
-    + '<div style="display:flex;gap:4px">'
-    + [0,3,5,10,15,20].map(d =>
-        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation" data-disc-btn-' + u.telegram_id + '="' + d + '">' + d + '%</button>'
-      ).join('')
-    + '</div>'
-    + '</div>'
-    + '</div>'
-  ).join('');
+  if (!el || !allUsers.length) {
+    if(el) el.innerHTML = emptyState('◇','пользователей нет','когда первый покупатель откроет магазин — он появится здесь','','','nemo ante mortem beatus');
+    return;
+  }
+  el.innerHTML = allUsers.slice(0,50).map(u => {
+    const disc = u.discount || 0;
+    const initials = (u.first_name||'?')[0].toUpperCase();
+    const ordBadge = u.orders > 0
+      ? '<span style="background:rgba(204,34,34,0.1);border:1px solid rgba(204,34,34,0.2);color:var(--accent);font-size:7px;font-weight:200;letter-spacing:0.3em;padding:2px 7px;border-radius:99px;text-transform:uppercase">' + u.orders + ' зак.</span>'
+      : '';
+    return '<div class="user-card">'
+      + '<div class="user-card-head">'
+      + '<div class="user-monogram">' + initials + '</div>'
+      + '<div class="user-info">'
+      + '<div class="user-name">' + (u.first_name||'—') + (u.last_name?' '+u.last_name:'') + '</div>'
+      + '<div class="user-handle">' + (u.username?'@'+u.username:'id'+u.telegram_id) + ' ' + ordBadge + '</div>'
+      + '</div>'
+      + '<div class="user-orders">'
+      + '<div style="font-family:var(--font-serif);font-size:24px;color:var(--text3);font-style:italic;line-height:1">' + (u.orders||0) + '</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+      + '</div></div>'
+      + '<div class="user-discount-row">'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">скидка</div>'
+      + '<div style="display:flex;gap:4px;flex-wrap:wrap">'
+      + [0,3,5,10,15,20].map(d =>
+          '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" class="disc-btn' + (d===disc?' disc-btn-on':'') + '">' + d + '%</button>'
+        ).join('')
+      + '</div></div></div>';
+  }).join('');
 }
+
 
 async function setUserDiscount(telegramId, discount, btn) {
   try {
@@ -3040,12 +3098,22 @@ init();
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
     <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title" data-i18n="users">пользователи</div></div>
     <div style="padding:0 14px">
-      <div class="stats-grid" style="margin-bottom:10px">
-        <div class="stat-card"><div class="stat-val" id="usrTotal">—</div><div class="stat-key">всего</div></div>
-        <div class="stat-card accent"><div class="stat-val" id="usrActive">—</div><div class="stat-key">активных</div></div>
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div class="stat-card" style="text-align:center">
+          <div class="stat-val" id="usrTotal">—</div>
+          <div class="stat-key">всего</div>
+        </div>
+        <div class="stat-card" style="text-align:center;border-color:rgba(204,34,34,0.2)">
+          <div class="stat-val" style="color:var(--accent)" id="usrActive">—</div>
+          <div class="stat-key">активных</div>
+        </div>
       </div>
-      <div style="margin-bottom:10px">
-        <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username" style="margin-bottom:0" oninput="filterUsers(this.value)">
+      <!-- Search -->
+      <div style="position:relative;margin-bottom:12px">
+        <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:16px;color:var(--text3);pointer-events:none">◈</div>
+        <input class="inp inp-sm" id="usrSearch" placeholder="поиск по имени / @username"
+          style="margin-bottom:0;padding-left:38px" oninput="filterUsers(this.value)">
       </div>
       <div id="aUsersContent">
         <div class="loader"><div class="loader-sym">∞</div></div>
@@ -3058,25 +3126,33 @@ init();
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
     <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title" data-i18n="settings">настройки</div></div>
     <div style="padding:0 14px">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px">
-        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">магазин</div>
+
+      <!-- Shop block -->
+      <div class="settings-block">
+        <div class="settings-block-title">† магазин</div>
         <label class="inp-label">название магазина</label>
-        <input class="inp inp-sm" id="sShopName" placeholder="3xclusiv33" style="margin-bottom:10px">
+        <input class="inp inp-sm" id="sShopName" placeholder="3xclusiv33">
         <label class="inp-label">валюта</label>
-        <div style="display:flex;gap:6px;margin-bottom:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
           <button class="cat-btn on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
           <button class="cat-btn" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
           <button class="cat-btn" id="currRub" onclick="setCurr(this,'₽')">₽ RUB</button>
         </div>
         <label class="inp-label">минимальный заказ (€)</label>
-        <input class="inp inp-sm" id="sMinOrder" placeholder="0" type="number" style="margin-bottom:10px">
-        <button class="btn-act" style="width:100%" onclick="saveSettings()">сохранить настройки</button>
+        <input class="inp inp-sm" id="sMinOrder" placeholder="0" type="number" style="margin-bottom:14px">
+        <button class="settings-save-btn" onclick="saveSettings()">
+          <span style="font-family:var(--font-serif);font-size:16px;opacity:0.5">✓</span>
+          сохранить настройки
+        </button>
       </div>
-      <div style="background:var(--bg2);border:1px solid rgba(180,20,20,0.2);border-radius:16px;padding:16px">
-        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:rgba(180,20,20,0.7);margin-bottom:12px">опасная зона</div>
-        <button class="btn-act" style="width:100%;margin-bottom:8px;border-color:rgba(180,20,20,0.3);color:var(--red)" onclick="exportData()">экспорт данных</button>
-        <button class="btn-act" style="width:100%;border-color:rgba(180,20,20,0.3);color:var(--red)" onclick="wipeOldOrders()">очистить старые заказы</button>
+
+      <!-- Danger zone -->
+      <div class="settings-block danger">
+        <div class="settings-block-title" style="color:rgba(204,34,34,0.6)">☠ опасная зона</div>
+        <button class="settings-danger-btn" onclick="exportData()">экспорт данных</button>
+        <button class="settings-danger-btn" style="margin-bottom:0" onclick="wipeOldOrders()">очистить старые заказы</button>
       </div>
+
     </div>
   </div>
 
@@ -3309,3 +3385,4 @@ init();
 
 </body>
 </html>
+
