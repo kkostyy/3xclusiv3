@@ -216,6 +216,16 @@ header { position:relative; z-index:1; } .toast { position:fixed; z-index:10000;
 /* MORE HUB */
 .more-wrap-a { padding:0 14px; }
 .more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); }
+.admin-hub-card { display:flex; align-items:center; gap:14px; background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:16px 18px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s, box-shadow 0.3s; position:relative; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.35); }
+.admin-hub-card:active { border-color:rgba(255,255,255,0.25); box-shadow:0 0 20px rgba(255,255,255,0.06); }
+.admin-hub-card::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
+.admin-hub-card:active::before { opacity:0.35; }
+.ahc-icon { font-family:var(--font-serif); font-size:22px; color:var(--accent); opacity:0.7; min-width:28px; text-align:center; }
+.ahc-body { flex:1; min-width:0; }
+.ahc-title { font-size:14px; font-weight:400; color:var(--text1); letter-spacing:0.03em; margin-bottom:2px; }
+.ahc-sub { font-size:10px; font-weight:200; color:var(--text3); letter-spacing:0.04em; margin-bottom:2px; }
+.ahc-meta { font-size:9px; font-weight:200; color:var(--accent); opacity:0.7; letter-spacing:0.05em; }
+.ahc-arrow { font-size:18px; color:var(--text3); opacity:0.5; font-family:var(--font-serif); }
 .more-item-a::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item-a:active::before { opacity:0.35; }
 .more-item-a:active { border-color:rgba(255,255,255,0.25); box-shadow:0 0 20px rgba(255,255,255,0.06); }
@@ -792,7 +802,6 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
       </div>
     </div>
   </div>
-</div>
 
   <!-- USERS -->
   <div class="more-sub-a" id="moreUsers">
@@ -874,6 +883,8 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
       </div>
     </div>
   </div>
+
+</div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -2248,4 +2259,3 @@ function devClearCart() {
 </script>
 </body>
 </html>
-
