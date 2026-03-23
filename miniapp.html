@@ -3371,33 +3371,217 @@ async function addCategory() {
   } catch { toast(t('aErrorApi')); }
 }
 
+let _adminProducts = [];
+let _editProductId = null;
+let _editAvail = true;
+let _editPhotoPending = null;
+
 async function loadAdminProducts() {
   await loadCategories();
   refreshCatList();
+  // Also rebuild edit cat grid with custom categories
+  const editGrid = document.getElementById('eProdCatGrid');
+  if (editGrid) {
+    const btns = editGrid.querySelectorAll('.cat-btn');
+    const onCat = editGrid.querySelector('.cat-btn.on')?.dataset.cat || 'clothes';
+    // Keep existing buttons updated
+    btns.forEach(b => { b.textContent = getCatLabel(b.dataset.cat) || b.textContent; });
+  }
   const el = document.getElementById('aProductsContent');
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
-    const products = await r.json();
-    if (!products.length) { el.innerHTML = emptyState('†',t('aEmptyArchive'),t('aEmptyArchiveDesc'),t('aScrollUp'),"document.getElementById('vaProducts').scrollTop=0", 'ars longa vita brevis'); return; }
-    el.innerHTML = products.map(p => `
-      <div class="prod-card" id="apc${p.id}">
-        <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
-          ${p.photo_id
-            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${ADMIN_CAT_ICONS[p.category]||'🛍'}';">`
-            : ADMIN_CAT_ICONS[p.category]||'🛍'}</div>
-        <div class="prod-info">
-          <div class="prod-name">${p.name}</div>
-          <div class="prod-meta">${p.category} · #${p.id}</div>
-          <div class="prod-price">${(+p.price).toFixed(2)} €</div>
-          <div class="avail-toggle" onclick="toggleProduct(${p.id},${p.is_available})">
-            <div class="avail-pill ${p.is_available?'on':'off'}" id="ap${p.id}">${p.is_available?t('aInStock'):t('aOutOfStock')}</div>
-          </div>
-        </div>
-        <div class="prod-actions">
-          <button class="icon-btn del" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">✕</button>
-        </div>
-      </div>`).join('');
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
+    _adminProducts = await r.json();
+    if (!_adminProducts.length) {
+      el.innerHTML = '<div style="padding:40px 14px;text-align:center"><div style="font-family:Cormorant Garamond,serif;font-size:40px;color:var(--text3);opacity:0.3;margin-bottom:12px">†</div><div style="font-size:10px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3)">' + t('aEmptyArchive') + '</div></div>';
+      return;
+    }
+    el.innerHTML = _adminProducts.map(p => {
+      const photoSrc = p.photo_id
+        ? (p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
+           : p.photo_id.startsWith('/uploads/') ? API + p.photo_id : API + '/api/photo/' + p.photo_id)
+        : null;
+      return '<div class="prod-card" id="apc' + p.id + '" onclick="openProductEditor(' + p.id + ')" style="cursor:pointer">'
+        + '<div class="prod-icon" style="overflow:hidden;border-radius:12px">'
+        + (photoSrc ? '<img src="' + photoSrc + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">'
+                    : (ADMIN_CAT_ICONS[p.category] || '🛍'))
+        + '</div>'
+        + '<div class="prod-info">'
+        + '<div class="prod-name">' + p.name + '</div>'
+        + '<div class="prod-meta">' + getCatLabel(p.category) + ' · #' + p.id + '</div>'
+        + '<div class="prod-price">' + (+p.price).toFixed(2) + ' €</div>'
+        + '<div class="avail-pill ' + (p.is_available ? 'on' : 'off') + '" style="margin-top:4px">' + (p.is_available ? t('aInStock') : t('aOutOfStock')) + '</div>'
+        + '</div>'
+        + '<div style="color:var(--text3);font-size:18px;align-self:center;padding-left:4px">›</div>'
+        + '</div>';
+    }).join('');
+  } catch { el.innerHTML = '<div style="padding:20px 14px;text-align:center;color:var(--text3);font-size:10px">' + t('loadError') + '</div>'; }
+}
+
+function openProductEditor(id) {
+  _editProductId = id;
+  _editPhotoPending = null;
+  const isNew = (id === null);
+  const p = isNew ? null : _adminProducts.find(x => x.id === id);
+  document.getElementById('aProdEditorMode').textContent = isNew ? 'новый товар' : 'редактировать';
+  document.getElementById('aProdEditorName').textContent = p ? p.name : '—';
+  document.getElementById('aProdEditorId').textContent = p ? '#' + p.id : '';
+  document.getElementById('eProdName').value = p ? p.name : '';
+  document.getElementById('eProdPrice').value = p ? p.price : '';
+  document.getElementById('eProdDesc').value = p ? (p.description || '') : '';
+  document.getElementById('eProdPhotoUrl').value = '';
+  const photoSrc = p && p.photo_id
+    ? (p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
+       : p.photo_id.startsWith('/uploads/') ? API + p.photo_id : API + '/api/photo/' + p.photo_id)
+    : null;
+  setProdPhotoPreview(photoSrc);
+  const cat = p ? p.category : 'clothes';
+  document.querySelectorAll('#eProdCatGrid .cat-btn').forEach(b => b.classList.toggle('on', b.dataset.cat === cat));
+  _editAvail = p ? !!p.is_available : true;
+  updateAvailToggle();
+  document.getElementById('eProdDeleteBtn').style.display = isNew ? 'none' : 'block';
+  document.getElementById('aProdList').style.display = 'none';
+  document.getElementById('aProdEditor').style.display = 'block';
+  document.getElementById('vaProducts').scrollTop = 0;
+}
+
+function closeProdEditor() {
+  document.getElementById('aProdList').style.display = 'block';
+  document.getElementById('aProdEditor').style.display = 'none';
+  _editPhotoPending = null;
+}
+
+function selectEditCat(btn) {
+  document.querySelectorAll('#eProdCatGrid .cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function toggleEditAvail() {
+  _editAvail = !_editAvail;
+  updateAvailToggle();
+}
+
+function updateAvailToggle() {
+  const dot = document.getElementById('eProdAvailDot');
+  const knob = document.getElementById('eProdAvailKnob');
+  const lbl = document.getElementById('eProdAvailLabel');
+  if (!dot) return;
+  if (_editAvail) {
+    dot.style.background = 'var(--ra-025)'; dot.style.borderColor = 'var(--accent)';
+    knob.style.left = '23px'; knob.style.background = 'var(--accent)';
+    lbl.textContent = t('aInStock'); lbl.style.color = 'var(--accent)';
+  } else {
+    dot.style.background = 'var(--bg3)'; dot.style.borderColor = 'var(--border)';
+    knob.style.left = '3px'; knob.style.background = 'var(--text3)';
+    lbl.textContent = t('aOutOfStock'); lbl.style.color = 'var(--text3)';
+  }
+}
+
+function setProdPhotoPreview(src) {
+  const img = document.getElementById('eProdPhotoImg');
+  const ph = document.getElementById('eProdPhotoPlaceholder');
+  const clr = document.getElementById('eProdPhotoClear');
+  if (!img) return;
+  if (src) {
+    img.src = src; img.style.display = 'block'; ph.style.display = 'none';
+    if (clr) clr.style.display = 'inline-block';
+  } else {
+    img.src = ''; img.style.display = 'none'; ph.style.display = 'block';
+    if (clr) clr.style.display = 'none';
+  }
+}
+
+function handleProdPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) { toast('фото не более 5 МБ'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    _editPhotoPending = { type: 'file', file: input.files[0], dataUrl: e.target.result };
+    setProdPhotoPreview(e.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function syncProdPhotoUrl(url) {
+  if (url && url.startsWith('http')) {
+    _editPhotoPending = { type: 'url', url };
+    setProdPhotoPreview(url);
+  }
+}
+
+function clearProdPhoto() {
+  _editPhotoPending = { type: 'clear' };
+  setProdPhotoPreview(null);
+  document.getElementById('eProdPhotoUrl').value = '';
+  document.getElementById('eProdPhotoFile').value = '';
+}
+
+async function saveProdEditor() {
+  const name = document.getElementById('eProdName').value.trim();
+  const price = parseFloat(document.getElementById('eProdPrice').value);
+  const desc = document.getElementById('eProdDesc').value.trim();
+  const cat = document.querySelector('#eProdCatGrid .cat-btn.on')?.dataset.cat || 'clothes';
+  if (!name || !price) { toast(t('aFillAll')); return; }
+  try {
+    let productId = _editProductId;
+    if (productId === null) {
+      const r = await fetch(`${API}/api/admin/products`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc })
+      });
+      const d = await r.json();
+      productId = d.id;
+    } else {
+      await fetch(`${API}/api/admin/products/${productId}`, {
+        method: 'PATCH', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc })
+      });
+      const orig = _adminProducts.find(x => x.id === productId);
+      if (orig && !!orig.is_available !== _editAvail) {
+        await fetch(`${API}/api/admin/products/${productId}/toggle`, {
+          method: 'PATCH', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ admin_id: userId })
+        });
+      }
+    }
+    if (_editPhotoPending && productId) {
+      if (_editPhotoPending.type === 'file') {
+        const fd = new FormData();
+        fd.append('file', _editPhotoPending.file);
+        await fetch(`${API}/api/admin/products/${productId}/upload_photo?admin_id=${userId}`, { method: 'POST', body: fd }).catch(() => {});
+      } else if (_editPhotoPending.type === 'url') {
+        await fetch(`${API}/api/admin/products/${productId}/photo_url`, {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ admin_id: userId, photo_url: _editPhotoPending.url })
+        }).catch(() => {});
+      } else if (_editPhotoPending.type === 'clear') {
+        await fetch(`${API}/api/admin/products/${productId}/photo_url`, {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ admin_id: userId, photo_url: '' })
+        }).catch(() => {});
+      }
+    }
+    toast(_editProductId === null ? '✅ ' + t('aProductAdded') + productId : '✅ сохранено');
+    closeProdEditor();
+    loadAdminProducts();
+  } catch { toast(t('errDefault')); }
+}
+
+async function deleteProdEditor() {
+  if (!_editProductId) return;
+  if (pendingDelete !== _editProductId) {
+    pendingDelete = _editProductId;
+    toast(t('aDoubleDelete'), 3000);
+    setTimeout(() => { if (pendingDelete === _editProductId) pendingDelete = null; }, 3200);
+    return;
+  }
+  pendingDelete = null;
+  try {
+    await fetch(`${API}/api/admin/products/${_editProductId}?admin_id=${userId}`, { method: 'DELETE' });
+    toast('✅ ' + t('aProductDeleted'));
+    closeProdEditor();
+    loadAdminProducts();
+  } catch { toast(t('errDefault')); }
 }
 
 async function toggleProduct(id, current) {
@@ -3929,9 +4113,81 @@ init();
 
 <!-- PRODUCTS -->
 <div class="view" id="vaProducts">
-  <div class="sec-head"><div class="sec-num">III</div><div class="sec-title" data-i18n="products">товары</div></div>
-  <!-- Add product form -->
-  <div class="add-form" id="aAddForm">
+  <!-- Product list view -->
+  <div id="aProdList">
+    <div class="sec-head" style="display:flex;align-items:center;justify-content:space-between;padding-right:14px">
+      <div><div class="sec-num">III</div><div class="sec-title" data-i18n="products">товары</div></div>
+      <button onclick="openProductEditor(null)" style="background:var(--accent);color:var(--bg);border:none;border-radius:12px;padding:9px 16px;font-family:Jost,sans-serif;font-size:9px;font-weight:200;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer">+ добавить</button>
+    </div>
+    <div class="products-wrap" id="aProductsContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- Product editor panel (hidden by default) -->
+  <div id="aProdEditor" style="display:none;padding:0 14px 100px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:14px 0;border-bottom:1px solid var(--border)">
+      <button onclick="closeProdEditor()" style="background:none;border:none;color:var(--text3);font-family:Cormorant Garamond,serif;font-size:22px;cursor:pointer;padding:0">←</button>
+      <div style="flex:1">
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3)" id="aProdEditorMode">новый товар</div>
+        <div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;color:var(--text);line-height:1.1" id="aProdEditorName">—</div>
+      </div>
+      <div id="aProdEditorId" style="font-size:9px;font-weight:200;color:var(--text3);font-family:monospace"></div>
+    </div>
+
+    <!-- Photo -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">фото</div>
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:18px">
+      <div id="eProdPhoto" onclick="document.getElementById('eProdPhotoFile').click()" style="width:90px;height:90px;background:var(--bg3);border:1px dashed var(--border);border-radius:16px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;position:relative">
+        <span id="eProdPhotoPlaceholder">✦</span>
+        <img id="eProdPhotoImg" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0">
+      </div>
+      <div style="flex:1">
+        <input type="file" id="eProdPhotoFile" accept="image/*" style="display:none" onchange="handleProdPhoto(this)">
+        <input class="inp inp-sm" id="eProdPhotoUrl" placeholder="или URL фото" style="margin-bottom:6px" oninput="syncProdPhotoUrl(this.value)">
+        <div style="font-size:8px;font-weight:200;color:var(--text3);letter-spacing:0.1em">нажмите на превью или вставьте URL</div>
+        <button id="eProdPhotoClear" onclick="clearProdPhoto()" style="display:none;margin-top:6px;background:none;border:1px solid var(--border);color:var(--text3);font-size:8px;letter-spacing:0.2em;padding:4px 10px;border-radius:8px;cursor:pointer">✕ убрать фото</button>
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">название</div>
+    <input class="inp inp-sm" id="eProdName" placeholder="Название товара" style="margin-bottom:14px" oninput="document.getElementById('aProdEditorName').textContent=this.value||'—'">
+
+    <!-- Price -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">цена €</div>
+    <input class="inp inp-sm" id="eProdPrice" placeholder="0.00" type="number" step="0.01" style="margin-bottom:14px">
+
+    <!-- Category -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">категория</div>
+    <div class="cat-grid" id="eProdCatGrid" style="margin-bottom:14px">
+      <button class="cat-btn on" data-cat="clothes" onclick="selectEditCat(this)">Одежда</button>
+      <button class="cat-btn" data-cat="shoes" onclick="selectEditCat(this)">Обувь</button>
+      <button class="cat-btn" data-cat="accessories" onclick="selectEditCat(this)">Аксессуары</button>
+    </div>
+
+    <!-- Description -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">описание</div>
+    <textarea class="inp inp-sm" id="eProdDesc" placeholder="Описание товара..." style="min-height:80px;resize:none;margin-bottom:18px"></textarea>
+
+    <!-- Availability -->
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:18px;cursor:pointer" onclick="toggleEditAvail()">
+      <div>
+        <div style="font-size:9px;font-weight:200;letter-spacing:0.3em;text-transform:uppercase;color:var(--text2)">наличие</div>
+        <div id="eProdAvailLabel" style="font-size:12px;font-weight:200;color:var(--text3);margin-top:2px">в наличии</div>
+      </div>
+      <div id="eProdAvailDot" style="width:44px;height:24px;border-radius:99px;background:var(--ra-025);border:1px solid var(--border);position:relative;transition:background 0.3s">
+        <div id="eProdAvailKnob" style="width:18px;height:18px;border-radius:50%;background:var(--text3);position:absolute;top:2px;left:3px;transition:all 0.3s"></div>
+      </div>
+    </div>
+
+    <!-- Save / Delete -->
+    <button onclick="saveProdEditor()" style="width:100%;background:var(--accent);color:var(--bg);border:none;border-radius:14px;padding:14px;font-family:Jost,sans-serif;font-size:9px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;cursor:pointer;margin-bottom:10px">сохранить</button>
+    <button id="eProdDeleteBtn" onclick="deleteProdEditor()" style="display:none;width:100%;background:none;border:1px solid var(--ra-025);color:var(--red);border-radius:14px;padding:14px;font-family:Jost,sans-serif;font-size:9px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;cursor:pointer">удалить товар</button>
+  </div>
+
+  <!-- Old add form hidden - kept for category management -->
+  <div id="aAddForm" style="display:none">
     <!-- Gothic add form header -->
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)">
       <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ra-005);font-style:italic;line-height:1">†</div>
@@ -3992,9 +4248,6 @@ init();
       </div>
       <div id="aCatList" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
     </div></div>
-  <div class="products-wrap" id="aProductsContent">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
-  </div>
 </div>
 
 <!-- MORE -->
