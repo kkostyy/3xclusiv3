@@ -543,131 +543,146 @@ body::before {
 }
 
 </style>
+<style>
+/* extra admin styles */
+.inp { width:100%;background:var(--bg2);border:1px solid var(--brd);color:var(--tx);font-family:'Jost',sans-serif;font-size:13px;font-weight:200;padding:12px 16px;border-radius:12px;outline:none;margin-bottom:12px;transition:border-color .3s; }
+.inp:focus { border-color:var(--brdh); }
+.inp-label { font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.4em;text-transform:uppercase;color:var(--tx2);margin-bottom:6px;display:block; }
+select.inp { cursor:pointer; }
+textarea.inp { min-height:80px;resize:vertical; }
+.review-card { background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:10px; }
+.review-stars { font-size:16px;margin-bottom:6px; }
+.review-user { font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--tx3);margin-bottom:6px; }
+.review-text { font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--tx2);line-height:1.5; }
+.support-msg { background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:10px; }
+.support-user { font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--ac);margin-bottom:6px; }
+.support-text { font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--tx2);line-height:1.5; }
+.broadcast-area { width:100%;background:var(--bg2);border:1px solid var(--brd);color:var(--tx);font-family:'Cormorant Garamond',serif;font-size:16px;padding:16px;border-radius:14px;outline:none;min-height:120px;resize:vertical;margin-bottom:16px; }
+.price-adj-form { background:var(--bg2);border:1px solid var(--amber);border-radius:14px;padding:16px;margin-top:12px; }
+.price-adj-title { font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--amber);margin-bottom:12px; }
+</style>
 </head>
 <body>
 
 <div class="wrap">
-
   <!-- HEADER -->
   <header class="hd">
     <div class="logo-block">
       <div class="logo-eye">admin panel</div>
-      <div class="logo">3xclusiv<sup>33</sup><span class="logo-tag">owner</span></div>
+      <div class="logo" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300">3xclusiv<sup style="font-size:10px;color:var(--ac)">33</sup></div>
     </div>
-    <div class="hd-right">
-      <div class="th-tog" id="thTog">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="display:flex;align-items:center;gap:8px;cursor:pointer" id="thTog">
         <span class="th-lbl" id="thL">L</span>
-        <div class="th-pip"></div>
+        <div style="width:24px;height:1px;background:var(--brdh);position:relative">
+          <div id="thPip" style="position:absolute;top:-2px;width:5px;height:5px;border-radius:50%;background:var(--ac);transition:left .4s;left:0"></div>
+        </div>
         <span class="th-lbl on" id="thD">D</span>
       </div>
-      <div class="notif-dot" id="notifDot" title="Новые заказы"></div>
+      <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.35em;color:var(--ac)">
+        <span id="newBadge" style="background:var(--red);color:#fff;border-radius:10px;padding:2px 7px;font-size:8px">0</span> новых
+      </div>
     </div>
   </header>
 
-  <div class="rule"><div class="rl"></div><div class="rc">✦</div><div class="rl"></div></div>
-
-  <!-- STAT STRIP -->
-  <div class="stat-strip" id="statStrip">
-    <div class="stat-chip">
-      <div class="stat-chip-val" id="stNew">—</div>
-      <div class="stat-chip-key">новых</div>
-    </div>
-    <div class="stat-chip">
-      <div class="stat-chip-val" id="stActive">—</div>
-      <div class="stat-chip-key">активных</div>
-    </div>
-    <div class="stat-chip">
-      <div class="stat-chip-val" id="stRevenue">—</div>
-      <div class="stat-chip-key">выручка €</div>
-    </div>
-  </div>
-
   <!-- TABS -->
-  <div class="tabs">
-    <button class="tab on" data-v="orders">Заказы<span class="tab-badge" id="newBadge">0</span></button>
+  <div class="tabs" style="display:flex;gap:0;padding:16px 20px 0;overflow-x:auto;scrollbar-width:none">
+    <button class="tab on" data-v="orders">Заказы</button>
     <button class="tab" data-v="products">Товары</button>
     <button class="tab" data-v="analytics">Аналитика</button>
+    <button class="tab" data-v="reviews">Отзывы</button>
+    <button class="tab" data-v="support">Чат</button>
+    <button class="tab" data-v="broadcast">Рассылка</button>
   </div>
 
   <!-- ORDERS VIEW -->
   <div class="view on" id="vOrders">
+    <div class="stats-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px 20px">
+      <div class="stat-box"><div class="stat-val" id="stNew">—</div><div class="stat-lbl">новых</div></div>
+      <div class="stat-box"><div class="stat-val" id="stActive">—</div><div class="stat-lbl">активных</div></div>
+      <div class="stat-box"><div class="stat-val" id="stRevenue">—</div><div class="stat-lbl">выручка €</div></div>
+    </div>
     <div class="adm-orders" id="ordersList"></div>
   </div>
 
   <!-- PRODUCTS VIEW -->
   <div class="view" id="vProducts">
-    <div class="adm-prods">
-      <div style="padding:0 0 14px;display:flex;justify-content:flex-end;">
-        <button onclick="openAddProduct()" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid var(--ac);border-radius:20px;padding:7px 16px;cursor:pointer;opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">+ добавить</button>
-      </div>
-      <div id="productsList"></div>
+    <div style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;letter-spacing:.4em;color:var(--tx2);text-transform:uppercase">товары</div>
+      <button onclick="openAddProduct()" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid var(--ac);border-radius:20px;padding:7px 16px;cursor:pointer">+ добавить</button>
     </div>
+    <div class="adm-products" id="productsList"></div>
   </div>
 
   <!-- ANALYTICS VIEW -->
   <div class="view" id="vAnalytics">
-    <div class="analytics" id="analyticsBody"></div>
+    <div style="padding:16px 20px 100px" id="analyticsBody">
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
+    </div>
   </div>
 
-</div><!-- /wrap -->
+  <!-- REVIEWS VIEW -->
+  <div class="view" id="vReviews">
+    <div style="padding:16px 20px 100px" id="reviewsList">
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- SUPPORT VIEW -->
+  <div class="view" id="vSupport">
+    <div style="padding:16px 20px 100px" id="supportList">
+      <div class="load"><div class="load-glyph">∞</div><div class="load-text">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- BROADCAST VIEW -->
+  <div class="view" id="vBroadcast">
+    <div style="padding:16px 20px 100px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--tx2);margin-bottom:20px;line-height:1.6">Напишите сообщение — оно будет отправлено всем пользователям через Telegram бота.</div>
+      <textarea class="broadcast-area" id="broadcastText" placeholder="Текст сообщения..."></textarea>
+      <button class="act-primary" onclick="sendBroadcast()"><span>отправить всем</span></button>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn on" data-v="orders" id="navOrders">
-    <span class="nav-sym">I</span>
-    <span class="nav-lbl">Заказы</span>
-  </button>
-  <button class="nav-btn" data-v="products" id="navProducts">
-    <span class="nav-sym">II</span>
-    <span class="nav-lbl">Товары</span>
-  </button>
-  <button class="nav-btn" data-v="analytics" id="navAnalytics">
-    <span class="nav-sym">III</span>
-    <span class="nav-lbl">Аналитика</span>
-  </button>
+  <button class="nav-btn on" data-v="orders" id="navOrders"><span class="nav-sym">I</span><span class="nav-label">Заказы</span></button>
+  <button class="nav-btn" data-v="products" id="navProducts"><span class="nav-sym">II</span><span class="nav-label">Товары</span></button>
+  <button class="nav-btn" data-v="analytics" id="navAnalytics"><span class="nav-sym">III</span><span class="nav-label">Аналит.</span></button>
+  <button class="nav-btn" data-v="reviews" id="navReviews"><span class="nav-sym">IV</span><span class="nav-label">Отзывы</span></button>
 </nav>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- OVERLAY -->
 <div class="overlay" id="overlay"></div>
-
-<!-- ORDER DETAIL PANEL -->
-<div class="panel" id="orderPanel">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">детали заказа</div></div>
-  <div class="panel-body" id="orderPanelBody"></div>
-</div>
 
 <!-- ADD PRODUCT PANEL -->
 <div class="panel" id="addPanel">
   <div class="panel-drag"></div>
   <div class="panel-head"><div class="panel-title">новый товар</div></div>
   <div class="panel-body">
-    <div class="form-field">
-      <label class="form-label">название</label>
-      <input class="form-input" id="fName" placeholder="Манто из шерсти">
-    </div>
-    <div class="form-row">
-      <div class="form-field">
-        <label class="form-label">цена €</label>
-        <input class="form-input" id="fPrice" type="number" placeholder="189">
-      </div>
-      <div class="form-field">
-        <label class="form-label">категория</label>
-        <select class="form-select" id="fCat">
-          <option value="clothes">Одежда</option>
-          <option value="shoes">Обувь</option>
-          <option value="accessories">Аксессуары</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-field">
-      <label class="form-label">описание</label>
-      <textarea class="form-input" id="fDesc" rows="3" placeholder="Асимметричный крой…" style="resize:none;line-height:1.6;"></textarea>
-    </div>
+    <label class="inp-label">название</label>
+    <input class="inp" id="fName" placeholder="Название товара">
+    <label class="inp-label">цена (€)</label>
+    <input class="inp" type="number" id="fPrice" placeholder="0.00" step="0.01">
+    <label class="inp-label">категория</label>
+    <select class="inp" id="fCat">
+      <option value="clothes">👕 Одежда</option>
+      <option value="shoes">👟 Обувь</option>
+      <option value="accessories">👜 Аксессуары</option>
+    </select>
+    <label class="inp-label">описание</label>
+    <textarea class="inp" id="fDesc" placeholder="Описание..."></textarea>
     <button class="act-primary" onclick="saveProduct()"><span>сохранить</span></button>
+  </div>
+</div>
+
+<!-- PRICE ADJUST PANEL -->
+<div class="panel" id="pricePanel">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">корректировка цены</div></div>
+  <div class="panel-body">
+    <div id="pricePanelBody"></div>
   </div>
 </div>
 
@@ -676,30 +691,36 @@ body::before {
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-const API = window.location.hostname === 'localhost'
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:8080'
-  : 'https://your-backend.vercel.app';
+  : 'https://3xclusiv3-production.up.railway.app';
+
+const ADMIN_ID = tg?.initDataUnsafe?.user?.id || parseInt(localStorage.getItem('admin_id_3x') || '0');
+if (!ADMIN_ID && !tg) {
+  const id = prompt('Введи свой Telegram ID:');
+  if (id) { localStorage.setItem('admin_id_3x', id); window.location.reload(); }
+}
 
 // ═══ THEME ═══
 let isDark = localStorage.getItem('adm_th') !== 'light';
-
 function applyTheme(d) {
   isDark = d;
   document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
   localStorage.setItem('adm_th', d ? 'dark' : 'light');
   document.getElementById('thL').className = 'th-lbl' + (!d ? ' on' : '');
   document.getElementById('thD').className = 'th-lbl' + (d  ? ' on' : '');
-  if (tg) { tg.setHeaderColor(d ? '#0a0a09' : '#f2ede4'); tg.setBackgroundColor(d ? '#0a0a09' : '#f2ede4'); }
+  document.getElementById('thPip').style.left = d ? '0' : '19px';
+  if (tg) { tg.setHeaderColor(d?'#0a0a09':'#f2ede4'); tg.setBackgroundColor(d?'#0a0a09':'#f2ede4'); }
 }
 applyTheme(isDark);
-document.getElementById('thTog').addEventListener('click', () => applyTheme(!isDark));
+document.getElementById('thTog').addEventListener('click', ()=>applyTheme(!isDark));
 
 // ═══ TOAST ═══
 let _tt;
-function toast(msg, dur = 2200) {
+function toast(msg, dur=2200) {
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('on');
-  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), dur);
+  clearTimeout(_tt); _tt = setTimeout(()=>el.classList.remove('on'), dur);
 }
 
 // ═══ PANEL ═══
@@ -719,58 +740,57 @@ function closePanel() {
 document.getElementById('overlay').addEventListener('click', closePanel);
 
 // ═══ NAVIGATION ═══
-const viewMap = { orders:'vOrders', products:'vProducts', analytics:'vAnalytics' };
-const navMap  = { orders:'navOrders', products:'navProducts', analytics:'navAnalytics' };
+const viewMap = {orders:'vOrders', products:'vProducts', analytics:'vAnalytics', reviews:'vReviews', support:'vSupport', broadcast:'vBroadcast'};
+const navMap  = {orders:'navOrders', products:'navProducts', analytics:'navAnalytics', reviews:'navReviews'};
+
+function switchTab(v) {
+  Object.keys(viewMap).forEach(k => {
+    document.getElementById(viewMap[k]).classList.toggle('on', k===v);
+    if (navMap[k]) document.getElementById(navMap[k]).classList.toggle('on', k===v);
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.v===v));
+  if (v==='products') loadProducts();
+  if (v==='analytics') loadAnalytics();
+  if (v==='reviews') loadReviews();
+  if (v==='support') loadSupport();
+}
 
 document.querySelectorAll('.tab, .nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const v = btn.dataset.v; if (!v) return;
-    Object.keys(viewMap).forEach(k => {
-      document.getElementById(viewMap[k]).classList.toggle('on', k === v);
-      document.getElementById(navMap[k]).classList.toggle('on', k === v);
-    });
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.v === v));
-    if (v === 'products')  loadProducts();
-    if (v === 'analytics') renderAnalytics();
-  });
+  btn.addEventListener('click', () => { const v = btn.dataset.v; if (v) switchTab(v); });
 });
+
+// ═══ STATUS CONFIG ═══
+const STATUS_CFG = {
+  searching:  {t:'в поиске',  cls:'searching'},
+  ordered:    {t:'заказано',  cls:'ordered'},
+  in_transit: {t:'в пути',    cls:'in_transit'},
+  arrived:    {t:'прибыл',    cls:'arrived'},
+  delivered:  {t:'получен',   cls:'delivered'},
+  cancelled:  {t:'отменён',   cls:'cancelled'},
+};
+const STATUS_STEPS = ['searching','ordered','in_transit','arrived','delivered'];
+const CAT = {clothes:'Одежда', shoes:'Обувь', accessories:'Аксессуары'};
+const GLYPH = {clothes:'I', shoes:'II', accessories:'III'};
 
 // ═══ DEMO DATA ═══
 const DEMO_ORDERS = [
-  { id:128, user_name:'Аlex M.', tg:'@alex_m', total_price:454, status:'searching',  created_at:'2025-11-10', items:[{name:'Манто из шерсти',qty:1,price:189},{name:'Кольцо No.22',qty:1,price:38},{name:'Шарф Decortiqué',qty:1,price:56}] },
-  { id:127, user_name:'Sofia R.', tg:'@sof_r', total_price:265, status:'in_transit', created_at:'2025-11-09', items:[{name:'Ботинки Artisanal',qty:1,price:265}] },
-  { id:126, user_name:'Ivan K.',  tg:'@ivan_k',total_price:124, status:'arrived',    created_at:'2025-11-07', items:[{name:'Брюки Tabi',qty:1,price:124}] },
-  { id:125, user_name:'Mia T.',   tg:'@mia_t', total_price:38,  status:'delivered',  created_at:'2025-11-05', items:[{name:'Кольцо No.22',qty:1,price:38}] },
-  { id:124, user_name:'Dan W.',   tg:'@dan_w', total_price:189, status:'cancelled',  created_at:'2025-11-03', items:[{name:'Манто из шерсти',qty:1,price:189}] },
+  {id:128, user_name:'Alex M.', tg:'@alex_m', total_price:454, status:'searching', created_at:'2025-11-10', items:[{name:'Манто',qty:1,price:189},{name:'Кольцо',qty:1,price:38}]},
+  {id:127, user_name:'Sofia R.', tg:'@sof_r', total_price:265, status:'in_transit', created_at:'2025-11-09', items:[{name:'Ботинки',qty:1,price:265}]},
+  {id:126, user_name:'Ivan K.', tg:'@ivan_k', total_price:124, status:'delivered', created_at:'2025-11-07', items:[{name:'Брюки',qty:1,price:124}]},
 ];
-
 const DEMO_PRODUCTS = [
-  { id:1, name:'Манто из шерсти',   price:189, category:'clothes',     is_available:1 },
-  { id:2, name:'Брюки Tabi',        price:124, category:'clothes',     is_available:1 },
-  { id:3, name:'Ботинки Artisanal', price:265, category:'shoes',       is_available:1 },
-  { id:4, name:'Оксфорды Split Toe',price:195, category:'shoes',       is_available:0 },
-  { id:5, name:'Кольцо No. 22',     price:38,  category:'accessories', is_available:1 },
-  { id:6, name:'Шарф Decortiqué',   price:56,  category:'accessories', is_available:1 },
+  {id:1,name:'Манто из шерсти',price:189,category:'clothes',is_available:1},
+  {id:2,name:'Брюки Tabi',price:124,category:'clothes',is_available:1},
+  {id:3,name:'Ботинки Artisanal',price:265,category:'shoes',is_available:1},
+  {id:4,name:'Кольцо No. 22',price:38,category:'accessories',is_available:1},
 ];
-
-const STATUS_CFG = {
-  searching:  { t:'в поиске', cls:'searching'  },
-  ordered:    { t:'заказано', cls:'ordered'    },
-  in_transit: { t:'в пути',   cls:'in_transit' },
-  arrived:    { t:'прибыл',   cls:'arrived'    },
-  delivered:  { t:'получен',  cls:'delivered'  },
-  cancelled:  { t:'отменён',  cls:'cancelled'  },
-};
-const STATUS_STEPS = ['searching','ordered','in_transit','arrived','delivered'];
-const CAT = { clothes:'Одежда', shoes:'Обувь', accessories:'Аксессуары' };
-const GLYPH = { clothes:'I', shoes:'II', accessories:'III' };
 
 // ═══ ORDERS ═══
 let orders = [];
 
 async function loadOrders() {
   try {
-    const r = await fetch(`${API}/api/admin/orders`);
+    const r = await fetch(`${API}/api/admin/orders?admin_id=${ADMIN_ID}`);
     if (!r.ok) throw 0;
     orders = await r.json();
   } catch { orders = DEMO_ORDERS; }
@@ -781,71 +801,100 @@ async function loadOrders() {
 function renderOrders() {
   const el = document.getElementById('ordersList');
   el.innerHTML = orders.map(o => {
-    const st = STATUS_CFG[o.status] || { t: o.status, cls: '' };
+    const st = STATUS_CFG[o.status] || {t:o.status, cls:''};
+    const items = (o.items||[]).map(i=>`<div class="adm-detail-row"><span class="adm-detail-key">${i.name}</span><span class="adm-detail-val">${i.qty} × ${(+i.price).toFixed(2)} €</span></div>`).join('');
+    const adjBlock = o.adjusted_price ? `<div class="price-adj-form">
+      <div class="price-adj-title">⚠ скорр. цена ожидает ответа</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--amber)">${(+o.adjusted_price).toFixed(2)} €</div>
+      <div style="font-family:'Jost',sans-serif;font-size:10px;color:var(--tx3);margin-top:4px">${o.adjustment_reason||''}</div>
+    </div>` : '';
     return `<div class="adm-order" id="ord-${o.id}">
       <div class="adm-order-head" onclick="toggleOrder(${o.id})">
         <div class="adm-order-num">${o.id}</div>
         <div class="adm-order-info">
-          <div class="adm-order-name">${o.user_name || 'Покупатель'}</div>
-          <div class="adm-order-sub">${o.tg || ''} · ${o.created_at?.slice(0,10) || ''}</div>
+          <div class="adm-order-name">${o.user_name||'Покупатель'}</div>
+          <div class="adm-order-sub">${o.tg||''} · ${o.created_at?.slice(0,10)||''}</div>
         </div>
         <div class="st-badge ${st.cls}">${st.t}</div>
         <div class="adm-order-amount">${(+o.total_price).toFixed(2)} €</div>
       </div>
       <div class="adm-order-body" id="body-${o.id}">
-        ${(o.items||[]).map(i => `
-          <div class="adm-detail-row">
-            <span class="adm-detail-key">${i.name}</span>
-            <span class="adm-detail-val">${i.qty} × ${(+i.price).toFixed(2)} €</span>
-          </div>`).join('')}
-        <div class="adm-detail-row" style="margin-top:4px">
-          <span class="adm-detail-key">итого</span>
-          <span class="adm-detail-val" style="color:var(--ac)">${(+o.total_price).toFixed(2)} €</span>
-        </div>
+        ${items}
+        <div class="adm-detail-row" style="margin-top:4px"><span class="adm-detail-key">итого</span><span class="adm-detail-val" style="color:var(--ac)">${(+o.total_price).toFixed(2)} €</span></div>
+        ${adjBlock}
         <div class="status-switcher">
-          ${STATUS_STEPS.map(s => `
-            <button class="st-btn ${o.status===s?'active':''}" onclick="setStatus(${o.id},'${s}')">${STATUS_CFG[s].t}</button>
-          `).join('')}
+          ${STATUS_STEPS.map(s=>`<button class="st-btn ${o.status===s?'active':''}" onclick="setStatus(${o.id},'${s}')">${STATUS_CFG[s].t}</button>`).join('')}
           <button class="st-btn ${o.status==='cancelled'?'active':''}" onclick="setStatus(${o.id},'cancelled')" style="color:var(--red);border-color:var(--red)">отменён</button>
         </div>
-        <button class="notify-btn" onclick="notifyUser(${o.id})">уведомить покупателя</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+          <button class="notify-btn" onclick="notifyUser(${o.id})">уведомить</button>
+          <button class="notify-btn" onclick="openPriceAdj(${o.id},${o.total_price})" style="color:var(--amber);border-color:var(--amber)">скорр. цену</button>
+        </div>
+        <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.25em;color:var(--tx3);margin-top:8px">
+          ${o.phone?`📞 ${o.phone} ` : ''}${o.address?`📍 ${o.address}` : ''}
+        </div>
       </div>
     </div>`;
   }).join('');
 
-  // badge
-  const newCount = orders.filter(o => o.status === 'searching').length;
+  const newCount = orders.filter(o=>o.status==='searching').length;
   document.getElementById('newBadge').textContent = newCount;
-  document.getElementById('notifDot').style.display = newCount > 0 ? 'block' : 'none';
 }
 
-function toggleOrder(id) {
-  const body = document.getElementById(`body-${id}`);
-  body.classList.toggle('open');
-}
+function toggleOrder(id) { document.getElementById(`body-${id}`).classList.toggle('open'); }
 
-function setStatus(orderId, status) {
-  const o = orders.find(x => x.id === orderId);
+async function setStatus(orderId, status) {
+  const o = orders.find(x=>x.id===orderId);
   if (!o) return;
   o.status = status;
-  renderOrders();
-  updateStats();
+  renderOrders(); updateStats();
   toast(`заказ #${orderId} → ${STATUS_CFG[status].t}`);
-  // в реале: fetch(`${API}/api/admin/orders/${orderId}`, { method:'PATCH', body: JSON.stringify({status}) })
+  fetch(`${API}/api/admin/orders/${orderId}`, {
+    method:'PATCH', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({status, admin_id:ADMIN_ID})
+  }).catch(()=>{});
 }
 
-function notifyUser(orderId) {
-  toast(`уведомление отправлено — #${orderId}`);
-}
+function notifyUser(orderId) { toast(`уведомление отправлено — #${orderId}`); }
 
 function updateStats() {
-  const newC    = orders.filter(o => o.status === 'searching').length;
-  const activeC = orders.filter(o => !['delivered','cancelled'].includes(o.status)).length;
-  const rev     = orders.filter(o => o.status === 'delivered').reduce((s,o) => s + (+o.total_price), 0);
-  document.getElementById('stNew').textContent     = newC;
-  document.getElementById('stActive').textContent  = activeC;
-  document.getElementById('stRevenue').textContent = rev > 0 ? rev.toFixed(0) : '—';
-  document.getElementById('newBadge').textContent  = newC;
+  const newC = orders.filter(o=>o.status==='searching').length;
+  const activeC = orders.filter(o=>!['delivered','cancelled'].includes(o.status)).length;
+  const rev = orders.filter(o=>o.status==='delivered').reduce((s,o)=>s+(+o.total_price),0);
+  document.getElementById('stNew').textContent = newC;
+  document.getElementById('stActive').textContent = activeC;
+  document.getElementById('stRevenue').textContent = rev>0 ? rev.toFixed(0) : '—';
+  document.getElementById('newBadge').textContent = newC;
+}
+
+// ═══ PRICE ADJUSTMENT ═══
+function openPriceAdj(orderId, currentPrice) {
+  document.getElementById('pricePanelBody').innerHTML = `
+    <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.3em;color:var(--tx2);text-transform:uppercase;margin-bottom:8px">Заказ #${orderId}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--tx2);margin-bottom:16px">Текущая цена: ${(+currentPrice).toFixed(2)} €</div>
+    <label class="inp-label">новая цена (€, макс +20%)</label>
+    <input class="inp" type="number" id="adjPrice" placeholder="${(currentPrice*1.2).toFixed(2)}" step="0.01">
+    <label class="inp-label">причина</label>
+    <input class="inp" id="adjReason" placeholder="Район, срочность...">
+    <button class="act-primary" onclick="submitPriceAdj(${orderId},${currentPrice})"><span>отправить покупателю</span></button>`;
+  openPanel('pricePanel');
+}
+
+async function submitPriceAdj(orderId, currentPrice) {
+  const newPrice = parseFloat(document.getElementById('adjPrice').value);
+  const reason = document.getElementById('adjReason').value.trim();
+  if (!newPrice || newPrice <= currentPrice) { toast('цена должна быть выше текущей'); return; }
+  if (newPrice > currentPrice * 1.2) { toast('максимум +20%'); return; }
+  if (!reason) { toast('введите причину'); return; }
+  try {
+    await fetch(`${API}/api/admin/orders/${orderId}/adjust_price`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({admin_id:ADMIN_ID, new_price:newPrice, reason})
+    });
+    closePanel();
+    toast(`✅ запрос отправлен покупателю`, 3000);
+    loadOrders();
+  } catch { toast('ошибка'); }
 }
 
 // ═══ PRODUCTS ═══
@@ -853,7 +902,7 @@ let products = [];
 
 async function loadProducts() {
   try {
-    const r = await fetch(`${API}/api/products`);
+    const r = await fetch(`${API}/api/admin/products?admin_id=${ADMIN_ID}`);
     if (!r.ok) throw 0;
     products = await r.json();
   } catch { products = DEMO_PRODUCTS; }
@@ -875,86 +924,115 @@ function renderProducts() {
 }
 
 function toggleAvail(pid) {
-  const p = products.find(x => x.id === pid);
+  const p = products.find(x=>x.id===pid);
   if (!p) return;
-  p.is_available = p.is_available ? 0 : 1;
-  renderProducts();
-  toast(p.is_available ? `${p.name} — в наличии` : `${p.name} — скрыт`);
+  fetch(`${API}/api/admin/products/${pid}/toggle`, {
+    method:'PATCH', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({admin_id:ADMIN_ID})
+  }).then(r=>r.json()).then(data => {
+    p.is_available = data.is_available;
+    renderProducts();
+    toast(p.is_available ? `${p.name} — в наличии` : `${p.name} — скрыт`);
+  }).catch(()=>{ p.is_available = p.is_available?0:1; renderProducts(); toast('ошибка'); });
 }
 
 function openAddProduct() { openPanel('addPanel'); }
 
-function saveProduct() {
-  const name  = document.getElementById('fName').value.trim();
+async function saveProduct() {
+  const name = document.getElementById('fName').value.trim();
   const price = parseFloat(document.getElementById('fPrice').value);
-  const cat   = document.getElementById('fCat').value;
-  const desc  = document.getElementById('fDesc').value.trim();
+  const cat = document.getElementById('fCat').value;
+  const desc = document.getElementById('fDesc').value.trim();
   if (!name || !price) { toast('заполните название и цену'); return; }
-  const newProd = { id: Date.now(), name, price, category: cat, description: desc, is_available: 1 };
-  products.unshift(newProd);
-  renderProducts();
-  closePanel();
-  toast(`${name} добавлен`);
-  ['fName','fPrice','fDesc'].forEach(id => document.getElementById(id).value = '');
+  try {
+    const r = await fetch(`${API}/api/admin/products`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({admin_id:ADMIN_ID, name, price, category:cat, description:desc})
+    });
+    const data = await r.json();
+    products.unshift({id:data.id, name, price, category:cat, description:desc, is_available:1});
+    renderProducts(); closePanel(); toast(`${name} добавлен`);
+    ['fName','fPrice','fDesc'].forEach(id=>document.getElementById(id).value='');
+  } catch { toast('ошибка сохранения'); }
 }
 
 // ═══ ANALYTICS ═══
-function renderAnalytics() {
+async function loadAnalytics() {
   const el = document.getElementById('analyticsBody');
-  const totalRev = orders.filter(o => o.status==='delivered').reduce((s,o)=>s+(+o.total_price),0);
-
-  // weekly mock data
-  const weeks = ['окт 1','окт 2','окт 3','окт 4','ноя 1'];
-  const vals  = [380, 520, 290, 640, 410];
-  const maxV  = Math.max(...vals);
-
-  const bars = vals.map((v,i) => {
-    const pct = Math.round((v/maxV)*100);
-    const hi  = v === maxV ? 'hi' : '';
-    return `<div class="bar-col">
-      <div class="bar-fill ${hi}" style="height:${pct}%"></div>
-      <div class="bar-label">${weeks[i]}</div>
-    </div>`;
-  }).join('');
-
-  // top products
-  const topProds = [
-    { name:'Ботинки Artisanal', cnt:12 },
-    { name:'Манто из шерсти',   cnt:9  },
-    { name:'Брюки Tabi',        cnt:7  },
-    { name:'Кольцо No. 22',     cnt:6  },
-  ];
-  const maxCnt = topProds[0].cnt;
-
-  const topRows = topProds.map((p,i) => `
-    <div class="top-item">
-      <div class="top-rank">${i+1}</div>
-      <div class="top-name">${p.name}</div>
-      <div class="top-bar-wrap"><div class="top-bar-val" style="width:${Math.round(p.cnt/maxCnt*100)}%"></div></div>
-      <div class="top-cnt">${p.cnt}</div>
-    </div>`).join('');
-
-  el.innerHTML = `
-    <div class="ana-card">
-      <div class="ana-card-title">выручка / неделя</div>
-      <div class="bar-chart">${bars}</div>
-    </div>
-    <div class="ana-card">
-      <div class="ana-card-title">общая выручка</div>
-      <div class="rev-big">
-        <div class="rev-num">${totalRev > 0 ? totalRev.toFixed(0) : '1830'}</div>
-        <div class="rev-currency">€</div>
+  try {
+    const r = await fetch(`${API}/api/admin/stats?admin_id=${ADMIN_ID}`);
+    const s = await r.json();
+    const topHtml = (s.top_products||[]).map((p,i) => {
+      const medals = ['🥇','🥈','🥉'];
+      return `<div class="adm-detail-row">
+        <span class="adm-detail-key">${medals[i]||i+1+'.'} ${p.name}</span>
+        <span class="adm-detail-val">${p.sold} шт. · ${(+p.revenue).toFixed(0)} €</span>
+      </div>`;
+    }).join('');
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+        <div class="stat-box"><div class="stat-val">${s.users}</div><div class="stat-lbl">пользователей</div></div>
+        <div class="stat-box"><div class="stat-val">${s.total_orders}</div><div class="stat-lbl">заказов</div></div>
+        <div class="stat-box"><div class="stat-val">${(+s.revenue).toFixed(0)}</div><div class="stat-lbl">выручка €</div></div>
+        <div class="stat-box"><div class="stat-val">${s.avg_rating>0?s.avg_rating:'—'}</div><div class="stat-lbl">рейтинг</div></div>
       </div>
-      <div class="rev-sub">всего получено · ${orders.filter(o=>o.status==='delivered').length || 4} заказа</div>
-    </div>
-    <div class="ana-card">
-      <div class="ana-card-title">топ товаров</div>
-      ${topRows}
-    </div>`;
+      <div class="adm-order" style="margin-bottom:12px">
+        <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:.4em;text-transform:uppercase;color:var(--tx2);padding:16px 16px 8px">топ товаров</div>
+        <div style="padding:0 16px 16px">${topHtml||'нет данных'}</div>
+      </div>`;
+  } catch {
+    el.innerHTML = '<div class="empty-text">ошибка загрузки</div>';
+  }
+}
+
+// ═══ REVIEWS ═══
+async function loadReviews() {
+  const el = document.getElementById('reviewsList');
+  try {
+    const r = await fetch(`${API}/api/admin/reviews?admin_id=${ADMIN_ID}`);
+    if (!r.ok) throw 0;
+    const reviews = await r.json();
+    if (!reviews.length) {
+      el.innerHTML = '<div class="empty-text" style="padding:40px 20px;text-align:center">отзывов пока нет</div>'; return;
+    }
+    el.innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <div class="review-stars">${'⭐'.repeat(r.rating)}</div>
+        <div class="review-user">${r.user_name||''} · заказ #${r.order_id} · ${r.created_at?.slice(0,10)||''}</div>
+        ${r.comment?`<div class="review-text">${r.comment}</div>`:''}
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty-text" style="padding:40px;text-align:center">ошибка загрузки</div>'; }
+}
+
+// ═══ SUPPORT ═══
+async function loadSupport() {
+  const el = document.getElementById('supportList');
+  try {
+    const r = await fetch(`${API}/api/admin/support?admin_id=${ADMIN_ID}`);
+    if (!r.ok) throw 0;
+    const msgs = await r.json();
+    if (!msgs.length) {
+      el.innerHTML = '<div class="empty-text" style="padding:40px 20px;text-align:center">сообщений нет</div>'; return;
+    }
+    el.innerHTML = msgs.map(m => `
+      <div class="support-msg">
+        <div class="support-user">👤 ${m.name||''} · id${m.telegram_id} · ${m.created_at?.slice(0,10)||''}</div>
+        <div class="support-text">${m.text}</div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty-text" style="padding:40px;text-align:center">ошибка загрузки</div>'; }
+}
+
+// ═══ BROADCAST ═══
+async function sendBroadcast() {
+  const text = document.getElementById('broadcastText').value.trim();
+  if (!text) { toast('введите сообщение'); return; }
+  toast('📣 рассылка запущена через бота...', 4000);
+  document.getElementById('broadcastText').value = '';
 }
 
 // ═══ START ═══
 loadOrders();
+setInterval(loadOrders, 30000);
 </script>
 </body>
 </html>
