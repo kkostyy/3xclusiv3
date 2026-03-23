@@ -8,17 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0c0c0b; --bg2: #111110; --bg3: #161614;
+  --bg: #020202; --bg2: rgba(8,8,8,0.82); --bg3: rgba(12,12,12,0.75);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.13);
   --text: #e8e4dc; --text2: rgba(232,228,220,0.45); --text3: rgba(232,228,220,0.18);
   --accent: #d4c4a0; --accent2: rgba(212,196,160,0.09);
   --tr: 0.4s cubic-bezier(0.16,1,0.3,1);
 }
+
+[data-theme="light"] { --navbg: rgba(165,150,128,0.92); --panelbg: rgba(162,147,124,0.95); }
 [data-theme="light"] {
-  --bg: #f5f0e8; --bg2: #ede7db; --bg3: #e6dfd2;
+  --bg: #b8aa92; --bg2: rgba(175,160,136,0.78); --bg3: rgba(158,143,118,0.72);
   --border: rgba(0,0,0,0.07); --borderh: rgba(0,0,0,0.14);
-  --text: #1c1a16; --text2: rgba(28,26,22,0.45); --text3: rgba(28,26,22,0.2);
-  --accent: #5c4a28; --accent2: rgba(92,74,40,0.07);
+  --text: #050402; --text2: rgba(5,4,2,0.7); --text3: rgba(5,4,2,0.42);
+  --accent: #1a0e02; --accent2: rgba(26,14,2,0.14);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { height:100%; }
@@ -37,9 +39,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .th-pip::after { content:''; position:absolute; top:-2.5px; width:6px; height:6px; border-radius:50%; background:var(--accent); transition:left var(--tr); }
 [data-theme="dark"] .th-pip::after { left:0; }
 [data-theme="light"] .th-pip::after { left:16px; }
-.cart-btn { display:flex; flex-direction:column; align-items:flex-end; gap:2px; cursor:pointer; }
-.cart-lbl { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; }
-.cart-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); line-height:1; }
+
 
 /* DIVIDER */
 .rule { display:flex; align-items:center; gap:12px; padding:18px 20px; }
@@ -60,7 +60,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 /* GRID */
 .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px; }
-.card { background:var(--bg2); border:1px solid var(--border); border-radius:14px; overflow:hidden; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
+.card { background:var(--bg2); backdrop-filter:blur(12px) saturate(1.2); -webkit-backdrop-filter:blur(12px) saturate(1.2); border:1px solid var(--border); border-radius:14px; overflow:hidden; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
 .card:active { transform:scale(0.97); }
 .card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; border-radius:14px 14px 0 0; overflow:hidden; }
 .card-img img { width:100%; height:100%; object-fit:cover; }
@@ -89,26 +89,1491 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 
 /* ORDERS */
 .orders-wrap { padding:0 14px; }
-.order-card { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:10px; }
-.order-badge { display:inline-block; font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text2); background:var(--bg3); border:1px solid var(--borderh); border-radius:20px; padding:4px 10px; margin-bottom:10px; }
-.order-card.is-active .order-badge { color:var(--accent); border-color:var(--accent); background:var(--accent2); }
-.order-amount { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); margin-bottom:4px; }
-.order-meta { font-size:9px; font-weight:200; letter-spacing:0.2em; color:var(--text3); margin-bottom:10px; }
-.order-items { font-size:11px; font-weight:200; color:var(--text2); line-height:1.8; margin-bottom:10px; }
-.order-bar { height:2px; background:var(--border); border-radius:1px; overflow:hidden; }
-.order-bar-fill { height:100%; background:var(--accent); opacity:0.6; border-radius:1px; transition:width 0.6s; }
-.price-adj { background:var(--accent2); border:1px solid rgba(212,196,160,0.3); border-radius:10px; padding:14px; margin-top:12px; }
-.price-adj-title { font-size:8px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
-.price-adj-val { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text); }
-.price-adj-reason { font-size:12px; color:var(--text2); margin-top:4px; }
-.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
-.btn-accept { background:var(--accent); color:var(--bg); border:none; border-radius:8px; padding:10px; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
-.btn-reject { background:none; color:var(--text2); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
-.review-btn { width:100%; margin-top:10px; padding:9px; background:none; border:1px solid var(--border); border-radius:8px; color:var(--text2); font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; }
+
+/* ── Order card: fully rounded luxury block ── */
+.order-card {
+  background: var(--bg2);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 0;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.35s, border-color 0.35s;
+  position: relative;
+}
+.order-card.is-active {
+  border-color: rgba(212,196,160,0.25);
+  box-shadow: 0 0 0 1px rgba(212,196,160,0.08), 0 8px 32px rgba(0,0,0,0.18);
+}
+[data-theme="light"] .order-card.is-active {
+  box-shadow: 0 0 0 1px rgba(92,74,40,0.1), 0 6px 24px rgba(92,74,40,0.07);
+}
+
+/* Top accent stripe on active */
+.order-card.is-active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+
+/* Card header section */
+.order-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  gap: 12px;
+}
+.order-card-left { flex: 1; min-width: 0; }
+.order-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 5px;
+  letter-spacing: -0.01em;
+}
+.order-meta {
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.22em;
+  color: var(--text3);
+}
+
+/* Badge pill — top right */
+.order-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: var(--bg3);
+  border: 1px solid var(--borderh);
+  border-radius: 99px;
+  padding: 5px 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.order-card.is-active .order-badge {
+  color: var(--accent);
+  border-color: rgba(212,196,160,0.4);
+  background: var(--accent2);
+}
+
+/* Divider inside card */
+.order-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 20px 0;
+}
+
+/* Items list */
+.order-items {
+  padding: 14px 20px;
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--text2);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+}
+
+/* Progress track */
+.order-progress {
+  padding: 0 20px 4px;
+}
+.order-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.order-progress-lbl {
+  font-size: 7px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.order-progress-lbl.done { color: var(--accent); opacity: 0.7; }
+.order-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.order-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), rgba(212,196,160,0.5));
+  border-radius: 99px;
+  transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Card footer */
+.order-card-foot {
+  padding: 14px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Price adjustment block */
+.price-adj {
+  background: var(--accent2);
+  border: 1px solid rgba(212,196,160,0.25);
+  border-radius: 16px;
+  padding: 16px;
+}
+.price-adj-title {
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.price-adj-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1;
+}
+.price-adj-reason {
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--text2);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.btn-accept {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+.btn-accept:active { opacity: 0.75; }
+.btn-reject {
+  background: none;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.btn-reject:active { border-color: var(--borderh); }
+.review-btn {
+  width: 100%;
+  padding: 11px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text2);
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+.review-btn:hover { border-color: var(--borderh); color: var(--text); }
 
 /* PROFILE */
 .profile-wrap { padding:0 20px; }
 .admin-btn { width:100%; padding:16px; background:var(--accent2); border:1px solid var(--accent); border-radius:12px; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; cursor:pointer; margin-bottom:16px; text-align:center; }
+.profile-id { display:flex; align-items:flex-end; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border); margin-bottom:24px; }
+.monogram { width:52px; height:52px; border-radius:50%; background:var(--bg2); border:1px solid var(--borderh); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--accent); flex-shrink:0; }
+.profile-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); }
+.profile-handle { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-top:3px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+.stat { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px 12px; }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--text); line-height:1; }
+.stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
+.menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.menu-item { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px 12px; text-align:center; cursor:pointer; }
+.menu-item-icon { font-size:20px; margin-bottom:6px; }
+.menu-item-label { font-size:9px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; }
+.menu-item.full { grid-column:1/-1; }
+
+/* SUB VIEWS */
+.sub { display:none; }
+.sub.on { display:block; }
+.back-btn { display:flex; align-items:center; gap:8px; background:none; border:none; color:var(--text2); font-size:10px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:20px; }
+
+/* SIZE */
+.size-form { padding:0 20px; }
+.inp-label { font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; color:var(--text2); margin-bottom:6px; display:block; }
+.inp { width:100%; background:var(--bg2); border:1px solid var(--border); color:var(--text); font-family:'Cormorant Garamond',serif; font-size:20px; padding:14px 16px; border-radius:12px; outline:none; margin-bottom:14px; transition:border-color 0.3s; }
+.inp:focus { border-color:var(--borderh); }
+select.inp { font-family:'Jost',sans-serif; font-size:15px; cursor:pointer; }
+textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; min-height:90px; resize:none; }
+.size-result { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:28px; text-align:center; margin-top:16px; }
+.size-num { font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; color:var(--accent); line-height:1; }
+.size-lbl { font-size:9px; font-weight:200; letter-spacing:0.5em; color:var(--text2); text-transform:uppercase; margin-top:8px; }
+.size-range { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text2); margin-top:10px; }
+
+/* REFERRAL */
+.ref-wrap { padding:0 20px; }
+.ref-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.ref-stat { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:18px 14px; }
+.ref-stat-val { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--text); }
+.ref-stat-key { font-size:8px; font-weight:200; letter-spacing:0.35em; color:var(--text3); text-transform:uppercase; margin-top:5px; }
+.tier { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
+.tier-check { font-size:14px; }
+.tier-lbl { flex:1; font-size:11px; font-weight:200; color:var(--text2); }
+.tier.done .tier-lbl { color:var(--text); }
+.tier-pct { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--accent); }
+.ref-link-box { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:16px; cursor:pointer; position:relative; }
+.ref-link-box::after { content:'COPY'; position:absolute; top:16px; right:16px; font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); }
+.ref-link-lbl { font-size:8px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:8px; }
+.ref-link-val { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text2); word-break:break-all; line-height:1.5; }
+
+/* NOTIFICATIONS */
+.notif-wrap { padding:0 20px; }
+.notif-item { display:flex; align-items:center; gap:14px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; cursor:pointer; }
+.notif-icon { font-size:22px; }
+.notif-info { flex:1; }
+.notif-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); }
+.notif-sub { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); margin-top:3px; }
+.toggle { width:38px; height:20px; background:var(--border); border-radius:10px; position:relative; transition:background 0.3s; flex-shrink:0; }
+.toggle.on { background:var(--accent); }
+.toggle::after { content:''; position:absolute; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left 0.3s; }
+.toggle.on::after { left:21px; }
+.toggle:not(.on)::after { left:3px; }
+
+/* CHAT */
+.chat-wrap { padding:0 20px; }
+.chat-intro { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text2); line-height:1.6; margin-bottom:20px; }
+
+/* DELIVERY */
+.delivery-wrap { padding:0 20px; }
+.zone-card { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:8px; }
+.zone-name { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--text); margin-bottom:4px; }
+.zone-area { font-size:10px; font-weight:200; letter-spacing:0.15em; color:var(--text3); margin-bottom:10px; }
+.zone-meta { display:flex; gap:14px; }
+.zone-cost { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); }
+.zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
+
+/* NAV */
+.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg,rgba(5,3,5,0.75)); backdrop-filter:blur(20px) saturate(1.5); -webkit-backdrop-filter:blur(20px) saturate(1.5); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
+.nav-btn.on { color:var(--text); }
+.nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
+.nav-btn.on::before { transform:scaleX(1); }
+.nav-sym { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1; }
+.nav-lbl { font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; }
+
+/* OVERLAY & PANELS */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.on { opacity:1; pointer-events:all; }
+.panel { position:fixed; bottom:0; left:0; right:0; background:var(--panelbg,rgba(10,6,12,0.88)); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
+.panel.on { transform:translateY(0); }
+.panel-drag { width:36px; height:4px; background:var(--borderh); margin:14px auto 0; border-radius:2px; }
+.panel-head { padding:20px 20px 16px; border-bottom:1px solid var(--border); }
+.panel-title { font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text2); }
+.panel-body { padding:20px; }
+
+/* CART */
+.cart-row { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
+.cart-name { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
+.cart-sub { font-size:11px; font-weight:200; letter-spacing:0.15em; color:var(--accent); margin-bottom:8px; }
+.qty-ctrl { display:flex; align-items:center; gap:10px; }
+.qty-btn { width:26px; height:26px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); border-radius:50%; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.qty-num { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); min-width:18px; text-align:center; }
+.rm-btn { font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); background:none; border:none; cursor:pointer; writing-mode:vertical-rl; align-self:start; margin-top:2px; }
+.total-row { display:flex; justify-content:space-between; align-items:baseline; padding:16px 0; }
+.total-lbl { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; }
+.total-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); }
+
+/* BUTTONS */
+.btn { width:100%; border:1px solid var(--accent); background:transparent; color:var(--accent); font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; padding:15px; cursor:pointer; border-radius:12px; margin-bottom:8px; transition:all 0.3s; }
+.btn:hover { background:var(--accent); color:var(--bg); }
+.btn:disabled { opacity:0.25; pointer-events:none; }
+.btn-ghost { width:100%; border:none; background:transparent; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:11px; cursor:pointer; }
+
+/* DETAIL */
+.detail-img { width:calc(100%+40px); margin:-20px -20px 0; aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:72px; overflow:hidden; }
+.detail-img img { width:100%; height:100%; object-fit:cover; }
+.detail-meta { padding-top:20px; }
+.detail-cat { font-size:8px; font-weight:200; letter-spacing:0.45em; color:var(--text3); text-transform:uppercase; margin-bottom:7px; }
+.detail-name { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; color:var(--text); line-height:1.2; margin-bottom:8px; }
+.detail-price { font-size:14px; font-weight:200; letter-spacing:0.2em; color:var(--accent); margin-bottom:16px; }
+.detail-desc { font-family:'Cormorant Garamond',serif; font-size:16px; font-style:italic; color:var(--text2); line-height:1.7; margin-bottom:20px; }
+.detail-actions { display:flex; gap:10px; }
+
+/* STARS */
+.stars-row { display:flex; gap:6px; margin:14px 0; }
+.star-btn { font-size:28px; cursor:pointer; opacity:0.25; transition:opacity 0.2s; background:none; border:none; padding:2px; }
+.star-btn.on { opacity:1; }
+
+/* TOAST */
+.toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-12px); background:var(--text); color:var(--bg); font-size:9px; font-weight:200; letter-spacing:0.4em; text-transform:uppercase; padding:10px 20px; border-radius:20px; opacity:0; pointer-events:none; z-index:200; transition:all 0.35s; white-space:nowrap; }
+.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
+
+
+/* NAV CART BADGE */
+.nav-cart-badge { position:absolute; top:8px; right:calc(50% - 16px); background:var(--accent); color:var(--bg); font-size:8px; font-weight:300; min-width:16px; height:16px; border-radius:99px; display:none; align-items:center; justify-content:center; padding:0 4px; font-family:'Jost',sans-serif; }
+.nav-cart-badge.show { display:flex; }
+
+/* MORE PAGE */
+.more-wrap { padding:0 14px; }
+.more-section-title { font-size:9px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text3); padding:0 6px 12px; border-bottom:1px solid var(--border); margin-bottom:14px; }
+.more-item { display:flex; align-items:center; gap:16px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
+.more-item::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
+.more-item:active::before { opacity:0.4; }
+.more-item:active { border-color:var(--borderh); }
+.more-item-glyph { font-family:'Cormorant Garamond',serif; font-size:26px; font-style:italic; color:var(--accent); opacity:0.7; width:32px; text-align:center; flex-shrink:0; }
+.more-item-info { flex:1; }
+.more-item-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; color:var(--text); margin-bottom:3px; }
+.more-item-sub { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); }
+.more-item-arrow { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text3); }
+
+/* MORE SUBPAGE */
+.more-sub { display:none; }
+.more-sub.on { display:block; }
+.more-back { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
+.more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
+
+/* GRAIN OVERLAY — dark theme only */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  transition: opacity 0.5s;
+}
+[data-theme="dark"] body::after { opacity: 0.03; }
+
+/* GOTHIC CANVAS */
+#gothicCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+  transition: opacity 0.8s;
+}
+[data-theme="light"] #gothicCanvas { opacity: 0.18; }
+body > *:not(#gothicCanvas) { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+<canvas id="gothicCanvas"></canvas>
+
+<!-- HEADER -->
+<header class="hd">
+  <div>
+    <div class="logo-eye">fashion archive</div>
+    <div class="logo">3xclusiv<sup>33</sup></div>
+  </div>
+  <div class="hd-right">
+    <div class="theme-tog" id="themeTog">
+      <span class="th-lbl" id="thL">L</span>
+      <div class="th-pip"></div>
+      <span class="th-lbl on" id="thD">D</span>
+    </div>
+  </div>
+</header>
+
+<div class="rule"><div class="rule-line"></div><div class="rule-sym">✦</div><div class="rule-line"></div></div>
+
+<!-- CATALOG -->
+<div class="view on" id="vCatalog">
+  <div class="filter" id="filterBar">
+    <button class="fb on" data-cat="all">Всё</button>
+    <button class="fb" data-cat="clothes">Одежда</button>
+    <button class="fb" data-cat="shoes">Обувь</button>
+    <button class="fb" data-cat="accessories">Аксессуары</button>
+  </div>
+  <div class="grid" id="productGrid">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="view" id="vCart">
+  <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title">корзина</div></div>
+  <div style="padding:0 20px 0" id="cartPageBody"></div>
+  <div style="padding:0 20px" id="cartPageFoot"></div>
+</div>
+
+<!-- MORE -->
+<div class="view" id="vMore">
+  <!-- Hub -->
+  <div class="more-sub on" id="moreHub">
+    <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title">ещё</div></div>
+    <div class="more-wrap">
+      <div class="more-item" onclick="openMoreSub('moreSize')">
+        <div class="more-item-glyph">S</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Размер</div>
+          <div class="more-item-sub">подобрать по росту и весу</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
+      <div class="more-item" onclick="openMoreSub('moreRef');loadRef()">
+        <div class="more-item-glyph">∞</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Рефералы</div>
+          <div class="more-item-sub">скидка за приглашённых друзей</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
+      <div class="more-item" onclick="openMoreSub('moreNotif');loadNotif()">
+        <div class="more-item-glyph">†</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Уведомления</div>
+          <div class="more-item-sub">подписки на новинки</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
+      <div class="more-item" onclick="openMoreSub('moreSupport')">
+        <div class="more-item-glyph">✦</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Поддержка</div>
+          <div class="more-item-sub">написать продавцу</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
+      <div class="more-item" onclick="openMoreSub('moreDelivery');loadDelivery()">
+        <div class="more-item-glyph">◆</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Доставка</div>
+          <div class="more-item-sub">зоны и стоимость</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size -->
+  <div class="more-sub" id="moreSize">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">размер</div></div>
+    <div class="size-form">
+      <label class="inp-label">рост (см)</label>
+      <input class="inp" type="number" id="sH" placeholder="170" min="140" max="220">
+      <label class="inp-label">вес (кг)</label>
+      <input class="inp" type="number" id="sW" placeholder="65" min="30" max="200">
+      <button class="btn" onclick="calcSize()">определить размер</button>
+      <div id="sizeRes"></div>
+    </div>
+  </div>
+
+  <!-- Referral -->
+  <div class="more-sub" id="moreRef">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">рефералы</div></div>
+    <div class="ref-wrap" id="refContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- Notifications -->
+  <div class="more-sub" id="moreNotif">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">уведомления</div></div>
+    <div class="notif-wrap" id="notifContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
+  </div>
+
+  <!-- Support -->
+  <div class="more-sub" id="moreSupport">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">поддержка</div></div>
+    <div class="chat-wrap">
+      <p class="chat-intro">Есть вопрос? Напишите — ответим в Telegram.</p>
+      <textarea class="inp" id="chatText" placeholder="Ваше сообщение..."></textarea>
+      <button class="btn" onclick="sendSupport()">отправить</button>
+    </div>
+  </div>
+
+  <!-- Delivery -->
+  <div class="more-sub" id="moreDelivery">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-title">зоны доставки</div></div>
+    <div class="delivery-wrap" id="deliveryContent"></div>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<div class="view" id="vOrders">
+  <div class="sec-head"><div class="sec-num">02</div><div class="sec-title">мои заказы</div></div>
+  <div class="orders-wrap" id="ordersList">
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="view" id="vProfile">
+  <div class="sec-head"><div class="sec-num">03</div><div class="sec-title">профиль</div></div>
+
+  <!-- Main -->
+  <div class="sub on" id="subMain">
+    <div class="profile-wrap" id="profileContent">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn on" id="nCatalog" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl">Каталог</span></button>
+  <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl">Заказы</span></button>
+  <button class="nav-btn" id="nCart" onclick="switchView('cart')"><span class="nav-sym">◇</span><span class="nav-lbl">Корзина</span><span class="nav-cart-badge" id="cartBadge"></span></button>
+  <button class="nav-btn" id="nProfile" onclick="switchView('profile')"><span class="nav-sym">III</span><span class="nav-lbl">Профиль</span></button>
+  <button class="nav-btn" id="nMore" onclick="switchView('more')"><span class="nav-sym">✦</span><span class="nav-lbl">Ещё</span></button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="panel" id="panelDetail">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">изделие</div></div>
+  <div class="panel-body" id="detailBody"></div>
+</div>
+
+<!-- CHECKOUT PANEL -->
+<div class="panel" id="panelCheckout">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">оформление заказа</div></div>
+  <div class="panel-body">
+    <label class="inp-label">имя и фамилия</label>
+    <input class="inp" id="coName" placeholder="Иван Иванов">
+    <label class="inp-label">telegram username</label>
+    <input class="inp" id="coUser" placeholder="username (без @)">
+    <label class="inp-label">телефон (Эстония)</label>
+    <input class="inp" id="coPhone" placeholder="5xxxxxxx" type="tel">
+    <label class="inp-label">район встречи</label>
+    <input class="inp" id="coAddr" placeholder="Kesklinn, Lasnamäe...">
+    <div id="savedAddrs" style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px"></div>
+    <button class="btn" onclick="submitOrder()">подтвердить заказ</button>
+    <button class="btn-ghost" onclick="closePanel()">отмена</button>
+  </div>
+</div>
+
+<!-- REVIEW PANEL -->
+<div class="panel" id="panelReview">
+  <div class="panel-drag"></div>
+  <div class="panel-head"><div class="panel-title">отзыв</div></div>
+  <div class="panel-body" id="reviewBody"></div>
+</div>
+
+<script>
+// ═══ CONFIG ═══
+const API = 'https://3xclusiv3-production.up.railway.app';
+const tg = window.Telegram?.WebApp;
+
+// ═══ STATE ═══
+let userId = null, userName = 'Гость', userProfile = null;
+let cart = JSON.parse(localStorage.getItem('cart_3x') || '{}');
+let allProducts = [], wishIds = new Set(), activeCat = 'all';
+let activePanel = null, reviewOrderId = null, reviewStars = 0;
+
+// ═══ INIT ═══
+function init() {
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    // Read user data
+    userId = tg.initDataUnsafe?.user?.id || null;
+    userName = tg.initDataUnsafe?.user?.first_name || 'Гость';
+  }
+  applyTheme(localStorage.getItem('th_3x') !== 'light');
+  updateCartNum();
+  loadProducts();
+  if (userId) loadWishIds();
+}
+
+// ═══ THEME ═══
+let isDark = true;
+function applyTheme(dark) {
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  localStorage.setItem('th_3x', dark ? 'dark' : 'light');
+  document.getElementById('thL').classList.toggle('on', !dark);
+  document.getElementById('thD').classList.toggle('on', dark);
+  if (tg) { tg.setHeaderColor(dark ? '#0c0c0b' : '#f5f0e8'); tg.setBackgroundColor(dark ? '#0c0c0b' : '#f5f0e8'); }
+}
+document.getElementById('themeTog').onclick = () => applyTheme(!isDark);
+
+// ═══ TOAST ═══
+let toastTimer;
+function toast(msg, dur = 2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), dur);
+}
+
+// ═══ CART ═══
+function saveCart() { localStorage.setItem('cart_3x', JSON.stringify(cart)); }
+function cartCount() { return Object.values(cart).reduce((s, i) => s + i.qty, 0); }
+function cartTotal() { return Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0); }
+function updateCartNum() {
+  const n = cartCount();
+  const badge = document.getElementById('cartBadge');
+  if (badge) {
+    badge.textContent = n > 0 ? n : '';
+    badge.classList.toggle('show', n > 0);
+  }
+}
+function addToCart(p) {
+  if (cart[p.id]) cart[p.id].qty++;
+  else cart[p.id] = { ...p, qty: 1 };
+  saveCart(); updateCartNum(); toast('добавлено в корзину');
+}
+
+// ═══ PANELS ═══
+function openPanel(id) {
+  closePanel();
+  activePanel = id;
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+function closePanel() {
+  if (!activePanel) return;
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById(activePanel).classList.remove('on');
+  activePanel = null;
+}
+
+
+
+// ═══ CART PANEL ═══
+function renderCartPage() {
+  const items = Object.values(cart);
+  const body = document.getElementById('cartPageBody');
+  const foot = document.getElementById('cartPageFoot');
+  if (!items.length) {
+    body.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">корзина пуста</div></div>';
+    foot.innerHTML = ''; return;
+  }
+  body.innerHTML = items.map(i => `
+    <div class="cart-row">
+      <div>
+        <div class="cart-name">${i.name}</div>
+        <div class="cart-sub">${(i.price * i.qty).toFixed(2)} €</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="chQty(${i.id},-1)">−</button>
+          <span class="qty-num">${i.qty}</span>
+          <button class="qty-btn" onclick="chQty(${i.id},1)">+</button>
+        </div>
+      </div>
+      <button class="rm-btn" onclick="rmItem(${i.id})">убрать</button>
+    </div>`).join('');
+  foot.innerHTML = `
+    <div class="total-row"><span class="total-lbl">итого</span><span class="total-val">${cartTotal().toFixed(2)} €</span></div>
+    <button class="btn" onclick="openCheckout()">оформить заказ</button>
+    <button class="btn-ghost" onclick="clearCartFn()">очистить корзину</button>`;
+}
+
+function chQty(id, d) {
+  if (!cart[id]) return;
+  cart[id].qty += d;
+  if (cart[id].qty <= 0) delete cart[id];
+  saveCart(); updateCartNum(); renderCartPage();
+}
+function rmItem(id) { delete cart[id]; saveCart(); updateCartNum(); renderCartPage(); }
+function clearCartFn() { cart = {}; saveCart(); updateCartNum(); renderCartPage(); toast('корзина очищена'); }
+
+// ═══ CHECKOUT ═══
+function openCheckout() {
+  if (!cartCount()) return;
+  if (tg?.initDataUnsafe?.user) {
+    const u = tg.initDataUnsafe.user;
+    if (u.first_name) document.getElementById('coName').value = (u.first_name + ' ' + (u.last_name || '')).trim();
+    if (u.username) document.getElementById('coUser').value = u.username;
+  }
+  if (userId) {
+    fetch(`${API}/api/addresses/${userId}`).then(r => r.json()).then(addrs => {
+      const el = document.getElementById('savedAddrs');
+      el.innerHTML = addrs.map(a =>
+        `<button onclick="document.getElementById('coAddr').value='${a.address}'" style="padding:6px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;color:var(--text2);font-size:10px;cursor:pointer">${a.label}</button>`
+      ).join('');
+    }).catch(() => {});
+  }
+  openPanel('panelCheckout');
+}
+
+async function submitOrder() {
+  if (!userId) { toast('откройте через Telegram'); return; }
+  const name = document.getElementById('coName').value.trim();
+  const username = document.getElementById('coUser').value.trim().replace('@', '');
+  const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g, '').replace(/^\+?372/, '');
+  const address = document.getElementById('coAddr').value.trim();
+  if (!name || name.split(' ').length < 2) { toast('введите имя и фамилию'); return; }
+  if (!username || username.length < 5) { toast('введите username (мин 5 символов)'); return; }
+  if (!/^[3-8]\d{7}$/.test(phone)) { toast('введите эстонский номер (8 цифр)'); return; }
+  if (!address) { toast('введите район'); return; }
+  const items = Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name }));
+  try {
+    const r = await fetch(`${API}/api/checkout`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone, address })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      cart = {}; saveCart(); updateCartNum(); closePanel();
+      toast(`✅ заказ #${d.order_id} оформлен!`, 4000);
+      fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
+    } else toast('ошибка оформления');
+  } catch { toast('ошибка соединения'); }
+}
+
+// ═══ PRODUCTS ═══
+const catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+const catGlyph = { clothes: '👕', shoes: '👟', accessories: '👜' };
+
+async function loadProducts() {
+  try {
+    const r = await fetch(`${API}/api/products`);
+    allProducts = await r.json();
+  } catch { allProducts = []; }
+  renderGrid();
+}
+
+function renderGrid() {
+  const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
+  const grid = document.getElementById('productGrid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">○</div><div class="empty-txt">нет товаров</div></div>'; return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="card ${!p.is_available ? 'void' : ''}" onclick="openDetail(${p.id})">
+      <div class="card-img">
+        <span>${catGlyph[p.category] || '🛍'}</span>
+        ${!p.is_available ? '<div class="card-void">архив</div>' : ''}
+        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
+        <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb${p.id}">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${catLabel[p.category] || p.category}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${p.price.toFixed(2)} €</div>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
+  if (!btn) return;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeCat = btn.dataset.cat;
+  renderGrid();
+});
+
+function openDetail(pid) {
+  const p = allProducts.find(x => x.id === pid);
+  if (!p) return;
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-img"><span>${catGlyph[p.category] || '🛍'}</span></div>
+    <div class="detail-meta">
+      <div class="detail-cat">${catLabel[p.category] || p.category} / ${String(p.id).padStart(4, '0')}</div>
+      <div class="detail-name">${p.name}</div>
+      <div class="detail-price">${p.price.toFixed(2)} €</div>
+      ${p.description ? `<div class="detail-desc">${p.description}</div>` : ''}
+      <div class="detail-actions">
+        ${p.is_available
+          ? `<button class="btn" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'});closePanel()">в корзину</button>`
+          : `<button class="btn" style="flex:1" disabled>нет в наличии</button>`}
+        <button onclick="toggleWish(${p.id})" id="dwb${p.id}" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
+      </div>
+    </div>`;
+  openPanel('panelDetail');
+}
+
+// ═══ WISHLIST ═══
+async function loadWishIds() {
+  if (!userId) return;
+  try {
+    const r = await fetch(`${API}/api/wishlist/${userId}`);
+    const items = await r.json();
+    wishIds = new Set(items.map(p => p.id));
+  } catch {}
+}
+
+async function toggleWish(pid) {
+  if (!userId) { toast('откройте через Telegram'); return; }
+  try {
+    const r = await fetch(`${API}/api/wishlist/toggle`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, product_id: pid })
+    });
+    const d = await r.json();
+    if (d.added) { wishIds.add(pid); toast('❤️ добавлено в избранное'); }
+    else { wishIds.delete(pid); toast('🤍 удалено из избранного'); }
+    ['wb' + pid, 'dwb' + pid].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d.added ? '❤️' : '🤍'; });
+  } catch { toast('ошибка'); }
+}
+
+async function loadWishlist() {
+  const grid = document.getElementById('wishGrid');
+  if (!userId) { grid.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/wishlist/${userId}`);
+    const items = await r.json();
+    wishIds = new Set(items.map(p => p.id));
+    if (!items.length) { grid.innerHTML = '<div class="empty"><div class="empty-sym">♡</div><div class="empty-txt">избранное пусто</div></div>'; return; }
+    grid.innerHTML = items.map(p => `
+      <div class="card" onclick="openDetail(${p.id})">
+        <div class="card-img">
+          <span>${catGlyph[p.category] || '🛍'}</span>
+          <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id}).then(()=>loadWishlist())" id="wb${p.id}">❤️</button>
+          ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
+        </div>
+        <div class="card-body">
+          <div class="card-cat">${catLabel[p.category] || p.category}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-price">${p.price.toFixed(2)} €</div>
+        </div>
+      </div>`).join('');
+  } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// ═══ ORDERS ═══
+const STATUS = { searching: 'в поиске', ordered: 'заказано', in_transit: 'в пути', arrived: 'прибыл', delivered: 'получен', cancelled: 'отменён' };
+const STATUS_PCT = { searching: 10, ordered: 30, in_transit: 60, arrived: 85, delivered: 100, cancelled: 0 };
+const STATUS_ACTIVE = ['searching', 'ordered', 'in_transit', 'arrived'];
+
+async function loadOrders() {
+  const el = document.getElementById('ordersList');
+  if (!userId) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/orders/${userId}`);
+    const orders = await r.json();
+    if (!orders.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">заказов пока нет</div></div>'; return; }
+    el.innerHTML = orders.map(o => {
+      const isActive = STATUS_ACTIVE.includes(o.status);
+      const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
+      const adjBlock = o.adjusted_price ? `<div class="price-adj">
+        <div class="price-adj-title">⚠ изменение цены</div>
+        <div class="price-adj-val">${(+o.adjusted_price).toFixed(2)} €</div>
+        <div class="price-adj-reason">${o.adjustment_reason || ''}</div>
+        <div class="btn-row">
+          <button class="btn-accept" onclick="priceDecision(${o.id},'accept')">принять</button>
+          <button class="btn-reject" onclick="priceDecision(${o.id},'reject')">отменить</button>
+        </div>
+      </div>` : '';
+      const pct = STATUS_PCT[o.status] || 0;
+      const reviewBtn = o.status === 'delivered' ? `<button class="review-btn" onclick="openReview(${o.id})">оставить отзыв</button>` : '';
+      return `<div class="order-card ${isActive ? 'is-active' : ''}">
+        <div class="order-card-head">
+          <div class="order-card-left">
+            <div class="order-amount">${(+o.total_price).toFixed(2)} €</div>
+            <div class="order-meta">Заказ #${o.id} · ${o.created_at?.slice(0, 10) || ''}</div>
+          </div>
+          <div class="order-badge">${STATUS[o.status] || o.status}</div>
+        </div>
+        <div class="order-divider"></div>
+        <div class="order-items">${items}</div>
+        <div class="order-progress">
+          <div class="order-bar"><div class="order-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+        <div class="order-card-foot">
+          ${adjBlock}${reviewBtn}
+        </div>
+      </div>`;
+    }).join('');
+  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+async function priceDecision(orderId, action) {
+  if (!userId) return;
+  try {
+    await fetch(`${API}/api/orders/${orderId}/price_decision`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, action })
+    });
+    toast(action === 'accept' ? '✅ цена принята' : '❌ заказ отменён', 3000);
+    loadOrders();
+  } catch { toast('ошибка'); }
+}
+
+// ═══ REVIEW ═══
+function openReview(orderId) {
+  reviewOrderId = orderId; reviewStars = 0;
+  document.getElementById('reviewBody').innerHTML = `
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">оценка</div>
+    <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
+    <textarea class="inp" id="revText" placeholder="Комментарий (необязательно)..."></textarea>
+    <button class="btn" onclick="submitReview()">отправить отзыв</button>`;
+  openPanel('panelReview');
+}
+function setStar(n) { reviewStars = n; document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('on', i < n)); }
+async function submitReview() {
+  if (!userId || !reviewOrderId) return;
+  if (!reviewStars) { toast('выберите оценку'); return; }
+  try {
+    await fetch(`${API}/api/reviews`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, order_id: reviewOrderId, rating: reviewStars, comment: document.getElementById('revText')?.value || '' })
+    });
+    closePanel(); toast('✅ отзыв сохранён', 3000);
+  } catch { toast('ошибка'); }
+}
+
+// ═══ PROFILE ═══
+async function loadProfile() {
+  const el = document.getElementById('profileContent');
+  if (!userId) {
+    el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return;
+  }
+  let db = null;
+  try { const r = await fetch(`${API}/api/user/${userId}`); db = await r.json(); userProfile = db; } catch {}
+
+  // Check admin
+  let adminHtml = '';
+  try {
+    const ar = await fetch(`${API}/api/is_admin/${userId}`);
+    const ad = await ar.json();
+    if (ad.is_admin) {
+      adminHtml = `<button class="admin-btn" onclick="window.location.href='https://3xclusiv3-production.up.railway.app/admin'">⚙ панель администратора</button>`;
+    }
+  } catch {}
+
+  const usr = tg?.initDataUnsafe?.user;
+  const m = usr?.first_name?.[0]?.toUpperCase() || '?';
+  const name = usr ? `${usr.first_name}${usr.last_name ? ' ' + usr.last_name : ''}` : userName;
+  const handle = usr?.username ? '@' + usr.username : (userId ? 'id' + userId : '—');
+
+  el.innerHTML = adminHtml + `
+    <div class="profile-id">
+      <div class="monogram">${m}</div>
+      <div>
+        <div class="profile-name">${name}</div>
+        <div class="profile-handle">${handle}</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">${db?.orders || 0}</div><div class="stat-key">заказов</div></div>
+      <div class="stat"><div class="stat-val">${db?.referrals || 0}</div><div class="stat-key">рефералов</div></div>
+      <div class="stat"><div class="stat-val">${db?.discount || 0}%</div><div class="stat-key">скидка</div></div>
+    </div>
+    <div style="margin-top:8px">
+      <button class="btn" onclick="switchView('more')">ещё — размер, рефералы, доставка</button>
+    </div>`;
+}
+
+function showSub(id) {
+  document.querySelectorAll('.sub').forEach(v => v.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+// ═══ SIZE ═══
+async function calcSize() {
+  const h = parseFloat(document.getElementById('sH').value);
+  const w = parseFloat(document.getElementById('sW').value);
+  if (!h || !w) { toast('введите рост и вес'); return; }
+  try {
+    const r = await fetch(`${API}/api/size?height=${h}&weight=${w}`);
+    const d = await r.json();
+    document.getElementById('sizeRes').innerHTML = `
+      <div class="size-result">
+        <div class="size-num">${d.size}</div>
+        <div class="size-lbl">рекомендуемый размер</div>
+        <div class="size-range">рост ${d.height_range} · вес ${d.weight_range}</div>
+      </div>`;
+  } catch { toast('ошибка'); }
+}
+
+// ═══ REFERRAL ═══
+async function loadRef() {
+  const el = document.getElementById('refContent');
+  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/user/${userId}`);
+    const d = await r.json();
+    const tiers = [{ n: 1, pct: 3 }, { n: 2, pct: 5 }, { n: 5, pct: 10 }, { n: 10, pct: 15 }];
+    el.innerHTML = `
+      <div class="ref-stats">
+        <div class="ref-stat"><div class="ref-stat-val">${d.referrals}</div><div class="ref-stat-key">приглашено</div></div>
+        <div class="ref-stat"><div class="ref-stat-val">${d.discount}%</div><div class="ref-stat-key">скидка</div></div>
+      </div>
+      ${tiers.map(t => `<div class="tier ${d.referrals >= t.n ? 'done' : ''}"><span class="tier-check">${d.referrals >= t.n ? '✅' : '⬜'}</span><span class="tier-lbl">${t.n} ${t.n === 1 ? 'друг' : 'друзей'}</span><span class="tier-pct">${t.pct}%</span></div>`).join('')}
+      ${d.next_tier ? `<div style="font-size:11px;font-weight:200;color:var(--text2);margin:12px 0">ещё ${d.next_tier.need} чел. → ${d.next_tier.pct}%</div>` : ''}
+      <div class="ref-link-box" onclick="navigator.clipboard?.writeText('${d.ref_link}').then(()=>toast('ссылка скопирована'))">
+        <div class="ref-link-lbl">реферальная ссылка — нажмите чтобы скопировать</div>
+        <div class="ref-link-val">${d.ref_link}</div>
+      </div>`;
+  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
+}
+
+// ═══ NOTIFICATIONS ═══
+async function loadNotif() {
+  const el = document.getElementById('notifContent');
+  if (!userId) { el.innerHTML = '<div class="empty-txt">откройте через Telegram</div>'; return; }
+  try {
+    const r = await fetch(`${API}/api/notifications/${userId}`);
+    const d = await r.json();
+    const subs = new Set(d.subscribed);
+    const cats = [{ id: 'clothes', name: 'Одежда', icon: '👕' }, { id: 'shoes', name: 'Обувь', icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
+    el.innerHTML = cats.map(c => `
+      <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
+        <div class="notif-icon">${c.icon}</div>
+        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns${c.id}">${subs.has(c.id) ? 'подписаны' : 'не подписаны'}</div></div>
+        <div class="toggle ${subs.has(c.id) ? 'on' : ''}" id="nt${c.id}"></div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<div class="empty-txt">ошибка загрузки</div>'; }
+}
+
+async function toggleNotif(cat) {
+  if (!userId) return;
+  try {
+    const r = await fetch(`${API}/api/notifications/toggle`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, category: cat })
+    });
+    const d = await r.json();
+    document.getElementById('nt' + cat).classList.toggle('on', d.subscribed);
+    document.getElementById('ns' + cat).textContent = d.subscribed ? 'подписаны' : 'не подписаны';
+    toast(d.subscribed ? '✅ подписаны' : '🔕 отписались');
+  } catch { toast('ошибка'); }
+}
+
+// ═══ SUPPORT ═══
+async function sendSupport() {
+  if (!userId) { toast('откройте через Telegram'); return; }
+  const text = document.getElementById('chatText').value.trim();
+  if (!text) { toast('введите сообщение'); return; }
+  try {
+    await fetch(`${API}/api/support`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: userId, name: userName, text })
+    });
+    document.getElementById('chatText').value = '';
+    toast('✅ сообщение отправлено', 3000);
+  } catch { toast('ошибка'); }
+}
+
+// ═══ DELIVERY ═══
+function loadDelivery() {
+  const zones = [
+    { name: '🏙 Таллин — Центр', area: 'Kesklinn, Põhja-Tallinn, Kalamaja', cost: '0 €', time: 'В день заказа' },
+    { name: '🏘 Таллин — Периферия', area: 'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', cost: '0 €', time: 'В день заказа' },
+    { name: '🚌 Харьюмаа', area: 'Маарду, Саку, Кейла, Виймси', cost: '2 €', time: '1–2 дня' },
+    { name: '🚗 Другие регионы', area: 'Тарту, Пярну, Нарва и другие', cost: '5 €', time: '2–3 дня' },
+  ];
+  document.getElementById('deliveryContent').innerHTML = zones.map(z => `
+    <div class="zone-card">
+      <div class="zone-name">${z.name}</div>
+      <div class="zone-area">${z.area}</div>
+      <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
+    </div>`).join('') + '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">Оплата наличными при встрече с продавцом</p>';
+}
+
+// ═══ NAVIGATION ═══
+function switchView(v) {
+  ['catalog', 'orders', 'cart', 'profile', 'more'].forEach(k => {
+    const vId = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
+    const nId = 'n' + k.charAt(0).toUpperCase() + k.slice(1);
+    const vel = document.getElementById(vId);
+    const nel = document.getElementById(nId);
+    if (vel) vel.classList.toggle('on', k === v);
+    if (nel) nel.classList.toggle('on', k === v);
+  });
+  if (v === 'orders') loadOrders();
+  if (v === 'profile') { showSub('subMain'); loadProfile(); }
+  if (v === 'cart') renderCartPage();
+  if (v === 'more') openMoreSub('moreHub');
+}
+
+function openMoreSub(id) {
+  document.querySelectorAll('.more-sub').forEach(el => el.classList.remove('on'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('on');
+}
+
+// ═══ START ═══
+init();
+</script>
+
+<script>
+// ═══ GOTHIC PARTICLES ═══
+(function() {
+  const canvas = document.getElementById('gothicCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], webs = [], animId, frame = 0;
+
+  const GLYPHS = ['✦','†','✧','⋆','·','◆','❧','✠','⁕','∗','⊹','✶','☩','⚰','⚜','☽','✙','⁂','𖤐','⚔','☠'];
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    buildWebs();
+  }
+
+  // Cobweb corners
+  function buildWebs() {
+    webs = [];
+    const corners = [[0,0],[W,0],[0,H],[W,H]];
+    corners.forEach(([cx,cy]) => {
+      const count = 6 + Math.floor(Math.random()*4);
+      for(let i = 0; i < count; i++){
+        const angle = rand(0, Math.PI * 0.55);
+        const dir = cx === 0 ? 1 : -1;
+        const diry = cy === 0 ? 1 : -1;
+        const len = rand(50, 140);
+        webs.push({
+          x1: cx, y1: cy,
+          x2: cx + dir * len * Math.cos(angle),
+          y2: cy + diry * len * Math.sin(angle),
+          alpha: rand(0.06, 0.18)
+        });
+      }
+    });
+  }
+
+  function isDark() {
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }
+
+  function createParticle(forceBottom) {
+    const dark = isDark();
+    const baseAlpha = dark ? rand(0.07, 0.3) : rand(0.2, 0.55);
+    return {
+      x: rand(0, W),
+      y: forceBottom ? H + rand(0, 20) : rand(0, H),
+      size: rand(7, 17),
+      targetAlpha: baseAlpha,
+      vx: rand(-0.15, 0.15),
+      vy: rand(-0.45, -0.1),
+      glyph: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+      life: 0,
+      maxLife: rand(200, 520),
+      drift: rand(-0.005, 0.005),
+      driftAmp: rand(0.2, 0.8),
+      pulse: rand(0, Math.PI * 2),
+      pulseSpeed: rand(0.01, 0.03),
+      rotation: rand(0, Math.PI * 2),
+      rotSpeed: rand(-0.005, 0.005),
+    };
+  }
+
+  function initParticles() {
+    particles = [];
+    const count = Math.min(60, Math.floor(W * H / 8000));
+    for (let i = 0; i < count; i++) {
+      const p = createParticle(false);
+      p.life = Math.floor(Math.random() * p.maxLife);
+      particles.push(p);
+    }
+  }
+
+  // Dark theme ornaments — white ink on black
+  function drawDarkOrnaments() {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.72)';
+    ctx.fillStyle = 'rgba(255,255,255,0.68)';
+    ctx.lineWidth = 1.8;
+
+    function drawFlourish(cx, cy, scaleX, scaleY) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scaleX, scaleY);
+      ctx.strokeStyle = 'rgba(255,255,255,0.72)';
+      ctx.fillStyle = 'rgba(255,255,255,0.68)';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(30, -10, 60, 20, 90, 5);
+      ctx.bezierCurveTo(120, -10, 140, 30, 160, 15);
+      ctx.stroke();
+      for(let i = 0; i < 5; i++){
+        const tx = 25 + i*28;
+        const ty = -2 + Math.sin(i*1.3)*8;
+        ctx.save();
+        ctx.translate(tx, ty);
+        ctx.rotate(-0.3 + i*0.15);
+        ctx.fillStyle = 'rgba(255,255,255,0.68)';
+        ctx.beginPath();
+        ctx.ellipse(0, -7, 3, 7, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(165, 12, 6, 0, Math.PI * 1.5);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    drawFlourish(0, 0, 1, 1);
+    drawFlourish(W, 0, -1, 1);
+    drawFlourish(0, H, 1, -1);
+    drawFlourish(W, H, -1, -1);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 1.2;
+    const m = 8;
+    ctx.strokeRect(m, m, W - m*2, H - m*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 0.6;
+    ctx.strokeRect(m+4, m+4, W - (m+4)*2, H - (m+4)*2);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 0.5;
+    for(let y = 0; y < 60; y += 4){
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,H-y); ctx.lineTo(W,H-y); ctx.stroke();
+    }
+
+    ctx.save();
+    ctx.translate(W/2, 0);
+    ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(-60, 0);
+    ctx.bezierCurveTo(-40, 20, -10, 8, 0, 18);
+    ctx.bezierCurveTo(10, 8, 40, 20, 60, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, 10); ctx.lineTo(6, 20); ctx.lineTo(0, 30); ctx.lineTo(-6, 20);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  // Draw ornate botanical/gothic border flourishes for light theme
+  function drawLightOrnaments() {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(2,1,0,0.97)';
+    ctx.fillStyle = 'rgba(2,1,0,0.95)';
+    ctx.lineWidth = 1.8;
+
+    // Corner flourishes — top left
+    function drawFlourish(cx, cy, scaleX, scaleY) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scaleX, scaleY);
+      ctx.strokeStyle = 'rgba(2,1,0,0.98)';
+      ctx.fillStyle = 'rgba(2,1,0,0.97)';
+      ctx.lineWidth = 1.8;
+      // Curved stem
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(30, -10, 60, 20, 90, 5);
+      ctx.bezierCurveTo(120, -10, 140, 30, 160, 15);
+      ctx.stroke();
+      // Small leaves
+      for(let i = 0; i < 5; i++){
+        const tx = 25 + i*28;
+        const ty = -2 + Math.sin(i*1.3)*8;
+        ctx.save();
+        ctx.translate(tx, ty);
+        ctx.rotate(-0.3 + i*0.15);
+        ctx.fillStyle = 'rgba(2,1,0,0.96)';
+        ctx.beginPath();
+        ctx.ellipse(0, -7, 3, 7, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+      // Curl at end
+      ctx.beginPath();
+      ctx.arc(165, 12, 6, 0, Math.PI * 1.5);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    drawFlourish(0, 0, 1, 1);        // top-left
+    drawFlourish(W, 0, -1, 1);       // top-right
+    drawFlourish(0, H, 1, -1);       // bottom-left
+    drawFlourish(W, H, -1, -1);      // bottom-right
+
+    // Thin border lines along edges
+    ctx.strokeStyle = 'rgba(2,1,0,0.98)';
+    ctx.lineWidth = 1.6;
+    const m = 8;
+    ctx.strokeRect(m, m, W - m*2, H - m*2);
+    ctx.strokeStyle = 'rgba(2,1,0,0.7)';
+    ctx.strokeRect(m+4, m+4, W - (m+4)*2, H - (m+4)*2);
+
+    // Cross-hatch vignette texture — top & bottom bands
+    ctx.strokeStyle = 'rgba(2,1,0,0.35)';
+    ctx.lineWidth = 0.5;
+    for(let y = 0; y < 60; y += 4){
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,H-y); ctx.lineTo(W,H-y); ctx.stroke();
+    }
+
+    // Center top ornament
+    ctx.save();
+    ctx.translate(W/2, 0);
+    ctx.strokeStyle = 'rgba(2,1,0,0.98)';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(-60, 0);
+    ctx.bezierCurveTo(-40, 20, -10, 8, 0, 18);
+    ctx.bezierCurveTo(10, 8, 40, 20, 60, 0);
+    ctx.stroke();
+    // Diamond
+    ctx.beginPath();
+    ctx.moveTo(0, 10); ctx.lineTo(6, 20); ctx.lineTo(0, 30); ctx.lineTo(-6, 20);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(2,1,0,0.98)';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  function loop() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    const dark = isDark();
+
+    if (dark) {
+      // Pure black vignette
+      const vg = ctx.createRadialGradient(W/2, H*0.4, 0, W/2, H*0.5, Math.max(W,H)*0.85);
+      vg.addColorStop(0, 'rgba(0,0,0,0)');
+      vg.addColorStop(0.5, 'rgba(0,0,0,0.3)');
+      vg.addColorStop(1, 'rgba(0,0,0,0.85)');
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Faint cold top glow (barely there)
+      const moon = ctx.createRadialGradient(W/2, -H*0.05, 0, W/2, -H*0.05, H*0.45);
+      moon.addColorStop(0, 'rgba(30,30,30,0.15)');
+      moon.addColorStop(0.5, 'rgba(10,10,10,0.05)');
+      moon.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = moon;
+      ctx.fillRect(0, 0, W, H*0.6);
+
+      // Dark ornaments — same as light but white/grey
+      drawDarkOrnaments();
+
+      // Cobwebs — white gossamer
+      ctx.save();
+      webs.forEach(w => {
+        ctx.strokeStyle = `rgba(255,255,255,${Math.min(w.alpha * 1.8, 0.22)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(w.x1, w.y1);
+        ctx.lineTo(w.x2, w.y2);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+    } else {
+      // LIGHT theme — parchment vignette
+      const vg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.75);
+      vg.addColorStop(0, 'rgba(120,100,70,0)');
+      vg.addColorStop(0.5, 'rgba(70,50,20,0.2)');
+      vg.addColorStop(1, 'rgba(20,10,2,0.5)');
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Black ornamental flourishes + borders
+      drawLightOrnaments();
+
+      // Cobwebs — dark ink
+      ctx.save();
+      webs.forEach(w => {
+        ctx.strokeStyle = `rgba(2,1,0,${Math.min(w.alpha * 7, 0.92)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(w.x1, w.y1);
+        ctx.lineTo(w.x2, w.y2);
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
+
+    // Particles
+    particles.forEach((p, idx) => {
+      p.life++;
+      p.x += p.vx + Math.sin(p.life * p.drift) * p.driftAmp;
+      p.y += p.vy;
+      p.pulse += p.pulseSpeed;
+      p.rotation += p.rotSpeed;
+
+      const fadeLen = 55;
+      let fadeAlpha = 1;
+      if (p.life < fadeLen) fadeAlpha = p.life / fadeLen;
+      else if (p.life > p.maxLife - fadeLen) fadeAlpha = (p.maxLife - p.life) / fadeLen;
+
+      const pulseAlpha = p.targetAlpha * (0.6 + 0.4 * Math.sin(p.pulse));
+      const finalAlpha = pulseAlpha * fadeAlpha;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.globalAlpha = Math.max(0, finalAlpha);
+
+      if (dark) {
+        // Near-white ghostly particles
+        const b = 200 + Math.floor(Math.random()*55);
+        ctx.fillStyle = `rgba(${b},${b},${b},1)`;
+      } else {
+        // Dark ink — near black with slight sepia
+        ctx.fillStyle = 'rgba(0,0,0,1)';
+      }
+
+      ctx.font = `${p.size}px "Cormorant Garamond", serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.glyph, 0, 0);
+      ctx.restore();
+
+      if (p.life >= p.maxLife || p.y < -30 || p.x < -50 || p.x > W+50) {
+        particles[idx] = createParticle(true);
+      }
+    });
+
+    animId = requestAnimationFrame(loop);
+  }
+
+  resize();
+  initParticles();
+  loop();
+
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+
+  const themeObs = new MutationObserver(() => {
+    particles.forEach(p => {
+      const dark = isDark();
+      p.targetAlpha = dark ? rand(0.07, 0.3) : rand(0.2, 0.55);
+    });
+    buildWebs();
+  });
+  themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
+</body>
+</html>
 .profile-id { display:flex; align-items:flex-end; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border); margin-bottom:24px; }
 .monogram { width:52px; height:52px; border-radius:50%; background:var(--bg2); border:1px solid var(--borderh); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--accent); flex-shrink:0; }
 .profile-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--text); }
