@@ -51,7 +51,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .view.on { display:block; }
 
 /* FILTER */
-.filter { display:flex; gap:0; padding:0 20px 18px; overflow-x:auto; scrollbar-width:none; }
+.filter { display:flex; gap:0; padding:0 20px 18px; flex-wrap:wrap; }
 .filter::-webkit-scrollbar { display:none; }
 .fb { background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:10px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; color:var(--text3); padding:7px 12px 7px 0; white-space:nowrap; transition:color 0.3s; position:relative; }
 .fb::after { content:''; position:absolute; bottom:5px; left:0; right:12px; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
@@ -1221,7 +1221,7 @@ async function toggleWish(pid) {
 }
 
 async function loadWishlist() {
-  const grid = document.getElementById('wishGrid');
+  const grid = document.getElementById('wishGrid'); if (!grid) return;
   if (!userId) { grid.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">откройте через Telegram</div></div>'; return; }
   try {
     const r = await fetch(`${API}/api/wishlist/${userId}`);
@@ -1547,7 +1547,7 @@ function switchAdminView(v) {
   adminStack = [v];
   if (v === 'aDashboard') loadDashboard();
   if (v === 'aOrders') loadAdminOrders();
-  if (v === 'aProducts') loadProducts();
+  if (v === 'aProducts') loadAdminProducts();
   if (v === 'aMore') openMoreSubA('aMoreHub');
   window.scrollTo(0, 0);
 }
@@ -1580,6 +1580,11 @@ function exitAdmin() {
 }
 
 function openAdmin() {
+  const entered = prompt('пароль администратора');
+  if (entered !== '3xclusivv33') {
+    if (entered !== null) toast('неверный пароль');
+    return;
+  }
   // Hide all user views
   ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
     const vid = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
@@ -1787,7 +1792,7 @@ function selectCat(btn) {
   selectedCat = btn.dataset.cat;
 }
 
-async function loadProducts() {
+async function loadAdminProducts() {
   const el = document.getElementById('aProductsContent');
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
@@ -1846,7 +1851,7 @@ async function addProduct() {
     document.getElementById('aPPrice').value = '';
     document.getElementById('aPDesc').value = '';
     toast(`✅ товар добавлен #${d.id}`);
-    loadProducts();
+    loadAdminProducts();
   } catch { toast('ошибка'); }
 }
 
@@ -2262,7 +2267,7 @@ init();
 
 <!-- ═══ ADMIN VIEWS ═══ -->
 <!-- ACCESS DENIED -->
-<div class="view on" id="vaDenied">
+<div class="view" id="vaDenied">
   <div class="denied">
     <div class="denied-sym">☩</div>
     <div class="denied-title">Доступ запрещён</div>
