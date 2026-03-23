@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #020202; --bg2: rgba(8,8,8,0.82); --bg3: rgba(12,12,12,0.75);
+  --bg: #020202; --bg2: rgba(14,12,14,0.96); --bg3: rgba(18,16,18,0.97);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.13);
   --text: #e8e4dc; --text2: rgba(232,228,220,0.45); --text3: rgba(232,228,220,0.18);
   --accent: #d4c4a0; --accent2: rgba(212,196,160,0.09);
@@ -28,7 +28,7 @@ html, body { height:100%; }
 body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
 /* CANVAS */
-#gothicCanvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+#gothicCanvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; will-change:transform; transform:translateZ(0); }
 [data-theme="light"] #gothicCanvas { opacity:0.22; }
 body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
@@ -53,7 +53,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .rule-sym { font-family:'Cormorant Garamond',serif; font-size:11px; color:var(--red); opacity:0.5; font-style:italic; letter-spacing:0.4em; }
 
 /* VIEWS */
-.view { display:none; padding:0 0 90px; }
+.view { display:none; padding:0 0 110px; }
 .view.on { display:block; }
 
 /* SEC HEAD */
@@ -71,7 +71,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .stats-wrap { padding:0 14px 16px; }
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
 .stats-grid.three { grid-template-columns:1fr 1fr 1fr; }
-.stat-card { background:var(--bg2); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--border); border-radius:20px; padding:18px 16px; position:relative; overflow:hidden; }
+.stat-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 16px; position:relative; overflow:hidden; }
 .stat-card.accent { border-color:rgba(212,196,160,0.2); }
 .stat-card.danger { border-color:rgba(192,57,43,0.2); }
 .stat-card.success { border-color:rgba(39,174,96,0.18); }
@@ -86,7 +86,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
 /* TOP PRODUCTS */
 .top-wrap { padding:0 14px 16px; }
-.top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; }
+.top-item { display:flex; align-items:center; gap:12px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:8px; }
 .top-rank { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--text3); font-style:italic; min-width:28px; }
 .top-info { flex:1; min-width:0; }
 .top-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -102,7 +102,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .fb.on { color:var(--text); }
 .fb.on::after { transform:scaleX(1); }
 
-.order-card { background:var(--bg2); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--border); border-radius:24px; margin-bottom:12px; overflow:hidden; position:relative; transition:border-color 0.3s; }
+.order-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:24px; margin-bottom:12px; overflow:hidden; position:relative; transition:border-color 0.3s; }
 .order-card.is-active { border-color:rgba(212,196,160,0.22); }
 .order-card.is-active::before { content:''; position:absolute; top:0; left:24px; right:24px; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.5; }
 .order-card-head { display:flex; align-items:flex-start; justify-content:space-between; padding:18px 18px 0; gap:10px; }
@@ -138,7 +138,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
 /* PRODUCTS */
 .products-wrap { padding:0 14px; }
-.prod-card { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; display:flex; gap:14px; align-items:flex-start; }
+.prod-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; display:flex; gap:14px; align-items:flex-start; }
 .prod-icon { font-size:28px; flex-shrink:0; width:48px; height:48px; background:var(--bg3); border-radius:12px; display:flex; align-items:center; justify-content:center; }
 .prod-info { flex:1; min-width:0; }
 .prod-name { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -154,7 +154,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .icon-btn.del:hover { border-color:rgba(192,57,43,0.4); color:var(--red); }
 
 /* ADD PRODUCT FORM */
-.add-form { background:var(--bg2); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--border); border-radius:24px; padding:20px; margin:0 14px 12px; }
+.add-form { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:24px; padding:20px; margin:0 14px 12px; }
 .form-title { font-size:9px; font-weight:200; letter-spacing:0.5em; text-transform:uppercase; color:var(--text3); margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
 .cat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px; }
 .cat-btn { background:none; border:1px solid var(--border); border-radius:12px; color:var(--text3); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:10px 6px; cursor:pointer; transition:all 0.3s; }
@@ -162,14 +162,14 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
 /* REVIEWS */
 .reviews-wrap { padding:0 14px; }
-.review-card { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.review-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
 .review-stars { font-size:16px; margin-bottom:8px; letter-spacing:2px; }
 .review-user { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); margin-bottom:6px; }
 .review-text { font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.6; }
 
 /* SUPPORT */
 .support-wrap { padding:0 14px; }
-.support-card { background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
+.support-card { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:16px; margin-bottom:10px; }
 .support-from { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--text); margin-bottom:4px; }
 .support-date { font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text3); margin-bottom:10px; }
 .support-text { font-size:13px; font-weight:200; color:var(--text2); line-height:1.7; }
@@ -177,7 +177,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
 /* BROADCAST */
 .broadcast-wrap { padding:0 14px; }
-.broadcast-box { background:var(--bg2); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--border); border-radius:24px; padding:20px; }
+.broadcast-box { background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:24px; padding:20px; }
 
 /* LOADER / EMPTY */
 .loader { padding:60px 20px; text-align:center; }
@@ -193,8 +193,8 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* NAV */
-.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg, rgba(2,2,2,0.85)); backdrop-filter:blur(20px) saturate(1.5); -webkit-backdrop-filter:blur(20px) saturate(1.5); border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
-.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
+.nav { position:fixed; bottom:0; left:0; right:0; background:var(--navbg, rgba(2,2,2,0.85)); -webkit- border-top:1px solid var(--border); border-radius:20px 20px 0 0; display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--red); transform:scaleX(0); transition:transform 0.3s; }
 .nav-btn.on::before { transform:scaleX(1); }
@@ -203,9 +203,9 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .nav-badge { position:absolute; top:8px; right:calc(50% - 14px); background:var(--red); color:#fff; font-size:8px; font-weight:300; min-width:16px; height:16px; border-radius:99px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
 
 /* OVERLAY / PANEL */
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(6px); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
 .overlay.on { opacity:1; pointer-events:all; }
-.panel { position:fixed; bottom:0; left:0; right:0; background:var(--panelbg, rgba(8,8,8,0.92)); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
+.panel { position:fixed; bottom:0; left:0; right:0; background:var(--panelbg, rgba(8,8,8,0.92)); -webkit- border-top:1px solid var(--border); border-radius:20px 20px 0 0; z-index:101; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1); max-height:88vh; overflow-y:auto; overscroll-behavior:contain; }
 .panel.on { transform:translateY(0); }
 .panel-drag { width:36px; height:4px; background:var(--borderh); margin:14px auto 0; border-radius:2px; }
 .panel-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
@@ -215,7 +215,7 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 
 /* MORE HUB */
 .more-wrap-a { padding:0 14px; }
-.more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
+.more-item-a { display:flex; align-items:center; gap:16px; background:var(--bg2); -webkit- border:1px solid var(--border); border-radius:20px; padding:18px 20px; margin-bottom:10px; cursor:pointer; transition:border-color 0.3s; position:relative; overflow:hidden; }
 .more-item-a::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item-a:active::before { opacity:0.35; }
 .more-item-a:active { border-color:var(--borderh); }
@@ -228,6 +228,23 @@ body > *:not(#gothicCanvas) { position:relative; z-index:1; }
 .more-sub-a.on { display:block; }
 .more-back-a { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
 .more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
+
+
+/* ADMIN PAGE NAVIGATION */
+.page-back-a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 20px 8px; cursor: pointer; user-select: none;
+}
+.page-back-sym-a {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px;
+  font-style: italic; color: var(--text3); line-height: 1; transition: color 0.2s;
+}
+.page-back-lbl-a {
+  font-size: 9px; font-weight: 200; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--text3); transition: color 0.2s;
+}
+.page-back-a:active .page-back-sym-a,
+.page-back-a:active .page-back-lbl-a { color: var(--text); }
 
 /* GRAIN */
 body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"); transition:opacity 0.5s; }
@@ -390,30 +407,35 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
 </nav>
 
 <div class="toast" id="toast"></div>
-<div class="overlay" id="overlay" onclick="closePanel()"></div>
 
-<!-- PRICE ADJUST PANEL -->
-<div class="panel" id="panelAdjust">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">изменение цены</div></div>
-  <div class="panel-body">
+<!-- PRICE ADJUST PAGE -->
+<div class="view" id="vAdjust">
+  <div class="page-back-a" onclick="adminGoBack()">
+    <span class="page-back-sym-a">←</span>
+    <span class="page-back-lbl-a">заказы</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">изменение цены</div></div>
+  <div style="padding:0 20px">
     <label class="inp-label">новая цена (€)</label>
     <input class="inp inp-sm" id="adjPrice" type="number" step="0.01" placeholder="0.00">
     <label class="inp-label">причина</label>
-    <textarea class="inp inp-sm" id="adjReason" placeholder="Причина изменения..." style="min-height:70px;resize:none;"></textarea>
-    <button class="btn-act" style="width:100%" onclick="submitAdjust()">отправить покупателю</button>
-    <button class="btn-ghost2" style="width:100%;margin-top:6px" onclick="closePanel()">отмена</button>
+    <textarea class="inp inp-sm" id="adjReason" placeholder="Причина изменения..." style="min-height:80px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitAdjust()">отправить покупателю</button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
   </div>
 </div>
 
-<!-- WRITE BUYER PANEL -->
-<div class="panel" id="panelWrite">
-  <div class="panel-drag"></div>
-  <div class="panel-head"><div class="panel-title">сообщение покупателю</div></div>
-  <div class="panel-body">
-    <textarea class="inp inp-sm" id="writeText" placeholder="Сообщение для покупателя..." style="min-height:100px;resize:none;"></textarea>
-    <button class="btn-act" style="width:100%" onclick="submitWrite()">отправить</button>
-    <button class="btn-ghost2" style="width:100%;margin-top:6px" onclick="closePanel()">отмена</button>
+<!-- WRITE BUYER PAGE -->
+<div class="view" id="vWrite">
+  <div class="page-back-a" onclick="adminGoBack()">
+    <span class="page-back-sym-a">←</span>
+    <span class="page-back-lbl-a">заказы</span>
+  </div>
+  <div class="sec-head"><div class="sec-title">сообщение покупателю</div></div>
+  <div style="padding:0 20px">
+    <textarea class="inp inp-sm" id="writeText" placeholder="Сообщение для покупателя..." style="min-height:120px;resize:none;"></textarea>
+    <button class="btn-act" style="width:100%;margin-top:4px" onclick="submitWrite()">отправить</button>
+    <button class="btn-ghost2" style="width:100%;margin-top:8px" onclick="adminGoBack()">отмена</button>
   </div>
 </div>
 
@@ -424,6 +446,27 @@ let userId = null, isAdmin = false;
 let allOrders = [], activeOrderFilter = 'all';
 let adjOrderId = null, writeOrderId = null, writeUserId = null;
 let selectedCat = 'clothes';
+let adminStack = ['dashboard'];
+
+function openAdminPage(key) {
+  adminStack.push(key);
+  const allViews = ['dashboard','orders','products','more','adjust','write'];
+  allViews.forEach(k => {
+    const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.classList.remove('on');
+  });
+  const el = document.getElementById('v' + key.charAt(0).toUpperCase() + key.slice(1));
+  if (el) el.classList.add('on');
+  const isMain = ['dashboard','orders','products','more'].includes(key);
+  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  window.scrollTo(0, 0);
+}
+
+function adminGoBack() {
+  if (adminStack.length > 1) adminStack.pop();
+  const prev = adminStack[adminStack.length - 1] || 'orders';
+  switchView(prev);
+}
 
 // ═══ INIT ═══
 async function init() {
@@ -469,11 +512,11 @@ function toast(msg, dur = 2500) {
 // ═══ PANELS ═══
 let activePanel = null;
 function openPanel(id) {
-  closePanel(); activePanel = id;
+  adminGoBack(); activePanel = id;
   document.getElementById('overlay').classList.add('on');
   document.getElementById(id).classList.add('on');
 }
-function closePanel() {
+function adminGoBack() {
   if (!activePanel) return;
   document.getElementById('overlay').classList.remove('on');
   document.getElementById(activePanel).classList.remove('on');
@@ -482,15 +525,24 @@ function closePanel() {
 
 // ═══ NAV ═══
 function switchView(v) {
-  const views = ['dashboard','orders','products','more'];
-  views.forEach(k => {
-    document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1))?.classList.toggle('on', k === v);
-    document.getElementById('n' + k.charAt(0).toUpperCase() + k.slice(1))?.classList.toggle('on', k === v);
+  const mainViews = ['dashboard','orders','products','more'];
+  const allViews = ['dashboard','orders','products','more','adjust','write'];
+  allViews.forEach(k => {
+    const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.classList.toggle('on', k === v);
   });
+  mainViews.forEach(k => {
+    const nel = document.getElementById('n' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (nel) nel.classList.toggle('on', k === v);
+  });
+  const isMain = mainViews.includes(v);
+  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  if (isMain) adminStack = [v];
   if (v === 'dashboard') loadDashboard();
   if (v === 'orders') loadOrders();
   if (v === 'products') loadProducts();
   if (v === 'more') openMoreSub('moreHub');
+  window.scrollTo(0, 0);
 }
 
 function openMoreSub(id) {
@@ -659,7 +711,7 @@ function openAdjust(orderId) {
   adjOrderId = orderId;
   document.getElementById('adjPrice').value = '';
   document.getElementById('adjReason').value = '';
-  openPanel('panelAdjust');
+  openAdminPage('adjust');
 }
 async function submitAdjust() {
   const price = parseFloat(document.getElementById('adjPrice').value);
@@ -670,7 +722,7 @@ async function submitAdjust() {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ admin_id: userId, new_price: price, reason })
     });
-    closePanel(); toast('✅ изменение цены отправлено покупателю');
+    adminGoBack(); toast('✅ изменение цены отправлено покупателю');
     loadOrders();
   } catch { toast('ошибка'); }
 }
@@ -678,14 +730,14 @@ async function submitAdjust() {
 function openWrite(orderId, buyerTgId) {
   writeOrderId = orderId; writeUserId = buyerTgId;
   document.getElementById('writeText').value = '';
-  openPanel('panelWrite');
+  openAdminPage('write');
 }
 async function submitWrite() {
   const text = document.getElementById('writeText').value.trim();
   if (!text) { toast('введите сообщение'); return; }
   // For now send via support echo — in production hook into bot
   toast('✅ сообщение отправлено');
-  closePanel();
+  adminGoBack();
 }
 
 // ═══ PRODUCTS ═══
@@ -703,7 +755,10 @@ async function loadProducts() {
     if (!products.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">товаров нет</div></div>'; return; }
     el.innerHTML = products.map(p => `
       <div class="prod-card" id="pc${p.id}">
-        <div class="prod-icon">${CAT_ICONS[p.category]||'🛍'}</div>
+        <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
+          ${p.photo_id
+            ? `<img src="${API}/api/photo/${p.photo_id}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='${CAT_ICONS[p.category]||'🛍'}';">`
+            : CAT_ICONS[p.category]||'🛍'}</div>
         <div class="prod-info">
           <div class="prod-name">${p.name}</div>
           <div class="prod-meta">${p.category} · #${p.id}</div>
@@ -817,8 +872,8 @@ async function sendBroadcast() {
   function buildWebs(){webs=[];[[0,0],[W,0],[0,H],[W,H]].forEach(([cx,cy])=>{for(let i=0;i<6+Math.floor(Math.random()*4);i++){const a=rand(0,Math.PI*0.55),dx=cx===0?1:-1,dy=cy===0?1:-1,l=rand(50,140);webs.push({x1:cx,y1:cy,x2:cx+dx*l*Math.cos(a),y2:cy+dy*l*Math.sin(a),alpha:rand(0.06,0.18)});}});}
   function createParticle(fb){const dark=isDark();return{x:rand(0,W),y:fb?H+rand(0,20):rand(0,H),size:rand(7,17),targetAlpha:dark?rand(0.07,0.3):rand(0.2,0.55),vx:rand(-0.15,0.15),vy:rand(-0.45,-0.1),glyph:GLYPHS[Math.floor(Math.random()*GLYPHS.length)],life:0,maxLife:rand(200,520),drift:rand(-0.005,0.005),driftAmp:rand(0.2,0.8),pulse:rand(0,Math.PI*2),pulseSpeed:rand(0.01,0.03),rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.005,0.005)};}
   function initParticles(){particles=[];const c=Math.min(55,Math.floor(W*H/9000));for(let i=0;i<c;i++){const p=createParticle(false);p.life=Math.floor(Math.random()*p.maxLife);particles.push(p);}}
-  function drawOrnaments(dark){ctx.save();const sc=dark?'rgba(255,255,255,':'rgba(5,3,1,';ctx.strokeStyle=sc+(dark?'0.72)':'0.82)');ctx.fillStyle=sc+(dark?'0.68)':'0.78)');ctx.lineWidth=1.8;function fl(cx,cy,sx,sy){ctx.save();ctx.translate(cx,cy);ctx.scale(sx,sy);ctx.strokeStyle=sc+(dark?'0.72)':'0.82)');ctx.fillStyle=sc+(dark?'0.68)':'0.78)');ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(0,0);ctx.bezierCurveTo(30,-10,60,20,90,5);ctx.bezierCurveTo(120,-10,140,30,160,15);ctx.stroke();for(let i=0;i<5;i++){const tx=25+i*28,ty=-2+Math.sin(i*1.3)*8;ctx.save();ctx.translate(tx,ty);ctx.rotate(-0.3+i*0.15);ctx.fillStyle=sc+(dark?'0.68)':'0.78)');ctx.beginPath();ctx.ellipse(0,-7,3,7,0,0,Math.PI*2);ctx.fill();ctx.restore();}ctx.beginPath();ctx.arc(165,12,6,0,Math.PI*1.5);ctx.stroke();ctx.restore();}fl(0,0,1,1);fl(W,0,-1,1);fl(0,H,1,-1);fl(W,H,-1,-1);ctx.strokeStyle=sc+(dark?'0.7)':'0.8)');ctx.lineWidth=dark?1.2:1.4;const m=8;ctx.strokeRect(m,m,W-m*2,H-m*2);ctx.strokeStyle=sc+(dark?'0.3)':'0.45)');ctx.lineWidth=0.6;ctx.strokeRect(m+4,m+4,W-(m+4)*2,H-(m+4)*2);ctx.strokeStyle=sc+(dark?'0.1)':'0.18)');ctx.lineWidth=0.5;for(let y=0;y<60;y+=4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.beginPath();ctx.moveTo(0,H-y);ctx.lineTo(W,H-y);ctx.stroke();}ctx.save();ctx.translate(W/2,0);ctx.strokeStyle=sc+(dark?'0.75)':'0.85)');ctx.lineWidth=dark?1.4:1.6;ctx.beginPath();ctx.moveTo(-60,0);ctx.bezierCurveTo(-40,20,-10,8,0,18);ctx.bezierCurveTo(10,8,40,20,60,0);ctx.stroke();ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(6,20);ctx.lineTo(0,30);ctx.lineTo(-6,20);ctx.closePath();ctx.fillStyle=sc+(dark?'0.75)':'0.85)');ctx.fill();ctx.restore();ctx.restore();}
-  function loop(){ctx.clearRect(0,0,W,H);const dark=isDark();if(dark){const vg=ctx.createRadialGradient(W/2,H*.4,0,W/2,H*.5,Math.max(W,H)*.85);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(.5,'rgba(0,0,0,0.3)');vg.addColorStop(1,'rgba(0,0,0,0.85)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);const moon=ctx.createRadialGradient(W/2,-H*.05,0,W/2,-H*.05,H*.45);moon.addColorStop(0,'rgba(30,30,30,0.15)');moon.addColorStop(.5,'rgba(10,10,10,0.05)');moon.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=moon;ctx.fillRect(0,0,W,H*.6);drawOrnaments(true);ctx.save();webs.forEach(w=>{ctx.strokeStyle=`rgba(255,255,255,${Math.min(w.alpha*1.8,0.22)})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});ctx.restore();}else{const vg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.75);vg.addColorStop(0,'rgba(160,140,100,0)');vg.addColorStop(.6,'rgba(100,80,40,0.12)');vg.addColorStop(1,'rgba(40,25,8,0.35)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);drawOrnaments(false);ctx.save();webs.forEach(w=>{ctx.strokeStyle=`rgba(10,5,2,${Math.min(w.alpha*4.5,0.7)})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});ctx.restore();}
+  function drawOrnaments(dark){ctx.save();const sc=dark?'rgba(255,255,255,':'rgba(0,0,0,';ctx.strokeStyle=sc+(dark?'0.72)':'0.98)');ctx.fillStyle=sc+(dark?'0.68)':'0.97)');ctx.lineWidth=1.8;function fl(cx,cy,sx,sy){ctx.save();ctx.translate(cx,cy);ctx.scale(sx,sy);ctx.strokeStyle=sc+(dark?'0.72)':'0.98)');ctx.fillStyle=sc+(dark?'0.68)':'0.97)');ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(0,0);ctx.bezierCurveTo(30,-10,60,20,90,5);ctx.bezierCurveTo(120,-10,140,30,160,15);ctx.stroke();for(let i=0;i<5;i++){const tx=25+i*28,ty=-2+Math.sin(i*1.3)*8;ctx.save();ctx.translate(tx,ty);ctx.rotate(-0.3+i*0.15);ctx.fillStyle=sc+(dark?'0.68)':'0.97)');ctx.beginPath();ctx.ellipse(0,-7,3,7,0,0,Math.PI*2);ctx.fill();ctx.restore();}ctx.beginPath();ctx.arc(165,12,6,0,Math.PI*1.5);ctx.stroke();ctx.restore();}fl(0,0,1,1);fl(W,0,-1,1);fl(0,H,1,-1);fl(W,H,-1,-1);ctx.strokeStyle=sc+(dark?'0.7)':'0.99)');ctx.lineWidth=dark?1.2:1.4;const m=8;ctx.strokeRect(m,m,W-m*2,H-m*2);ctx.strokeStyle=sc+(dark?'0.3)':'0.75)');ctx.lineWidth=0.6;ctx.strokeRect(m+4,m+4,W-(m+4)*2,H-(m+4)*2);ctx.strokeStyle=sc+(dark?'0.1)':'0.38)');ctx.lineWidth=0.5;for(let y=0;y<60;y+=4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.beginPath();ctx.moveTo(0,H-y);ctx.lineTo(W,H-y);ctx.stroke();}ctx.save();ctx.translate(W/2,0);ctx.strokeStyle=sc+(dark?'0.75)':'0.99)');ctx.lineWidth=dark?1.4:1.6;ctx.beginPath();ctx.moveTo(-60,0);ctx.bezierCurveTo(-40,20,-10,8,0,18);ctx.bezierCurveTo(10,8,40,20,60,0);ctx.stroke();ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(6,20);ctx.lineTo(0,30);ctx.lineTo(-6,20);ctx.closePath();ctx.fillStyle=sc+(dark?'0.75)':'0.99)');ctx.fill();ctx.restore();ctx.restore();}
+  function loop(){ctx.clearRect(0,0,W,H);const dark=isDark();if(dark){const vg=ctx.createRadialGradient(W/2,H*.4,0,W/2,H*.5,Math.max(W,H)*.85);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(.5,'rgba(0,0,0,0.3)');vg.addColorStop(1,'rgba(0,0,0,0.85)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);const moon=ctx.createRadialGradient(W/2,-H*.05,0,W/2,-H*.05,H*.45);moon.addColorStop(0,'rgba(30,30,30,0.15)');moon.addColorStop(.5,'rgba(10,10,10,0.05)');moon.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=moon;ctx.fillRect(0,0,W,H*.6);drawOrnaments(true);ctx.save();webs.forEach(w=>{ctx.strokeStyle=`rgba(255,255,255,${Math.min(w.alpha*1.8,0.22)})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});ctx.restore();}else{const vg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.75);vg.addColorStop(0,'rgba(160,140,100,0)');vg.addColorStop(.6,'rgba(100,80,40,0.12)');vg.addColorStop(1,'rgba(40,25,8,0.35)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);drawOrnaments(false);ctx.save();webs.forEach(w=>{ctx.strokeStyle=`rgba(0,0,0,${Math.min(w.alpha*8,0.95)})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});ctx.restore();}
   particles.forEach((p,idx)=>{p.life++;p.x+=p.vx+Math.sin(p.life*p.drift)*p.driftAmp;p.y+=p.vy;p.pulse+=p.pulseSpeed;p.rotation+=p.rotSpeed;const fl=55;let fa=1;if(p.life<fl)fa=p.life/fl;else if(p.life>p.maxLife-fl)fa=(p.maxLife-p.life)/fl;const fin=p.targetAlpha*(0.6+0.4*Math.sin(p.pulse))*fa;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=Math.max(0,fin);ctx.fillStyle=dark?`rgba(${200+Math.floor(Math.random()*55)},${200+Math.floor(Math.random()*55)},${200+Math.floor(Math.random()*55)},1)`:'rgba(5,3,1,1)';ctx.font=`${p.size}px "Cormorant Garamond",serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.glyph,0,0);ctx.restore();if(p.life>=p.maxLife||p.y<-30||p.x<-50||p.x>W+50)particles[idx]=createParticle(true);});requestAnimationFrame(loop);}
   resize();initParticles();loop();
   window.addEventListener('resize',()=>{resize();initParticles();});
