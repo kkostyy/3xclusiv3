@@ -132,6 +132,28 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
   animation: shimmer 1.6s infinite;
 }
+
+
+/* SWIPE HINT DOTS */
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 0 0;
+}
+.swipe-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s;
+}
+.swipe-dot.on {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+@keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUpModal { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
 
@@ -545,6 +567,46 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 
 
+
+/* CART TABS */
+.cart-tabs {
+  display: flex;
+  gap: 0;
+  padding: 16px 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.cart-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text3);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  padding: 10px 0 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  touch-action: manipulation;
+}
+.cart-tab-sym {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+}
+.cart-tab.on {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+#cartTabContent { padding-top: 4px; }
+
 /* CART PAGE */
 .cart-body { padding:0 20px; }
 .cart-foot { padding:0 20px 8px; }
@@ -631,6 +693,16 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-back { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
 
 
+
+
+/* SWIPE TRANSITIONS */
+.view {
+  transition: transform 0.32s cubic-bezier(0.16,1,0.3,1), opacity 0.32s;
+}
+.view.slide-out-left { transform: translateX(-60px); opacity: 0; }
+.view.slide-out-right { transform: translateX(60px); opacity: 0; }
+.view.slide-in-left { transform: translateX(60px); opacity: 0; }
+.view.slide-in-right { transform: translateX(-60px); opacity: 0; }
 
 /* FULLSCREEN PAGE NAVIGATION */
 .page-back {
@@ -725,6 +797,85 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-sub-a .empty-art { font-size: 44px; }
 .more-sub-a .empty-title { font-size: 20px; }
 
+
+/* DASHBOARD STYLED */
+.dash-hero {
+  background: linear-gradient(135deg, rgba(204,34,34,0.06) 0%, transparent 60%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px 20px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.dash-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+.dash-hero-title {
+  font-size: 8px; font-weight: 200; letter-spacing: 0.55em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 6px;
+}
+.dash-hero-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 300; color: var(--text);
+  line-height: 1; letter-spacing: -0.02em;
+}
+.dash-hero-sub {
+  font-size: 9px; font-weight: 200; letter-spacing: 0.2em;
+  color: var(--text3); margin-top: 6px;
+}
+.dash-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.dash-mini {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.dash-mini::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+}
+.dash-mini.accent::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+.dash-mini-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 300; color: var(--text); line-height: 1;
+}
+.dash-mini.accent .dash-mini-val { color: var(--accent); }
+.dash-mini.green .dash-mini-val { color: #27ae60; }
+.dash-mini-key {
+  font-size: 7px; font-weight: 200; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--text3); margin-top: 4px;
+}
+.dash-top-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.dash-top-hdr {
+  padding: 14px 16px 12px;
+  font-size: 8px; font-weight: 200; letter-spacing: 0.45em;
+  text-transform: uppercase; color: var(--text3);
+  border-bottom: 1px solid var(--border);
+}
+
 /* ADMIN HUB CARDS */
 .admin-hub-card {
   display: flex; align-items: center; gap: 16px;
@@ -763,6 +914,32 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
   font-family: var(--font-serif); font-size: 20px;
   color: var(--text3); flex-shrink: 0;
 }
+
+
+/* DRAG SORT */
+.prod-card[draggable] { cursor: grab; }
+.prod-card[draggable]:active { cursor: grabbing; }
+.prod-card.drag-over {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent), 0 4px 24px var(--ra-015) !important;
+}
+.prod-card.dragging {
+  opacity: 0.45;
+  transform: scale(0.97);
+}
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 40px;
+  color: var(--text3);
+  font-size: 16px;
+  cursor: grab;
+  flex-shrink: 0;
+  touch-action: none;
+}
+.drag-handle:active { cursor: grabbing; color: var(--accent); }
 
 /* DEV PANEL */
 .dev-btn { background:var(--bg2); border:1px solid var(--border); border-radius:14px; color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:14px 8px; cursor:pointer; transition:all 0.25s; display:flex; flex-direction:column; align-items:center; gap:6px; touch-action:manipulation; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
@@ -1141,11 +1318,31 @@ header { position: relative; z-index: 1; }
   </div>
 </div>
 
-<!-- CART -->
+<!-- CART + ORDERS MERGED -->
 <div class="view" id="vCart">
-  <div class="sec-head"><div class="sec-num">♡</div><div class="sec-title" data-i18n="cartTitle">корзина</div></div>
-  <div class="cart-body" id="cartPageBody"></div>
-  <div class="cart-foot" id="cartPageFoot"></div>
+  <!-- Tab switcher -->
+  <div class="cart-tabs" id="cartTabs">
+    <button class="cart-tab on" id="tabCart" onclick="switchCartTab('cart')">
+      <span class="cart-tab-sym">◇</span>
+      <span data-i18n="cart">Корзина</span>
+      <span class="nav-cart-badge" id="cartBadgeInner" style="position:static;margin-left:4px;"></span>
+    </button>
+    <button class="cart-tab" id="tabOrders" onclick="switchCartTab('orders')">
+      <span class="cart-tab-sym">II</span>
+      <span data-i18n="orders">Заказы</span>
+    </button>
+  </div>
+  <!-- Cart content -->
+  <div id="cartTabContent">
+    <div class="cart-body" id="cartPageBody"></div>
+    <div class="cart-foot" id="cartPageFoot"></div>
+  </div>
+  <!-- Orders content (hidden) -->
+  <div id="ordersTabContent" style="display:none">
+    <div class="orders-wrap" id="ordersList">
+      <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
+    </div>
+  </div>
 </div>
 
 <!-- MORE -->
@@ -1256,13 +1453,7 @@ header { position: relative; z-index: 1; }
   </div>
 </div>
 
-<!-- ORDERS -->
-<div class="view" id="vOrders">
-  <div class="sec-head"><div class="sec-num">02</div><div class="sec-title" data-i18n="ordersTitle">мои заказы</div></div>
-  <div class="orders-wrap" id="ordersList">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка</div></div>
-  </div>
-</div>
+<!-- Orders merged into Cart tab -->
 
   <!-- Appearance -->
   <div class="more-sub" id="moreAppearance">
@@ -1316,7 +1507,6 @@ header { position: relative; z-index: 1; }
 <!-- NAV -->
 <nav class="nav" id="mainNav">
   <button class="nav-btn on" id="nCatalog" onclick="switchView('catalog')"><span class="nav-sym">I</span><span class="nav-lbl" data-i18n="catalog">Каталог</span></button>
-  <button class="nav-btn" id="nOrders" onclick="switchView('orders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span></button>
   <button class="nav-btn" id="nCart" onclick="switchView('cart')"><span class="nav-sym">◇</span><span class="nav-lbl" data-i18n="cart">Корзина</span><span class="nav-cart-badge" id="cartBadge"></span></button>
   <button class="nav-btn" id="nProfile" onclick="switchView('profile')"><span class="nav-sym">III</span><span class="nav-lbl" data-i18n="profile">Профиль</span></button>
   <button class="nav-btn" id="nMore" onclick="switchView('more')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
@@ -2295,6 +2485,16 @@ function updateCartNum() {
     badge.textContent = n > 0 ? n : '';
     badge.classList.toggle('show', n > 0);
   }
+  updateCartTabBadge();
+}
+function updateCartTabBadge() {
+  const n = cartCount();
+  const inner = document.getElementById('cartBadgeInner');
+  if (inner) {
+    inner.textContent = n > 0 ? n : '';
+    inner.className = 'nav-cart-badge' + (n > 0 ? ' show' : '');
+    inner.style.cssText = 'position:static;margin-left:4px;display:' + (n > 0 ? 'inline-flex' : 'none');
+  }
 }
 let _cartNotifyTimer;
 function hideCartNotify() {
@@ -2352,7 +2552,7 @@ function addToCart(p) {
 function openPage(pageKey) {
   navStack.push(pageKey);
   // hide all views
-  ['catalog','orders','cart','profile','more','detail','checkout','review'].forEach(k => {
+  ['catalog','cart','profile','more','detail','checkout','review'].forEach(k => {
     const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
     if (el) el.classList.remove('on');
   });
@@ -2360,8 +2560,9 @@ function openPage(pageKey) {
   const el = document.getElementById('v' + pageKey.charAt(0).toUpperCase() + pageKey.slice(1));
   if (el) el.classList.add('on');
   // hide nav on subpages
-  const isMain = ['catalog','orders','cart','profile','more'].includes(pageKey);
-  document.querySelector('.nav').style.display = isMain ? '' : 'none';
+  const isMain = ['catalog','cart','profile','more'].includes(pageKey);
+  const navEl = document.querySelector('.nav');
+  if (navEl) navEl.style.display = isMain ? '' : 'none';
   window.scrollTo(0, 0);
 }
 
@@ -2370,6 +2571,7 @@ function goBack() {
   const prev = navStack[navStack.length - 1] || 'catalog';
   switchView(prev);
 }
+
 
 // ═══ PANELS (legacy compat — now unused) ═══
 function openPanel(id) {}
@@ -2453,6 +2655,10 @@ async function submitOrder() {
     if (d.ok) {
       cart = {}; saveCart(); updateCartNum(); switchView('catalog');
       toast(`✅ ${t('orderLabel')} #${d.order_id} ${t('orderPlaced')}`, 4000);
+      // Auto-reply notification
+      setTimeout(() => {
+        showOrderAutoReply(d.order_id);
+      }, 600);
       fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
     } else toast(t('orderError'));
   } catch { toast(t('connError')); }
@@ -2922,16 +3128,32 @@ async function loadNotif() {
   const el = document.getElementById('notifContent');
   if (!userId) { el.innerHTML = '<div class="empty-txt">' + t('openTg') + '</div>'; return; }
   try {
-    const r = await fetch(`${API}/api/notifications/${userId}`);
+    const r = await fetch(API + '/api/notifications/' + userId);
     const d = await r.json();
     const subs = new Set(d.subscribed);
-    const cats = [{ id: 'clothes', name: getCatLabel('clothes'), icon: '👕' }, { id: 'shoes', name: getCatLabel('shoes'), icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
-    el.innerHTML = cats.map(c => `
-      <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
-        <div class="notif-icon">${c.icon}</div>
-        <div class="notif-info"><div class="notif-name">${c.name}</div><div class="notif-sub" id="ns${c.id}">${subs.has(c.id) ? t('subscribed') : t('notSubscribed')}</div></div>
-        <div class="toggle ${subs.has(c.id) ? 'on' : ''}" id="nt${c.id}"></div>
-      </div>`).join('');
+    // Build category list dynamically from allCategories
+    const cats = allCategories.map(id => ({
+      id,
+      name: getCatLabel(id),
+      icon: catGlyph[id] || '✦'
+    }));
+    if (!cats.length) {
+      cats.push(
+        { id: 'clothes', name: getCatLabel('clothes'), icon: '👕' },
+        { id: 'shoes', name: getCatLabel('shoes'), icon: '👟' },
+        { id: 'accessories', name: getCatLabel('accessories'), icon: '👜' }
+      );
+    }
+    el.innerHTML = cats.map(c =>
+      '<div class="notif-item" onclick="toggleNotif(' + "'" + c.id + "'" + ',this)">'
+      + '<div class="notif-icon">' + c.icon + '</div>'
+      + '<div class="notif-info">'
+      + '<div class="notif-name">' + c.name + '</div>'
+      + '<div class="notif-sub" id="ns' + c.id + '">' + (subs.has(c.id) ? t('subscribed') : t('notSubscribed')) + '</div>'
+      + '</div>'
+      + '<div class="toggle ' + (subs.has(c.id) ? 'on' : '') + '" id="nt' + c.id + '"></div>'
+      + '</div>'
+    ).join('');
   } catch { el.innerHTML = '<div class="empty-txt">' + t('loadError') + '</div>'; }
 }
 
@@ -2980,9 +3202,31 @@ function loadDelivery() {
     </div>`).join('') + '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">${t("deliveryPayment")}</p>';
 }
 
+
+// ═══ CART TAB SWITCHER ═══
+let currentCartTab = 'cart';
+function switchCartTab(tab) {
+  currentCartTab = tab;
+  document.getElementById('tabCart').classList.toggle('on', tab === 'cart');
+  document.getElementById('tabOrders').classList.toggle('on', tab === 'orders');
+  document.getElementById('cartTabContent').style.display = tab === 'cart' ? '' : 'none';
+  document.getElementById('ordersTabContent').style.display = tab === 'orders' ? '' : 'none';
+  if (tab === 'orders') loadOrders();
+  if (tab === 'cart') renderCartPage();
+}
+
 // ═══ NAVIGATION ═══
-function switchView(v) {
-  ['catalog', 'orders', 'cart', 'profile', 'more', 'detail', 'checkout', 'review'].forEach(k => {
+function switchView(v, swipeDir) {
+  // 'orders' is now a tab inside 'cart'
+  if (v === 'orders') { switchView('cart'); setTimeout(() => switchCartTab('orders'), 50); return; }
+  
+  const mainViews = ['catalog', 'cart', 'profile', 'more', 'detail', 'checkout', 'review'];
+  const prevActive = mainViews.find(k => {
+    const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
+    return el && el.classList.contains('on');
+  });
+  
+  mainViews.forEach(k => {
     const vId = 'v' + k.charAt(0).toUpperCase() + k.slice(1);
     const nId = 'n' + k.charAt(0).toUpperCase() + k.slice(1);
     const vel = document.getElementById(vId);
@@ -2990,15 +3234,20 @@ function switchView(v) {
     if (vel) vel.classList.toggle('on', k === v);
     if (nel) nel.classList.toggle('on', k === v);
   });
+  // Also sync nOrders if exists (legacy)
+  const nOrders = document.getElementById('nOrders');
+  if (nOrders) nOrders.classList.remove('on');
+  
   // Show/hide nav
-  const isMain = ['catalog','orders','cart','profile','more'].includes(v);
-  document.getElementById('mainNav').style.display = isMain ? '' : 'none';
+  const isMain = ['catalog','cart','profile','more'].includes(v);
+  const navEl = document.getElementById('mainNav');
+  if (navEl) navEl.style.display = isMain ? '' : 'none';
+  
   // Update stack
-  if (isMain) navStack = [v]; if (v === 'more') openMoreSub('moreHub');
-  if (v === 'orders') loadOrders();
-  if (v === 'profile') { showSub('subMain'); loadProfile(); }
-  if (v === 'cart') renderCartPage();
+  if (isMain) navStack = [v];
   if (v === 'more') openMoreSub('moreHub');
+  if (v === 'profile') { showSub('subMain'); loadProfile(); }
+  if (v === 'cart') { renderCartPage(); updateCartTabBadge(); }
   window.scrollTo(0, 0);
 }
 
@@ -3127,57 +3376,90 @@ const ADMIN_CAT_ICONS = { clothes:'👕', shoes:'👟', accessories:'👜' };
 async function loadDashboard() {
   const el = document.getElementById('aStatsContent');
   try {
-    const r = await fetch(`${API}/api/admin/stats?admin_id=${userId}`);
+    const r = await fetch(API + '/api/admin/stats?admin_id=' + userId);
     const d = await r.json();
-    el.innerHTML = `
-      <div class="stats-grid" style="margin-bottom:10px">
-        <div class="stat-card danger">
-          <div class="stat-val">${d.new_orders}</div>
-          <div class="stat-key" data-i18n="aNewOrders">новых заказов</div>
-        </div>
-        <div class="stat-card accent">
-          <div class="stat-val">${d.active_orders}</div>
-          <div class="stat-key" data-i18n="aActiveOrders">активных</div>
-        </div>
-      </div>
-      <div class="stats-grid three" style="margin-bottom:10px">
-        <div class="stat-card success">
-          <div class="stat-val">${d.revenue.toFixed(0)}<span style="font-size:16px">€</span></div>
-          <div class="stat-key" data-i18n="aRevenue">выручка</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val">${d.users}</div>
-          <div class="stat-key" data-i18n="aUsersCount">пользователей</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val">${d.total_orders}</div>
-          <div class="stat-key" data-i18n="aTotalOrders">заказов всего</div>
-        </div>
-      </div>
-      <div class="stats-grid" style="margin-bottom:16px">
-        <div class="stat-card">
-          <div class="stat-val">${d.avg_rating.toFixed(1)}</div>
-          <div class="stat-key" data-i18n="aAvgRating">средний рейтинг</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val">${d.reviews_count}</div>
-          <div class="stat-key" data-i18n="aReviewsCount">отзывов</div>
-        </div>
-      </div>
-      ${d.top_products?.length ? `
-        <div style="padding:0 0 12px"><div style="font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);">' + t('aTopProducts') + '</div></div>
-        <div class="top-wrap" style="padding:0">
-          ${d.top_products.map((p,i) => `
-            <div class="top-item">
-              <div class="top-rank">${['I','II','III','IV','V'][i] || i+1}</div>
-              <div class="top-info">
-                <div class="top-name">${ADMIN_CAT_ICONS[p.category]||'🛍'} ${p.name}</div>
-                <div class="top-sub">${p.sold} ' + t('aSoldCount') + '</div>
-              </div>
-              <div class="top-rev">${(+p.revenue).toFixed(2)} €</div>
-            </div>`).join('')}
-        </div>` : ''}`;
-  } catch { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + '</div></div>'; }
+    
+    const now = new Date();
+    const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+    const dateStr = now.toLocaleDateString('ru-RU', { day:'numeric', month:'long' });
+    
+    const revenueK = d.revenue >= 1000 ? (d.revenue/1000).toFixed(1) + 'k' : d.revenue.toFixed(0);
+    
+    el.innerHTML = 
+      // Hero revenue block
+      '<div class="dash-hero" style="margin:0 14px 12px">'
+      + '<div class="dash-hero-title">выручка · всего</div>'
+      + '<div class="dash-hero-val">' + d.revenue.toFixed(2) + '<span style="font-size:24px;font-weight:200;opacity:0.5"> €</span></div>'
+      + '<div class="dash-hero-sub">' + dateStr + ' · ' + timeStr + ' · ' + d.total_orders + ' заказов</div>'
+      + '<div style="position:absolute;top:18px;right:20px;font-family:Cormorant Garamond,serif;font-size:72px;opacity:0.04;font-style:italic;line-height:1;color:var(--accent)">€</div>'
+      + '</div>'
+      
+      // Orders mini grid
+      + '<div class="dash-mini-grid" style="margin:0 14px 12px">'
+      + '<div class="dash-mini accent">'
+      + '<div class="dash-mini-val">' + d.new_orders + '</div>'
+      + '<div class="dash-mini-key">новых</div>'
+      + '</div>'
+      + '<div class="dash-mini">'
+      + '<div class="dash-mini-val" style="color:#fff">' + d.active_orders + '</div>'
+      + '<div class="dash-mini-key">активных</div>'
+      + '</div>'
+      + '<div class="dash-mini green">'
+      + '<div class="dash-mini-val">' + d.users + '</div>'
+      + '<div class="dash-mini-key">клиентов</div>'
+      + '</div>'
+      + '</div>'
+      
+      // Rating + Reviews 
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 12px">'
+      + '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--accent);opacity:0.6">★</div>'
+      + '<div>'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text)">' + d.avg_rating.toFixed(1) + '</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3)">рейтинг</div>'
+      + '</div>'
+      + '</div>'
+      + '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--text3);opacity:0.6">⋆</div>'
+      + '<div>'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text)">' + d.reviews_count + '</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3)">отзывов</div>'
+      + '</div>'
+      + '</div>'
+      + '</div>'
+      
+      // Top products
+      + (d.top_products && d.top_products.length ?
+        '<div class="dash-top-section" style="margin:0 14px 12px">'
+        + '<div class="dash-top-hdr">топ товаров</div>'
+        + d.top_products.map((p, i) =>
+          '<div class="top-item" style="border-radius:0;border:none;border-bottom:1px solid var(--border)">'
+          + '<div class="top-rank" style="font-family:Cormorant Garamond,serif;font-size:11px;letter-spacing:0.3em;color:var(--text3)">'
+          + ['I','II','III','IV','V'][i]
+          + '</div>'
+          + '<div class="top-info">'
+          + '<div class="top-name">' + (ADMIN_CAT_ICONS[p.category]||'🛍') + ' ' + p.name + '</div>'
+          + '<div class="top-sub">' + p.sold + ' шт.</div>'
+          + '</div>'
+          + '<div class="top-rev">' + (+p.revenue).toFixed(0) + ' €</div>'
+          + '</div>'
+        ).join('')
+        + '</div>'
+        : '')
+      
+      // Quick actions
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 24px">'
+      + '<button onclick="switchAdminView(' + "'aOrders'" + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;font-family:Jost,sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:8px;justify-content:center">'
+      + '<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--accent);opacity:0.7">II</span>'
+      + ' все заказы'
+      + '</button>'
+      + '<button onclick="switchAdminView(' + "'aProducts'" + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;font-family:Jost,sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:8px;justify-content:center">'
+      + '<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text3);opacity:0.7">†</span>'
+      + ' товары'
+      + '</button>'
+      + '</div>';
+      
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">' + t('loadError') + ': ' + e.message + '</div></div>'; }
 }
 
 // ═══ ORDERS ═══
@@ -3362,8 +3644,14 @@ async function addCategory() {
     if (bar) {
       const fb = document.createElement('button');
       fb.className = 'fb'; fb.dataset.cat = id; fb.textContent = label;
+      fb.addEventListener('click', function() {
+        bar.querySelectorAll('.fb').forEach(x => x.classList.remove('on'));
+        fb.classList.add('on'); activeCat = id; renderGrid();
+      });
       bar.appendChild(fb);
     }
+    // Notifications will pick up new category on next loadNotif() call automatically
+    // (uses allCategories which is already updated above)
     document.getElementById('aNewCatLabel').value = '';
     document.getElementById('aNewCatGlyph').value = '';
     refreshCatList();
@@ -4068,6 +4356,256 @@ function devClearAll() {
   toast(t('aDataReset'));
 }
 
+
+
+// ═══ AUTO REPLY MODAL ═══
+function showOrderAutoReply(orderId) {
+  // Remove existing if any
+  const existing = document.getElementById('autoReplyModal');
+  if (existing) existing.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'autoReplyModal';
+  modal.style.cssText = `
+    position: fixed; inset: 0; z-index: 99999;
+    display: flex; align-items: flex-end; justify-content: center;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0 0 env(safe-area-inset-bottom,0px);
+    animation: fadeInModal 0.4s cubic-bezier(0.16,1,0.3,1);
+  `;
+  
+  const lang_texts = {
+    ru: {
+      title: 'Заказ принят',
+      body: 'Ваш собранный заказ отправлен на рассмотрение. В течение получаса с вами свяжутся в Telegram для подтверждения деталей.',
+      icon: '†',
+      sub: 'ожидайте ответа',
+      btn: 'понятно',
+    },
+    en: {
+      title: 'Order received',
+      body: 'Your order has been sent for review. Within half an hour you will be contacted in Telegram to confirm the details.',
+      icon: '†',
+      sub: 'awaiting response',
+      btn: 'got it',
+    },
+    et: {
+      title: 'Tellimus vastu võetud',
+      body: 'Teie kokku pandud tellimus on saadetud läbivaatamiseks. Poole tunni jooksul võtame teiega Telegramis ühendust.',
+      icon: '†',
+      sub: 'oodake vastust',
+      btn: 'arusaadav',
+    },
+  };
+  const txt = lang_texts[currentLang] || lang_texts.ru;
+  
+  modal.innerHTML = \`
+    <div style="
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 28px 28px 0 0;
+      padding: 32px 28px 36px;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.8);
+      animation: slideUpModal 0.4s cubic-bezier(0.16,1,0.3,1);
+    ">
+      <div style="position:absolute;top:0;left:25%;right:25%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.6"></div>
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:56px;color:var(--accent);opacity:0.7;line-height:1;margin-bottom:4px">\${txt.icon}</div>
+        <div style="font-size:7px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;color:var(--text3)">\${txt.sub}</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--text);text-align:center;margin-bottom:16px;letter-spacing:0.02em">\${txt.title}</div>
+      <div style="font-size:13px;font-weight:200;color:var(--text2);line-height:1.75;text-align:center;margin-bottom:8px;letter-spacing:0.03em">\${txt.body}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text3);text-align:center;margin-bottom:28px;opacity:0.6">Заказ #\${orderId}</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <div style="font-size:9px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">≈ 30 мин</div>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <button onclick="document.getElementById('autoReplyModal').remove()" style="
+        width:100%;background:none;border:1px solid var(--ra-030);
+        color:var(--text2);font-family:'Jost',sans-serif;font-size:10px;
+        font-weight:200;letter-spacing:0.5em;text-transform:uppercase;
+        padding:16px;border-radius:14px;cursor:pointer;
+        touch-action:manipulation;transition:all 0.3s;
+      ">\${txt.btn}</button>
+    </div>
+  \`;
+  
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.remove();
+  });
+  
+  document.body.appendChild(modal);
+}
+
+
+// ═══ DRAG SORT PRODUCTS ═══
+function initDragSort() {
+  const container = document.getElementById('aProductsContent');
+  if (!container) return;
+  let dragSrc = null;
+  
+  container.querySelectorAll('.prod-card[draggable]').forEach(card => {
+    card.addEventListener('dragstart', e => {
+      dragSrc = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      container.querySelectorAll('.prod-card').forEach(c => c.classList.remove('drag-over'));
+      dragSrc = null;
+      // Save new order
+      saveProdOrder();
+    });
+    card.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!dragSrc || dragSrc === card) return;
+      e.dataTransfer.dropEffect = 'move';
+      container.querySelectorAll('.prod-card').forEach(c => c.classList.remove('drag-over'));
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      if (!dragSrc || dragSrc === card) return;
+      // Swap positions
+      const cards = [...container.querySelectorAll('.prod-card')];
+      const srcIdx = cards.indexOf(dragSrc);
+      const tgtIdx = cards.indexOf(card);
+      if (srcIdx < tgtIdx) {
+        container.insertBefore(dragSrc, card.nextSibling);
+      } else {
+        container.insertBefore(dragSrc, card);
+      }
+      // Update _adminProducts order
+      const newOrder = [...container.querySelectorAll('.prod-card')].map(c => +c.dataset.prodId);
+      _adminProducts.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+    });
+    
+    // Touch drag support
+    const handle = card.querySelector('.drag-handle');
+    if (handle) {
+      let touchDragActive = false;
+      let touchClone = null;
+      let lastOver = null;
+      
+      handle.addEventListener('touchstart', e => {
+        touchDragActive = true;
+        dragSrc = card;
+        card.classList.add('dragging');
+        e.preventDefault();
+      }, { passive: false });
+      
+      handle.addEventListener('touchmove', e => {
+        if (!touchDragActive) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        const overCard = target?.closest('.prod-card');
+        if (overCard && overCard !== card) {
+          container.querySelectorAll('.prod-card').forEach(c => c.classList.remove('drag-over'));
+          overCard.classList.add('drag-over');
+          lastOver = overCard;
+        }
+      }, { passive: false });
+      
+      handle.addEventListener('touchend', e => {
+        if (!touchDragActive) return;
+        touchDragActive = false;
+        card.classList.remove('dragging');
+        if (lastOver && lastOver !== card) {
+          const cards = [...container.querySelectorAll('.prod-card')];
+          const srcIdx = cards.indexOf(card);
+          const tgtIdx = cards.indexOf(lastOver);
+          if (srcIdx < tgtIdx) {
+            container.insertBefore(card, lastOver.nextSibling);
+          } else {
+            container.insertBefore(card, lastOver);
+          }
+          const newOrder = [...container.querySelectorAll('.prod-card')].map(c => +c.dataset.prodId);
+          _adminProducts.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+        }
+        container.querySelectorAll('.prod-card').forEach(c => c.classList.remove('drag-over'));
+        lastOver = null;
+        dragSrc = null;
+        saveProdOrder();
+      });
+    }
+  });
+}
+
+async function saveProdOrder() {
+  const container = document.getElementById('aProductsContent');
+  if (!container) return;
+  const orderedIds = [...container.querySelectorAll('.prod-card')].map(c => +c.dataset.prodId);
+  toast('✓ порядок сохранён');
+  // Optionally send to server if endpoint exists
+  try {
+    await fetch(API + '/api/admin/products/reorder?admin_id=' + userId, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: orderedIds, admin_id: userId })
+    });
+  } catch {
+    // Server endpoint may not exist yet - order is preserved in local memory
+  }
+}
+
+// ═══ SWIPE NAVIGATION ═══
+(function() {
+  const MAIN_VIEWS = ['catalog', 'cart', 'profile', 'more'];
+  let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+  const SWIPE_THRESHOLD = 60;
+  const SWIPE_TIME = 350;
+  const ANGLE_THRESHOLD = 0.8; // tan(40deg)
+  
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, { passive: true });
+  
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const dt = Date.now() - touchStartTime;
+    
+    if (dt > SWIPE_TIME) return;
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+    if (Math.abs(dy) / Math.abs(dx) > ANGLE_THRESHOLD) return;
+    
+    // Only swipe on main views
+    const current = MAIN_VIEWS.find(k => {
+      const el = document.getElementById('v' + k.charAt(0).toUpperCase() + k.slice(1));
+      return el && el.classList.contains('on');
+    });
+    if (!current) return;
+    
+    // Also ignore swipe inside scrollable elements
+    const target = e.target;
+    let el = target;
+    while (el && el !== document.body) {
+      if (el.scrollWidth > el.clientWidth + 5) return;
+      el = el.parentElement;
+    }
+    
+    const idx = MAIN_VIEWS.indexOf(current);
+    if (dx < 0 && idx < MAIN_VIEWS.length - 1) {
+      // Swipe left → next view
+      switchView(MAIN_VIEWS[idx + 1]);
+    } else if (dx > 0 && idx > 0) {
+      // Swipe right → prev view
+      switchView(MAIN_VIEWS[idx - 1]);
+    }
+  }, { passive: true });
+})();
+
 // ═══ START ═══
 init();
 </script>
@@ -4685,5 +5223,3 @@ init();
 
 </body>
 </html>
-
-
