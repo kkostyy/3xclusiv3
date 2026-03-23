@@ -43,6 +43,31 @@ async def health():
     return {"status": "ok", "version": "3.0"}
 
 # ── Admin check ───────────────────────────────────────────────────────────────
+
+# ── Startup: ensure all tables exist ─────────────────────────────────────────
+import asyncio
+
+async def init_db():
+    import os
+    os.makedirs(os.path.dirname(DATABASE_PATH) if os.path.dirname(DATABASE_PATH) else '.', exist_ok=True)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("""CREATE TABLE IF NOT EXISTS categories (
+            id TEXT PRIMARY KEY,
+            label TEXT NOT NULL,
+            glyph TEXT DEFAULT '✦',
+            sort_order INTEGER DEFAULT 100
+        )""")
+        # Insert built-in categories if not exist
+        await db.execute("INSERT OR IGNORE INTO categories (id, label, glyph, sort_order) VALUES ('clothes','Одежда','👕',1)")
+        await db.execute("INSERT OR IGNORE INTO categories (id, label, glyph, sort_order) VALUES ('shoes','Обувь','👟',2)")
+        await db.execute("INSERT OR IGNORE INTO categories (id, label, glyph, sort_order) VALUES ('accessories','Аксессуары','👜',3)")
+        await db.commit()
+
+@app.on_event("startup")
+async def startup():
+    await init_db()
+
+
 @app.get("/api/is_admin/{telegram_id}")
 async def check_admin(telegram_id: int):
     return {"is_admin": telegram_id in ADMIN_IDS}
@@ -637,3 +662,4 @@ async def proxy_photo(file_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
