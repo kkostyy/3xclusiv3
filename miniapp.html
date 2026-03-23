@@ -586,9 +586,9 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* CART NOTIFICATION */
-.cart-notify { position:fixed; bottom:84px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; width:calc(100% - 28px); max-width:420px; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:14px 16px; display:flex; align-items:center; gap:14px; box-shadow:0 8px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06); opacity:0; pointer-events:none; transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+.cart-notify { position:fixed; bottom:84px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9998; width:calc(100% - 28px); max-width:420px; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:14px 16px; display:none; align-items:center; gap:14px; box-shadow:0 8px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06); opacity:0; pointer-events:none; transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1); }
 .cart-notify::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.4; border-radius:99px; }
-.cart-notify.on { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+.cart-notify.on { display:flex; opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
 .cart-notify-img { width:52px; height:52px; border-radius:12px; background:var(--bg3); border:1px solid var(--border); overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:22px; }
 .cart-notify-img img { width:100%; height:100%; object-fit:cover; display:block; }
 .cart-notify-body { flex:1; min-width:0; }
@@ -2267,7 +2267,9 @@ function updateCartNum() {
 let _cartNotifyTimer;
 function hideCartNotify() {
   const el = document.getElementById('cartNotify');
-  if (el) el.classList.remove('on');
+  if (!el) return;
+  el.classList.remove('on');
+  setTimeout(() => { if (!el.classList.contains('on')) el.style.display = 'none'; }, 400);
 }
 
 function showCartNotify(p) {
@@ -2299,6 +2301,9 @@ function showCartNotify(p) {
     }
   }
 
+  el.style.display = 'flex';
+  // Force reflow before adding 'on' so transition plays
+  void el.offsetHeight;
   el.classList.add('on');
   clearTimeout(_cartNotifyTimer);
   _cartNotifyTimer = setTimeout(hideCartNotify, 3000);
