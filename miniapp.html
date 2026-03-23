@@ -597,6 +597,15 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 
 
+
+/* DEV PANEL */
+.dev-btn { background:var(--bg2); border:1px solid var(--border); border-radius:14px; color:var(--text2); font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; padding:14px 8px; cursor:pointer; transition:all 0.25s; display:flex; flex-direction:column; align-items:center; gap:6px; touch-action:manipulation; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+.dev-btn:active { background:rgba(255,255,255,0.05); border-color:var(--borderh); }
+.dev-btn-icon { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text3); font-style:italic; line-height:1; }
+.dev-btn-danger { border-color:rgba(180,20,20,0.3); }
+.dev-btn-danger .dev-btn-icon { color:rgba(180,20,20,0.6); }
+.dev-btn-danger:active { background:rgba(180,20,20,0.06); }
+
 /* ═══ ADMIN ═══ */
 /* ADMIN PAGE NAVIGATION */
 .page-back-a {
@@ -2211,6 +2220,64 @@ async function sendBroadcast() {
 }
 
 
+
+// ═══ ADMIN USERS ═══
+async function loadAdminUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  try {
+    const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
+    const users = await r.json();
+    document.getElementById('usrTotal').textContent = users.length;
+    const active = users.filter(u => u.orders > 0).length;
+    document.getElementById('usrActive').textContent = active;
+    if (!users.length) { el.innerHTML = '<div class="empty"><div class="empty-sym">○</div><div class="empty-txt">пользователей нет</div></div>'; return; }
+    el.innerHTML = users.slice(0,30).map(u =>
+      '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">'
+      + '<div>'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--text)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+      + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">заказов: ' + (u.orders||0) + ' · скидка: ' + (u.discount||0) + '%</div>'
+      + '</div>'
+      + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text3);font-style:italic">' + (u.orders>0?'†':'·') + '</div>'
+      + '</div>'
+    ).join('');
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+// ═══ ADMIN SETTINGS ═══
+function setCurr(btn, symbol) {
+  document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  localStorage.setItem('currency_3x', symbol);
+  toast('валюта: ' + symbol);
+}
+
+function saveSettings() {
+  const name = document.getElementById('sShopName')?.value.trim();
+  const minOrder = document.getElementById('sMinOrder')?.value;
+  if (name) localStorage.setItem('shop_name_3x', name);
+  if (minOrder) localStorage.setItem('min_order_3x', minOrder);
+  toast('✓ настройки сохранены');
+}
+
+async function exportData() {
+  if (!userId) return;
+  devLog('↺ exporting...');
+  try {
+    const [orders, products, users] = await Promise.all([
+      fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/products?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/users?admin_id=' + userId).then(r=>r.json()).catch(()=>[]),
+    ]);
+    const data = { exported: new Date().toISOString(), orders: orders.length, products: products.length, users: users.length };
+    toast('✓ данные: ' + JSON.stringify(data), 4000);
+  } catch(e) { toast('✗ ошибка экспорта'); }
+}
+
+async function wipeOldOrders() {
+  toast('⚠ функция недоступна в этой версии', 3000);
+}
+
 // ═══ LOGO — LONG PRESS 3s = ADMIN ═══
 (function() {
   let pressTimer = null;
@@ -2249,38 +2316,86 @@ async function sendBroadcast() {
 
 // ═══ DEV MENU ═══
 let devTapCount = 0, devTapTimer = null;
-function openDevMenu() {
-  openAdmin();
-}
+function openDevMenu() { openAdmin(); }
+
 function loadDevInfo() {
   const info = document.getElementById('devInfo');
-  if (info) {
-    info.textContent = 'userId: ' + (userId||'null') + '\nAPI: ' + API + '\nplatform: ' + (navigator.platform||'—') + '\nuserAgent: ' + navigator.userAgent.substring(0,100);
-  }
-  devLog('loaded');
+  if (!info) return;
+  const tg = window.Telegram?.WebApp;
+  const lines = [
+    'userId: ' + (userId || 'null'),
+    'userName: ' + (userName || '—'),
+    'lang: ' + currentLang,
+    'API: ' + API,
+    'tg version: ' + (tg?.version || '—'),
+    'platform: ' + (tg?.platform || navigator.platform || '—'),
+    'cart items: ' + Object.keys(cart).length,
+    'products: ' + allProducts.length,
+    'categories: ' + allCategories.length,
+    'userAgent: ' + navigator.userAgent.substring(0, 60) + '...',
+  ];
+  info.innerHTML = lines.map(l => {
+    const [k, v] = l.split(': ');
+    return '<span style="color:var(--text3)">' + k + ':</span> ' + (v||'');
+  }).join('\n');
+  devLog('✓ info loaded');
 }
+
 function devLog(msg) {
   const el = document.getElementById('devLog');
-  if (el) el.textContent += new Date().toTimeString().slice(0,8) + ' ' + msg + '\n';
+  if (el) {
+    el.textContent += new Date().toTimeString().slice(0,8) + '  ' + msg + '\n';
+    el.scrollTop = el.scrollHeight;
+  }
 }
+
+function devClearLog() {
+  const el = document.getElementById('devLog');
+  if (el) el.textContent = '';
+}
+
 function devClearCart() {
   cart = {}; saveCart(); updateCartNum();
-  devLog('Cart cleared');
+  devLog('✓ cart cleared');
   toast('корзина очищена');
 }
+
 function devReloadProducts() {
-  devLog('Reloading products...');
-  loadProducts().then(() => devLog('Products loaded: ' + allProducts.length));
+  devLog('↺ reloading products...');
+  loadProducts().then(() => devLog('✓ products: ' + allProducts.length));
 }
+
+async function devReloadUser() {
+  if (!userId) { devLog('✗ no userId'); return; }
+  devLog('↺ reloading user...');
+  try {
+    const r = await fetch(API + '/api/user/' + userId);
+    const d = await r.json();
+    devLog('✓ user: orders=' + (d.orders||0) + ' disc=' + (d.discount||0) + '%');
+  } catch(e) { devLog('✗ ' + e.message); }
+}
+
 async function devCheckAPI() {
-  devLog('Checking API...');
+  devLog('◈ checking API...');
+  const start = Date.now();
   try {
     const r = await fetch(API + '/health');
     const d = await r.json();
-    devLog('API OK: ' + JSON.stringify(d));
-  } catch(e) {
-    devLog('API ERROR: ' + e.message);
-  }
+    const ms = Date.now() - start;
+    devLog('✓ ' + d.status + ' v' + (d.version||'?') + ' (' + ms + 'ms)');
+  } catch(e) { devLog('✗ API error: ' + e.message); }
+}
+
+function devTestNotif() {
+  toast('† тестовое уведомление †', 3000);
+  devLog('✓ toast shown');
+}
+
+function devClearAll() {
+  cart = {}; saveCart(); updateCartNum();
+  localStorage.removeItem('lang_3x');
+  devLog('✕ all local data cleared');
+  toast('данные сброшены');
 }
 
 // ═══ START ═══
@@ -2416,6 +2531,22 @@ init();
         </div>
         <div class="more-arrow">›</div>
       </div>
+      <div class="more-item-a" onclick="openMoreSubA('aMoreUsers');loadAdminUsers()">
+        <div class="more-glyph">◇</div>
+        <div class="more-info">
+          <div class="more-title">Пользователи</div>
+          <div class="more-sub-lbl">список и статистика</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
+      <div class="more-item-a" onclick="openMoreSubA('aMoreSettings')">
+        <div class="more-glyph">⚙</div>
+        <div class="more-info">
+          <div class="more-title">Настройки</div>
+          <div class="more-sub-lbl">магазин и параметры</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
       <div class="more-item-a" onclick="openMoreSubA('aMoreDev');loadDevInfo()">
         <div class="more-glyph">⌥</div>
         <div class="more-info">
@@ -2457,16 +2588,70 @@ init();
       </div>
     </div>
   
+  <!-- Users -->
+  <div class="more-sub-a" id="aMoreUsers">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title">пользователи</div></div>
+    <div style="padding:0 14px">
+      <div class="stats-grid" style="margin-bottom:14px">
+        <div class="stat-card"><div class="stat-val" id="usrTotal">—</div><div class="stat-key">всего</div></div>
+        <div class="stat-card accent"><div class="stat-val" id="usrActive">—</div><div class="stat-key">активных</div></div>
+      </div>
+      <div id="aUsersContent">
+        <div class="loader"><div class="loader-sym">∞</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div class="more-sub-a" id="aMoreSettings">
+    <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title">настройки</div></div>
+    <div style="padding:0 14px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px">
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">магазин</div>
+        <label class="inp-label">название магазина</label>
+        <input class="inp inp-sm" id="sShopName" placeholder="3xclusiv33" style="margin-bottom:10px">
+        <label class="inp-label">валюта</label>
+        <div style="display:flex;gap:6px;margin-bottom:10px">
+          <button class="cat-btn on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
+          <button class="cat-btn" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
+          <button class="cat-btn" id="currRub" onclick="setCurr(this,'₽')">₽ RUB</button>
+        </div>
+        <label class="inp-label">минимальный заказ (€)</label>
+        <input class="inp inp-sm" id="sMinOrder" placeholder="0" type="number" style="margin-bottom:10px">
+        <button class="btn-act" style="width:100%" onclick="saveSettings()">сохранить настройки</button>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(180,20,20,0.2);border-radius:16px;padding:16px">
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:rgba(180,20,20,0.7);margin-bottom:12px">опасная зона</div>
+        <button class="btn-act" style="width:100%;margin-bottom:8px;border-color:rgba(180,20,20,0.3);color:var(--red)" onclick="exportData()">экспорт данных</button>
+        <button class="btn-act" style="width:100%;border-color:rgba(180,20,20,0.3);color:var(--red)" onclick="wipeOldOrders()">очистить старые заказы</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Dev -->
   <div class="more-sub-a" id="aMoreDev">
     <button class="more-back-a" onclick="openMoreSubA('aMoreHub')"><span class="more-back-sym">←</span> назад</button>
-    <div class="sec-head"><div class="sec-title">разработчик</div></div>
+    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title">разработчик</div></div>
     <div style="padding:0 14px">
-      <div style="font-size:10px;font-weight:200;letter-spacing:0.2em;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;line-height:1.8" id="devInfo"></div>
-      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devReloadProducts()">перезагрузить товары</button>
-      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devCheckAPI()">проверить API</button>
-      <button class="btn-act" style="width:100%;margin-bottom:8px" onclick="devClearCart()">очистить корзину</button>
-      <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:4px;font-size:11px;font-weight:200;color:var(--text2);min-height:80px;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto"></div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:14px">
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)">системная информация</div>
+        <div id="devInfo" style="font-size:10px;font-weight:200;color:var(--text2);line-height:2;font-family:'Jost',sans-serif"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <button class="dev-btn" onclick="devCheckAPI()"><span class="dev-btn-icon">◈</span><span>API статус</span></button>
+        <button class="dev-btn" onclick="devReloadProducts()"><span class="dev-btn-icon">↺</span><span>товары</span></button>
+        <button class="dev-btn" onclick="devClearCart()"><span class="dev-btn-icon">○</span><span>корзина</span></button>
+        <button class="dev-btn" onclick="devReloadUser()"><span class="dev-btn-icon">◇</span><span>профиль</span></button>
+        <button class="dev-btn" onclick="devTestNotif()"><span class="dev-btn-icon">†</span><span>уведомление</span></button>
+        <button class="dev-btn dev-btn-danger" onclick="devClearAll()"><span class="dev-btn-icon">✕</span><span>сбросить всё</span></button>
+      </div>
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:flex;justify-content:space-between">
+        <span>лог</span>
+        <button onclick="devClearLog()" style="background:none;border:none;color:var(--text3);font-size:9px;font-weight:200;letter-spacing:0.3em;cursor:pointer;text-transform:uppercase;touch-action:manipulation">очистить</button>
+      </div>
+      <div id="devLog" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px;font-size:10px;font-weight:200;color:var(--text2);min-height:100px;max-height:220px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;line-height:1.7"></div>
     </div>
   </div>
 
