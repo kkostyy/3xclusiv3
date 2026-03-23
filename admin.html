@@ -249,6 +249,374 @@ header { position:relative; z-index:1; } .toast { position:fixed; z-index:10000;
 /* GRAIN */
 body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"); transition:opacity 0.5s; }
 [data-theme="dark"] body::after { opacity:0.03; }
+/* ═══ ADMIN SECTIONS CSS ═══ */
+.adm-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.4);
+}
+.adm-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+}
+.adm-block.danger { border-color: rgba(204,34,34,0.15); }
+.adm-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.18), transparent); }
+.adm-block-hdr {
+  font-family: var(--font-serif);
+  font-size: 11px; font-weight: 200;
+  letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Stat boxes */
+.adm-stat-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.adm-stat-box.red { border-color: rgba(204,34,34,0.2); }
+.adm-stat-val {
+  font-family: var(--font-serif);
+  font-size: 28px; font-weight: 300;
+  color: var(--text); line-height: 1;
+  margin-bottom: 4px;
+}
+.adm-stat-box.red .adm-stat-val { color: var(--accent); }
+.adm-stat-lbl {
+  font-size: 7px; font-weight: 200;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* User cards */
+.user-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.user-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.user-monogram {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(204,34,34,0.1), rgba(0,0,0,0.8));
+  border: 1px solid rgba(204,34,34,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 18px; color: var(--text2);
+  flex-shrink: 0;
+}
+.user-info { flex:1; min-width:0; }
+.user-name {
+  font-family: var(--font-serif); font-size: 16px;
+  color: var(--text); margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.user-handle {
+  font-size: 9px; font-weight: 200;
+  letter-spacing: 0.2em; color: var(--text3);
+  display: flex; align-items: center; gap: 6px;
+}
+.user-orders { text-align: center; flex-shrink: 0; }
+.user-discount-row {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.disc-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-family: var(--font-sans);
+  font-size: 8px; font-weight: 200;
+  padding: 4px 8px; border-radius: 8px;
+  cursor: pointer; touch-action: manipulation;
+  transition: all 0.2s;
+}
+.disc-btn-on {
+  background: rgba(204,34,34,0.12);
+  border-color: rgba(204,34,34,0.4);
+  color: var(--accent);
+}
+
+/* Settings fields */
+.adm-field { margin-bottom: 12px; }
+.adm-field-lbl {
+  font-size: 8px; font-weight: 200;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 6px;
+}
+.adm-inp {
+  width: 100%; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 16px; padding: 11px 14px;
+  border-radius: 12px; outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+.adm-inp:focus { border-color: rgba(255,255,255,0.2); }
+.adm-pill {
+  background: none; border: 1px solid var(--border);
+  color: var(--text3); font-family: var(--font-sans);
+  font-size: 9px; font-weight: 200; letter-spacing: 0.2em;
+  padding: 7px 12px; border-radius: 10px;
+  cursor: pointer; touch-action: manipulation; transition: all 0.2s;
+}
+.adm-pill.on {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+  color: var(--text);
+}
+.adm-btn-save {
+  width: 100%; background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.45em;
+  text-transform: uppercase; padding: 12px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s; margin-top: 4px;
+}
+.adm-btn-save:active { background: rgba(255,255,255,0.05); }
+.adm-btn-danger {
+  width: 100%; background: none;
+  border: 1px solid rgba(204,34,34,0.2);
+  border-radius: 12px; color: var(--accent);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.4em;
+  text-transform: uppercase; padding: 11px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 8px; transition: all 0.2s;
+}
+.adm-btn-danger:active { background: rgba(204,34,34,0.08); }
+
+/* Dev buttons */
+.adm-diag-btn {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.25em;
+  text-transform: uppercase; padding: 12px 8px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  transition: all 0.2s;
+}
+.adm-diag-btn:active { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+.adm-diag-icon {
+  font-family: var(--font-serif);
+  font-size: 20px; color: var(--text3);
+  font-style: italic; line-height: 1;
+}
+.adm-log-btn {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text3);
+  font-family: var(--font-sans); font-size: 8px;
+  font-weight: 200; letter-spacing: 0.3em;
+  text-transform: uppercase; padding: 5px 10px;
+  cursor: pointer; touch-action: manipulation;
+}
+.adm-log-btn.danger { border-color: rgba(204,34,34,0.25); color: var(--accent); }
+
+/* ═══ ADMIN SECTIONS CSS ═══ */
+.adm-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.4);
+}
+.adm-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+}
+.adm-block.danger { border-color: rgba(204,34,34,0.15); }
+.adm-block.danger::before { background: linear-gradient(90deg, transparent, rgba(204,34,34,0.18), transparent); }
+.adm-block-hdr {
+  font-family: var(--font-serif);
+  font-size: 11px; font-weight: 200;
+  letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Stat boxes */
+.adm-stat-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.adm-stat-box.red { border-color: rgba(204,34,34,0.2); }
+.adm-stat-val {
+  font-family: var(--font-serif);
+  font-size: 28px; font-weight: 300;
+  color: var(--text); line-height: 1;
+  margin-bottom: 4px;
+}
+.adm-stat-box.red .adm-stat-val { color: var(--accent); }
+.adm-stat-lbl {
+  font-size: 7px; font-weight: 200;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* User cards */
+.user-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.user-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.user-monogram {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(204,34,34,0.1), rgba(0,0,0,0.8));
+  border: 1px solid rgba(204,34,34,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 18px; color: var(--text2);
+  flex-shrink: 0;
+}
+.user-info { flex:1; min-width:0; }
+.user-name {
+  font-family: var(--font-serif); font-size: 16px;
+  color: var(--text); margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.user-handle {
+  font-size: 9px; font-weight: 200;
+  letter-spacing: 0.2em; color: var(--text3);
+  display: flex; align-items: center; gap: 6px;
+}
+.user-orders { text-align: center; flex-shrink: 0; }
+.user-discount-row {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.disc-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-family: var(--font-sans);
+  font-size: 8px; font-weight: 200;
+  padding: 4px 8px; border-radius: 8px;
+  cursor: pointer; touch-action: manipulation;
+  transition: all 0.2s;
+}
+.disc-btn-on {
+  background: rgba(204,34,34,0.12);
+  border-color: rgba(204,34,34,0.4);
+  color: var(--accent);
+}
+
+/* Settings fields */
+.adm-field { margin-bottom: 12px; }
+.adm-field-lbl {
+  font-size: 8px; font-weight: 200;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 6px;
+}
+.adm-inp {
+  width: 100%; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 16px; padding: 11px 14px;
+  border-radius: 12px; outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+.adm-inp:focus { border-color: rgba(255,255,255,0.2); }
+.adm-pill {
+  background: none; border: 1px solid var(--border);
+  color: var(--text3); font-family: var(--font-sans);
+  font-size: 9px; font-weight: 200; letter-spacing: 0.2em;
+  padding: 7px 12px; border-radius: 10px;
+  cursor: pointer; touch-action: manipulation; transition: all 0.2s;
+}
+.adm-pill.on {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+  color: var(--text);
+}
+.adm-btn-save {
+  width: 100%; background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.45em;
+  text-transform: uppercase; padding: 12px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s; margin-top: 4px;
+}
+.adm-btn-save:active { background: rgba(255,255,255,0.05); }
+.adm-btn-danger {
+  width: 100%; background: none;
+  border: 1px solid rgba(204,34,34,0.2);
+  border-radius: 12px; color: var(--accent);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.4em;
+  text-transform: uppercase; padding: 11px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 8px; transition: all 0.2s;
+}
+.adm-btn-danger:active { background: rgba(204,34,34,0.08); }
+
+/* Dev buttons */
+.adm-diag-btn {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text2);
+  font-family: var(--font-sans); font-size: 9px;
+  font-weight: 200; letter-spacing: 0.25em;
+  text-transform: uppercase; padding: 12px 8px;
+  cursor: pointer; touch-action: manipulation;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  transition: all 0.2s;
+}
+.adm-diag-btn:active { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+.adm-diag-icon {
+  font-family: var(--font-serif);
+  font-size: 20px; color: var(--text3);
+  font-style: italic; line-height: 1;
+}
+.adm-log-btn {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text3);
+  font-family: var(--font-sans); font-size: 8px;
+  font-weight: 200; letter-spacing: 0.3em;
+  text-transform: uppercase; padding: 5px 10px;
+  cursor: pointer; touch-action: manipulation;
+}
+.adm-log-btn.danger { border-color: rgba(204,34,34,0.25); color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -363,6 +731,34 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
         </div>
         <div class="more-arrow">›</div>
       </div>
+
+      <div class="admin-hub-card" onclick="openMoreSub('moreUsers');loadAdminUsers()">
+        <div class="ahc-icon">◇</div>
+        <div class="ahc-body">
+          <div class="ahc-title">Пользователи</div>
+          <div class="ahc-sub">список и статистика</div>
+          <div class="ahc-meta" id="hubUsersMeta">—</div>
+        </div>
+        <div class="ahc-arrow">›</div>
+      </div>
+      <div class="admin-hub-card" onclick="openMoreSub('moreSettings');loadSettings()">
+        <div class="ahc-icon">⚙</div>
+        <div class="ahc-body">
+          <div class="ahc-title">Настройки</div>
+          <div class="ahc-sub">магазин и параметры</div>
+          <div class="ahc-meta" id="hubSettingsMeta">—</div>
+        </div>
+        <div class="ahc-arrow">›</div>
+      </div>
+      <div class="admin-hub-card" onclick="openMoreSub('moreDev');loadDevInfo()">
+        <div class="ahc-icon">⌥</div>
+        <div class="ahc-body">
+          <div class="ahc-title">Разработчик</div>
+          <div class="ahc-sub">отладка и диагностика</div>
+          <div class="ahc-meta" id="hubDevMeta">—</div>
+        </div>
+        <div class="ahc-arrow">›</div>
+      </div>
     </div>
   </div>
 
@@ -397,6 +793,87 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
     </div>
   </div>
 </div>
+
+  <!-- USERS -->
+  <div class="more-sub-a" id="moreUsers">
+    <button class="more-back-a" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">◇</div><div class="sec-title">пользователи</div></div>
+    <div style="padding:0 14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+        <div class="adm-stat-box" style="text-align:center"><div class="adm-stat-val" id="usStat1">—</div><div class="adm-stat-lbl">всего</div></div>
+        <div class="adm-stat-box red" style="text-align:center"><div class="adm-stat-val" id="usStat2">—</div><div class="adm-stat-lbl">активных</div></div>
+        <div class="adm-stat-box" style="text-align:center"><div class="adm-stat-val" id="usStat3">—</div><div class="adm-stat-lbl">скидок</div></div>
+      </div>
+      <div class="adm-block">
+        <div class="adm-block-hdr">† список</div>
+        <div style="position:relative;margin-bottom:10px">
+          <input class="adm-inp" id="usrSearch" placeholder="поиск по имени / @username"
+            style="padding-left:34px" oninput="filterUsers(this.value)">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:14px;color:var(--text3);pointer-events:none">◈</span>
+        </div>
+        <div id="aUsersContent"><div class="loader"><div class="loader-sym">∞</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="more-sub-a" id="moreSettings">
+    <button class="more-back-a" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">⚙</div><div class="sec-title">настройки</div></div>
+    <div style="padding:0 14px">
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">† магазин</div>
+        <div class="adm-field"><div class="adm-field-lbl">название магазина</div>
+          <input class="adm-inp" id="sShopName" placeholder="3xclusiv33"></div>
+        <div class="adm-field"><div class="adm-field-lbl">валюта</div>
+          <div style="display:flex;gap:6px">
+            <button class="adm-pill on" id="currEur" onclick="setCurr(this,'€')">€ EUR</button>
+            <button class="adm-pill" id="currUsd" onclick="setCurr(this,'$')">$ USD</button>
+            <button class="adm-pill" id="currRub" onclick="setCurr(this,'₽')">₽ RUB</button>
+          </div>
+        </div>
+        <div class="adm-field"><div class="adm-field-lbl">минимальный заказ (€)</div>
+          <input class="adm-inp" id="sMinOrder" placeholder="0" type="number"></div>
+        <button class="adm-btn-save" onclick="saveSettings()">
+          <span style="font-family:var(--font-serif);font-size:16px;opacity:0.6">✓</span> сохранить
+        </button>
+      </div>
+      <div class="adm-block danger">
+        <div class="adm-block-hdr" style="color:rgba(204,34,34,0.7)">☠ параметры</div>
+        <button class="adm-btn-danger" onclick="exportData()">◈ экспорт данных</button>
+        <button class="adm-btn-danger" style="margin-bottom:0" onclick="wipeOldOrders()">† очистить заказы</button>
+        <div id="settingsResult" style="font-size:10px;font-weight:200;color:var(--text3);margin-top:8px;text-align:center;min-height:16px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEV -->
+  <div class="more-sub-a" id="moreDev">
+    <button class="more-back-a" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">⌥</div><div class="sec-title">разработчик</div></div>
+    <div style="padding:0 14px">
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">◈ диагностика</div>
+        <div id="devInfo" style="margin-bottom:12px"><div class="loader"><div class="loader-sym" style="font-size:20px">∞</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <button class="adm-diag-btn" onclick="devCheckAPI()"><span class="adm-diag-icon">◈</span>API</button>
+          <button class="adm-diag-btn" onclick="devReloadProducts()"><span class="adm-diag-icon">↺</span>товары</button>
+          <button class="adm-diag-btn" onclick="devTestNotif()"><span class="adm-diag-icon">†</span>тост</button>
+          <button class="adm-diag-btn" onclick="devClearCart()"><span class="adm-diag-icon">○</span>корзина</button>
+        </div>
+      </div>
+      <div class="adm-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="adm-block-hdr" style="margin-bottom:0">⸸ отладка</div>
+          <div style="display:flex;gap:6px">
+            <button class="adm-log-btn" onclick="devClearLog()">очистить</button>
+            <button class="adm-log-btn danger" onclick="devClearAll()">сброс</button>
+          </div>
+        </div>
+        <div id="devLog" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:12px;padding:10px;font-size:10px;font-weight:200;color:var(--text2);min-height:80px;max-height:200px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;line-height:1.6"></div>
+      </div>
+    </div>
+  </div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -882,8 +1359,778 @@ async function sendBroadcast() {
 
 // ═══ START ═══
 init();
+
+
+// ═══ USERS/SETTINGS/DEV ═══
+function emptyState(art, title, desc, ctaText, ctaAction, quote) {
+  return '<div class="empty-rich">'
+    + '<div class="empty-art">' + art + '</div>'
+    + (quote ? '<div class="empty-art-sub">' + quote + '</div>' : '<div style="margin-bottom:22px"></div>')
+    + '<div class="empty-title">' + title + '</div>'
+    + '<div class="empty-desc">' + desc + '</div>'
+    + (ctaText ? '<button class="empty-cta" onclick="' + ctaAction + '">' + ctaText + '</button>' : '')
+    + '</div>';
+}
+
+
+let allUsers = [];
+
+function filterUsers(query) {
+  if (!allUsers.length) return;
+  const q = query.toLowerCase().trim();
+  if (!q) { renderUsers(); return; }
+  const filtered = allUsers.filter(u =>
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.username || '').toLowerCase().includes(q) ||
+    String(u.telegram_id).includes(q)
+  );
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  // Temporarily replace allUsers for rendering
+  const orig = allUsers;
+  // Render filtered subset
+  el.innerHTML = filtered.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div></div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+      ).join('')
+    + '</div></div></div>'
+  ).join('');
+}
+
+function filterUsers(query) {
+  if (!allUsers.length) return;
+  const q = query.toLowerCase().trim();
+  if (!q) { renderUsers(); return; }
+  const filtered = allUsers.filter(u =>
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.username || '').toLowerCase().includes(q) ||
+    String(u.telegram_id).includes(q)
+  );
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  // Temporarily replace allUsers for rendering
+  const orig = allUsers;
+  // Render filtered subset
+  el.innerHTML = filtered.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div></div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+      ).join('')
+    + '</div></div></div>'
+  ).join('');
+}
+
+async function loadAdminUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
+  try {
+    const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
+    allUsers = await r.json();
+    const withDisc = allUsers.filter(u => (u.discount||0) > 0).length;
+    const el1 = document.getElementById('usStat1'); if(el1) el1.textContent = allUsers.length;
+    const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
+    const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
+    const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
+    renderUsers();
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+function renderUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el || !allUsers.length) {
+    if(el) el.innerHTML = emptyState('◇','пользователей нет','когда первый покупатель откроет магазин — он появится здесь','','','nemo ante mortem beatus');
+    return;
+  }
+  el.innerHTML = allUsers.slice(0,50).map(u => {
+    const disc = u.discount || 0;
+    const initials = (u.first_name||'?')[0].toUpperCase();
+    const ordBadge = u.orders > 0
+      ? '<span style="background:rgba(204,34,34,0.1);border:1px solid rgba(204,34,34,0.2);color:var(--accent);font-size:7px;font-weight:200;letter-spacing:0.3em;padding:2px 7px;border-radius:99px;text-transform:uppercase">' + u.orders + ' зак.</span>'
+      : '';
+    return '<div class="user-card">'
+      + '<div class="user-card-head">'
+      + '<div class="user-monogram">' + initials + '</div>'
+      + '<div class="user-info">'
+      + '<div class="user-name">' + (u.first_name||'—') + (u.last_name?' '+u.last_name:'') + '</div>'
+      + '<div class="user-handle">' + (u.username?'@'+u.username:'id'+u.telegram_id) + ' ' + ordBadge + '</div>'
+      + '</div>'
+      + '<div class="user-orders">'
+      + '<div style="font-family:var(--font-serif);font-size:24px;color:var(--text3);font-style:italic;line-height:1">' + (u.orders||0) + '</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+      + '</div></div>'
+      + '<div class="user-discount-row">'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">скидка</div>'
+      + '<div style="display:flex;gap:4px;flex-wrap:wrap">'
+      + [0,3,5,10,15,20].map(d =>
+          '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" class="disc-btn' + (d===disc?' disc-btn-on':'') + '">' + d + '%</button>'
+        ).join('')
+      + '</div></div></div>';
+  }).join('');
+}
+
+async function setUserDiscount(telegramId, discount, btn) {
+  try {
+    await fetch(API + '/api/admin/users/' + telegramId, {
+      method: 'PATCH', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, discount })
+    });
+    // Update UI
+    const u = allUsers.find(x => x.telegram_id === telegramId);
+    if (u) { u.discount = discount; renderUsers(); }
+    toast('✓ скидка ' + discount + '% установлена');
+  } catch { toast('ошибка'); }
+}
+
+async function loadSettings() {
+  // Load from localStorage first (instant)
+  const nameEl = document.getElementById('sShopName');
+  const minEl = document.getElementById('sMinOrder');
+  const curr = localStorage.getItem('currency_3x') || '€';
+  if (nameEl) nameEl.value = localStorage.getItem('shop_name_3x') || '';
+  if (minEl) minEl.value = localStorage.getItem('min_order_3x') || '';
+  document.querySelectorAll('.adm-pill').forEach(b => {
+    b.classList.toggle('on', b.textContent.includes(curr));
+  });
+  // Then load from server
+  try {
+    const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
+    const s = await r.json();
+    if (nameEl) nameEl.value = s.shop_name || '';
+    if (minEl) minEl.value = s.min_order || '';
+    const _sm = document.getElementById('hubSettingsMeta'); if(_sm) _sm.textContent = (s.shop_name||'3xclusiv33') + ' · ' + (s.currency||'€') + ' · мин. ' + (s.min_order||0) + '€';
+    const serverCurr = s.currency || '€';
+    localStorage.setItem('currency_3x', serverCurr);
+    document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
+      b.classList.toggle('on', b.textContent.includes(serverCurr));
+    });
+  } catch {}
+}
+
+function setCurr(btn, symbol) {
+  document.querySelectorAll('.adm-pill').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  localStorage.setItem('currency_3x', symbol);
+  fetch(`${API}/api/admin/settings`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ admin_id: userId, currency: symbol })
+  }).catch(() => {});
+  toast('валюта: ' + symbol);
+}
+
+async function exportData() {
+  if (!userId) { toast('нет доступа'); return; }
+  toast('формируем отчёт...', 2000);
+  try {
+    const [orders, products, users] = await Promise.all([
+      fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/products?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/users?admin_id=' + userId).then(r=>r.json()).catch(()=>[]),
+    ]);
+    const delivered = orders.filter(o=>o.status==='delivered');
+    const revenue = delivered.reduce((s,o)=>s+(+o.total_price||0),0);
+    const active_prod = products.filter(p=>p.is_available).length;
+    const report = '3xclusiv33 Export ' + new Date().toISOString().slice(0,10)
+      + ' | orders:' + orders.length
+      + ' completed:' + delivered.length
+      + ' revenue:' + revenue.toFixed(2) + 'EUR'
+      + ' users:' + users.length
+      + ' products:' + products.length + '(' + active_prod + ' active)';
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(report);
+      toast('отчёт скопирован: ' + orders.length + ' заказов, ' + revenue.toFixed(2) + ' €', 5000);
+    } else {
+      toast('заказов:' + orders.length + ' выручка:' + revenue.toFixed(2) + '€', 5000);
+    }
+  } catch(e) { toast('ошибка: ' + e.message); }
+}
+
+async function wipeOldOrders() {
+  toast('⚠ удаление только через базу данных', 3000);
+}
+
+function loadDevInfo() {
+  const info = document.getElementById('devInfo');
+  if (!info) return;
+  const tg = window.Telegram?.WebApp;
+  const mem = performance?.memory;
+  const rows = [
+    ['userId', userId || 'null'],
+    ['userName', userName || '—'],
+    ['язык', currentLang],
+    ['API', API.replace('https://','')],
+    ['TG версия', tg?.version || '—'],
+    ['платформа', tg?.platform || navigator.platform || '—'],
+    ['экран', window.innerWidth + '×' + window.innerHeight],
+    ['корзина', Object.keys(cart).length + ' поз.'],
+    ['товаров', allProducts.length],
+    ['категорий', allCategories.length],
+    ['память', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
+  ];
+  info.innerHTML = '<div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden">'
+    + rows.map(([k,v],i) =>
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px'
+      + (i < rows.length-1 ? ';border-bottom:1px solid rgba(255,255,255,0.04)' : '') + '">'
+      + '<span style="font-size:9px;font-weight:200;letter-spacing:0.25em;color:var(--text3)">' + k + '</span>'
+      + '<span style="font-size:10px;font-weight:200;color:var(--text2);font-family:monospace">' + v + '</span>'
+      + '</div>'
+    ).join('')
+    + '</div>';
+  devLog('✓ диагностика загружена');
+  const _dm = document.getElementById('hubDevMeta'); if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform||navigator.platform||'—');
+}
+
+function devLog(msg) {
+  const el = document.getElementById('devLog');
+  if (el) {
+    el.textContent += new Date().toTimeString().slice(0,8) + '  ' + msg + '\n';
+    el.scrollTop = el.scrollHeight;
+  }
+}
+
+function devClearLog() {
+  const el = document.getElementById('devLog');
+  if (el) el.textContent = '';
+}
+
+async function devCheckAPI() {
+  devLog('◈ checking API...');
+  const start = Date.now();
+  try {
+    const r = await fetch(API + '/health');
+    const d = await r.json();
+    const ms = Date.now() - start;
+    devLog('✓ ' + d.status + ' v' + (d.version||'?') + ' (' + ms + 'ms)');
+  } catch(e) { devLog('✗ API error: ' + e.message); }
+}
+
+function devReloadProducts() {
+  devLog('↺ reloading products...');
+  loadProducts().then(() => devLog('✓ products: ' + allProducts.length));
+}
+
+async function devReloadUser() {
+  if (!userId) { devLog('✗ no userId'); return; }
+  devLog('↺ reloading user...');
+  try {
+    const r = await fetch(API + '/api/user/' + userId);
+    const d = await r.json();
+    devLog('✓ user: orders=' + (d.orders||0) + ' disc=' + (d.discount||0) + '%');
+  } catch(e) { devLog('✗ ' + e.message); }
+}
+
+function devTestNotif() {
+  toast('† тестовое уведомление †', 3000);
+  devLog('✓ toast shown');
+}
+
+function devClearAll() {
+  cart = {}; saveCart(); updateCartNum();
+  localStorage.removeItem('lang_3x');
+  devLog('✕ all local data cleared');
+  toast('данные сброшены');
+}
+
+function devClearCart() {
+  cart = {}; saveCart(); updateCartNum();
+  devLog('✓ cart cleared');
+  toast('корзина очищена');
+}
+
 </script>
 
+
+
+
+
+// ═══ USERS/SETTINGS/DEV FUNCTIONS ═══
+function emptyState(art, title, desc, ctaText, ctaAction, quote) {
+  return '<div class="empty-rich">'
+    + '<div class="empty-art">' + art + '</div>'
+    + (quote ? '<div class="empty-art-sub">' + quote + '</div>' : '<div style="margin-bottom:22px"></div>')
+    + '<div class="empty-title">' + title + '</div>'
+    + '<div class="empty-desc">' + desc + '</div>'
+    + (ctaText ? '<button class="empty-cta" onclick="' + ctaAction + '">' + ctaText + '</button>' : '')
+    + '</div>';
+}
+
+
+const LANGS = {
+  ru: {
+    catalog:'Каталог', orders:'Заказы', cart:'Корзина', profile:'Профиль', more:'Ещё',
+    addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
+    size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
+    support:'Поддержка', delivery:'Доставка',
+    noConnection:'нет соединения', noOrders:'заказов пока нет',
+    cartEmpty:'корзина пуста', openTg:'откройте через Telegram',
+    total:'итого', checkout:'оформить заказ', clearCart:'очистить корзину',
+    sendMsg:'отправить', sizeCalc:'определить размер',
+    ordersTitle:'мои заказы', cartTitle:'корзина', profileTitle:'профиль',
+    moreTitle:'ещё', sizeTitle:'размер', refTitle:'рефералы',
+    notifTitle:'уведомления', supportTitle:'поддержка', deliveryTitle:'доставка',
+    fashionArchive:'fashion archive',
+    heightLabel:'рост (см)', weightLabel:'вес (кг)', heightPh:'170', weightPh:'65',
+    msgPh:'Ваше сообщение...', msgSent:'✅ сообщение отправлено',
+    refLink:'реферальная ссылка — нажмите чтобы скопировать',
+    linkCopied:'ссылка скопирована',
+    checkoutTitle:'оформление заказа',
+    namePh:'Иван Иванов', userPh:'username (без @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'имя и фамилия', userLabel:'telegram username',
+    phoneLabel:'телефон (Эстония)', addrLabel:'район встречи',
+    confirmOrder:'подтвердить заказ', cancel:'отмена',
+    reviewTitle:'отзыв', reviewBtn:'оставить отзыв', sendReview:'отправить отзыв',
+    ratingLabel:'оценка', commentPh:'Комментарий (необязательно)...',
+    back:'назад', backCart:'корзина', backOrders:'заказы',
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
+    recommended:'рекомендуемый размер',
+    invited:'приглашено', discount:'скидка',
+    friend:'друг', friends:'друзей',
+    // Admin
+    dashboard:'Сводка', allOrders:'все заказы', products:'Товары',
+    addProduct:'добавить в архив', productName:'название', productPrice:'цена €',
+    productPhoto:'фото товара', productDesc:'описание', productCat:'категория',
+    newCategory:'новая категория', catName:'Название', catEmoji:'Эмодзи',
+    adjustPrice:'изменение цены', adjustMax:'макс. +20%', adjustHint:'текущая цена',
+    adjustReason:'причина для покупателя', sendToBuyer:'отправить покупателю',
+    writeBuyer:'сообщение покупателю', sendMessage:'отправить',
+    users:'Пользователи', totalUsers:'всего', activeUsers:'активных',
+    settings:'Настройки', shopName:'название магазина', currency:'валюта',
+    minOrder:'минимальный заказ', saveSettings:'сохранить настройки',
+    exportData:'экспорт данных', wipeOrders:'очистить старые заказы',
+    developer:'Разработчик', systemInfo:'системная информация',
+    apiStatus:'API статус', reloadProducts:'товары', clearCart:'корзина',
+    reloadProfile:'профиль', testNotif:'уведомление', resetAll:'сбросить всё',
+    log:'лог', clearLog:'очистить',
+    broadcast:'Рассылка', broadcastMsg:'сообщение всем пользователям',
+    sendBroadcast:'отправить рассылку',
+    reviews:'Отзывы', support:'Поддержка',
+    incomingMsg:'входящие сообщения', buyerRatings:'оценки покупателей',
+    exitAdmin:'Выйти',
+  },
+  en: {
+    catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
+    addCart:'add to cart', noStock:'out of stock', loading:'loading archive',
+    size:'Size', referrals:'Referrals', notifications:'Notifications',
+    support:'Support', delivery:'Delivery',
+    noConnection:'no connection', noOrders:'no orders yet',
+    cartEmpty:'cart is empty', openTg:'open via Telegram',
+    total:'total', checkout:'place order', clearCart:'clear cart',
+    sendMsg:'send', sizeCalc:'find size',
+    ordersTitle:'my orders', cartTitle:'cart', profileTitle:'profile',
+    moreTitle:'more', sizeTitle:'size', refTitle:'referrals',
+    notifTitle:'notifications', supportTitle:'support', deliveryTitle:'delivery',
+    fashionArchive:'fashion archive',
+    heightLabel:'height (cm)', weightLabel:'weight (kg)', heightPh:'170', weightPh:'65',
+    msgPh:'Your message...', msgSent:'✅ message sent',
+    refLink:'referral link — tap to copy',
+    linkCopied:'link copied',
+    checkoutTitle:'checkout',
+    namePh:'John Smith', userPh:'username (no @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'full name', userLabel:'telegram username',
+    phoneLabel:'phone (Estonia)', addrLabel:'meeting district',
+    confirmOrder:'confirm order', cancel:'cancel',
+    reviewTitle:'review', reviewBtn:'leave a review', sendReview:'send review',
+    ratingLabel:'rating', commentPh:'Comment (optional)...',
+    back:'back', backCart:'cart', backOrders:'orders',
+    ordersCount:'orders', referralsCount:'referrals', discountCount:'discount',
+    recommended:'recommended size',
+    invited:'invited', discount:'discount',
+    friend:'friend', friends:'friends',
+    // Admin
+    dashboard:'Dashboard', allOrders:'all orders', products:'Products',
+    addProduct:'add to archive', productName:'name', productPrice:'price €',
+    productPhoto:'product photo', productDesc:'description', productCat:'category',
+    newCategory:'new category', catName:'Name', catEmoji:'Emoji',
+    adjustPrice:'price adjustment', adjustMax:'max +20%', adjustHint:'current price',
+    adjustReason:'reason for buyer', sendToBuyer:'send to buyer',
+    writeBuyer:'message to buyer', sendMessage:'send',
+    users:'Users', totalUsers:'total', activeUsers:'active',
+    settings:'Settings', shopName:'shop name', currency:'currency',
+    minOrder:'minimum order', saveSettings:'save settings',
+    exportData:'export data', wipeOrders:'clear old orders',
+    developer:'Developer', systemInfo:'system info',
+    apiStatus:'API status', reloadProducts:'products', clearCart:'cart',
+    reloadProfile:'profile', testNotif:'notification', resetAll:'reset all',
+    log:'log', clearLog:'clear',
+    broadcast:'Broadcast', broadcastMsg:'message to all users',
+    sendBroadcast:'send broadcast',
+    reviews:'Reviews', support:'Support',
+    incomingMsg:'incoming messages', buyerRatings:'buyer ratings',
+    exitAdmin:'Exit',
+  },
+  et: {
+    catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
+    addCart:'lisa korvi', noStock:'otsas', loading:'arhiivi laadimine',
+    size:'Suurus', referrals:'Soovitused', notifications:'Teavitused',
+    support:'Tugi', delivery:'Tarne',
+    noConnection:'ühendus puudub', noOrders:'tellimusi pole',
+    cartEmpty:'ostukorv on tühi', openTg:'ava Telegrami kaudu',
+    total:'kokku', checkout:'esita tellimus', clearCart:'tühjenda korv',
+    sendMsg:'saada', sizeCalc:'leia suurus',
+    ordersTitle:'minu tellimused', cartTitle:'ostukorv', profileTitle:'profiil',
+    moreTitle:'veel', sizeTitle:'suurus', refTitle:'soovitused',
+    notifTitle:'teavitused', supportTitle:'tugi', deliveryTitle:'tarne',
+    fashionArchive:'moodi arhiiv',
+    heightLabel:'pikkus (cm)', weightLabel:'kaal (kg)', heightPh:'170', weightPh:'65',
+    msgPh:'Teie sõnum...', msgSent:'✅ sõnum saadetud',
+    refLink:'soovituslink — puudutage kopeerimiseks',
+    linkCopied:'link kopeeritud',
+    checkoutTitle:'tellimine',
+    namePh:'Jaan Tamm', userPh:'kasutajanimi (ilma @)',
+    phonePh:'5xxxxxxx', addrPh:'Kesklinn, Lasnamäe...',
+    nameLabel:'ees- ja perekonnanimi', userLabel:'telegram kasutajanimi',
+    phoneLabel:'telefon (Eesti)', addrLabel:'kohtumispiirkond',
+    confirmOrder:'kinnita tellimus', cancel:'tühista',
+    reviewTitle:'arvustus', reviewBtn:'jäta arvustus', sendReview:'saada arvustus',
+    ratingLabel:'hinnang', commentPh:'Kommentaar (valikuline)...',
+    back:'tagasi', backCart:'ostukorv', backOrders:'tellimused',
+    ordersCount:'tellimust', referralsCount:'soovitust', discountCount:'allahindlus',
+    recommended:'soovituslik suurus',
+    invited:'kutsutud', discount:'allahindlus',
+    friend:'sõber', friends:'sõpra',
+    // Admin
+    dashboard:'Ülevaade', allOrders:'kõik tellimused', products:'Tooted',
+    addProduct:'lisa arhiivi', productName:'nimi', productPrice:'hind €',
+    productPhoto:'toote foto', productDesc:'kirjeldus', productCat:'kategooria',
+    newCategory:'uus kategooria', catName:'Nimi', catEmoji:'Emoji',
+    adjustPrice:'hinna muutus', adjustMax:'max +20%', adjustHint:'praegune hind',
+    adjustReason:'põhjus ostjale', sendToBuyer:'saada ostjale',
+    writeBuyer:'sõnum ostjale', sendMessage:'saada',
+    users:'Kasutajad', totalUsers:'kokku', activeUsers:'aktiivsed',
+    settings:'Seaded', shopName:'poe nimi', currency:'valuuta',
+    minOrder:'miinimumtellimus', saveSettings:'salvesta seaded',
+    exportData:'ekspordi andmed', wipeOrders:'kustuta vanad tellimused',
+    developer:'Arendaja', systemInfo:'süsteemi info',
+    apiStatus:'API staatus', reloadProducts:'tooted', clearCart:'ostukorv',
+    reloadProfile:'profiil', testNotif:'teavitus', resetAll:'lähtesta kõik',
+    log:'logi', clearLog:'tühjenda',
+    broadcast:'Ringhääling', broadcastMsg:'sõnum kõigile kasutajatele',
+    sendBroadcast:'saada ringhääling',
+    reviews:'Arvustused', support:'Tugi',
+    incomingMsg:'sissetulevad sõnumid', buyerRatings:'ostjate hinnangud',
+    exitAdmin:'Välju',
+  }
+};
+
+let allUsers = [];
+
+function filterUsers(query) {
+  if (!allUsers.length) return;
+  const q = query.toLowerCase().trim();
+  if (!q) { renderUsers(); return; }
+  const filtered = allUsers.filter(u =>
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.username || '').toLowerCase().includes(q) ||
+    String(u.telegram_id).includes(q)
+  );
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  // Temporarily replace allUsers for rendering
+  const orig = allUsers;
+  // Render filtered subset
+  el.innerHTML = filtered.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div></div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+      ).join('')
+    + '</div></div></div>'
+  ).join('');
+}
+
+function filterUsers(query) {
+  if (!allUsers.length) return;
+  const q = query.toLowerCase().trim();
+  if (!q) { renderUsers(); return; }
+  const filtered = allUsers.filter(u =>
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.username || '').toLowerCase().includes(q) ||
+    String(u.telegram_id).includes(q)
+  );
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-txt">не найдено</div></div>'; return; }
+  // Temporarily replace allUsers for rendering
+  const orig = allUsers;
+  // Render filtered subset
+  el.innerHTML = filtered.slice(0,50).map(u =>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:8px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+    + '<div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--text);margin-bottom:2px">' + (u.first_name || '—') + '</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + (u.username ? '@'+u.username : 'id'+u.telegram_id) + '</div>'
+    + '</div>'
+    + '<div style="text-align:right">'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '</div></div>'
+    + '<div style="display:flex;align-items:center;gap:8px">'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="display:flex;gap:4px">'
+    + [0,3,5,10,15,20].map(d =>
+        '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'rgba(204,34,34,0.15)':'none')+';border:1px solid '+(d===(u.discount||0)?'rgba(204,34,34,0.4)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
+      ).join('')
+    + '</div></div></div>'
+  ).join('');
+}
+
+async function loadAdminUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el) return;
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
+  try {
+    const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
+    allUsers = await r.json();
+    const withDisc = allUsers.filter(u => (u.discount||0) > 0).length;
+    const el1 = document.getElementById('usStat1'); if(el1) el1.textContent = allUsers.length;
+    const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
+    const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
+    const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
+    renderUsers();
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+}
+
+function renderUsers() {
+  const el = document.getElementById('aUsersContent');
+  if (!el || !allUsers.length) {
+    if(el) el.innerHTML = emptyState('◇','пользователей нет','когда первый покупатель откроет магазин — он появится здесь','','','nemo ante mortem beatus');
+    return;
+  }
+  el.innerHTML = allUsers.slice(0,50).map(u => {
+    const disc = u.discount || 0;
+    const initials = (u.first_name||'?')[0].toUpperCase();
+    const ordBadge = u.orders > 0
+      ? '<span style="background:rgba(204,34,34,0.1);border:1px solid rgba(204,34,34,0.2);color:var(--accent);font-size:7px;font-weight:200;letter-spacing:0.3em;padding:2px 7px;border-radius:99px;text-transform:uppercase">' + u.orders + ' зак.</span>'
+      : '';
+    return '<div class="user-card">'
+      + '<div class="user-card-head">'
+      + '<div class="user-monogram">' + initials + '</div>'
+      + '<div class="user-info">'
+      + '<div class="user-name">' + (u.first_name||'—') + (u.last_name?' '+u.last_name:'') + '</div>'
+      + '<div class="user-handle">' + (u.username?'@'+u.username:'id'+u.telegram_id) + ' ' + ordBadge + '</div>'
+      + '</div>'
+      + '<div class="user-orders">'
+      + '<div style="font-family:var(--font-serif);font-size:24px;color:var(--text3);font-style:italic;line-height:1">' + (u.orders||0) + '</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+      + '</div></div>'
+      + '<div class="user-discount-row">'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">скидка</div>'
+      + '<div style="display:flex;gap:4px;flex-wrap:wrap">'
+      + [0,3,5,10,15,20].map(d =>
+          '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" class="disc-btn' + (d===disc?' disc-btn-on':'') + '">' + d + '%</button>'
+        ).join('')
+      + '</div></div></div>';
+  }).join('');
+}
+
+async function setUserDiscount(telegramId, discount, btn) {
+  try {
+    await fetch(API + '/api/admin/users/' + telegramId, {
+      method: 'PATCH', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, discount })
+    });
+    // Update UI
+    const u = allUsers.find(x => x.telegram_id === telegramId);
+    if (u) { u.discount = discount; renderUsers(); }
+    toast('✓ скидка ' + discount + '% установлена');
+  } catch { toast('ошибка'); }
+}
+
+async function loadSettings() {
+  // Load from localStorage first (instant)
+  const nameEl = document.getElementById('sShopName');
+  const minEl = document.getElementById('sMinOrder');
+  const curr = localStorage.getItem('currency_3x') || '€';
+  if (nameEl) nameEl.value = localStorage.getItem('shop_name_3x') || '';
+  if (minEl) minEl.value = localStorage.getItem('min_order_3x') || '';
+  document.querySelectorAll('.adm-pill').forEach(b => {
+    b.classList.toggle('on', b.textContent.includes(curr));
+  });
+  // Then load from server
+  try {
+    const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
+    const s = await r.json();
+    if (nameEl) nameEl.value = s.shop_name || '';
+    if (minEl) minEl.value = s.min_order || '';
+    const _sm = document.getElementById('hubSettingsMeta'); if(_sm) _sm.textContent = (s.shop_name||'3xclusiv33') + ' · ' + (s.currency||'€') + ' · мин. ' + (s.min_order||0) + '€';
+    const serverCurr = s.currency || '€';
+    localStorage.setItem('currency_3x', serverCurr);
+    document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
+      b.classList.toggle('on', b.textContent.includes(serverCurr));
+    });
+  } catch {}
+}
+
+function setCurr(btn, symbol) {
+  document.querySelectorAll('.adm-pill').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  localStorage.setItem('currency_3x', symbol);
+  fetch(`${API}/api/admin/settings`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ admin_id: userId, currency: symbol })
+  }).catch(() => {});
+  toast('валюта: ' + symbol);
+}
+
+async function exportData() {
+  if (!userId) { toast('нет доступа'); return; }
+  toast('формируем отчёт...', 2000);
+  try {
+    const [orders, products, users] = await Promise.all([
+      fetch(API + '/api/admin/orders?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/products?admin_id=' + userId).then(r=>r.json()),
+      fetch(API + '/api/admin/users?admin_id=' + userId).then(r=>r.json()).catch(()=>[]),
+    ]);
+    const delivered = orders.filter(o=>o.status==='delivered');
+    const revenue = delivered.reduce((s,o)=>s+(+o.total_price||0),0);
+    const active_prod = products.filter(p=>p.is_available).length;
+    const report = '3xclusiv33 Export ' + new Date().toISOString().slice(0,10)
+      + ' | orders:' + orders.length
+      + ' completed:' + delivered.length
+      + ' revenue:' + revenue.toFixed(2) + 'EUR'
+      + ' users:' + users.length
+      + ' products:' + products.length + '(' + active_prod + ' active)';
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(report);
+      toast('отчёт скопирован: ' + orders.length + ' заказов, ' + revenue.toFixed(2) + ' €', 5000);
+    } else {
+      toast('заказов:' + orders.length + ' выручка:' + revenue.toFixed(2) + '€', 5000);
+    }
+  } catch(e) { toast('ошибка: ' + e.message); }
+}
+
+async function wipeOldOrders() {
+  toast('⚠ удаление только через базу данных', 3000);
+}
+
+function loadDevInfo() {
+  const info = document.getElementById('devInfo');
+  if (!info) return;
+  const tg = window.Telegram?.WebApp;
+  const mem = performance?.memory;
+  const rows = [
+    ['userId', userId || 'null'],
+    ['userName', userName || '—'],
+    ['язык', currentLang],
+    ['API', API.replace('https://','')],
+    ['TG версия', tg?.version || '—'],
+    ['платформа', tg?.platform || navigator.platform || '—'],
+    ['экран', window.innerWidth + '×' + window.innerHeight],
+    ['корзина', Object.keys(cart).length + ' поз.'],
+    ['товаров', allProducts.length],
+    ['категорий', allCategories.length],
+    ['память', mem ? Math.round(mem.usedJSHeapSize/1048576) + ' MB' : '—'],
+  ];
+  info.innerHTML = '<div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden">'
+    + rows.map(([k,v],i) =>
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px'
+      + (i < rows.length-1 ? ';border-bottom:1px solid rgba(255,255,255,0.04)' : '') + '">'
+      + '<span style="font-size:9px;font-weight:200;letter-spacing:0.25em;color:var(--text3)">' + k + '</span>'
+      + '<span style="font-size:10px;font-weight:200;color:var(--text2);font-family:monospace">' + v + '</span>'
+      + '</div>'
+    ).join('')
+    + '</div>';
+  devLog('✓ диагностика загружена');
+  const _dm = document.getElementById('hubDevMeta'); if(_dm) _dm.textContent = 'id:' + (userId||'—') + ' · ' + (window.Telegram?.WebApp?.platform||navigator.platform||'—');
+}
+
+function devLog(msg) {
+  const el = document.getElementById('devLog');
+  if (el) {
+    el.textContent += new Date().toTimeString().slice(0,8) + '  ' + msg + '\n';
+    el.scrollTop = el.scrollHeight;
+  }
+}
+
+function devClearLog() {
+  const el = document.getElementById('devLog');
+  if (el) el.textContent = '';
+}
+
+async function devCheckAPI() {
+  devLog('◈ checking API...');
+  const start = Date.now();
+  try {
+    const r = await fetch(API + '/health');
+    const d = await r.json();
+    const ms = Date.now() - start;
+    devLog('✓ ' + d.status + ' v' + (d.version||'?') + ' (' + ms + 'ms)');
+  } catch(e) { devLog('✗ API error: ' + e.message); }
+}
+
+function devReloadProducts() {
+  devLog('↺ reloading products...');
+  loadProducts().then(() => devLog('✓ products: ' + allProducts.length));
+}
+
+async function devReloadUser() {
+  if (!userId) { devLog('✗ no userId'); return; }
+  devLog('↺ reloading user...');
+  try {
+    const r = await fetch(API + '/api/user/' + userId);
+    const d = await r.json();
+    devLog('✓ user: orders=' + (d.orders||0) + ' disc=' + (d.discount||0) + '%');
+  } catch(e) { devLog('✗ ' + e.message); }
+}
+
+function devTestNotif() {
+  toast('† тестовое уведомление †', 3000);
+  devLog('✓ toast shown');
+}
+
+function devClearAll() {
+  cart = {}; saveCart(); updateCartNum();
+  localStorage.removeItem('lang_3x');
+  devLog('✕ all local data cleared');
+  toast('данные сброшены');
+}
+
+function devClearCart() {
+  cart = {}; saveCart(); updateCartNum();
+  devLog('✓ cart cleared');
+  toast('корзина очищена');
+}
 
 
 <script>
