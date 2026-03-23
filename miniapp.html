@@ -59,19 +59,160 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .fb.on::after { transform:scaleX(1); }
 
 /* GRID */
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px; }
-.card { background:var(--bg2); backdrop-filter:blur(12px) saturate(1.2); -webkit-backdrop-filter:blur(12px) saturate(1.2); border:1px solid var(--border); border-radius:14px; overflow:hidden; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
-.card:active { transform:scale(0.97); }
-.card-img { aspect-ratio:3/4; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; border-radius:14px 14px 0 0; overflow:hidden; }
-.card-img img { width:100%; height:100%; object-fit:cover; }
-.card-add { position:absolute; bottom:8px; right:8px; width:30px; height:30px; background:var(--accent); color:var(--bg); border:none; border-radius:50%; font-size:18px; line-height:30px; text-align:center; cursor:pointer; font-weight:300; }
-.card-wish { position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.3); border:none; border-radius:50%; width:28px; height:28px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.card-void { position:absolute; bottom:8px; left:8px; font-size:8px; font-weight:200; letter-spacing:0.3em; color:var(--text2); text-transform:uppercase; border-bottom:1px solid var(--borderh); padding-bottom:1px; }
-.card-body { padding:12px 14px 16px; }
-.card-cat { font-size:8px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; margin-bottom:4px; }
-.card-name { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:300; color:var(--text); margin-bottom:6px; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.card-price { font-size:12px; font-weight:200; letter-spacing:0.15em; color:var(--accent); }
-.card.void { opacity:0.35; pointer-events:none; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 14px; }
+
+.card {
+  background: var(--bg2);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s, border-color 0.25s;
+  position: relative;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+[data-theme="dark"] .card::after { opacity: 1; }
+.card:active { opacity: 0.88; }
+[data-theme="dark"] .card:active { box-shadow: 0 0 0 1px rgba(212,196,160,0.12); border-color: rgba(212,196,160,0.18); }
+[data-theme="light"] .card:active { box-shadow: 0 4px 20px rgba(0,0,0,0.18); border-color: rgba(0,0,0,0.2); }
+
+/* Photo area */
+.card-img {
+  aspect-ratio: 3/4;
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+
+/* Placeholder glyph when no photo */
+.card-img-ph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-style: italic;
+  color: var(--text3);
+  user-select: none;
+}
+
+/* Skeleton shimmer while loading */
+.card-img.loading { background: var(--bg3); }
+.card-img.loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  animation: shimmer 1.6s infinite;
+}
+[data-theme="light"] .card-img.loading::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
+}
+@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+/* Overlay buttons on image */
+.card-add {
+  position: absolute;
+  bottom: 10px; right: 10px;
+  width: 32px; height: 32px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 200;
+  z-index: 2;
+  transition: transform 0.2s, opacity 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.card-add:active { transform: scale(0.88); }
+.card-wish {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(6px);
+  border: none;
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+}
+[data-theme="light"] .card-wish { background: rgba(255,255,255,0.45); }
+.card-wish:active { background: rgba(0,0,0,0.5); }
+
+/* Archive label */
+.card-void {
+  position: absolute;
+  bottom: 10px; left: 10px;
+  font-size: 7px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: rgba(232,228,220,0.5);
+  text-transform: uppercase;
+  z-index: 2;
+  border-bottom: 1px solid rgba(232,228,220,0.2);
+  padding-bottom: 1px;
+}
+[data-theme="light"] .card-void { color: rgba(5,4,2,0.45); border-color: rgba(5,4,2,0.2); }
+
+/* Card info */
+.card-body {
+  padding: 11px 13px 14px;
+  position: relative;
+  z-index: 2;
+}
+.card-cat {
+  font-size: 7px;
+  font-weight: 200;
+  letter-spacing: 0.45em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-price {
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+.card.void { opacity: 0.38; pointer-events: none; }
 
 /* LOADER */
 .loader { grid-column:1/-1; padding:60px 20px; text-align:center; }
@@ -860,26 +1001,33 @@ async function loadProducts() {
   renderGrid();
 }
 
+function cardHtml(p) {
+  const ph = p.photo_id
+    ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
+    : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
+  const addBtn = p.is_available
+    ? '<button class="card-add" onclick="event.stopPropagation();addToCart(' + JSON.stringify({id:p.id,name:p.name,price:p.price,category:p.category}) + ')">+</button>'
+    : '';
+  const archLbl = !p.is_available ? '<div class="card-void">архив</div>' : '';
+  const heart = wishIds.has(p.id) ? '❤️' : '🤍';
+  return '<div class="card' + (!p.is_available ? ' void' : '') + '" onclick="openDetail(' + p.id + ')">'
+    + '<div class="card-img" style="position:relative;">' + ph + archLbl + addBtn
+    + '<button class="card-wish" onclick="event.stopPropagation();toggleWish(' + p.id + ')" id="wb' + p.id + '">' + heart + '</button>'
+    + '</div>'
+    + '<div class="card-body">'
+    + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
+    + '<div class="card-name">' + p.name + '</div>'
+    + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
+    + '</div></div>';
+}
+
 function renderGrid() {
   const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
   const grid = document.getElementById('productGrid');
   if (!list.length) {
     grid.innerHTML = '<div class="loader" style="grid-column:1/-1"><div class="empty-sym">○</div><div class="empty-txt">нет товаров</div></div>'; return;
   }
-  grid.innerHTML = list.map(p => `
-    <div class="card ${!p.is_available ? 'void' : ''}" onclick="openDetail(${p.id})">
-      <div class="card-img">
-        <span>${catGlyph[p.category] || '🛍'}</span>
-        ${!p.is_available ? '<div class="card-void">архив</div>' : ''}
-        ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
-        <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id})" id="wb${p.id}">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">${catLabel[p.category] || p.category}</div>
-        <div class="card-name">${p.name}</div>
-        <div class="card-price">${p.price.toFixed(2)} €</div>
-      </div>
-    </div>`).join('');
+  grid.innerHTML = list.map(cardHtml).join('');
 }
 
 document.getElementById('filterBar').addEventListener('click', e => {
@@ -894,20 +1042,21 @@ document.getElementById('filterBar').addEventListener('click', e => {
 function openDetail(pid) {
   const p = allProducts.find(x => x.id === pid);
   if (!p) return;
-  document.getElementById('detailBody').innerHTML = `
-    <div class="detail-img"><span>${catGlyph[p.category] || '🛍'}</span></div>
-    <div class="detail-meta">
-      <div class="detail-cat">${catLabel[p.category] || p.category} / ${String(p.id).padStart(4, '0')}</div>
-      <div class="detail-name">${p.name}</div>
-      <div class="detail-price">${p.price.toFixed(2)} €</div>
-      ${p.description ? `<div class="detail-desc">${p.description}</div>` : ''}
-      <div class="detail-actions">
-        ${p.is_available
-          ? `<button class="btn" style="flex:1" onclick="addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'});closePanel()">в корзину</button>`
-          : `<button class="btn" style="flex:1" disabled>нет в наличии</button>`}
-        <button onclick="toggleWish(${p.id})" id="dwb${p.id}" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">${wishIds.has(p.id) ? '❤️' : '🤍'}</button>
-      </div>
-    </div>`;
+  document.getElementById('detailBody').innerHTML =
+    '<div class="detail-img" style="width:calc(100% + 40px);margin:-20px -20px 0;aspect-ratio:3/4;background:var(--bg3);overflow:hidden;display:flex;align-items:center;justify-content:center;">'
+    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:'Cormorant Garamond',serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (catGlyph[p.category]||'✦') + '</span>')
+    + '</div>'
+    + '<div class="detail-meta">'
+    + '<div class="detail-cat">' + (catLabel[p.category]||p.category) + ' / ' + String(p.id).padStart(4,'0') + '</div>'
+    + '<div class="detail-name">' + p.name + '</div>'
+    + '<div class="detail-price">' + p.price.toFixed(2) + ' €</div>'
+    + (p.description ? '<div class="detail-desc">' + p.description + '</div>' : '')
+    + '<div class="detail-actions">'
+    + (p.is_available
+        ? '<button class="btn" style="flex:1" onclick="addToCart(' + JSON.stringify({id:p.id,name:p.name,price:p.price,category:p.category}) + ');closePanel()">в корзину</button>'
+        : '<button class="btn" style="flex:1" disabled>нет в наличии</button>')
+    + '<button onclick="toggleWish(' + p.id + ')" id="dwb' + p.id + '" style="padding:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;font-size:20px;cursor:pointer">' + (wishIds.has(p.id) ? '❤️' : '🤍') + '</button>'
+    + '</div></div>';
   openPanel('panelDetail');
 }
 
@@ -943,19 +1092,23 @@ async function loadWishlist() {
     const items = await r.json();
     wishIds = new Set(items.map(p => p.id));
     if (!items.length) { grid.innerHTML = '<div class="empty"><div class="empty-sym">♡</div><div class="empty-txt">избранное пусто</div></div>'; return; }
-    grid.innerHTML = items.map(p => `
-      <div class="card" onclick="openDetail(${p.id})">
-        <div class="card-img">
-          <span>${catGlyph[p.category] || '🛍'}</span>
-          <button class="card-wish" onclick="event.stopPropagation();toggleWish(${p.id}).then(()=>loadWishlist())" id="wb${p.id}">❤️</button>
-          ${p.is_available ? `<button class="card-add" onclick="event.stopPropagation();addToCart({id:${p.id},name:${JSON.stringify(p.name)},price:${p.price},category:'${p.category}'})">+</button>` : ''}
-        </div>
-        <div class="card-body">
-          <div class="card-cat">${catLabel[p.category] || p.category}</div>
-          <div class="card-name">${p.name}</div>
-          <div class="card-price">${p.price.toFixed(2)} €</div>
-        </div>
-      </div>`).join('');
+    grid.innerHTML = items.map(p => {
+      const ph = p.photo_id
+        ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
+        : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
+      const addBtn = p.is_available
+        ? '<button class="card-add" onclick="event.stopPropagation();addToCart(' + JSON.stringify({id:p.id,name:p.name,price:p.price,category:p.category}) + ')">+</button>'
+        : '';
+      return '<div class="card" onclick="openDetail(' + p.id + ')">'
+        + '<div class="card-img" style="position:relative;">' + ph
+        + '<button class="card-wish" onclick="event.stopPropagation();toggleWish(' + p.id + ').then(()=>loadWishlist())" id="wb' + p.id + '">❤️</button>'
+        + addBtn + '</div>'
+        + '<div class="card-body">'
+        + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
+        + '<div class="card-name">' + p.name + '</div>'
+        + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
+        + '</div></div>';
+    }).join('');
   } catch { grid.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
 }
 
@@ -1574,3 +1727,4 @@ init();
 </script>
 </body>
 </html>
+
