@@ -750,7 +750,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-sub-lbl { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); }
 .more-arrow { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text3); }
 .more-sub-a { display:none; }
-.more-sub-a.on { display:block; }
+.more-sub-a.on { display:block; padding-bottom:20px; }
 .more-back-a { display:flex; align-items:center; gap:10px; background:none; border:none; color:var(--text3); font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; cursor:pointer; padding:0 20px; margin-bottom:24px; }
 .more-back-sym { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; }
 
@@ -2291,7 +2291,12 @@ function adminGoBack() {
 function openMoreSubA(id) {
   document.querySelectorAll('.more-sub-a').forEach(el => el.classList.remove('on'));
   const el = document.getElementById(id);
-  if (el) el.classList.add('on');
+  if (el) {
+    el.classList.add('on');
+    // Scroll the parent view to top
+    const view = document.getElementById('vaMore');
+    if (view) { view.scrollTop = 0; window.scrollTo(0,0); }
+  }
 }
 
 function exitAdmin() {
@@ -2814,7 +2819,12 @@ async function loadAdminUsers() {
   if (!el) return;
   el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div></div>';
   try {
+    devLog('↺ загрузка пользователей, userId=' + userId);
     const r = await fetch(API + '/api/admin/users?admin_id=' + userId);
+    if (!r.ok) {
+      const err = await r.json().catch(()=>({detail:'HTTP '+r.status}));
+      throw new Error(err.detail || 'HTTP ' + r.status);
+    }
     allUsers = await r.json();
     const withDisc = allUsers.filter(u => (u.discount||0) > 0).length;
     const el1 = document.getElementById('usStat1'); if(el1) el1.textContent = allUsers.length;
@@ -2822,7 +2832,7 @@ async function loadAdminUsers() {
     const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
     const _um = document.getElementById('hubUsersMeta'); if(_um) _um.textContent = allUsers.length + ' зарегистрировано · ' + allUsers.filter(u=>u.orders>0).length + ' с заказами';
     renderUsers();
-  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-txt">ошибка загрузки</div></div>'; }
+  } catch(e) { el.innerHTML = emptyState('✗','ошибка загрузки',e.message||'проверьте подключение','повторить','loadAdminUsers()',''); }
 }
 
 function renderUsers() {
@@ -2876,6 +2886,7 @@ async function setUserDiscount(telegramId, discount, btn) {
 async function loadSettings() {
   // Load from localStorage first (instant)
   const nameEl = document.getElementById('sShopName');
+  const uidEl = document.getElementById('settingsUserId'); if(uidEl) uidEl.textContent = 'id:' + (userId||'—');
   const minEl = document.getElementById('sMinOrder');
   const curr = localStorage.getItem('currency_3x') || '€';
   if (nameEl) nameEl.value = localStorage.getItem('shop_name_3x') || '';
@@ -2886,6 +2897,7 @@ async function loadSettings() {
   // Then load from server
   try {
     const r = await fetch(`${API}/api/admin/settings?admin_id=${userId}`);
+    if (!r.ok) { const e = await r.json().catch(()=>({detail:'HTTP '+r.status})); throw new Error(e.detail); }
     const s = await r.json();
     if (nameEl) nameEl.value = s.shop_name || '';
     if (minEl) minEl.value = s.min_order || '';
@@ -2994,6 +3006,9 @@ function loadDevInfo() {
   if (!info) return;
   const tg = window.Telegram?.WebApp;
   const mem = performance?.memory;
+  // Log immediately so user can see state
+  devLog('▶ открыт разработчик');
+  devLog('userId: ' + (userId || 'NULL - не авторизован'));
   const rows = [
     ['userId', userId || 'null'],
     ['userName', userName || '—'],
@@ -3191,7 +3206,7 @@ init();
 </div>
 
 <!-- MORE -->
-<div class="view" id="vaMore">
+<div class="view" id="vaMore" style="overflow-y:auto;-webkit-overflow-scrolling:touch;">
   <!-- Hub -->
   <div class="more-sub-a on" id="aMoreHub">
     <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title" data-i18n="moreTitle">ещё</div></div>
@@ -3329,7 +3344,7 @@ init();
 
       <!-- ФУНКЦИЯ 1: МАГАЗИН -->
       <div class="adm-block" style="margin-bottom:10px">
-        <div class="adm-block-hdr">† магазин</div>
+        <div class="adm-block-hdr">† магазин <span id="settingsUserId" style="float:right;font-size:8px;opacity:0.5"></span></div>
 
         <div class="adm-field">
           <div class="adm-field-lbl">название магазина</div>
