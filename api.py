@@ -553,6 +553,37 @@ async def admin_delete_product(product_id: int, admin_id: int = 0):
         await db.commit()
     return {"ok": True}
 
+class EditProduct(BaseModel):
+    admin_id: int
+    name: Optional[str] = None
+    price: Optional[float] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    photo_url: Optional[str] = None
+
+@app.patch("/api/admin/products/{product_id}")
+async def admin_edit_product(product_id: int, body: EditProduct):
+    require_admin(body.admin_id)
+    fields = []
+    values = []
+    if body.name is not None:
+        fields.append("name=?"); values.append(body.name)
+    if body.price is not None:
+        fields.append("price=?"); values.append(body.price)
+    if body.description is not None:
+        fields.append("description=?"); values.append(body.description)
+    if body.category is not None:
+        fields.append("category=?"); values.append(body.category)
+    if body.photo_url is not None:
+        fields.append("photo_id=?"); values.append(body.photo_url)
+    if not fields:
+        return {"ok": True}
+    values.append(product_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(f"UPDATE products SET {','.join(fields)} WHERE id=?", values)
+        await db.commit()
+    return {"ok": True}
+
 @app.get("/api/admin/stats")
 async def admin_stats(admin_id: int = 0):
     require_admin(admin_id)
