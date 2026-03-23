@@ -1089,13 +1089,13 @@ header { position: relative; z-index: 1; }
 <!-- CATALOG -->
 <div class="view on" id="vCatalog">
   <div class="filter" id="filterBar">
-    <button class="fb on" data-cat="all">Всё</button>
-    <button class="fb" data-cat="clothes">Одежда</button>
-    <button class="fb" data-cat="shoes">Обувь</button>
-    <button class="fb" data-cat="accessories">Аксессуары</button>
+    <button class="fb on" data-cat="all" data-i18n="catAll">Всё</button>
+    <button class="fb" data-cat="clothes" data-i18n="catClothes">Одежда</button>
+    <button class="fb" data-cat="shoes" data-i18n="catShoes">Обувь</button>
+    <button class="fb" data-cat="accessories" data-i18n="catAccessories">Аксессуары</button>
   </div>
   <div class="grid" id="productGrid">
-    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка архива</div></div>
+    <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка архива</div></div>
   </div>
 </div>
 
@@ -1124,7 +1124,7 @@ header { position: relative; z-index: 1; }
         <div class="more-item-glyph">∞</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="referrals">Рефералы</div>
-          <div class="more-item-sub">скидка за приглашённых друзей</div>
+          <div class="more-item-sub" data-i18n="referralsDesc">скидка за приглашённых друзей</div>
         </div>
         <div class="more-item-arrow">›</div>
       </div>
@@ -1132,7 +1132,7 @@ header { position: relative; z-index: 1; }
         <div class="more-item-glyph">†</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="notifications">Уведомления</div>
-          <div class="more-item-sub">подписки на новинки</div>
+          <div class="more-item-sub" data-i18n="notifDesc">подписки на новинки</div>
         </div>
         <div class="more-item-arrow">›</div>
       </div>
@@ -1140,7 +1140,7 @@ header { position: relative; z-index: 1; }
         <div class="more-item-glyph">✦</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="support">Поддержка</div>
-          <div class="more-item-sub">написать продавцу</div>
+          <div class="more-item-sub" data-i18n="supportDesc">написать продавцу</div>
         </div>
         <div class="more-item-arrow">›</div>
       </div>
@@ -1148,7 +1148,7 @@ header { position: relative; z-index: 1; }
         <div class="more-item-glyph">◆</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="delivery">Доставка</div>
-          <div class="more-item-sub">зоны и стоимость</div>
+          <div class="more-item-sub" data-i18n="deliveryDesc">зоны и стоимость</div>
         </div>
         <div class="more-item-arrow">›</div>
       </div>
@@ -1364,6 +1364,7 @@ const LANGS = {
     moreTitle:'ещё', sizeTitle:'размер', refTitle:'рефералы',
     notifTitle:'уведомления', supportTitle:'поддержка', deliveryTitle:'доставка',
     fashionArchive:'fashion archive',
+    catAll:'Всё', catClothes:'Одежда', catShoes:'Обувь', catAccessories:'Аксессуары',
     heightLabel:'рост (см)', weightLabel:'вес (кг)', heightPh:'170', weightPh:'65',
     msgPh:'Ваше сообщение...', msgSent:'✅ сообщение отправлено',
     refLink:'реферальная ссылка — нажмите чтобы скопировать',
@@ -1437,6 +1438,7 @@ const LANGS = {
     moreTitle:'more', sizeTitle:'size', refTitle:'referrals',
     notifTitle:'notifications', supportTitle:'support', deliveryTitle:'delivery',
     fashionArchive:'fashion archive',
+    catAll:'All', catClothes:'Clothes', catShoes:'Shoes', catAccessories:'Accessories',
     heightLabel:'height (cm)', weightLabel:'weight (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Your message...', msgSent:'✅ message sent',
     refLink:'referral link — tap to copy',
@@ -1488,7 +1490,10 @@ const LANGS = {
     ordersTitle:'minu tellimused', cartTitle:'ostukorv', profileTitle:'profiil',
     moreTitle:'veel', sizeTitle:'suurus', refTitle:'soovitused',
     notifTitle:'teavitused', supportTitle:'tugi', deliveryTitle:'tarne',
+    referralsDesc:'allahindlus kutsutud sõprade eest', notifDesc:'telli uudised',
+    supportDesc:'kirjuta müüjale', deliveryDesc:'tsoonid ja hinnad',
     fashionArchive:'moodi arhiiv',
+    catAll:'Kõik', catClothes:'Riided', catShoes:'Jalatsid', catAccessories:'Aksessuaarid',
     heightLabel:'pikkus (cm)', weightLabel:'kaal (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Teie sõnum...', msgSent:'✅ sõnum saadetud',
     refLink:'soovituslink — puudutage kopeerimiseks',
@@ -1557,6 +1562,20 @@ function setLang(lang) {
     const btn = document.getElementById('n' + k.charAt(0).toUpperCase() + k.slice(1));
     if (btn) { const lbl = btn.querySelector('.nav-lbl'); if (lbl) lbl.textContent = t(k); }
   });
+  // Update filter bar translations
+  const bar = document.getElementById('filterBar');
+  if (bar) {
+    bar.querySelectorAll('.fb[data-i18n]').forEach(b => {
+      b.textContent = t(b.getAttribute('data-i18n'));
+    });
+    // Also rebuild dynamic category labels
+    bar.querySelectorAll('.fb[data-cat]').forEach(b => {
+      const cat = b.dataset.cat;
+      if (!b.getAttribute('data-i18n')) {
+        b.textContent = getCatLabel(cat) || b.textContent;
+      }
+    });
+  }
   // Reload dynamic content
   const active = ['catalog','orders','cart','profile','more'].find(v => {
     const el = document.getElementById('v' + v.charAt(0).toUpperCase() + v.slice(1));
@@ -1760,6 +1779,10 @@ async function submitOrder() {
 
 // ═══ PRODUCTS ═══
 let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+function getCatLabel(id) {
+  const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories') };
+  return map[id] || catLabel[id] || id;
+}
 let catGlyph  = { clothes: '👕', shoes: '👟', accessories: '👜' };
 let allCategories = ['clothes','shoes','accessories'];
 
@@ -1777,8 +1800,16 @@ async function loadCategories() {
     // Rebuild filter buttons
     const bar = document.getElementById('filterBar');
     if (bar) {
-      bar.innerHTML = '<button class="fb on" data-cat="all">Всё</button>'
-        + cats.map(c => `<button class="fb" data-cat="${c.id||c}">${c.label||c.name||c}</button>`).join('');
+      bar.innerHTML = '<button class="fb on" data-cat="all" data-i18n="catAll">' + t('catAll') + '</button>'
+        + cats.map(c => {
+          const id = c.id||c;
+          const label = getCatLabel(id) || c.label || c.name || String(c);
+          return '<button class="fb" data-cat="' + id + '">' + label + '</button>';
+        }).join('');
+      bar.querySelectorAll('.fb').forEach(b => b.addEventListener('click', function() {
+        bar.querySelectorAll('.fb').forEach(x => x.classList.remove('on'));
+        b.classList.add('on'); activeCat = b.dataset.cat; renderGrid();
+      }));
     }
   } catch {}
 }
@@ -1808,7 +1839,7 @@ function cardHtml(p) {
     + (!p.is_available ? '<div class="card-void">архив</div>' : '')
     + '</div>'
     + '<div class="card-body">'
-    + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
+    + '<div class="card-cat">' + getCatLabel(p.category) + '</div>'
     + '<div class="card-name" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + p.name + '</div>'
     + '<div class="card-footer">'
     + '<span class="card-price">' + p.price.toFixed(2) + ' €</span>'
@@ -1871,7 +1902,7 @@ function openDetail(pid) {
     + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (catGlyph[p.category]||'✦') + '</span>')
     + '</div>'
     + '<div class="detail-meta">'
-    + '<div class="detail-cat">' + (catLabel[p.category]||p.category) + ' / ' + String(p.id).padStart(4,'0') + '</div>'
+    + '<div class="detail-cat">' + getCatLabel(p.category) + ' / ' + String(p.id).padStart(4,'0') + '</div>'
     + '<div class="detail-name">' + p.name + '</div>'
     + '<div class="detail-price">' + p.price.toFixed(2) + ' €</div>'
     + (p.description ? '<div class="detail-desc">' + p.description + '</div>' : '')
@@ -1929,7 +1960,7 @@ async function loadWishlist() {
         + '<button class="card-wish" onclick="event.stopPropagation();toggleWish(' + p.id + ').then(()=>loadWishlist())" id="wb' + p.id + '">❤️</button>'
         + addBtn + '</div>'
         + '<div class="card-body">'
-        + '<div class="card-cat">' + (catLabel[p.category] || p.category) + '</div>'
+        + '<div class="card-cat">' + getCatLabel(p.category) + '</div>'
         + '<div class="card-name">' + p.name + '</div>'
         + '<div class="card-price">' + p.price.toFixed(2) + ' €</div>'
         + '</div></div>';
@@ -2061,7 +2092,7 @@ async function loadProfile() {
   const spent     = db?.total_spent ? db.total_spent.toFixed(2) : '0.00';
   const completed = db?.completed_orders || 0;
   const lastOrder = db?.last_order ? db.last_order.slice(0,10) : '—';
-  const favCat    = db?.fav_category ? (catLabel[db.fav_category] || db.fav_category) : '—';
+  const favCat    = db?.fav_category ? getCatLabel(db.fav_category) : '—';
   const nextTier  = db?.next_tier;
 
   // Tier name
