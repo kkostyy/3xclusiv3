@@ -562,6 +562,28 @@ async def admin_get_support(admin_id: int = 0):
             return []
 
 
+
+@app.get("/api/admin/users")
+async def admin_get_users(admin_id: int = 0):
+    require_admin(admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute("""
+            SELECT u.telegram_id, u.username, u.first_name,
+                   COUNT(DISTINCT o.id) as orders,
+                   COALESCE(u.discount, 0) as discount,
+                   COALESCE(u.referrals, 0) as referrals,
+                   u.created_at
+            FROM users u
+            LEFT JOIN orders o ON o.user_id = u.id
+            GROUP BY u.id
+            ORDER BY orders DESC, u.created_at DESC
+            LIMIT 100
+        """) as cur:
+            rows = await cur.fetchall()
+    return [dict(r) for r in rows]
+
+
 # ── Categories ────────────────────────────────────────────────────────────────
 @app.get("/api/categories")
 async def get_categories():
