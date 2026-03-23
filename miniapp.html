@@ -11,7 +11,7 @@
   --bg: #040204; --bg2: rgba(8,4,8,0.97); --bg3: rgba(12,6,12,0.98);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.14);
   --text: #f0ece4; --text2: rgba(240,236,228,0.45); --text3: rgba(240,236,228,0.18);
-  --accent: #cc2222; --accent2: var(--ra-010); --red: #cc2222; --green: #1a4a2a;
+  --accent: #cc2222; --accent2: rgba(204,34,34,0.10); --red: #cc2222; --green: #1a4a2a;
   --red-rgb: 204,34,34;
   --ra-000: rgba(204,34,34,0);
   --ra-002: rgba(204,34,34,0.02);
@@ -1119,9 +1119,9 @@ header { position: relative; z-index: 1; }
 <div class="view on" id="vCatalog">
   <div class="filter" id="filterBar">
     <button class="fb on" data-cat="all" data-i18n="catAll">Всё</button>
-    <button class="fb" data-cat="clothes" data-i18n="catClothes" data-i18n="catClothes">Одежда</button>
-    <button class="fb" data-cat="shoes" data-i18n="catShoes" data-i18n="catShoes">Обувь</button>
-    <button class="fb" data-cat="accessories" data-i18n="catAccessories" data-i18n="catAccessories">Аксессуары</button>
+    <button class="fb" data-cat="clothes" data-i18n="catClothes">Одежда</button>
+    <button class="fb" data-cat="shoes" data-i18n="catShoes">Обувь</button>
+    <button class="fb" data-cat="accessories" data-i18n="catAccessories">Аксессуары</button>
   </div>
   <div class="grid" id="productGrid">
     <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка архива</div></div>
@@ -1276,8 +1276,8 @@ header { position: relative; z-index: 1; }
         <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);margin-bottom:12px;text-transform:uppercase" data-i18n="previewLabel">предпросмотр</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <span style="color:var(--red);font-family:var(--font-serif);font-size:22px">3xclusiv</span>
-          <span style="background:var(--red);color:#fff;font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px" data-i18n="previewNew" data-i18n="previewNew">НОВЫЙ</span>
-          <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7" data-i18n="previewArchive" data-i18n="previewArchive">АРХИВ</span>
+          <span style="background:var(--red);color:#fff;font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px" data-i18n="previewNew">НОВЫЙ</span>
+          <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7" data-i18n="previewArchive">АРХИВ</span>
         </div>
       </div>
     </div>
@@ -1418,16 +1418,16 @@ const LANGS = {
     addressLabel:'адрес', commentLabel:'комментарий',
     submitOrder:'подтвердить заказ', backToCart:'← корзина',
     linkCopied:'ссылка скопирована',
-    ordersCount:'заказов', referralsCount:'рефералов', discountCount:t('aDiscount'),
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
     cartEmpty:'корзина пуста', cartEmptyDesc:'добавьте товары из каталога', openCatalog:'открыть каталог',
-    ordersEmpty:t('aEmptyOrders'), ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
+    ordersEmpty:'заказов нет', ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
     wishEmpty:'избранное пусто', wishEmptyDesc:'сохраняйте понравившиеся товары',
     noConn:'нет соединения', noConnDesc:'проверьте подключение к сети', tryAgain:'попробовать снова',
-    catEmpty:t('aEmptyArchive'), catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
+    catEmpty:'архив пуст', catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
     addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
     size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
     support:'Поддержка', delivery:'Доставка',
-    noConnection:'нет соединения', noOrders:t('aEmptyOrders'),
+    noConnection:'нет соединения', noOrders:'заказов нет',
     cartEmpty:'корзина пуста', openTg:'откройте через Telegram',
     total:'итого', checkout:'оформить заказ', clearCart:'очистить корзину',
     sendMsg:'отправить', sizeCalc:'определить размер',
@@ -1438,6 +1438,12 @@ const LANGS = {
     appearance:'Оформление', appearanceDesc:'цвет подсветки',
     appearanceTitle:'оформление', accentLabel:'цвет подсветки', customColor:'свой цвет',
     loadingShort:'загрузка',
+    aRefresh:'нажмите обновить', aRefreshBtn:'обновить',
+    dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
+    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'В день заказа',
+    dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
+    dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
+    deliveryPayment:'Оплата наличными при встрече с продавцом',
     previewLabel:'предпросмотр', previewNew:'НОВЫЙ', previewArchive:'АРХИВ',
     removeItem:'убрать', totalLabel:'итого',
     archive:'архив', priceAdjTitle:'⚠ изменение цены',
@@ -1452,9 +1458,13 @@ const LANGS = {
     loadError:'ошибка загрузки', errDefault:'ошибка',
     guest:'Гость',
     catAll:'Всё', catClothes:'Одежда', catShoes:'Обувь', catAccessories:'Аксессуары',
+    aDiscount:'скидка', aReviewsEmpty:'отзывов нет', aReviewsEmptyDesc:'здесь появятся оценки покупателей',
+    aTopProducts:'топ товаров', aNotFound:'не найдено', aRetry:'повторить',
+    refLinkCopy:'ссылка скопирована', loadError:'ошибка загрузки',
+    aSupportSection:'поддержка', aSettingsSection:'настройки',
     heightLabel:'рост (см)', weightLabel:'вес (кг)', heightPh:'170', weightPh:'65',
     msgPh:'Ваше сообщение...', msgSent:'✅ сообщение отправлено',
-    refLink:t('refLinkCopy'),
+    refLink:'ссылка скопирована',
     linkCopied:'ссылка скопирована',
     checkoutTitle:'оформление заказа',
     namePh:'Иван Иванов', userPh:'username (без @)',
@@ -1465,9 +1475,9 @@ const LANGS = {
     reviewTitle:'отзыв', reviewBtn:'оставить отзыв', sendReview:'отправить отзыв',
     ratingLabel:'оценка', commentPh:'Комментарий (необязательно)...',
     back:'назад', backCart:'корзина', backOrders:'заказы',
-    ordersCount:'заказов', referralsCount:'рефералов', discountCount:t('aDiscount'),
+    ordersCount:'заказов', referralsCount:'рефералов', discountCount:'скидка',
     recommended:'рекомендуемый размер',
-    invited:'приглашено', discount:t('aDiscount'),
+    invited:'приглашено', discount:'скидка',
     friend:'друг', friends:'друзей',
     // Admin
     dashboard:'Сводка', allOrders:'все заказы', products:'Товары',
@@ -1498,7 +1508,7 @@ const LANGS = {
     enterDistrict:'введите район', orderPlaced:'заказ оформлен!',
     orderError:'ошибка оформления', connError:'ошибка соединения',
     archive:'архив', addedWish:'добавлено в избранное', removedWish:'удалено из избранного',
-    loadError:t('loadError'), errDefault:'ошибка',
+    loadError:'ошибка загрузки', errDefault:'ошибка',
     // Order statuses
     statusSearching:'в поиске', statusOrdered:'заказано', statusInTransit:'в пути',
     statusArrived:'прибыл', statusDelivered:'получен', statusCancelled:'отменён',
@@ -1519,9 +1529,9 @@ const LANGS = {
     enterHeightWeight:'введите рост и вес', recSize:'рекомендуемый размер',
     sizeRangeLabel:'рост {h} · вес {w}',
     // Referrals
-    invitedLabel:'приглашено', discountLabel:t('aDiscount'),
+    invitedLabel:'приглашено', discountLabel:'скидка',
     friendOne:'друг', friendMany:'друзей', moreNeeded:'ещё',
-    personsShort:'чел.', refLinkCopy:t('refLinkCopy'),
+    personsShort:'чел.', refLinkCopy:'ссылка скопирована',
     // Notifications
     subscribed:'подписаны', notSubscribed:'не подписаны',
     subSuccess:'✅ подписаны', unsubSuccess:'🔕 отписались',
@@ -1529,7 +1539,7 @@ const LANGS = {
     supportIntro:'Есть вопрос? Напишите — ответим в Telegram.',
     msgPlaceholder:'Ваше сообщение...', enterMsg:'введите сообщение', msgSentOk:'✅ сообщение отправлено',
     // Delivery
-    deliveryPayment:t('deliveryPayment'),
+    deliveryPayment:'Оплата наличными при встрече с продавцом',
     // Delivery zones
     dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
     dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'В день заказа',
@@ -1555,23 +1565,23 @@ const LANGS = {
     aAdjHint:'можно поднять не более чем на 20% из-за доставки или других факторов',
     aAdjReasonLbl:'причина для покупателя', aAdjReasonPh:'Например: доставка в отдалённый район',
     aSendToBuyer:'отправить покупателю', aMsgBuyerPh:'Сообщение для покупателя...',
-    aReviewsEmpty:t('aReviewsEmpty'), aReviewsEmptyDesc:t('aReviewsEmptyDesc'),
-    aSilence:t('aSilence'), aSilenceDesc:t('aSilenceDesc'),
+    aReviewsEmpty:'отзывов нет', aReviewsEmptyDesc:'здесь появятся оценки покупателей',
+    aSilence:'тихо здесь', aSilenceDesc:'сообщений в поддержку нет',
     aAnon:'Аноним', aReply:'ответить',
     aBroadcastPh:'Текст рассылки...', aSendBroadcast:'отправить рассылку',
     aBroadcastMsg:'сообщение всем пользователям',
-    aUsersEmpty:t('aUsersEmpty'), aUsersEmptyDesc:t('aUsersEmptyDesc'),
+    aUsersEmpty:'пользователей нет', aUsersEmptyDesc:'здесь появятся покупатели',
     aRegistered:'зарегистрировано', aWithOrders:'с заказами',
-    aOrders:'заказов', aDiscount:t('aDiscount'),
+    aOrders:'заказов', aDiscount:'скидка',
     aNoAccess:'нет доступа', aAddRailway:'добавь в Railway Variables:',
-    aRetry:t('aRetry'), aReport:'формируем отчёт...', aReportCopied:'отчёт скопирован',
+    aRetry:'повторить', aReport:'формируем отчёт...', aReportCopied:'отчёт скопирован',
     aStatusUpdated:'✅ статус обновлён', aFillAll:'заполните все поля',
     aPriceMax:'максимум +20% =', aCantLower:'нельзя снизить цену',
     aPriceSent:'✅ изменение цены отправлено покупателю',
     aMsgSentBuyer:'✅ сообщение отправлено покупателю', aMsgErrSend:'ошибка отправки',
     aNoRecipient:'нет получателя', aCatAdded:'добавлена', aDeleteDbOnly:'⚠ удаление только через базу данных',
     aDoubleConfirm:'нажмите ещё раз для подтверждения', aBroadcastSent:'рассылка',
-    aPersons:'чел.', aErrors:'ошибок', aNotFound:t('aNotFound'),
+    aPersons:'чел.', aErrors:'ошибок', aNotFound:'не найдено',
     aCurrSet:'валюта:', aSettingsSaved:'✓ настройки сохранены', aNoAdminId:'не задан в Railway',
     aInNavOrders:'заказы', aInNavSummary:'Сводка', aInNavProducts:'Товары', aInNavMore:'Ещё', aInNavExit:'Выйти',
     aReviewsSection:'отзывы', aSupportSection:'поддержка', aBroadcastSection:'рассылка',
@@ -1582,7 +1592,7 @@ const LANGS = {
     aSummaryTitle:'сводка', aOrdersTitle:'все заказы', aProductsTitle:'товары',
     aNewOrders:'новых заказов', aActiveOrders:'активных', aRevenue:'выручка',
     aUsersCount:'пользователей', aTotalOrders:'заказов всего', aAvgRating:'средний рейтинг', aReviewsCount:'отзывов',
-    aTopProducts:t('aTopProducts'), aSoldCount:'шт. продано',
+    aTopProducts:'топ товаров', aSoldCount:'шт. продано',
     aAllFilter:'Все', aSearchingFilter:'В поиске', aOrderedFilter:'Заказано',
     aInTransitFilter:'В пути', aArrivedFilter:'Прибыл', aDeliveredFilter:'Получен', aCancelledFilter:'Отменён',
     aInStock:'в наличии', aOutOfStock:'нет в наличии',
@@ -1595,9 +1605,9 @@ const LANGS = {
     aCatDeleteDouble:'нажмите ещё раз для удаления', aCatDeleted:'✅ категория удалена',
     aErrorApi:'ошибка — добавьте эндпоинт /api/admin/categories в api.py',
     aCurrentPrice:'текущая:', aMaxPrice:'максимум +20%:',
-    aEmptyOrders:t('aEmptyOrders'), aEmptyOrdersDesc:t('aEmptyOrdersDesc'),
-    aRefresh:t('aRefresh'), aRefreshBtn:t('aRefreshBtn'),
-    aEmptyArchive:t('aEmptyArchive'), aEmptyArchiveDesc:t('aEmptyArchiveDesc'), aScrollUp:t('aScrollUp'),
+    aEmptyOrders:'заказов нет', aEmptyOrdersDesc:'новые заказы появятся здесь',
+    aRefresh:'нажмите обновить', aRefreshBtn:'обновить',
+    aEmptyArchive:'архив пуст', aEmptyArchiveDesc:'товары ещё не добавлены', aScrollUp:'наверх',
     aPhotoUpdated:'✅ фото обновлено', aPhotoUrlPrompt:'URL фото для товара #',
     aProductAdded:'✅ товар добавлен #', aProductDeleted:'✅ товар удалён',
   },
@@ -1638,6 +1648,7 @@ const LANGS = {
     appearance:'Appearance', appearanceDesc:'accent color',
     appearanceTitle:'appearance', accentLabel:'accent color', customColor:'custom',
     loadingShort:'loading',
+    aRefresh:'press to refresh', aRefreshBtn:'refresh',
     previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
     dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
     dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Same day',
@@ -1735,6 +1746,10 @@ const LANGS = {
     pickRating:'choose rating', reviewSaved:'review saved',
     guest:'Guest',
     catAll:'All', catClothes:'Clothes', catShoes:'Shoes', catAccessories:'Accessories',
+    aDiscount:'discount', aReviewsEmpty:'no reviews yet', aReviewsEmptyDesc:'buyer ratings will appear here',
+    aTopProducts:'top products', aNotFound:'not found', aRetry:'retry',
+    refLinkCopy:'link copied', loadError:'loading error',
+    aSupportSection:'support', aSettingsSection:'settings',
     heightLabel:'height (cm)', weightLabel:'weight (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Your message...', msgSent:'✅ message sent',
     refLink:'referral link — tap to copy',
@@ -1889,102 +1904,32 @@ const LANGS = {
     appearance:'Välimus', appearanceDesc:'esiletõstu värv',
     appearanceTitle:'välimus', accentLabel:'esiletõstu värv', customColor:'kohandatud',
     loadingShort:'laadimine',
-    previewLabel:'eelvaade', previewNew:'UUS', previewArchive:'ARHIIV',
-    dz1name:'🏙 Tallinn — Kesklinn', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Samal päeval',
-    dz2name:'🏘 Tallinn — Äärelinn', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Samal päeval',
-    dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saue, Keila, Viimsi', dz3time:'1–2 päeva',
-    dz4name:'🚗 Muud piirkonnad', dz4area:'Tartu, Pärnu, Narva jt', dz4time:'2–3 päeva',
-    deliveryPayment:'Tasumine sularahas müüjale kohtudes',
-    tierArchive:'✦ arhivaar', tierRegular:'† püsikülastaja',
-    tierConnoisseur:'◆ asjatundja', tierAcquaintance:'⋆ tuttav', tierNewGuest:'· uus külaline',
-    tierMore:'veel', tierMax:'maksimaalne allahindlus',
-    spentTotal:'kulutatud kokku', completedOrders:'lõpetatud tellimust',
-    favCategory:'lemmikkategooria', lastOrder:'viimane tellimus',
-    refLinkLabel:'soovituslink', tapToCopy:'puudutage kopeerimiseks',
-    invitedLabel:'kutsutud', discountLabel:'allahindlus',
     moreNeeded:'veel', personsShort:'ini.',
-    refLinkCopy:'soovituslink — puudutage kopeerimiseks',
-    subscribed:'tellitud', notSubscribed:'ei ole tellitud',
-    supportIntro:'Küsimus? Kirjutage — vastame Telegramis.',
-    msgPlaceholder:'Teie sõnum...', enterMsg:'sisestage sõnum',
-    removeItem:'eemalda', totalLabel:'kokku',
-    archive:'arhiiv', priceAdjTitle:'⚠ hinna muutus',
     acceptPrice:'nõustun', rejectPrice:'tühista',
-    leaveReview:'jäta arvustus', orderLabel:'Tellimus',
     recSize:'soovituslik suurus', sizeRangeLabel:'pikkus {h} · kaal {w}',
     openTg:'ava Telegrami kaudu',
-    adminPassword:'administraatori parool',
-    aNewOrders:'uued tellimused', aActive:'aktiivsed', aRevenue:'tulu',
-    aUsersCount:'kasutajat', aTotalOrders:'tellimusi kokku', aAvgRating:'keskm. hinnang', aReviewsCount:'arvustust',
-    aTopProducts:'tipp tooted', aSoldCount:'tk müüdud',
-    aEmptyOrders:'tellimusi pole', aEmptyOrdersDesc:'uued klienditellimused ilmuvad siia',
     aAdjPrice:'muuda hinda', aWriteBuyer:'kirjuta', aCancelOrder:'tühista tellimus',
-    aCurrentPrice:'praegune:', aMaxPrice:'max +20%:',
-    aEmptyArchive:'arhiiv tühi', aEmptyArchiveDesc:'lisage esimene toode ülaltoodud vormi kaudu',
     aScrollUp:'keri üles',
-    aInStock:'laos olemas', aOutOfStock:'otsas',
-    aReviewsEmpty:'arvustusi pole', aReviewsEmptyDesc:'hinnangud ilmuvad pärast esimesi lõpetatud tellimusi',
-    aSilence:'vaikus', aSilenceDesc:'kliendid kirjutavad rakenduse Toe sektsiooni kaudu',
-    aAnon:'Anonüümne',
     aBroadcastSent:'ringhääling', aPersons:'ini.', aErrors:'viga',
-    aRegistered:'registreeritud', aWithOrders:'tellimustega',
-    aUsersEmpty:'kasutajaid pole', aUsersEmptyDesc:'kui esimene klient poe avab — ilmub siia',
-    aOrders:'tellimust', aDiscount:'allahindlus',
-    aNoAccess:'juurdepääs puudub', aAddRailway:'lisa Railway muutujatesse:',
-    aRetry:'↺ proovi uuesti', aReport:'aruannet koostatakse...', aReportCopied:'aruanne kopeeritud',
-    aStatusUpdated:'✅ olek uuendatud', aFillAll:'täitke kõik väljad',
-    aPriceMax:'max +20% =', aCantLower:'hinda ei saa alandada',
-    aPriceSent:'✅ hinna muutus saadetud ostjale',
-    aMsgSentBuyer:'✅ sõnum saadetud ostjale', aMsgErrSend:'saatmise viga',
-    aNoRecipient:'saajat pole', aCatAdded:'lisatud', aDeleteDbOnly:'⚠ kustutamine ainult andmebaasi kaudu',
-    aDoubleConfirm:'kinnitamiseks vajutage uuesti', aBroadcastSent2:'ringhääling',
     aNotFound:'ei leitud',
-    aCurrSet:'valuuta:', aSettingsSaved:'✓ seaded salvestatud', aNoAdminId:'ei ole Railway-s määratud',
-    aInNavOrders:'Tellimused', aInNavSummary:'Ülevaade', aInNavProducts:'Tooted', aInNavMore:'Veel', aInNavExit:'Välju',
-    aReviewsSection:'arvustused', aSupportSection:'tugi', aBroadcastSection:'ringhääling',
-    aUsersSection:'kasutajad', aSettingsSection:'seaded', aDevSection:'arendaja',
-    aHubUsers:'nimekiri ja statistika', aHubSettings:'pood ja parameetrid', aHubDev:'silumine ja diagnostika',
-    aHubReviews:'ostjate hinnangud', aHubSupport:'sissetulevad sõnumid', aHubBroadcast:'saada kõigile kasutajatele',
-    aDoubleDelete:'kustutamiseks vajutage uuesti',
-    aSummaryTitle:'ülevaade', aOrdersTitle:'kõik tellimused', aProductsTitle:'tooted',
-    aAllFilter:'Kõik', aSearchingFilter:'Otsitakse', aOrderedFilter:'Tellitud',
-    aInTransitFilter:'Teel', aArrivedFilter:'Saabunud', aDeliveredFilter:'Kätte saadud', aCancelledFilter:'Tühistatud',
-    aStatTitle:'◆ statistika', aTotal:'kokku', aDiscounts:'allahindlused',
-    aListTitle:'† nimekiri', aSearchPh:'otsi nime / @kasutajanime järgi',
-    aShopTitle:'† pood', aShopNameLbl:'poe nimi', aCurrLbl:'valuuta',
-    aMinOrderLbl:'miinimumtellimus (€)', aSaveBtn:'salvesta',
-    aParamsTitle:'☠ parameetrid', aExport:'ekspordi andmed', aWipe:'kustuta vanad tellimused',
-    aDiagTitle:'◈ diagnostika', aDebugTitle:'⸸ silumine', aClearLog:'tühjenda', aReset:'lähtesta',
-    aClearAllCarts:'tühjenda kõik ostukorvid',
-    aApiStatus:'API staatus', aReloadProducts:'tooted', aReloadProfile:'profiil', aTestToast:'testi teatist',
-    aNewProdTitle:'uus', aArticle:'artikkel', aNameLbl:'nimi', aPriceLbl:'hind',
-    aPhotoLbl:'toote foto', aPhotoUrlPh:'Foto URL (https://...)', aUploadViaTg:'või laadi Telegrami boti kaudu käsuga',
-    aCatLbl:'kategooria', aDescLbl:'kirjeldus', aProdDescPh:'Toote kirjeldus...',
-    aAddProduct:'lisa arhiivi', aNewCatTitle:'uus kategooria', aNewCatPh:'Nimi',
-    aAdjNewPrice:'uus hind (€) — max. +20%',
-    aAdjHint:'saab tõsta mitte rohkem kui 20% tarne või muude tegurite tõttu',
-    aAdjReasonLbl:'põhjus ostjale', aAdjReasonPh:'nt tarne kaugesse piirkonda',
-    aSendToBuyer:'saada ostjale', aMsgBuyerPh:'Sõnum ostjale...',
-    aBroadcastPh:'Ringhäälingu sõnum...', aSendBroadcast:'saada ringhääling',
-    aBroadcastMsg:'sõnum kõigile kasutajatele',
     aAccessDenied:'Juurdepääs keelatud', aAdminOnly:'ainult administraatoritele',
-    aDevOpened:'▶ arendaja avatud', aNotAuth:'NULL - autentimata',
-    aLangKey:'keel', aTgVersion:'TG versioon', aPlatform:'platvorm', aScreen:'ekraan',
-    aCart:'ostukorv', aPos:'pos.', aProducts2:'toodet', aCategories:'kategooriat', aMemory:'mälu',
-    aDiagLoaded:'✓ diagnostika laaditud', aCartClearedAll:'ostukorv tühjendatud', aTestNotif:'† testi teavitus †',
-    aDataReset:'andmed lähtestatud',
-    aProductAdded:'✅ toode lisatud #', aProductDeleted:'✅ toode kustutatud',
-    loadError:'laadimise viga', errDefault:'viga',
     orderPlaced:'tellimus esitatud!', orderError:'tellimuse viga', connError:'ühenduse viga',
     addedToCart:'lisatud ostukorvi', cartCleared:'ostukorv tühjendatud',
     enterName:'sisestage ees- ja perekonnanimi', enterUsername:'sisestage kasutajanimi (min 5 tähemärki)',
     enterPhone:'sisestage Eesti number (8 numbrit)', enterDistrict:'sisestage piirkond',
     addedWish:'lisatud lemmikutesse', removedWish:'eemaldatud lemmikutest',
-    statusSearching:'otsitakse', statusOrdered:'tellitud', statusInTransit:'teel',
-    statusArrived:'saabunud', statusDelivered:'kätte saadud', statusCancelled:'tühistatud',
-    pickRating:'valige hinnang', reviewSaved:'arvustus salvestatud',
-    guest:'Külaline',
     catAll:'Kõik', catClothes:'Riided', catShoes:'Jalatsid', catAccessories:'Aksessuaarid',
+    aDiscount:'allahindlus', aReviewsEmpty:'arvustusi pole', aReviewsEmptyDesc:'ostjate hinnangud ilmuvad siia',
+    refLinkCopy:'link kopeeritud', loadError:'laadimise viga',
+    aSupportSection:'tugi', aSettingsSection:'seaded',
+    cartTitle:'ostukorv', catEmpty:'arhiiv on tühi', delivery:'Tarne',
+    myOrders:'minu tellimused', notifications:'Teavitused', ordersEmpty:'tellimusi pole',
+    referrals:'Soovitused', sizeTitle:'suurus', supportTitle:'tugi', wishEmpty:'lemmikud tühjad',
+    addressLabel:'aadress', catEmpty:'arhiiv on tühi',
+    checkout:'esita tellimus', delivery:'Tarne', myOrders:'minu tellimused',
+    noConn:'ühendus puudub', notifications:'Teavitused', ordersEmpty:'tellimusi pole veel',
+    refTitle:'soovitused', referrals:'Soovitused', sizeTitle:'suurus',
+    submitOrder:'kinnita tellimus', supportTitle:'tugi', wishEmpty:'lemmikud on tühjad',
     heightLabel:'pikkus (cm)', weightLabel:'kaal (kg)', heightPh:'170', weightPh:'65',
     msgPh:'Teie sõnum...', msgSent:'✅ sõnum saadetud',
     refLink:'soovituslink — puudutage kopeerimiseks',
@@ -2120,6 +2065,10 @@ const LANGS = {
     aEmptyArchive:'arhiiv tühi', aEmptyArchiveDesc:'lisage esimene toode ülaloleva vormi abil', aScrollUp:'kerige üles',
     aPhotoUpdated:'✅ foto uuendatud', aPhotoUrlPrompt:'Foto URL tootele #',
     aProductAdded:'✅ toode lisatud #', aProductDeleted:'✅ toode kustutatud',
+    catEmpty:'arhiiv on tühi', delivery:'Tarne', notifications:'Teavitused',
+    ordersEmpty:'tellimusi pole veel', sizeTitle:'suurus', supportTitle:'tugi',
+    wishEmpty:'lemmikud on tühjad',
+    delivery:'Tarne', notifications:'Teavitused', sizeTitle:'suurus', supportTitle:'tugi',
   }
 };
 
@@ -2173,6 +2122,8 @@ function setLang(lang) {
   if (active === 'cart') renderCartPage();
   if (active === 'profile') loadProfile();
   renderGrid();
+  // Re-render admin if open
+  if (typeof renderAdminOrderFilters === 'function') renderAdminOrderFilters();
 }
 
 
@@ -2408,7 +2359,7 @@ async function submitOrder() {
 }
 
 // ═══ PRODUCTS ═══
-let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' }; // base fallback
+let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
 function getCatLabel(id) {
   const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories') };
   return map[id] || catLabel[id] || id;
@@ -2618,7 +2569,7 @@ async function loadOrders() {
       const isActive = STATUS_ACTIVE.includes(o.status);
       const items = (o.items || []).map(i => `${i.name} × ${i.qty}`).join(', ');
       const adjBlock = o.adjusted_price ? `<div class="price-adj">
-        <div class="price-adj-title">⚠ изменение цены</div>
+        <div class='price-adj-title'>${t('priceAdjTitle')}</div>
         <div class="price-adj-val">${(+o.adjusted_price).toFixed(2)} €</div>
         <div class="price-adj-reason">${o.adjustment_reason || ''}</div>
         <div class="btn-row">
@@ -2627,7 +2578,7 @@ async function loadOrders() {
         </div>
       </div>` : '';
       const pct = STATUS_PCT[o.status] || 0;
-      const reviewBtn = o.status === 'delivered' ? `<button class="review-btn" onclick="openReview(${o.id})">оставить отзыв</button>` : '';
+      const reviewBtn = o.status === 'delivered' ? `<button class='review-btn' onclick='openReview(${o.id})'>${t('leaveReview')}</button>` : '';
       return `<div class="order-card ${isActive ? 'is-active' : ''}">
         <div class="order-card-head">
           <div class="order-card-left">
@@ -2665,8 +2616,8 @@ async function priceDecision(orderId, action) {
 function openReview(orderId) {
   reviewOrderId = orderId; reviewStars = 0;
   document.getElementById('reviewBody').innerHTML = `
-    <div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin-bottom:12px">Заказ #${orderId}</div>
-    <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">оценка</div>
+    <div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin-bottom:12px">${t('orderLabel')} #${orderId}</div>
+    <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">${t('ratingLabel')}</div>
     <div class="stars-row">${[1,2,3,4,5].map(n => `<button class="star-btn" onclick="setStar(${n})">★</button>`).join('')}</div>
     <textarea class="inp" id="revText" placeholder="" + t('commentPh') + ""></textarea>
     <button class="btn" onclick="submitReview()">${t('sendReview')}</button>`;
@@ -2862,7 +2813,7 @@ async function loadNotif() {
     const r = await fetch(`${API}/api/notifications/${userId}`);
     const d = await r.json();
     const subs = new Set(d.subscribed);
-    const cats = [{ id: 'clothes', name: t('catClothes'), icon: '👕' }, { id: 'shoes', name: t('catShoes'), icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
+    const cats = [{ id: 'clothes', name: getCatLabel('clothes'), icon: '👕' }, { id: 'shoes', name: getCatLabel('shoes'), icon: '👟' }, { id: 'accessories', name: 'Аксессуары', icon: '👜' }];
     el.innerHTML = cats.map(c => `
       <div class="notif-item" onclick="toggleNotif('${c.id}',this)">
         <div class="notif-icon">${c.icon}</div>
@@ -3156,7 +3107,7 @@ function renderAdminOrders() {
   const el = document.getElementById('aOrdersContent');
   let orders = allOrders;
   if (activeOrderFilter !== 'all') orders = orders.filter(o => o.status === activeOrderFilter);
-  if (!orders.length) { el.innerHTML = emptyState('◇',t('aEmptyOrders'),t('aEmptyOrdersDesc') + ' · нажмите обновить',t('aRefreshBtn'),'loadAdminOrders()', 'tempus fugit'); return; }
+  if (!orders.length) { el.innerHTML = emptyState('◇',t('aEmptyOrders'),t('aEmptyOrdersDesc'),t('aRefreshBtn'),'loadAdminOrders()', 'tempus fugit'); return; }
   el.innerHTML = orders.map(o => {
     const isActive = ADMIN_STATUS_ACTIVE.includes(o.status);
     const items = (o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ');
@@ -3242,7 +3193,7 @@ async function submitAdjust() {
       body: JSON.stringify({ admin_id: userId, new_price: price, reason })
     });
     const d = await r.json();
-    if (!r.ok) { toast('✗ ' + (d.detail || 'ошибка'), 3000); return; }
+    if (!r.ok) { toast('✗ ' + (d.detail || t('errDefault')), 3000); return; }
     adminGoBack(); toast(t('aPriceSent'));
     loadAdminOrders();
   } catch { toast(t('connError')); }
@@ -3315,7 +3266,7 @@ async function loadAdminProducts() {
   try {
     const r = await fetch(`${API}/api/admin/products?admin_id=${userId}`);
     const products = await r.json();
-    if (!products.length) { el.innerHTML = emptyState('†',t('aEmptyArchive'),t('aEmptyArchiveDesc'),t('aScrollUp') вверх','document.getElementById(\'vaProducts\').scrollTop=0', 'ars longa vita brevis'); return; }
+    if (!products.length) { el.innerHTML = emptyState('†',t('aEmptyArchive'),t('aEmptyArchiveDesc'),t('aScrollUp'),"document.getElementById('vaProducts').scrollTop=0", 'ars longa vita brevis'); return; }
     el.innerHTML = products.map(p => `
       <div class="prod-card" id="apc${p.id}">
         <div class="prod-icon" style="overflow:hidden;border-radius:12px;">
@@ -3418,7 +3369,7 @@ async function loadReviews() {
   try {
     const r = await fetch(`${API}/api/admin/reviews?admin_id=${userId}`);
     const reviews = await r.json();
-    if (!reviews.length) { el.innerHTML = emptyState('⋆',t('aReviewsEmpty'),t('aReviewsEmptyDesc')в','','', 'vox populi vox dei'); return; }
+    if (!reviews.length) { el.innerHTML = emptyState('⋆',t('aReviewsEmpty'),t('aReviewsEmptyDesc'),'','', 'vox populi vox dei'); return; }
     el.innerHTML = reviews.map(rv => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</div>
@@ -3480,7 +3431,7 @@ async function sendBroadcast() {
     if (d.ok) {
       document.getElementById('aBroadcastText').value = '';
       toast('✅ ' + t('aBroadcastSent') + ' · ' + (d.sent || 0) + ' ' + t('aPersons') + ' · ' + (d.failed || 0) + ' ' + t('aErrors'), 5000);
-    } else { toast('✗ ' + (d.detail || 'ошибка'), 3000); }
+    } else { toast('✗ ' + (d.detail || t('errDefault')), 3000); }
   } catch { toast(t('connError')); }
 }
 
@@ -3513,10 +3464,10 @@ function filterUsers(query) {
     + '</div>'
     + '<div style="text-align:right">'
     + '<div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text3);font-style:italic">' + (u.orders||0) + '</div>'
-    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+    + '<div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">' + t('aOrders') + '</div>'
     + '</div></div>'
     + '<div style="display:flex;align-items:center;gap:8px">'
-    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">скидка:</div>'
+    + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3)">' + t('aDiscount') + ':</div>'
     + '<div style="display:flex;gap:4px">'
     + [0,3,5,10,15,20].map(d =>
         '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" style="background:'+(d===(u.discount||0)?'var(--ra-015)':'none')+';border:1px solid '+(d===(u.discount||0)?'var(--ra-004)':'var(--border)')+';color:'+(d===(u.discount||0)?'var(--accent)':'var(--text3)')+';font-family:Jost,sans-serif;font-size:8px;font-weight:200;padding:4px 7px;border-radius:8px;cursor:pointer;touch-action:manipulation">' + d + '%</button>'
@@ -3534,7 +3485,7 @@ async function loadAdminUsers() {
     if (r.status === 403) {
       el.innerHTML = '<div style="padding:20px;text-align:center">'
         + '<div style="font-family:var(--font-serif);font-size:32px;color:var(--ra-004);margin-bottom:12px">†</div>'
-        + '<div style="font-family:var(--font-serif);font-size:18px;color:var(--text2);margin-bottom:8px">нет доступа</div>'
+        + '<div style="font-family:var(--font-serif);font-size:18px;color:var(--text2);margin-bottom:8px">' + t('aNoAccess') + '</div>'
         + '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);line-height:1.8">'
         + t('aAddRailway') + '<br>'
         + '<span style="font-family:monospace;color:var(--text2);background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:6px">ADMIN_IDS=' + userId + '</span>'
@@ -3550,12 +3501,12 @@ async function loadAdminUsers() {
     const el2 = document.getElementById('usStat2'); if(el2) el2.textContent = allUsers.filter(u=>u.orders>0).length;
     const el3 = document.getElementById('usStat3'); if(el3) el3.textContent = withDisc;
     const _um = document.getElementById('hubUsersMeta');
-    if(_um) _um.textContent = allUsers.length + ' ' + t('aRegistered') + ' · ' + allUsers.filter(u=>u.orders>0).length + ' ' + t('aWithOrders')и';
+    if(_um) _um.textContent = allUsers.length + ' ' + t('aRegistered') + ' · ' + allUsers.filter(u=>u.orders>0).length + ' ' + t('aWithOrders') + '';
     renderUsers();
   } catch(e) {
     el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text3);font-size:10px">'
-      + (e.message||'ошибка') + '<br><br>'
-      + '<button class="adm-btn-save" onclick="loadAdminUsers()">↺ повторить</button></div>';
+      + (e.message||t('errDefault')) + '<br><br>'
+      + '<button class="adm-btn-save" onclick="loadAdminUsers()">↺ ' + t('aRetry') + '</button></div>';
   }
 }
 
@@ -3580,10 +3531,10 @@ function renderUsers() {
       + '</div>'
       + '<div class="user-orders">'
       + '<div style="font-family:var(--font-serif);font-size:24px;color:var(--text3);font-style:italic;line-height:1">' + (u.orders||0) + '</div>'
-      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">заказов</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">' + t('aOrders') + '</div>'
       + '</div></div>'
       + '<div class="user-discount-row">'
-      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">скидка</div>'
+      + '<div style="font-size:7px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">' + t('aDiscount') + '</div>'
       + '<div style="display:flex;gap:4px;flex-wrap:wrap">'
       + [0,3,5,10,15,20].map(d =>
           '<button onclick="setUserDiscount(' + u.telegram_id + ',' + d + ',this)" class="disc-btn' + (d===disc?' disc-btn-on':'') + '">' + d + '%</button>'
@@ -3630,7 +3581,7 @@ async function loadSettings() {
     const s = await r.json();
     if (nameEl) nameEl.value = s.shop_name || '';
     if (minEl) minEl.value = s.min_order || '';
-    const _sm = document.getElementById('hubSettingsMeta'); if(_sm) _sm.textContent = (s.shop_name||'3xclusiv33') + ' · ' + (s.currency||'€') + ' · мин. ' + (s.min_order||0) + '€';
+    const _sm = document.getElementById('hubSettingsMeta'); if(_sm) _sm.textContent = (s.shop_name||'3xclusiv33') + ' · ' + (s.currency||'€') + ' · min. ' + (s.min_order||0) + '€';
     const serverCurr = s.currency || '€';
     localStorage.setItem('currency_3x', serverCurr);
     document.querySelectorAll('#aMoreSettings .cat-btn').forEach(b => {
@@ -3885,7 +3836,7 @@ init();
         <input class="inp inp-sm" id="aPName" data-i18n="aNameLbl" data-i18n-attr="placeholder" placeholder="Название товара" style="margin-bottom:0">
       </div>
       <div>
-        <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">цена €</div>
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:6px"><span data-i18n="aPriceLbl">цена €</span></div>
         <input class="inp inp-sm" id="aPPrice" placeholder="0.00" type="number" step="0.01" style="margin-bottom:0;width:90px;text-align:center">
       </div>
     </div>
@@ -3896,7 +3847,7 @@ init();
       <div id="aPhotoPreview" style="width:64px;height:64px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text3)">✦</div>
       <div style="flex:1;min-width:0">
         <input class="inp inp-sm" id="aPPhoto" data-i18n="aPhotoUrlPh" data-i18n-attr="placeholder" placeholder="URL фото (https://...)" style="margin-bottom:6px" oninput="previewPhoto(this.value)">
-        <div style="font-size:8px;font-weight:200;color:var(--text3);letter-spacing:0.1em">или загрузите через Telegram бота командой /addphoto</div>
+        <div style="font-size:8px;font-weight:200;color:var(--text3);letter-spacing:0.1em"><span data-i18n="aUploadViaTg">или загрузите через Telegram бота командой</span> /addphoto</div>
       </div>
     </div>
 
@@ -4020,7 +3971,7 @@ init();
       <div class="broadcast-box">
         <div class="form-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);" data-i18n="aBroadcastMsg">сообщение всем пользователям</div>
         <textarea class="inp inp-sm" id="aBroadcastText" data-i18n="aBroadcastPh" data-i18n-attr="placeholder" placeholder="Текст рассылки..." style="min-height:100px;resize:none;"></textarea>
-        <button class="btn-act" style="width:100%" onclick="sendBroadcast()" data-i18n="aSendBroadcast" data-i18n="aSendBroadcast">отправить рассылку</button>
+        <button class="btn-act" style="width:100%" onclick="sendBroadcast()" data-i18n="aSendBroadcast">отправить рассылку</button>
       </div>
     </div>
   </div>
@@ -4204,11 +4155,11 @@ init();
 
 <!-- ADMIN NAV -->
 <nav class="nav admin-nav" id="adminNav">
-  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard" data-i18n="aInNavSummary">Сводка</span></button>
+  <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard">Сводка</span></button>
   <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
   <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl" data-i18n="products">Товары</span></button>
   <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
-  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin" data-i18n="aInNavExit">Выйти</span></button>
+  <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin">Выйти</span></button>
 </nav>
 
 
@@ -4349,7 +4300,7 @@ init();
       if(p.red){
         // Red glowing particle
         const g=ctx.createRadialGradient(0,0,0,0,0,p.size*1.6);
-        g.addColorStop(0,'var(--ra-035)'); g.addColorStop(1,'var(--ra-000)');
+        const _rc=getComputedStyle(document.documentElement).getPropertyValue('--red-rgb').trim()||'204,34,34'; g.addColorStop(0,'rgba('+_rc+',0.35)'); g.addColorStop(1,'rgba('+_rc+',0)');
         ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,p.size*1.6,0,Math.PI*2); ctx.fill();
         ctx.fillStyle='rgba(220,80,80,1)';
       } else {
