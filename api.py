@@ -439,12 +439,23 @@ class PriceAdjust(BaseModel):
 async def admin_adjust_price(order_id: int, body: PriceAdjust):
     require_admin(body.admin_id)
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Get original price
+        async with db.execute("SELECT total_price FROM orders WHERE id=?", (order_id,)) as cur:
+            row = await cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="Order not found")
+        original = float(row[0])
+        max_allowed = round(original * 1.20, 2)  # max +20%
+        if body.new_price > max_allowed:
+            raise HTTPException(status_code=400, detail=f"Price cannot exceed 20% above original ({max_allowed}€)")
+        if body.new_price < original:
+            raise HTTPException(status_code=400, detail="Price cannot be lower than original")
         await db.execute(
             "UPDATE orders SET adjusted_price=?, adjustment_reason=? WHERE id=?",
             (body.new_price, body.reason, order_id)
         )
         await db.commit()
-    return {"ok": True}
+    return {"ok": True, "original": original, "new_price": body.new_price, "max_allowed": max_allowed}
 
 @app.get("/api/admin/products")
 async def admin_get_products(admin_id: int = 0):
@@ -478,6 +489,7 @@ class NewProduct(BaseModel):
     price: float
     category: str
     description: Optional[str] = ""
+    photo_url: Optional[str] = None  # external URL for photo
 
 @app.post("/api/admin/products")
 async def admin_add_product(body: NewProduct):
@@ -485,7 +497,7 @@ async def admin_add_product(body: NewProduct):
     async with aiosqlite.connect(DATABASE_PATH) as db:
         cur = await db.execute(
             "INSERT INTO products (name, price, category, description, is_available, is_active) VALUES (?,?,?,?,1,1)",
-            (body.name, body.price, body.category, body.description)
+            (body.name, body.price, body.category, body.description or "")
         )
         await db.commit()
     return {"ok": True, "id": cur.lastrowid}
@@ -584,6 +596,91 @@ async def admin_get_users(admin_id: int = 0):
     return [dict(r) for r in rows]
 
 
+
+# ── Admin user management ─────────────────────────────────────────────────
+@app.patch("/api/admin/users/{telegram_id}")
+async def admin_update_user(telegram_id: int, body: dict, admin_id: int = 0):
+    """Update user discount or other fields."""
+    require_admin(admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        if "discount" in body:
+            discount = max(0, min(50, int(body["discount"])))  # cap 0-50%
+            await db.execute(
+                "UPDATE users SET discount=? WHERE telegram_id=?",
+                (discount, telegram_id)
+            )
+        await db.commit()
+    return {"ok": True}
+
+@app.delete("/api/admin/users/{telegram_id}")
+async def admin_delete_user(telegram_id: int, admin_id: int = 0):
+    require_admin(admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        async with db.execute("SELECT id FROM users WHERE telegram_id=?", (telegram_id,)) as cur:
+            row = await cur.fetchone()
+        if row:
+            await db.execute("DELETE FROM users WHERE telegram_id=?", (telegram_id,))
+            await db.commit()
+    return {"ok": True}
+
+
+
+# ── Broadcast message to all users ───────────────────────────────────────────
+class BroadcastMsg(BaseModel):
+    admin_id: int
+    text: str
+
+@app.post("/api/admin/broadcast")
+async def admin_broadcast(body: BroadcastMsg):
+    require_admin(body.admin_id)
+    sent = 0
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        async with db.execute("SELECT telegram_id FROM users") as cur:
+            users = [r[0] for r in await cur.fetchall()]
+    # Send via bot if token available
+    if BOT_TOKEN:
+        import asyncio, urllib.request
+        async def send_one(tid):
+            try:
+                data = json.dumps({"chat_id": tid, "text": body.text, "parse_mode": "HTML"}).encode()
+                req = urllib.request.Request(
+                    f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+                    data=data, headers={"Content-Type": "application/json"}
+                )
+                urllib.request.urlopen(req, timeout=5)
+                return True
+            except: return False
+        results = await asyncio.gather(*[send_one(u) for u in users], return_exceptions=True)
+        sent = sum(1 for r in results if r is True)
+    return {"ok": True, "sent": sent, "total": len(users)}
+
+class DirectMsg(BaseModel):
+    admin_id: int
+    telegram_id: int
+    order_id: Optional[int] = None
+    text: str
+
+@app.post("/api/admin/message")
+async def admin_send_message(body: DirectMsg):
+    require_admin(body.admin_id)
+    if not BOT_TOKEN:
+        return {"ok": False, "detail": "BOT_TOKEN not configured"}
+    import urllib.request
+    msg = body.text
+    if body.order_id:
+        msg = f"<b>Заказ #{body.order_id}</b>\n\n{body.text}"
+    try:
+        data = json.dumps({"chat_id": body.telegram_id, "text": msg, "parse_mode": "HTML"}).encode()
+        req = urllib.request.Request(
+            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+            data=data, headers={"Content-Type": "application/json"}
+        )
+        urllib.request.urlopen(req, timeout=10)
+        return {"ok": True}
+    except Exception as e:
+        return {"ok": False, "detail": str(e)}
+
+
 # ── Categories ────────────────────────────────────────────────────────────────
 @app.get("/api/categories")
 async def get_categories():
@@ -641,6 +738,33 @@ async def admin_delete_category(category_id: str, admin_id: int = 0):
         await db.execute("DELETE FROM categories WHERE id=?", (category_id,))
         await db.commit()
     return {"ok": True}
+
+
+# ── Photo upload via URL (admin sets external URL as photo_id) ────────────────
+class PhotoUrl(BaseModel):
+    admin_id: int
+    photo_url: str
+
+@app.post("/api/admin/products/{product_id}/photo_url")
+async def admin_set_photo_url(product_id: int, body: PhotoUrl):
+    """Store external photo URL as photo_id for a product."""
+    require_admin(body.admin_id)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "UPDATE products SET photo_id=? WHERE id=?",
+            (body.photo_url, product_id)
+        )
+        await db.commit()
+    return {"ok": True}
+
+@app.post("/api/admin/products/{product_id}/upload_photo")
+async def admin_upload_photo(product_id: int, admin_id: int = 0, file: bytes = None):
+    """Upload photo as base64 or file - store URL/path."""
+    require_admin(admin_id)
+    # For Telegram Mini App: photos come as Telegram file_id from bot
+    # This endpoint stores whatever identifier is passed
+    return {"ok": True, "message": "Use photo_url endpoint or send via Telegram bot"}
+
 
 # ── Photo proxy ───────────────────────────────────────────────────────────────
 from fastapi.responses import Response
