@@ -9,4 +9,5 @@ from .keyboards import (
     kb_notifications,
     kb_product_wish, kb_wishlist_item,
     kb_saved_addresses, kb_address_manage,
+    kb_webstore,
 )
