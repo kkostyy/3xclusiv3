@@ -6,10 +6,11 @@ from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 
 from database import get_user, create_user, update_user_language, get_user_language, count_user_orders, create_referral
-from keyboards import kb_lang, kb_menu, kb_more, kb_settings
+from keyboards import kb_lang, kb_menu, kb_more, kb_settings, kb_webstore
 from locales import gt, LANG_NAMES
 from states import LanguageSelection
 from utils import is_admin
+from config import WEBAPP_URL, ADMIN_IDS
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -17,6 +18,15 @@ router = Router()
 # Helper: all translations of a key
 def _all(key): return [gt(key, l) for l in ("ru","en","et")]
 def _is_cancel(t): return t in _all("❌ Отмена")
+
+
+async def _send_welcome(target, lang: str, tgid: int):
+    """Отправляет приветствие + кнопку веб-магазина."""
+    await target.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+    await target.answer(
+        gt("🌐 Открыть веб-магазин", lang),
+        reply_markup=kb_webstore(lang, WEBAPP_URL)
+    )
 
 
 @router.message(CommandStart())
@@ -38,7 +48,7 @@ async def cmd_start(message: Message, state: FSMContext):
         await message.answer("🌍 Choose language / Выберите язык / Valige keel:", reply_markup=kb_lang())
     else:
         lang = user["language"]
-        await message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+        await _send_welcome(message, lang, tgid)
 
 
 @router.callback_query(LanguageSelection.choosing, F.data.startswith("lang:"))
@@ -57,7 +67,7 @@ async def cb_lang_new(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     try: await callback.message.delete()
     except: pass
-    await callback.message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+    await _send_welcome(callback.message, lang, tgid)
     await callback.answer(gt("language_set", lang))
 
 # handlers/common.py — добавьте команду /admin
@@ -84,7 +94,7 @@ async def cb_lang_change(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     try: await callback.message.delete()
     except: pass
-    await callback.message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+    await _send_welcome(callback.message, lang, tgid)
     await callback.answer(gt("language_set", lang))
 
 
@@ -121,7 +131,7 @@ async def cmd_main_menu(message: Message, state: FSMContext):
     await state.clear()
     tgid = message.from_user.id
     lang = await get_user_language(tgid)
-    await message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+    await _send_welcome(message, lang, tgid)
 
 
 @router.message(F.text.func(lambda t: t in [gt("☰ Ещё", l) for l in ("ru","en","et")]))
@@ -136,7 +146,7 @@ async def cmd_back(message: Message, state: FSMContext):
     await state.clear()
     tgid = message.from_user.id
     lang = await get_user_language(tgid)
-    await message.answer(gt("welcome", lang), reply_markup=kb_menu(lang, is_admin(tgid)), parse_mode="Markdown")
+    await _send_welcome(message, lang, tgid)
 
 
 @router.message(Command("cancel"))
@@ -146,3 +156,4 @@ async def cmd_cancel(message: Message, state: FSMContext):
     lang = await get_user_language(tgid)
     await state.clear()
     await message.answer(gt("cancelled_action", lang), reply_markup=kb_menu(lang, is_admin(tgid)))
+
