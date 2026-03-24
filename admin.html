@@ -760,11 +760,12 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
     </div>
     <div style="margin-bottom:10px">
       <div style="font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">добавить свою категорию</div>
-      <div style="display:flex;gap:6px;align-items:center">
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
         <input class="inp inp-sm" id="newCatLabel" placeholder="Название" style="flex:1;min-width:0;margin-bottom:0">
         <input class="inp inp-sm" id="newCatGlyph" placeholder="✦" style="width:48px;text-align:center;font-size:18px;margin-bottom:0">
         <button onclick="adminAddCategory()" style="background:none;border:1px solid var(--border);color:var(--text2);width:44px;height:44px;border-radius:12px;font-size:20px;cursor:pointer;flex-shrink:0">+</button>
       </div>
+      <div id="customCatList" style="display:flex;flex-wrap:wrap;gap:6px"></div>
     </div>
     <label class="inp-label">описание</label>
     <textarea class="inp inp-sm" id="pDesc" placeholder="Описание..." style="min-height:70px;resize:none;font-size:13px;"></textarea>
@@ -830,6 +831,15 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
           <div class="ahc-title">Настройки</div>
           <div class="ahc-sub">магазин и параметры</div>
           <div class="ahc-meta" id="hubSettingsMeta">—</div>
+        </div>
+        <div class="ahc-arrow">›</div>
+      </div>
+      <div class="admin-hub-card" onclick="openMoreSub('moreCategories');loadCatManager()">
+        <div class="ahc-icon">❖</div>
+        <div class="ahc-body">
+          <div class="ahc-title">Категории</div>
+          <div class="ahc-sub">управление разделами</div>
+          <div class="ahc-meta" id="hubCatsMeta">—</div>
         </div>
         <div class="ahc-arrow">›</div>
       </div>
@@ -925,6 +935,32 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
         <button class="adm-btn-danger" onclick="exportData()">◈ экспорт данных</button>
         <button class="adm-btn-danger" style="margin-bottom:0" onclick="wipeOldOrders()">† очистить заказы</button>
         <div id="settingsResult" style="font-size:10px;font-weight:200;color:var(--text3);margin-top:8px;text-align:center;min-height:16px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="more-sub-a" id="moreCategories">
+    <button class="more-back-a" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> назад</button>
+    <div class="sec-head"><div class="sec-num">❖</div><div class="sec-title">категории</div></div>
+    <div style="padding:0 14px">
+      <!-- Add new category -->
+      <div class="adm-block" style="margin-bottom:10px">
+        <div class="adm-block-hdr">† добавить категорию</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+          <input class="adm-inp" id="mCatGlyph" placeholder="👗" style="width:56px;text-align:center;font-size:22px;padding:10px 4px">
+          <input class="adm-inp" id="mCatLabel" placeholder="Название категории" style="flex:1">
+        </div>
+        <button class="adm-btn-save" onclick="mgrAddCategory()">
+          <span style="font-family:var(--font-serif);font-size:16px;opacity:0.6">+</span> добавить
+        </button>
+      </div>
+      <!-- Category list -->
+      <div class="adm-block">
+        <div class="adm-block-hdr">† все категории</div>
+        <div id="catManagerList">
+          <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1178,11 +1214,10 @@ async function loadDashboard() {
   const el = document.getElementById('statsContent');
   el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
   try {
-    const [statsResp, ordersResp, usersResp, qcResp] = await Promise.all([
+    const [statsResp, ordersResp, usersResp] = await Promise.all([
       fetch(`${API}/api/admin/stats?admin_id=${userId}`),
       fetch(`${API}/api/admin/orders?admin_id=${userId}`).catch(() => null),
       fetch(`${API}/api/admin/users?admin_id=${userId}&limit=200`).catch(() => null),
-      fetch(`${API}/api/admin/qc?admin_id=${userId}`).catch(() => null)
     ]);
     if (!statsResp.ok) {
       const err = await statsResp.json().catch(() => ({}));
@@ -1192,10 +1227,9 @@ async function loadDashboard() {
     const statsRes = await statsResp.json();
     const ordersRes = ordersResp && ordersResp.ok ? await ordersResp.json().catch(() => []) : [];
     const usersRaw = usersResp && usersResp.ok ? await usersResp.json().catch(() => []) : [];
-    const qcRaw = qcResp && qcResp.ok ? await qcResp.json().catch(() => []) : [];
     const users = Array.isArray(usersRaw) ? usersRaw : (usersRaw.users || []);
-    const qcPending = Array.isArray(qcRaw) ? qcRaw.filter(q => q.status === 'pending').length : 0;
-    const usersWithRef = users.filter(u => u.referral_id && u.referral_id > 0).length;
+    const qcPending = 0; // QC endpoint not available in this version
+    const usersWithRef = users.filter(u => (u.referrals && u.referrals > 0)).length;
     const refRate = users.length > 0 ? Math.round((usersWithRef / users.length) * 100) : 0;
     const s = statsRes;
     const orders = Array.isArray(ordersRes) ? ordersRes : [];
@@ -1476,6 +1510,33 @@ let adminCatLabel = { clothes:'👕 Одежда', shoes:'👟 Обувь', acce
 let adminCatGlyph = { clothes:'👕', shoes:'👟', accessories:'👜', used:'♻' };
 let allAdminCategories = ['clothes','shoes','accessories'];
 
+const BUILTIN_CATS = ['clothes','shoes','accessories'];
+
+function refreshCustomCatList() {
+  const el = document.getElementById('customCatList');
+  if (!el) return;
+  const custom = allAdminCategories.filter(id => !BUILTIN_CATS.includes(id));
+  if (!custom.length) { el.innerHTML = ''; return; }
+  el.innerHTML = custom.map(id => `
+    <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 8px">
+      <span style="font-size:11px;color:var(--text2)">${adminCatGlyph[id]||'✦'} ${adminCatLabel[id]||id}</span>
+      <button onclick="adminDeleteCategory('${id}')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0;line-height:1;opacity:0.6" title="удалить">×</button>
+    </div>`).join('');
+}
+
+async function adminDeleteCategory(id) {
+  if (!confirm('Удалить категорию «' + (adminCatLabel[id]||id) + '»?')) return;
+  try {
+    await fetch(`${API}/api/admin/categories/${id}?admin_id=${userId}`, { method:'DELETE' });
+    allAdminCategories = allAdminCategories.filter(x => x !== id);
+    delete adminCatLabel[id]; delete adminCatGlyph[id];
+    document.querySelectorAll(`#adminCatGrid .cat-btn[data-cat="${id}"]`).forEach(b => b.remove());
+    if (selectedCat === id) { selectedCat = 'clothes'; document.querySelector('#adminCatGrid .cat-btn')?.classList.add('on'); }
+    refreshCustomCatList();
+    toast('✅ категория удалена');
+  } catch { toast('ошибка'); }
+}
+
 async function loadAdminCategories() {
   try {
     const r = await fetch(`${API}/api/categories`);
@@ -1484,7 +1545,7 @@ async function loadAdminCategories() {
     allAdminCategories = cats.map(c => c.id || c);
     cats.forEach(c => {
       const id = c.id || c;
-      adminCatLabel[id] = (c.glyph || '') + ' ' + (c.label || c.name || id);
+      adminCatLabel[id] = (c.glyph ? c.glyph + ' ' : '') + (c.label || c.name || id);
       adminCatGlyph[id] = c.glyph || '✦';
     });
     const grid = document.getElementById('adminCatGrid');
@@ -1498,9 +1559,8 @@ async function loadAdminCategories() {
       btn.onclick = function(){ selectCat(this); };
       grid.appendChild(btn);
     });
-    if (allAdminCategories.length > 0 && !allAdminCategories.includes(selectedCat)) {
-      selectedCat = allAdminCategories[0];
-    }
+    selectedCat = allAdminCategories[0] || 'clothes';
+    refreshCustomCatList();
   } catch(e) { console.error('loadAdminCategories', e); }
 }
 
@@ -1509,6 +1569,7 @@ async function adminAddCategory() {
   const glyph = document.getElementById('newCatGlyph').value.trim() || '✦';
   if (!label) { toast('введите название категории'); return; }
   const id = label.toLowerCase().replace(/[^a-zа-яё0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+  if (allAdminCategories.includes(id)) { toast('такая категория уже есть'); return; }
   try {
     await fetch(`${API}/api/admin/categories`, {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -1516,7 +1577,7 @@ async function adminAddCategory() {
     });
     adminCatLabel[id] = glyph + ' ' + label;
     adminCatGlyph[id] = glyph;
-    if (!allAdminCategories.includes(id)) allAdminCategories.push(id);
+    allAdminCategories.push(id);
     const grid = document.getElementById('adminCatGrid');
     if (grid) {
       const btn = document.createElement('button');
@@ -1528,6 +1589,7 @@ async function adminAddCategory() {
     }
     document.getElementById('newCatLabel').value = '';
     document.getElementById('newCatGlyph').value = '';
+    refreshCustomCatList();
     toast('✅ категория «' + label + '» добавлена');
   } catch { toast('ошибка при добавлении'); }
 }
@@ -1536,6 +1598,73 @@ function selectCat(btn) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   selectedCat = btn.dataset.cat;
+}
+
+async function loadCatManager() {
+  const el = document.getElementById('catManagerList');
+  const meta = document.getElementById('hubCatsMeta');
+  el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
+  try {
+    const r = await fetch(`${API}/api/categories`);
+    const cats = await r.json();
+    if (meta) meta.textContent = cats.length + ' категорий';
+    const builtin = ['clothes','shoes','accessories','used'];
+    if (!cats.length) {
+      el.innerHTML = '<div style="text-align:center;padding:20px;font-size:10px;font-weight:200;letter-spacing:0.3em;color:var(--text3)">нет категорий</div>';
+      return;
+    }
+    el.innerHTML = cats.map(c => {
+      const id = c.id || c;
+      const label = c.label || c.name || id;
+      const glyph = c.glyph || '✦';
+      const isBuiltin = builtin.includes(id);
+      return `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)" id="catrow_${id}">
+        <div style="font-size:24px;width:36px;text-align:center;flex-shrink:0">${glyph}</div>
+        <div style="flex:1">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--text)">${label}</div>
+          <div style="font-size:8px;font-weight:200;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase">${id}${isBuiltin ? ' · встроенная' : ''}</div>
+        </div>
+        ${!isBuiltin ? `<button onclick="mgrDeleteCategory('${id}','${label}')" style="background:none;border:1px solid rgba(204,34,34,0.25);border-radius:10px;color:rgba(204,34,34,0.6);font-size:11px;padding:6px 10px;cursor:pointer;font-family:'Jost',sans-serif;font-weight:200;letter-spacing:0.2em;transition:all 0.2s">удал.</button>` : '<div style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text3);padding-right:4px">lock</div>'}
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;font-size:10px;color:var(--text3)">ошибка загрузки</div>';
+  }
+}
+
+async function mgrAddCategory() {
+  const label = document.getElementById('mCatLabel').value.trim();
+  const glyph = document.getElementById('mCatGlyph').value.trim() || '✦';
+  if (!label) { toast('введите название'); return; }
+  const id = label.toLowerCase().replace(/[^a-zа-яё0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+  try {
+    await fetch(`${API}/api/admin/categories`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, id, label, glyph })
+    });
+    document.getElementById('mCatLabel').value = '';
+    document.getElementById('mCatGlyph').value = '';
+    toast('✅ категория «' + label + '» добавлена');
+    loadCatManager();
+    // Sync product form grid
+    loadAdminCategories();
+  } catch { toast('ошибка'); }
+}
+
+async function mgrDeleteCategory(id, label) {
+  if (!confirm(`Удалить категорию «${label}»? Товары в ней останутся.`)) return;
+  try {
+    await fetch(`${API}/api/admin/categories/${id}?admin_id=${userId}`, { method:'DELETE' });
+    document.getElementById('catrow_' + id)?.remove();
+    toast('✅ удалено');
+    // Remove from product form grid
+    document.querySelector(`#adminCatGrid [data-cat="${id}"]`)?.remove();
+    const meta = document.getElementById('hubCatsMeta');
+    if (meta) {
+      const rows = document.querySelectorAll('#catManagerList [id^="catrow_"]');
+      meta.textContent = rows.length + ' категорий';
+    }
+  } catch { toast('ошибка'); }
 }
 
 async function loadProducts() {
