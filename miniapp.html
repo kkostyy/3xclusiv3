@@ -71,6 +71,9 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 .filter { display:flex; gap:0; padding:0 20px 18px; flex-wrap:wrap; }
 .filter::-webkit-scrollbar { display:none; }
 .fb { background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:9px; font-weight:200; letter-spacing:0.35em; text-transform:uppercase; color:var(--text3); padding:8px 14px 8px 0; white-space:nowrap; transition:color 0.3s; position:relative; }
+.gender-bar { display:flex; gap:0; margin:0 16px 10px; border:1px solid var(--border); border-radius:99px; overflow:hidden; }
+.gender-btn { flex:1; background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:8px; font-weight:200; letter-spacing:0.25em; text-transform:uppercase; color:var(--text3); padding:7px 4px; transition:all 0.2s; }
+.gender-btn.on { background:var(--text); color:var(--bg); }
 .fb::after { content:''; position:absolute; bottom:5px; left:0; right:12px; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
 .fb.on { color:var(--text); }
 .fb.on::after { transform:scaleX(1); }
@@ -121,6 +124,19 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   font-style: italic;
   color: var(--text3);
   user-select: none;
+}
+/* iOS emoji fix: force text-presentation for symbol glyphs */
+.card-img-ph.sym {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-style: italic;
+  color: var(--text3);
+}
+.card-img-ph.emo {
+  font-family: -apple-system, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  font-size: 38px;
+  font-style: normal;
+  color: inherit;
 }
 
 /* Skeleton shimmer while loading */
@@ -290,6 +306,7 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
 @keyframes pulse { 0%,100%{opacity:0.2;transform:scale(0.95)} 50%{opacity:0.8;transform:scale(1.05)} }
 .empty { padding:60px 20px; text-align:center; }
 .empty-sym { font-family:'Cormorant Garamond',serif; font-size:48px; font-style:italic; color:var(--text3); margin-bottom:12px; }
+.empty-sym.emo { font-family:-apple-system,'Apple Color Emoji','Segoe UI Emoji',sans-serif; font-style:normal; }
 .empty-txt { font-size:9px; font-weight:200; letter-spacing:0.4em; color:var(--text3); text-transform:uppercase; }
 
 /* SEC HEAD */
@@ -463,6 +480,15 @@ body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); m
   margin-bottom: 6px;
   opacity: 0.5;
   letter-spacing: -2px;
+}
+/* iOS: when empty-art contains emoji, switch font */
+.empty-art-emo {
+  font-family: -apple-system,'Apple Color Emoji','Segoe UI Emoji',sans-serif;
+  font-size: 44px;
+  font-style: normal;
+  letter-spacing: 4px;
+  color: inherit;
+  opacity: 0.7;
 }
 .empty-art-sub {
   font-size: 11px;
@@ -1323,6 +1349,13 @@ header { position: relative; z-index: 1; }
     <button class="fb" data-cat="clothes" data-i18n="catClothes">Одежда</button>
     <button class="fb" data-cat="shoes" data-i18n="catShoes">Обувь</button>
     <button class="fb" data-cat="accessories" data-i18n="catAccessories">Аксессуары</button>
+    <button class="fb" data-cat="used" data-i18n="catUsed">Б/у</button>
+  </div>
+  <div class="gender-bar" id="genderBar">
+    <button class="gender-btn on" data-gender="all" onclick="setGender('all')">Все</button>
+    <button class="gender-btn" data-gender="male" onclick="setGender('male')">Муж</button>
+    <button class="gender-btn" data-gender="female" onclick="setGender('female')">Жен</button>
+    <button class="gender-btn" data-gender="unisex" onclick="setGender('unisex')">Унисекс</button>
   </div>
   <div class="grid" id="productGrid">
     <div class="loader"><div class="loader-sym">∞</div><div class="loader-txt" data-i18n="loading">загрузка архива</div></div>
@@ -1653,7 +1686,7 @@ const LANGS = {
     ordersEmpty:'заказов нет', ordersEmptyDesc:'ваши заказы появятся здесь', goToCatalog:'перейти в каталог',
     wishEmpty:'избранное пусто', wishEmptyDesc:'сохраняйте понравившиеся товары',
     noConn:'нет соединения', noConnDesc:'проверьте подключение к сети', tryAgain:'попробовать снова',
-    catEmpty:'архив пуст', catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
+    catUsed:'Б/у вещи', catEmpty:'архив пуст', catEmptyDesc:'в этой категории нет товаров', allItems:'все товары',
     addCart:'в корзину', noStock:'нет в наличии', loading:'загрузка архива',
     size:'Размер', referrals:'Рефералы', notifications:'Уведомления',
     support:'Поддержка', delivery:'Доставка',
@@ -1945,7 +1978,7 @@ const LANGS = {
     aListTitle:'† list', aSearchPh:'search by name / @username',
     aShopTitle:'† shop', aShopNameLbl:'shop name', aCurrLbl:'currency',
     aMinOrderLbl:'minimum order (€)', aSaveBtn:'save',
-    aParamsTitle:'☠ parameters', aExport:'export data', aWipe:'clear old orders',
+    aParamsTitle:'† parameters', aExport:'export data', aWipe:'clear old orders',
     aDiagTitle:'◈ diagnostics', aDebugTitle:'⸸ debug', aClearLog:'clear', aReset:'reset',
     aClearAllCarts:'clear all carts',
     aApiStatus:'API status', aReloadProducts:'products', aReloadProfile:'profile', aTestToast:'test toast',
@@ -1976,7 +2009,7 @@ const LANGS = {
     statusArrived:'arrived', statusDelivered:'delivered', statusCancelled:'cancelled',
     pickRating:'choose rating', reviewSaved:'review saved',
     guest:'Guest',
-    catAll:'All', catClothes:'Clothes', catShoes:'Shoes', catAccessories:'Accessories',
+    catAll:'All', catClothes:'Clothes', catShoes:'Shoes', catAccessories:'Accessories', catUsed:'Pre-owned',
     aDiscount:'discount', aReviewsEmpty:'no reviews yet', aReviewsEmptyDesc:'buyer ratings will appear here',
     aTopProducts:'top products', aNotFound:'not found', aRetry:'retry',
     refLinkCopy:'link copied', loadError:'loading error',
@@ -2150,7 +2183,7 @@ const LANGS = {
     enterName:'sisestage ees- ja perekonnanimi', enterUsername:'sisestage kasutajanimi (min 5 tähemärki)',
     enterPhone:'sisestage Eesti number (8 numbrit)', enterDistrict:'sisestage piirkond',
     addedWish:'lisatud lemmikutesse', removedWish:'eemaldatud lemmikutest',
-    catAll:'Kõik', catClothes:'Riided', catShoes:'Jalatsid', catAccessories:'Aksessuaarid',
+    catAll:'Kõik', catClothes:'Riided', catShoes:'Jalatsid', catAccessories:'Aksessuaarid', catUsed:'Kasutatud',
     aDiscount:'allahindlus', aReviewsEmpty:'arvustusi pole', aReviewsEmptyDesc:'ostjate hinnangud ilmuvad siia',
     refLinkCopy:'link kopeeritud', loadError:'laadimise viga',
     aSupportSection:'tugi', aSettingsSection:'seaded',
@@ -2378,6 +2411,13 @@ let activePanel = null, reviewOrderId = null, reviewStars = 0;
 let navStack = ['catalog']; // history stack for back navigation
 
 // ═══ INIT ═══
+function isEmojiGlyph(s) {
+  if (!s) return false;
+  // Emoji block ranges (basic): if codepoint > 0x2600 and it's a real emoji
+  const cp = s.codePointAt(0);
+  return cp > 0x2600 && /\p{Emoji}/u.test(s[0]);
+}
+
 function init() {
   applyTheme(true);
   loadUserAccent();
@@ -2588,7 +2628,7 @@ function renderCartPage() {
   const body = document.getElementById('cartPageBody');
   const foot = document.getElementById('cartPageFoot');
   if (!items.length) {
-    body.innerHTML = emptyState('⚰†⚰', t('cartEmpty'), t('cartEmptyDesc'), t('openCatalog'), "switchView('catalog')", 'memento mori');
+    body.innerHTML = emptyState('†✦†', t('cartEmpty'), t('cartEmptyDesc'), t('openCatalog'), "switchView('catalog')", 'memento mori');
     foot.innerHTML = ''; return;
   }
 
@@ -2701,13 +2741,20 @@ async function submitOrder() {
 }
 
 // ═══ PRODUCTS ═══
-let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары' };
+let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары', used: 'б/у вещи' };
 function getCatLabel(id) {
-  const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories') };
+  const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories'), used: t('catUsed') || 'Б/у' };
   return map[id] || catLabel[id] || id;
 }
-let catGlyph  = { clothes: '👕', shoes: '👟', accessories: '👜' };
-let allCategories = ['clothes','shoes','accessories'];
+let catGlyph  = { clothes: '👕', shoes: '👟', accessories: '👜', used: '♻' };
+let allCategories = ['clothes','shoes','accessories','used'];
+let activeGender = 'all';
+
+function setGender(g) {
+  activeGender = g;
+  document.querySelectorAll('#genderBar .gender-btn').forEach(b => b.classList.toggle('on', b.dataset.gender === g));
+  renderGrid();
+}
 
 async function loadCategories() {
   try {
@@ -2723,12 +2770,14 @@ async function loadCategories() {
     // Rebuild filter buttons
     const bar = document.getElementById('filterBar');
     if (bar) {
+      const builtInIds = cats.map(c => c.id||c);
+      const extraUsed = builtInIds.includes('used') ? '' : '<button class="fb" data-cat="used">' + (t('catUsed')||'Б/у') + '</button>';
       bar.innerHTML = '<button class="fb on" data-cat="all" data-i18n="catAll">' + t('catAll') + '</button>'
         + cats.map(c => {
           const id = c.id||c;
           const label = getCatLabel(id) || c.label || c.name || String(c);
           return '<button class="fb" data-cat="' + id + '">' + label + '</button>';
-        }).join('');
+        }).join('') + extraUsed;
       bar.querySelectorAll('.fb').forEach(b => b.addEventListener('click', function() {
         bar.querySelectorAll('.fb').forEach(x => x.classList.remove('on'));
         b.classList.add('on'); activeCat = b.dataset.cat; renderGrid();
@@ -2755,14 +2804,14 @@ async function loadProducts() {
 function cardHtml(p) {
   const ph = p.photo_id
     ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">'
-    : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
+    : '<span class="card-img-ph ' + (isEmojiGlyph(catGlyph[p.category]) ? 'emo' : 'sym') + '">' + (catGlyph[p.category] || '✦') + '</span>';
   const heart = wishIds.has(p.id) ? '❤️' : '🤍';
   return '<div class="card' + (!p.is_available ? ' void' : '') + '">'
     + '<div class="card-img" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + ph
     + (!p.is_available ? '<div class="card-void">' + t('archive') + '</div>' : '')
     + '</div>'
     + '<div class="card-body">'
-    + '<div class="card-cat">' + getCatLabel(p.category) + '</div>'
+    + '<div class="card-cat">' + getCatLabel(p.category) + (p.gender && p.gender !== 'unisex' ? ' · ' + (p.gender === 'male' ? 'муж' : 'жен') : '') + (p.is_used ? ' · б/у' : '') + (p.photo_ids && p.photo_ids.length ? ' · 📷' + (p.photo_ids.length+1) : '') + '</div>'
     + '<div class="card-name" onclick="openDetail(' + p.id + ')" style="cursor:pointer;">' + p.name + '</div>'
     + '<div class="card-footer">'
     + '<span class="card-price">' + p.price.toFixed(2) + ' €</span>'
@@ -2797,10 +2846,16 @@ function doWish(pid) {
 
 
 function renderGrid() {
-  const list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
+  let list = activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat);
+  if (activeGender !== 'all') {
+    list = list.filter(p => (p.gender || 'unisex') === activeGender || (p.gender || 'unisex') === 'unisex' && activeGender === 'unisex');
+    // strict gender match
+    list = (activeCat === 'all' ? allProducts : allProducts.filter(p => p.category === activeCat))
+      .filter(p => activeGender === 'all' || (p.gender || 'unisex') === activeGender);
+  }
   const grid = document.getElementById('productGrid');
   if (!list.length) {
-    grid.innerHTML = '<div style="grid-column:1/-1">' + emptyState('◆', t('catEmpty'), t('catEmptyDesc'), t('allItems'), "activeCat='all';renderGrid()", 'ars longa') + '</div>'; return;
+    grid.innerHTML = '<div style="grid-column:1/-1">' + emptyState('◆', t('catEmpty'), t('catEmptyDesc'), t('allItems'), "activeCat='all';activeGender='all';document.querySelectorAll('#genderBar .gender-btn').forEach(b=>b.classList.toggle('on',b.dataset.gender==='all'));renderGrid()", 'ars longa') + '</div>'; return;
   }
   grid.innerHTML = list.map(cardHtml).join('');
   if (window._fixTouchAfterLoad) window._fixTouchAfterLoad();
@@ -2822,10 +2877,11 @@ function openDetail(pid) {
   if (!p) return;
   document.getElementById('detailBody').innerHTML =
     '<div class="detail-img" style="width:100%;aspect-ratio:3/4;background:var(--bg3);overflow:hidden;display:flex;align-items:center;justify-content:center;border-radius:16px;margin-bottom:4px;">'
-    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (catGlyph[p.category]||'✦') + '</span>')
+    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (isEmojiGlyph(catGlyph[p.category]) ? catGlyph[p.category] : (catGlyph[p.category]||'✦')) + '</span>')
     + '</div>'
+    + (p.photo_ids && p.photo_ids.length ? '<div style="display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;-ms-overflow-style:none">' + [p.photo_id ? API+'/api/photo/'+p.photo_id : null].concat(p.photo_ids.map(u => u.startsWith('/') ? API+u : u)).filter(Boolean).map((url,i) => '<img src="'+url+'" onclick="document.querySelector(\'#detailBody .detail-img img\').src=\''+url+'\';" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;cursor:pointer;border:' + (i===0?'1px solid var(--accent)':'1px solid var(--border)') + '">').join('') + '</div>' : '')
     + '<div class="detail-meta">'
-    + '<div class="detail-cat">' + getCatLabel(p.category) + ' / ' + String(p.id).padStart(4,'0') + '</div>'
+    + '<div class="detail-cat">' + getCatLabel(p.category) + (p.gender && p.gender !== 'unisex' ? ' · ' + (p.gender === 'male' ? 'мужское' : 'женское') : '') + (p.is_used ? ' · б/у' : '') + ' / ' + String(p.id).padStart(4,'0') + '</div>'
     + '<div class="detail-name">' + p.name + '</div>'
     + '<div class="detail-price">' + p.price.toFixed(2) + ' €</div>'
     + (p.description ? '<div class="detail-desc">' + p.description + '</div>' : '')
@@ -2874,7 +2930,7 @@ async function loadWishlist() {
     grid.innerHTML = items.map(p => {
       const ph = p.photo_id
         ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
-        : '<span class="card-img-ph">' + (catGlyph[p.category] || '✦') + '</span>';
+        : '<span class="card-img-ph ' + (isEmojiGlyph(catGlyph[p.category]) ? 'emo' : 'sym') + '">' + (catGlyph[p.category] || '✦') + '</span>';
       const addBtn = p.is_available
         ? '<button class="card-add" onclick="event.stopPropagation();doCart(' + p.id + ')">+</button>'
         : '';
@@ -3804,6 +3860,7 @@ let _adminProducts = [];
 let _editProductId = null;
 let _editAvail = true;
 let _editPhotoPending = null;
+let _editStockQty = 1, _editIsUsed = 0, _editExtraPhotos = [], _editExtraPhotosPending = [];
 
 async function loadAdminProducts() {
   await loadCategories();
@@ -3860,6 +3917,18 @@ function openProductEditor(id) {
   document.getElementById('eProdPrice').value = p ? p.price : '';
   document.getElementById('eProdDesc').value = p ? (p.description || '') : '';
   document.getElementById('eProdPhotoUrl').value = '';
+  // gender
+  const gender = p ? (p.gender || 'unisex') : 'unisex';
+  document.querySelectorAll('#eProdEditor [data-gender]').forEach(b => b.classList.toggle('on', b.dataset.gender === gender));
+  // stock qty
+  _editStockQty = p ? (p.stock_qty || 1) : 1;
+  const qtyEl = document.getElementById('eProdQtyNum');
+  if (qtyEl) qtyEl.textContent = _editStockQty;
+  // used section visibility + extra photos
+  _editExtraPhotos = p ? (p.photo_ids || []) : [];
+  _editIsUsed = p ? (p.is_used || (p.category === 'used' ? 1 : 0)) : 0;
+  updateUsedSection(p ? p.category : 'clothes');
+  renderExtraPhotos();
   const photoSrc = p && p.photo_id
     ? (p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
        : p.photo_id.startsWith('/uploads/') ? API + p.photo_id : API + '/api/photo/' + p.photo_id)
@@ -3881,10 +3950,7 @@ function closeProdEditor() {
   _editPhotoPending = null;
 }
 
-function selectEditCat(btn) {
-  document.querySelectorAll('#eProdCatGrid .cat-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-}
+// selectEditCat replaced below
 
 function toggleEditAvail() {
   _editAvail = !_editAvail;
@@ -3947,25 +4013,87 @@ function clearProdPhoto() {
   document.getElementById('eProdPhotoFile').value = '';
 }
 
+function selectEditGender(btn) {
+  document.querySelectorAll('#eProdEditor [data-gender]').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function chEditQty(d) {
+  _editStockQty = Math.max(1, (_editStockQty || 1) + d);
+  const el = document.getElementById('eProdQtyNum');
+  if (el) el.textContent = _editStockQty;
+}
+
+function updateUsedSection(cat) {
+  const sec = document.getElementById('eProdUsedSection');
+  if (!sec) return;
+  sec.style.display = (cat === 'used') ? 'block' : 'none';
+}
+
+function selectEditCat_orig(btn) {
+  document.querySelectorAll('#eProdCatGrid .cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function selectEditCat(btn) {
+  document.querySelectorAll('#eProdCatGrid .cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  updateUsedSection(btn.dataset.cat);
+}
+
+function renderExtraPhotos() {
+  const container = document.getElementById('eProdExtraPhotos');
+  if (!container) return;
+  container.innerHTML = (_editExtraPhotos || []).map((url, i) =>
+    `<div style="position:relative;width:64px;height:64px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+      <img src="${url.startsWith('/') ? API + url : url}" style="width:100%;height:100%;object-fit:cover">
+      <button onclick="removeExtraPhoto(${i})" style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">✕</button>
+    </div>`
+  ).join('');
+}
+
+function removeExtraPhoto(idx) {
+  _editExtraPhotos.splice(idx, 1);
+  renderExtraPhotos();
+}
+
+function handleExtraPhotos(input) {
+  if (!input.files) return;
+  _editExtraPhotosPending = _editExtraPhotosPending || [];
+  Array.from(input.files).forEach(file => {
+    if (file.size > 5 * 1024 * 1024) { toast('фото не более 5 МБ'); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      _editExtraPhotosPending.push({ file, dataUrl: e.target.result });
+      _editExtraPhotos.push(e.target.result);
+      renderExtraPhotos();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
 async function saveProdEditor() {
   const name = document.getElementById('eProdName').value.trim();
   const price = parseFloat(document.getElementById('eProdPrice').value);
   const desc = document.getElementById('eProdDesc').value.trim();
   const cat = document.querySelector('#eProdCatGrid .cat-btn.on')?.dataset.cat || 'clothes';
+  const gender = document.querySelector('#eProdEditor [data-gender].on')?.dataset.gender || 'unisex';
+  const isUsed = cat === 'used' ? 1 : 0;
   if (!name || !price) { toast(t('aFillAll')); return; }
   try {
     let productId = _editProductId;
     if (productId === null) {
       const r = await fetch(`${API}/api/admin/products`, {
         method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc })
+        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc, gender, stock_qty: _editStockQty, is_used: isUsed })
       });
       const d = await r.json();
       productId = d.id;
     } else {
       await fetch(`${API}/api/admin/products/${productId}`, {
         method: 'PATCH', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc })
+        body: JSON.stringify({ admin_id: userId, name, price, category: cat, description: desc, gender, stock_qty: _editStockQty, is_used: isUsed })
       });
       const orig = _adminProducts.find(x => x.id === productId);
       if (orig && !!orig.is_available !== _editAvail) {
@@ -3990,6 +4118,25 @@ async function saveProdEditor() {
           method: 'POST', headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ admin_id: userId, photo_url: '' })
         }).catch(() => {});
+      }
+    }
+    // Save extra photos for used items
+    if (isUsed && productId) {
+      // Upload pending file-based extra photos
+      for (const ep of (_editExtraPhotosPending || [])) {
+        if (ep.file) {
+          const fd2 = new FormData();
+          fd2.append('file', ep.file);
+          await fetch(`${API}/api/admin/products/${productId}/add_extra_photo?admin_id=${userId}`, { method:'POST', body:fd2 }).catch(()=>{});
+        }
+      }
+      // Save URL-based extra photos
+      const urlPhotos = (_editExtraPhotos || []).filter(u => u.startsWith('http') || u.startsWith('/'));
+      if (urlPhotos.length) {
+        await fetch(`${API}/api/admin/products/${productId}/set_extra_photos`, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ admin_id: userId, photo_ids: urlPhotos })
+        }).catch(()=>{});
       }
     }
     toast(_editProductId === null ? '✅ ' + t('aProductAdded') + productId : '✅ сохранено');
@@ -4694,7 +4841,7 @@ init();
     </div>
 
     <!-- Photo -->
-    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">фото</div>
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">главное фото</div>
     <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:18px">
       <div id="eProdPhoto" onclick="document.getElementById('eProdPhotoFile').click()" style="width:90px;height:90px;background:var(--bg3);border:1px dashed var(--border);border-radius:16px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;position:relative">
         <span id="eProdPhotoPlaceholder">✦</span>
@@ -4722,6 +4869,29 @@ init();
       <button class="cat-btn on" data-cat="clothes" onclick="selectEditCat(this)">Одежда</button>
       <button class="cat-btn" data-cat="shoes" onclick="selectEditCat(this)">Обувь</button>
       <button class="cat-btn" data-cat="accessories" onclick="selectEditCat(this)">Аксессуары</button>
+      <button class="cat-btn" data-cat="used" onclick="selectEditCat(this)">♻ Б/у вещи</button>
+    </div>
+
+    <!-- Gender -->
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">пол</div>
+    <div style="display:flex;gap:6px;margin-bottom:14px">
+      <button class="cat-btn on" data-gender="unisex" onclick="selectEditGender(this)" style="flex:1">Унисекс</button>
+      <button class="cat-btn" data-gender="male" onclick="selectEditGender(this)" style="flex:1">Муж</button>
+      <button class="cat-btn" data-gender="female" onclick="selectEditGender(this)" style="flex:1">Жен</button>
+    </div>
+
+    <!-- Used item: stock qty + extra photos (shown when cat=used) -->
+    <div id="eProdUsedSection" style="display:none">
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">кол-во штук</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <button onclick="chEditQty(-1)" style="width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+        <span id="eProdQtyNum" style="font-family:'Cormorant Garamond',serif;font-size:22px;min-width:30px;text-align:center">1</span>
+        <button onclick="chEditQty(1)" style="width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+      </div>
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">дополнительные фото</div>
+      <div id="eProdExtraPhotos" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px"></div>
+      <button onclick="document.getElementById('eProdExtraPhotoFile').click()" style="width:100%;background:none;border:1px dashed var(--border);color:var(--text3);border-radius:12px;padding:10px;font-size:8px;letter-spacing:0.3em;cursor:pointer;margin-bottom:14px">+ добавить фото</button>
+      <input type="file" id="eProdExtraPhotoFile" accept="image/*" multiple style="display:none" onchange="handleExtraPhotos(this)">
     </div>
 
     <!-- Description -->
@@ -4977,7 +5147,7 @@ init();
 
       <!-- ФУНКЦИЯ 2: ПАРАМЕТРЫ -->
       <div class="adm-block danger">
-        <div class="adm-block-hdr" style="color:var(--ra-007)" data-i18n="aParamsTitle">☠ параметры</div>
+        <div class="adm-block-hdr" style="color:var(--ra-007)" data-i18n="aParamsTitle">† параметры</div>
 
         <button class="adm-btn-danger" onclick="exportData()">
           <span style="font-family:var(--font-serif);opacity:0.6">◈</span>
@@ -5096,7 +5266,7 @@ init();
   const ctx = canvas.getContext('2d');
   canvas.style.pointerEvents = 'none';
 
-  const GLYPHS = ['⚰','☠','†','✝','☩','✙','⚔','☽','⚜','✦','◆','❧','⁂','∗','𖤐','⊹','✶','⋆','·','⁕','✠','⸸'];
+  const GLYPHS = ['†','✝','☩','✙','⚔','☽','⚜','✦','◆','❧','⁂','∗','𖤐','⊹','✶','⋆','·','⁕','✠','⸸','⊕','⌘'];
   const RUNES  = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ'];
 
   let W, H, particles = [], webs = [], chains = [];
@@ -5209,7 +5379,7 @@ init();
       }
       ctx.fillStyle='rgba('+_cr+','+(ch.alpha*1.8)+')';
       ctx.font='14px "Cormorant Garamond",serif'; ctx.textAlign='center'; ctx.textBaseline='top';
-      ctx.fillText('⚰',ch.x+sway,ch.links*ch.linkH);
+      ctx.font = '14px serif'; ctx.fillText('✦',ch.x+sway,ch.links*ch.linkH);
     });
     ctx.restore();
     // Particles

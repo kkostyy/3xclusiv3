@@ -89,13 +89,37 @@ def require_admin(telegram_id: int):
 # ── Products ──────────────────────────────────────────────────────────────────
 @app.get("/api/products")
 async def get_products():
+    import json as _json
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
+        # Auto-migrate: add new columns if missing
+        for col_def in [
+            "gender TEXT DEFAULT 'unisex'",
+            "photo_ids TEXT DEFAULT NULL",
+            "stock_qty INTEGER DEFAULT 1",
+            "is_used INTEGER DEFAULT 0",
+        ]:
+            try:
+                await db.execute(f"ALTER TABLE products ADD COLUMN {col_def}")
+                await db.commit()
+            except Exception:
+                pass
         async with db.execute(
-            "SELECT id, name, price, category, description, is_available, photo_id FROM products WHERE is_active=1 ORDER BY category, name"
+            "SELECT id, name, price, category, description, is_available, photo_id, photo_ids, gender, stock_qty, is_used FROM products WHERE is_active=1 ORDER BY category, name"
         ) as cur:
             rows = await cur.fetchall()
-    return [dict(r) for r in rows]
+    result = []
+    for r in rows:
+        d = dict(r)
+        if d.get("photo_ids"):
+            try:
+                d["photo_ids"] = _json.loads(d["photo_ids"])
+            except Exception:
+                d["photo_ids"] = []
+        else:
+            d["photo_ids"] = []
+        result.append(d)
+    return result
 
 # ── Orders for user ───────────────────────────────────────────────────────────
 @app.get("/api/orders/{telegram_id}")
@@ -499,13 +523,37 @@ async def admin_adjust_price(order_id: int, body: PriceAdjust):
 
 @app.get("/api/admin/products")
 async def admin_get_products(admin_id: int = 0):
+    import json as _json
     require_admin(admin_id)
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
+        for col_def in [
+            "gender TEXT DEFAULT 'unisex'",
+            "photo_ids TEXT DEFAULT NULL",
+            "stock_qty INTEGER DEFAULT 1",
+            "is_used INTEGER DEFAULT 0",
+        ]:
+            try:
+                await db.execute(f"ALTER TABLE products ADD COLUMN {col_def}")
+                await db.commit()
+            except Exception:
+                pass
         async with db.execute(
-            "SELECT id, name, price, category, description, is_available, photo_id FROM products WHERE is_active=1 ORDER BY category, name"
+            "SELECT id, name, price, category, description, is_available, photo_id, photo_ids, gender, stock_qty, is_used FROM products WHERE is_active=1 ORDER BY category, name"
         ) as cur:
-            return [dict(r) for r in await cur.fetchall()]
+            rows = await cur.fetchall()
+    result = []
+    for r in rows:
+        d = dict(r)
+        if d.get("photo_ids"):
+            try:
+                d["photo_ids"] = _json.loads(d["photo_ids"])
+            except Exception:
+                d["photo_ids"] = []
+        else:
+            d["photo_ids"] = []
+        result.append(d)
+    return result
 
 class ToggleAvail(BaseModel):
     admin_id: int
@@ -529,15 +577,32 @@ class NewProduct(BaseModel):
     price: float
     category: str
     description: Optional[str] = ""
-    photo_url: Optional[str] = None  # external URL for photo
+    photo_url: Optional[str] = None
+    gender: Optional[str] = "unisex"
+    stock_qty: Optional[int] = 1
+    is_used: Optional[int] = 0
+    photo_ids: Optional[str] = None  # JSON array of extra photo URLs
 
 @app.post("/api/admin/products")
 async def admin_add_product(body: NewProduct):
+    import json as _json
     require_admin(body.admin_id)
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Ensure columns exist
+        for col_def in [
+            "gender TEXT DEFAULT 'unisex'",
+            "photo_ids TEXT DEFAULT NULL",
+            "stock_qty INTEGER DEFAULT 1",
+            "is_used INTEGER DEFAULT 0",
+        ]:
+            try:
+                await db.execute(f"ALTER TABLE products ADD COLUMN {col_def}")
+                await db.commit()
+            except Exception:
+                pass
         cur = await db.execute(
-            "INSERT INTO products (name, price, category, description, is_available, is_active) VALUES (?,?,?,?,1,1)",
-            (body.name, body.price, body.category, body.description or "")
+            "INSERT INTO products (name, price, category, description, is_available, is_active, gender, stock_qty, is_used) VALUES (?,?,?,?,1,1,?,?,?)",
+            (body.name, body.price, body.category, body.description or "", body.gender or "unisex", body.stock_qty or 1, body.is_used or 0)
         )
         await db.commit()
     return {"ok": True, "id": cur.lastrowid}
@@ -560,6 +625,10 @@ class EditProduct(BaseModel):
     description: Optional[str] = None
     category: Optional[str] = None
     photo_url: Optional[str] = None
+    gender: Optional[str] = None
+    stock_qty: Optional[int] = None
+    is_used: Optional[int] = None
+    photo_ids: Optional[str] = None  # JSON array
 
 @app.patch("/api/admin/products/{product_id}")
 async def admin_edit_product(product_id: int, body: EditProduct):
@@ -576,6 +645,14 @@ async def admin_edit_product(product_id: int, body: EditProduct):
         fields.append("category=?"); values.append(body.category)
     if body.photo_url is not None:
         fields.append("photo_id=?"); values.append(body.photo_url)
+    if body.gender is not None:
+        fields.append("gender=?"); values.append(body.gender)
+    if body.stock_qty is not None:
+        fields.append("stock_qty=?"); values.append(body.stock_qty)
+    if body.is_used is not None:
+        fields.append("is_used=?"); values.append(body.is_used)
+    if body.photo_ids is not None:
+        fields.append("photo_ids=?"); values.append(body.photo_ids)
     if not fields:
         return {"ok": True}
     values.append(product_id)
@@ -889,6 +966,58 @@ async def admin_upload_photo(product_id: int, admin_id: int, file: UploadFile = 
         await db.execute("UPDATE products SET photo_id=? WHERE id=?", (photo_url, product_id))
         await db.commit()
     return {"ok": True, "url": photo_url}
+
+@app.post("/api/admin/products/{product_id}/add_extra_photo")
+async def admin_add_extra_photo(product_id: int, admin_id: int, file: UploadFile = File(...)):
+    """Upload one more photo — appended to photo_ids JSON array."""
+    import uuid, shutil, json as _json
+    require_admin(admin_id)
+    ext = os.path.splitext(file.filename or "photo.jpg")[1].lower()
+    if ext not in (".jpg", ".jpeg", ".png", ".webp", ".gif"):
+        ext = ".jpg"
+    uploads_dir = "uploads"
+    os.makedirs(uploads_dir, exist_ok=True)
+    filename = f"{uuid.uuid4().hex}{ext}"
+    filepath = os.path.join(uploads_dir, filename)
+    with open(filepath, "wb") as out:
+        shutil.copyfileobj(file.file, out)
+    photo_url = f"/uploads/{filename}"
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        try:
+            await db.execute("ALTER TABLE products ADD COLUMN photo_ids TEXT DEFAULT NULL")
+            await db.commit()
+        except Exception:
+            pass
+        async with db.execute("SELECT photo_ids FROM products WHERE id=?", (product_id,)) as cur:
+            row = await cur.fetchone()
+        existing = []
+        if row and row["photo_ids"]:
+            try:
+                existing = _json.loads(row["photo_ids"])
+            except Exception:
+                existing = []
+        existing.append(photo_url)
+        await db.execute("UPDATE products SET photo_ids=? WHERE id=?", (_json.dumps(existing), product_id))
+        await db.commit()
+    return {"ok": True, "url": photo_url, "photo_ids": existing}
+
+@app.post("/api/admin/products/{product_id}/set_extra_photos")
+async def admin_set_extra_photos(product_id: int, body: dict):
+    """Set photo_ids JSON array directly (for URL-based extras)."""
+    import json as _json
+    admin_id = body.get("admin_id", 0)
+    require_admin(admin_id)
+    photos = body.get("photo_ids", [])
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        try:
+            await db.execute("ALTER TABLE products ADD COLUMN photo_ids TEXT DEFAULT NULL")
+            await db.commit()
+        except Exception:
+            pass
+        await db.execute("UPDATE products SET photo_ids=? WHERE id=?", (_json.dumps(photos), product_id))
+        await db.commit()
+    return {"ok": True}
 
 
 # ── User photo via Telegram bot ───────────────────────────────────────────────

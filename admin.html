@@ -913,7 +913,7 @@ body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:
         </button>
       </div>
       <div class="adm-block danger">
-        <div class="adm-block-hdr" style="color:rgba(204,34,34,0.7)">☠ параметры</div>
+        <div class="adm-block-hdr" style="color:rgba(204,34,34,0.7)">† параметры</div>
         <button class="adm-btn-danger" onclick="exportData()">◈ экспорт данных</button>
         <button class="adm-btn-danger" style="margin-bottom:0" onclick="wipeOldOrders()">† очистить заказы</button>
         <div id="settingsResult" style="font-size:10px;font-weight:200;color:var(--text3);margin-top:8px;text-align:center;min-height:16px"></div>
@@ -1631,7 +1631,7 @@ async function sendBroadcast() {
   const canvas = document.getElementById('gothicCanvas');
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], webs = [];
-  const GLYPHS = ['✦','†','✧','⋆','·','◆','❧','✠','⁕','∗','⊹','✶','☩','⚰','⚜','☽','✙','⁂','𖤐','⚔','☠'];
+  const GLYPHS = ['✦','†','✧','⋆','·','◆','❧','✠','⁕','∗','⊹','✶','☩','⚜','☽','✙','⁂','𖤐','⚔','⊕','⌘'];
   function rand(a,b){return a+Math.random()*(b-a);}
   function isDark(){return document.documentElement.getAttribute('data-theme')!=='light';}
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;buildWebs();}
