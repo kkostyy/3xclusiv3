@@ -9,32 +9,57 @@ T = {
     # Приветствие
     "welcome": {
         "ru": (
-            "🏪 *Chinese Clothing Store*\n"
+            "🏪 *3XCLUSIV3 — Одежда из Китая*\n"
             "━━━━━━━━━━━━━━━━━━━\n"
-            "🛍 Одежда, обувь и аксессуары из Китая\n"
+            "👋 Добро пожаловать!\n\n"
+            "🌐 *Хотите удобный шопинг?*\n"
+            "Запустите наш веб-магазин — там удобная галерея товаров, фильтры, корзина и оформление заказа прямо в браузере!\n\n"
+            "🤖 *Предпочитаете бота?*\n"
+            "Всё то же самое доступно здесь — каталог, корзина, заказы, избранное и поддержка.\n\n"
+            "━━━━━━━━━━━━━━━━━━━\n"
+            "🛍 Одежда, обувь и аксессуары\n"
             "💵 Оплата наличными при получении\n"
             "🚚 Доставка по всей Эстонии\n"
             "━━━━━━━━━━━━━━━━━━━\n"
-            "Выберите раздел в меню ниже 👇"
+            "Выберите раздел ниже 👇"
         ),
         "en": (
-            "🏪 *Chinese Clothing Store*\n"
+            "🏪 *3XCLUSIV3 — Clothing from China*\n"
             "━━━━━━━━━━━━━━━━━━━\n"
-            "🛍 Clothing, shoes & accessories from China\n"
+            "👋 Welcome!\n\n"
+            "🌐 *Want a better shopping experience?*\n"
+            "Open our web store — browse products in a gallery, filter by category, manage your cart and place orders right in the browser!\n\n"
+            "🤖 *Prefer the bot?*\n"
+            "Everything is available here too — catalog, cart, orders, wishlist and support.\n\n"
+            "━━━━━━━━━━━━━━━━━━━\n"
+            "🛍 Clothing, shoes & accessories\n"
             "💵 Cash on delivery\n"
             "🚚 Delivery across Estonia\n"
             "━━━━━━━━━━━━━━━━━━━\n"
             "Choose a section below 👇"
         ),
         "et": (
-            "🏪 *Chinese Clothing Store*\n"
+            "🏪 *3XCLUSIV3 — Rõivad Hiinast*\n"
             "━━━━━━━━━━━━━━━━━━━\n"
-            "🛍 Rõivad, jalatsid ja aksessuaarid Hiinast\n"
+            "👋 Tere tulemast!\n\n"
+            "🌐 *Soovite mugavamat ostlemist?*\n"
+            "Avage meie veebipood — vaadake tooteid galeriis, filtreerige kategooriate järgi, hallake ostukorvi ja esitage tellimusi otse brauseris!\n\n"
+            "🤖 *Eelistate botti?*\n"
+            "Kõik on saadaval ka siin — kataloog, ostukorv, tellimused, lemmikud ja tugi.\n\n"
+            "━━━━━━━━━━━━━━━━━━━\n"
+            "🛍 Rõivad, jalatsid ja aksessuaarid\n"
             "💵 Tasumine sularahas kohaletoimetamisel\n"
             "🚚 Tarne üle Eesti\n"
             "━━━━━━━━━━━━━━━━━━━\n"
             "Valige allpool menüüst 👇"
         ),
+    },
+
+    # ── ВЕБ-МАГАЗИН ──────────────────────────────────────────────────────────
+    "🌐 Открыть веб-магазин": {
+        "ru": "🌐 Открыть веб-магазин",
+        "en": "🌐 Open Web Store",
+        "et": "🌐 Ava veebipood",
     },
 
     # ── КНОПКИ ПОЛЬЗОВАТЕЛЯ ──────────────────────────────────────────────────
@@ -179,10 +204,6 @@ T = {
     "enter_prod_desc":   {"ru": "📄 Описание:", "en": "📄 Description:", "et": "📄 Kirjeldus:"},
     "send_prod_photo":   {"ru": "📸 Отправьте фото:", "en": "📸 Send photo:", "et": "📸 Saatke foto:"},
     "choose_cat_admin":  {"ru": "📂 Выберите категорию:", "en": "📂 Choose category:", "et": "📂 Valige kategooria:"},
-    "cat_used":          {"ru": "♻ Б/у вещи",        "en": "♻ Pre-owned",          "et": "♻ Kasutatud"},
-    "gender_unisex":     {"ru": "Унисекс",           "en": "Unisex",              "et": "Unisex"},
-    "gender_male":       {"ru": "Мужское",           "en": "Men",                 "et": "Meeste"},
-    "gender_female":     {"ru": "Женское",           "en": "Women",               "et": "Naiste"},
     "product_added":     {"ru": "✅ Товар добавлен!", "en": "✅ Product added!", "et": "✅ Toode lisatud!"},
     "product_updated":   {"ru": "✅ Товар обновлён!", "en": "✅ Updated!", "et": "✅ Uuendatud!"},
     "product_deleted":   {"ru": "✅ Товар удалён.", "en": "✅ Deleted.", "et": "✅ Kustutatud."},
@@ -225,3 +246,4 @@ def gt(key: str, lang: str = "ru", **kw) -> str:
         return text.format(**kw) if kw else text
     except Exception:
         return text
+
