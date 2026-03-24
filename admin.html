@@ -1024,6 +1024,12 @@ function adminGoBack() {
 // ═══ INIT ═══
 async function init() {
   if (tg) { tg.ready(); tg.expand(); userId = tg.initDataUnsafe?.user?.id || null; }
+  // Fallback: get admin_id from URL params (for direct browser access)
+  if (!userId) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlAdminId = urlParams.get('admin_id');
+    if (urlAdminId) userId = parseInt(urlAdminId);
+  }
   applyTheme(localStorage.getItem('th_3x_admin') !== 'light');
   if (!userId) { showDenied(); return; }
   try {
@@ -1164,9 +1170,11 @@ async function loadDashboard() {
   const el = document.getElementById('statsContent');
   el.innerHTML = '<div class="loader"><div class="loader-sym">∞</div><div class="loader-txt">загрузка</div></div>';
   try {
-    const [statsResp, ordersResp] = await Promise.all([
+    const [statsResp, ordersResp, usersResp, qcResp] = await Promise.all([
       fetch(`${API}/api/admin/stats?admin_id=${userId}`),
-      fetch(`${API}/api/admin/orders?admin_id=${userId}`).catch(() => null)
+      fetch(`${API}/api/admin/orders?admin_id=${userId}`).catch(() => null),
+      fetch(`${API}/api/admin/users?admin_id=${userId}&limit=200`).catch(() => null),
+      fetch(`${API}/api/admin/qc?admin_id=${userId}`).catch(() => null)
     ]);
     if (!statsResp.ok) {
       const err = await statsResp.json().catch(() => ({}));
@@ -1175,6 +1183,12 @@ async function loadDashboard() {
     }
     const statsRes = await statsResp.json();
     const ordersRes = ordersResp && ordersResp.ok ? await ordersResp.json().catch(() => []) : [];
+    const usersRaw = usersResp && usersResp.ok ? await usersResp.json().catch(() => []) : [];
+    const qcRaw = qcResp && qcResp.ok ? await qcResp.json().catch(() => []) : [];
+    const users = Array.isArray(usersRaw) ? usersRaw : (usersRaw.users || []);
+    const qcPending = Array.isArray(qcRaw) ? qcRaw.filter(q => q.status === 'pending').length : 0;
+    const usersWithRef = users.filter(u => u.referral_id && u.referral_id > 0).length;
+    const refRate = users.length > 0 ? Math.round((usersWithRef / users.length) * 100) : 0;
     const s = statsRes;
     const orders = Array.isArray(ordersRes) ? ordersRes : [];
     const totalO = s.total_orders || 0;
@@ -1241,15 +1255,21 @@ async function loadDashboard() {
           <div class="stat-key">отменено</div>
         </div>
       </div>
-      <div class="stats-grid" style="margin-bottom:10px">
+      <div class="stats-grid three" style="margin-bottom:10px">
         <div class="stat-card amber">
-          <div class="stat-val">${s.avg_rating.toFixed(1)}<span style="font-size:16px">★</span></div>
+          <div class="stat-val sm">${s.avg_rating.toFixed(1)}<span style="font-size:14px">★</span></div>
           <div class="stat-key">рейтинг</div>
-          <div class="stat-trend neutral">${s.reviews_count} отзывов</div>
+          <div class="stat-trend neutral">${s.reviews_count} отзыв.</div>
+        </div>
+        <div class="stat-card ${qcPending > 0 ? 'danger' : ''}">
+          <div class="stat-val sm">${qcPending}</div>
+          <div class="stat-key">QC ожид.</div>
+          ${qcPending > 0 ? '<div class="stat-trend dn">проверить</div>' : ''}
         </div>
         <div class="stat-card">
-          <div class="stat-val">${s.total_orders}</div>
-          <div class="stat-key">заказов всего</div>
+          <div class="stat-val sm">${refRate}%</div>
+          <div class="stat-key">реферал</div>
+          <div class="stat-trend neutral">${usersWithRef} чел.</div>
         </div>
       </div>
       <div class="dash-sub-head">воронка заказов</div>
@@ -1264,6 +1284,11 @@ async function loadDashboard() {
           <div class="pending-dot ${s.new_orders > 0 ? 'red' : 'green'}"></div>
           <div class="pending-label">Необработанные заказы</div>
           <div class="pending-val">${s.new_orders}</div>
+        </div>
+        <div class="pending-row">
+          <div class="pending-dot ${qcPending > 0 ? 'amber-d' : 'green'}"></div>
+          <div class="pending-label">QC-запросы ожидают</div>
+          <div class="pending-val">${qcPending}</div>
         </div>
         <div class="pending-row">
           <div class="pending-dot ${active > 10 ? 'amber-d' : 'green'}"></div>
@@ -2047,3 +2072,4 @@ function devClearCart() {
 </script>
 </body>
 </html>
+
