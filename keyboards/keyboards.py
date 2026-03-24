@@ -80,6 +80,17 @@ def kb_settings(lang: str) -> InlineKeyboardMarkup:
     b.adjust(2)
     return b.as_markup()
 
+# ── Кнопка открытия веб-магазина (inline, WebApp) ─────────────────────────────
+def kb_webstore(lang: str, webapp_url: str) -> InlineKeyboardMarkup:
+    from aiogram.types import WebAppInfo
+    b = InlineKeyboardBuilder()
+    b.button(
+        text=gt("🌐 Открыть веб-магазин", lang),
+        web_app=WebAppInfo(url=webapp_url)
+    )
+    b.adjust(1)
+    return b.as_markup()
+
 # ── Отмена ────────────────────────────────────────────────────────────────────
 def kb_cancel(lang: str) -> ReplyKeyboardMarkup:
     b = ReplyKeyboardBuilder()
@@ -270,3 +281,4 @@ def kb_address_manage(addresses: list, lang: str) -> InlineKeyboardMarkup:
         b.button(text=f"🗑 {a['label']}", callback_data=f"addr:del:{a['id']}")
     b.adjust(1)
     return b.as_markup()
+
