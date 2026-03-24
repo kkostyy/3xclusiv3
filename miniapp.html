@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #040204; --bg2: rgba(8,4,8,0.97); --bg3: rgba(12,6,12,0.98);
+  --bg: transparent; --bg2: rgba(8,4,8,0.72); --bg3: rgba(12,6,12,0.78);
   --border: rgba(255,255,255,0.07); --borderh: rgba(255,255,255,0.14);
   --text: #f0ece4; --text2: rgba(240,236,228,0.45); --text3: rgba(240,236,228,0.18);
   --accent: #cc2222; --accent2: rgba(204,34,34,0.10); --red: #cc2222; --green: #1a4a2a;
@@ -42,7 +42,7 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
 html, body { height:100%; }
-body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); min-height:100%; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
+body { font-family:'Jost',sans-serif; background:#040204; color:var(--text); min-height:100%; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background var(--tr),color var(--tr); }
 
 /* HEADER */
 .hd { padding:28px 20px 0; display:flex; align-items:flex-end; justify-content:space-between; }
@@ -645,6 +645,13 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .zone-meta { display:flex; gap:14px; }
 .zone-cost { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--accent); }
 .zone-time { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text2); align-self:center; }
+.delivery-step-row { display:flex; gap:14px; align-items:flex-start; margin-bottom:14px; }
+.delivery-step-num { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--accent); opacity:0.6; width:24px; flex-shrink:0; padding-top:1px; }
+.delivery-step-title { font-size:12px; font-weight:300; color:var(--text); letter-spacing:0.05em; margin-bottom:3px; }
+.delivery-step-sub { font-size:10px; font-weight:200; letter-spacing:0.1em; color:var(--text3); }
+.delivery-faq-item { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:7px; }
+.delivery-faq-q { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); margin-bottom:4px; }
+.delivery-faq-a { font-size:10px; font-weight:200; letter-spacing:0.08em; color:var(--text3); line-height:1.6; }
 
 /* NAV */
 .nav { position:fixed; bottom:0; left:0; right:0; width:100%; background:rgba(5,3,8,0.97); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid rgba(180,150,200,0.1); border-radius:22px 22px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom,0px); min-height:58px; box-sizing:border-box; box-shadow:0 -8px 40px rgba(0,0,0,0.6); }
@@ -1499,6 +1506,47 @@ header { position: relative; z-index: 1; }
     <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="deliveryTitle">зоны доставки</div></div>
     <div class="delivery-wrap" id="deliveryContent"></div>
+    <!-- How it works -->
+    <div style="padding:0 20px 6px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;letter-spacing:0.08em;color:var(--text3);margin-bottom:12px;text-transform:uppercase">как это работает</div>
+      <div class="delivery-step-row">
+        <div class="delivery-step-num">I</div>
+        <div class="delivery-step-body">
+          <div class="delivery-step-title">Оформите заказ</div>
+          <div class="delivery-step-sub">Выберите товар, укажите район и контакт</div>
+        </div>
+      </div>
+      <div class="delivery-step-row">
+        <div class="delivery-step-num">II</div>
+        <div class="delivery-step-body">
+          <div class="delivery-step-title">Продавец выйдет на связь</div>
+          <div class="delivery-step-sub">Договоритесь о месте и времени встречи</div>
+        </div>
+      </div>
+      <div class="delivery-step-row">
+        <div class="delivery-step-num">III</div>
+        <div class="delivery-step-body">
+          <div class="delivery-step-title">Получите товар</div>
+          <div class="delivery-step-sub">Оплата наличными при передаче</div>
+        </div>
+      </div>
+    </div>
+    <!-- FAQ -->
+    <div style="padding:0 20px 20px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;letter-spacing:0.08em;color:var(--text3);margin:6px 0 12px;text-transform:uppercase">часто спрашивают</div>
+      <div class="delivery-faq-item">
+        <div class="delivery-faq-q">Сколько стоит доставка?</div>
+        <div class="delivery-faq-a">По Таллину — бесплатно. Оплата только за товар, наличными при встрече.</div>
+      </div>
+      <div class="delivery-faq-item">
+        <div class="delivery-faq-q">Как быстро доставят?</div>
+        <div class="delivery-faq-a">В день заказа — если оформить до 18:00. В редких случаях на следующий день.</div>
+      </div>
+      <div class="delivery-faq-item">
+        <div class="delivery-faq-q">Можно ли выбрать место встречи?</div>
+        <div class="delivery-faq-a">Да, встреча в удобном для вас месте в пределах вашего района.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1703,7 +1751,7 @@ const LANGS = {
     loadingShort:'загрузка',
     aRefresh:'нажмите обновить', aRefreshBtn:'обновить',
     dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
-    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'В день заказа',
+    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
     dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
     dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
     deliveryPayment:'Оплата наличными при встрече с продавцом',
@@ -1805,7 +1853,7 @@ const LANGS = {
     deliveryPayment:'Оплата наличными при встрече с продавцом',
     // Delivery zones
     dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
-    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'В день заказа',
+    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
     dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
     dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
     // Appearance
@@ -1915,7 +1963,7 @@ const LANGS = {
     aRefresh:'press to refresh', aRefreshBtn:'refresh',
     previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
     dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
-    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Same day',
+    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saue, Keila, Viimsi', dz3time:'1–2 days',
     dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
     deliveryPayment:'Cash on delivery',
@@ -2083,7 +2131,7 @@ const LANGS = {
     msgPlaceholder:'Your message...', enterMsg:'enter message', msgSentOk:'✅ message sent',
     deliveryPayment:'Cash on delivery when meeting the seller',
     dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
-    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Same day',
+    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 days',
     dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
     previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
@@ -2264,7 +2312,7 @@ const LANGS = {
     msgPlaceholder:'Teie sõnum...', enterMsg:'sisestage sõnum', msgSentOk:'✅ sõnum saadetud',
     deliveryPayment:'Tasumine sularahas müüjaga kohtudes',
     dz1name:'🏙 Tallinn — Keskus', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Tellimuse päeval',
-    dz2name:'🏘 Tallinn — Äärelinnad', dz2area:'Lasnamäe, Mustamäe, Kristiine, Haabersti, Pirita', dz2time:'Tellimuse päeval',
+    dz2name:'🏘 Tallinn — Äärelinnad', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Tellimuse päeval',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 päeva',
     dz4name:'🚗 Muud piirkonnad', dz4area:'Tartu, Pärnu, Narva ja teised', dz4time:'2–3 päeva',
     previewLabel:'eelvaade', previewNew:'UUS', previewArchive:'ARHIIV',
@@ -3269,17 +3317,28 @@ async function sendSupport() {
 // ═══ DELIVERY ═══
 function loadDelivery() {
   const zones = [
-    { name: t('dz1name'), area: t('dz1area'), cost: '0 €', time: t('dz1time') },
-    { name: t('dz2name'), area: t('dz2area'), cost: '0 €', time: t('dz2time') },
-    { name: t('dz3name'), area: t('dz3area'), cost: '2 €', time: t('dz3time') },
-    { name: t('dz4name'), area: t('dz4area'), cost: '5 €', time: t('dz4time') },
+    { name: t('dz1name'), area: t('dz1area'), cost: '0 €', time: t('dz1time'), icon: '🏙', badge: 'центр' },
+    { name: t('dz2name'), area: t('dz2area'), cost: '0 €', time: t('dz2time'), icon: '🏘', badge: 'районы' },
   ];
-  document.getElementById('deliveryContent').innerHTML = zones.map(z => `
-    <div class="zone-card">
-      <div class="zone-name">${z.name}</div>
-      <div class="zone-area">${z.area}</div>
-      <div class="zone-meta"><span class="zone-cost">${z.cost}</span><span class="zone-time">${z.time}</span></div>
-    </div>`).join('') + '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px;color:var(--text2);margin-top:14px">${t("deliveryPayment")}</p>';
+  const areaArr1 = zones[0].area.split(',').map(a => a.trim());
+  const areaArr2 = zones[1].area.split(',').map(a => a.trim());
+  document.getElementById('deliveryContent').innerHTML = zones.map((z, idx) => {
+    const arr = idx === 0 ? areaArr1 : areaArr2;
+    return `
+    <div class="zone-card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div class="zone-name">${z.name}</div>
+        <div style="font-size:8px;font-weight:200;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:3px 8px;opacity:0.7">${z.badge}</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+        ${arr.map(a => `<span style="font-size:9px;font-weight:200;letter-spacing:0.2em;color:var(--text2);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:20px;padding:3px 9px">${a}</span>`).join('')}
+      </div>
+      <div class="zone-meta">
+        <span class="zone-cost">${z.cost}</span>
+        <span class="zone-time">${z.time}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ═══ NAVIGATION ═══

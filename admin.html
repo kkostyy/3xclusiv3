@@ -1239,7 +1239,8 @@ async function loadDashboard() {
     const active = s.active_orders || 0;
     const convRate = totalO > 0 ? Math.round((delivered / totalO) * 100) : 0;
     const cancRate = totalO > 0 ? Math.round((cancelled / totalO) * 100) : 0;
-    const avgOrder = delivered > 0 ? (s.revenue / delivered) : 0;
+    const revenue = parseFloat(s.revenue) || 0;
+    const avgOrder = delivered > 0 ? (revenue / delivered) : 0;
     const topMax = s.top_products?.length ? Math.max(...s.top_products.map(p => +p.revenue), 1) : 1;
     const now = new Date();
     const weekBuckets = Array(7).fill(0);
@@ -1273,10 +1274,10 @@ async function loadDashboard() {
       <div class="wide-card">
         <div class="wide-card-title">выручка · доставленные заказы</div>
         <div class="rev-big">
-          <div class="rev-num">${s.revenue.toFixed(0)}</div>
+          <div class="rev-num">${revenue.toFixed(0)}</div>
           <div class="rev-cur">€</div>
         </div>
-        <div class="rev-sub">завершено: ${delivered} · средний чек: ${avgOrder.toFixed(0)} €</div>
+        <div class="rev-sub">завершено: ${delivered} · средний чек: ${(+avgOrder||0).toFixed(0)} €</div>
         <div style="margin-top:14px">
           <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">заказы за 7 дней</div>
           <div class="spark-row">${sparkHTML}</div>
@@ -1528,12 +1529,9 @@ async function adminDeleteCategory(id) {
   if (!confirm('Удалить категорию «' + (adminCatLabel[id]||id) + '»?')) return;
   try {
     await fetch(`${API}/api/admin/categories/${id}?admin_id=${userId}`, { method:'DELETE' });
-    allAdminCategories = allAdminCategories.filter(x => x !== id);
-    delete adminCatLabel[id]; delete adminCatGlyph[id];
-    document.querySelectorAll(`#adminCatGrid .cat-btn[data-cat="${id}"]`).forEach(b => b.remove());
-    if (selectedCat === id) { selectedCat = 'clothes'; document.querySelector('#adminCatGrid .cat-btn')?.classList.add('on'); }
-    refreshCustomCatList();
     toast('✅ категория удалена');
+    // Перезагружаем с сервера — глобальный источник истины
+    await loadAdminCategories();
   } catch { toast('ошибка'); }
 }
 
@@ -1571,26 +1569,16 @@ async function adminAddCategory() {
   const id = label.toLowerCase().replace(/[^a-zа-яё0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
   if (allAdminCategories.includes(id)) { toast('такая категория уже есть'); return; }
   try {
-    await fetch(`${API}/api/admin/categories`, {
+    const resp = await fetch(`${API}/api/admin/categories`, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ admin_id: userId, id, label, glyph })
     });
-    adminCatLabel[id] = glyph + ' ' + label;
-    adminCatGlyph[id] = glyph;
-    allAdminCategories.push(id);
-    const grid = document.getElementById('adminCatGrid');
-    if (grid) {
-      const btn = document.createElement('button');
-      btn.className = 'cat-btn';
-      btn.dataset.cat = id;
-      btn.textContent = glyph + ' ' + label;
-      btn.onclick = function(){ selectCat(this); };
-      grid.appendChild(btn);
-    }
+    if (!resp.ok) { toast('ошибка сервера'); return; }
     document.getElementById('newCatLabel').value = '';
     document.getElementById('newCatGlyph').value = '';
-    refreshCustomCatList();
     toast('✅ категория «' + label + '» добавлена');
+    // Перезагружаем с сервера — глобальный источник истины
+    await loadAdminCategories();
   } catch { toast('ошибка при добавлении'); }
 }
 
@@ -2160,123 +2148,5 @@ function devClearCart() {
 }
 
 </script>
-
-
-
-<script>
-// ═══ GOTHIC PARTICLES — ADMIN (pure black/white) ═══
-(function() {
-  const canvas = document.getElementById('gothicCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.style.pointerEvents = 'none';
-
-  const GLYPHS = ['†','✝','☩','✙','⚔','✦','◆','⁂','∗','⊹','✶','⋆','·','⁕','✠','☽'];
-  const RUNES  = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ'];
-
-  let W, H, particles = [], webs = [];
-  function rand(a,b){ return a+Math.random()*(b-a); }
-
-  function resize(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    buildWebs();
-  }
-
-  function buildWebs(){
-    webs=[];
-    [[0,0],[W,0],[0,H],[W,H]].forEach(([cx,cy])=>{
-      for(let i=0;i<8;i++){
-        const a=rand(0,Math.PI*0.55),dx=cx===0?1:-1,dy=cy===0?1:-1,l=rand(50,150);
-        webs.push({x1:cx,y1:cy,x2:cx+dx*l*Math.cos(a),y2:cy+dy*l*Math.sin(a),alpha:rand(0.03,0.12)});
-      }
-      for(let i=0;i<3;i++){
-        const r1=rand(25,80),r2=rand(25,80),a1=rand(0,Math.PI*0.5),a2=rand(0,Math.PI*0.5);
-        const dx=cx===0?1:-1,dy=cy===0?1:-1;
-        webs.push({x1:cx+dx*r1*Math.cos(a1),y1:cy+dy*r1*Math.sin(a1),x2:cx+dx*r2*Math.cos(a2),y2:cy+dy*r2*Math.sin(a2),alpha:rand(0.02,0.06)});
-      }
-    });
-  }
-
-  function createParticle(fb){
-    const gs=Math.random()<0.6?GLYPHS:RUNES;
-    return {
-      x:rand(0,W), y:fb?H+20:rand(0,H),
-      size:rand(7,18), alpha:rand(0.05,0.22),
-      vx:rand(-0.14,0.14), vy:rand(-0.45,-0.07),
-      glyph:gs[Math.floor(Math.random()*gs.length)],
-      life:0, maxLife:rand(220,560),
-      drift:rand(-0.005,0.005), driftAmp:rand(0.1,0.8),
-      pulse:rand(0,Math.PI*2), pulseSpeed:rand(0.007,0.024),
-      rotation:rand(0,Math.PI*2), rotSpeed:rand(-0.005,0.005)
-    };
-  }
-
-  function initParticles(){
-    particles=[];
-    const n=Math.min(60,Math.floor(W*H/7000));
-    for(let i=0;i<n;i++){const p=createParticle(false);p.life=Math.floor(Math.random()*p.maxLife);particles.push(p);}
-  }
-
-  function drawOrnaments(){
-    ctx.save();
-    const c='rgba(255,255,255,';
-    function flourish(cx,cy,sx,sy){
-      ctx.save(); ctx.translate(cx,cy); ctx.scale(sx,sy);
-      ctx.lineWidth=1.4; ctx.strokeStyle=c+'0.50)';
-      ctx.beginPath(); ctx.moveTo(0,0); ctx.bezierCurveTo(30,-10,60,20,90,5); ctx.bezierCurveTo(120,-10,145,26,165,12); ctx.stroke();
-      for(let i=0;i<5;i++){
-        const tx=22+i*28,ty=-2+Math.sin(i*1.3)*9;
-        ctx.save(); ctx.translate(tx,ty); ctx.rotate(-0.3+i*0.13);
-        ctx.fillStyle=c+'0.44)'; ctx.beginPath(); ctx.ellipse(0,-7,2.5,7,0,0,Math.PI*2); ctx.fill(); ctx.restore();
-      }
-      ctx.lineWidth=1.1; ctx.beginPath(); ctx.arc(170,10,6,0,Math.PI*1.5); ctx.stroke();
-      ctx.restore();
-    }
-    flourish(0,0,1,1); flourish(W,0,-1,1); flourish(0,H,1,-1); flourish(W,H,-1,-1);
-    ctx.strokeStyle=c+'0.55)'; ctx.lineWidth=1.1;
-    const m=8; ctx.strokeRect(m,m,W-m*2,H-m*2);
-    ctx.strokeStyle=c+'0.18)'; ctx.lineWidth=0.5; ctx.strokeRect(m+5,m+5,W-(m+5)*2,H-(m+5)*2);
-    ctx.strokeStyle=c+'0.06)'; ctx.lineWidth=0.5;
-    for(let y=0;y<60;y+=4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.beginPath();ctx.moveTo(0,H-y);ctx.lineTo(W,H-y);ctx.stroke();}
-    ctx.save(); ctx.translate(W/2,0);
-    ctx.strokeStyle=c+'0.58)'; ctx.lineWidth=1.3;
-    ctx.beginPath(); ctx.moveTo(-60,0); ctx.bezierCurveTo(-42,20,-12,8,0,18); ctx.bezierCurveTo(12,8,42,20,60,0); ctx.stroke();
-    ctx.fillStyle=c+'0.65)'; ctx.beginPath(); ctx.moveTo(0,10); ctx.lineTo(6,20); ctx.lineTo(0,30); ctx.lineTo(-6,20); ctx.closePath(); ctx.fill();
-    ctx.restore(); ctx.restore();
-  }
-
-  let frame=0;
-  function loop(){
-    frame++;
-    ctx.clearRect(0,0,W,H);
-    const vg=ctx.createRadialGradient(W/2,H*0.4,0,W/2,H*0.5,Math.max(W,H)*0.85);
-    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(0.5,'rgba(0,0,0,0.25)'); vg.addColorStop(1,'rgba(0,0,0,0.85)');
-    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
-    drawOrnaments();
-    ctx.save();
-    webs.forEach(w=>{ctx.strokeStyle='rgba(255,255,255,'+Math.min(w.alpha*2,0.16)+')';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});
-    ctx.restore();
-    particles.forEach((p,i)=>{
-      p.life++; p.x+=p.vx+Math.sin(p.life*p.drift)*p.driftAmp; p.y+=p.vy;
-      p.pulse+=p.pulseSpeed; p.rotation+=p.rotSpeed;
-      const fl=55; let fa=1;
-      if(p.life<fl)fa=p.life/fl; else if(p.life>p.maxLife-fl)fa=(p.maxLife-p.life)/fl;
-      const fin=p.alpha*(0.55+0.45*Math.sin(p.pulse))*fa;
-      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation); ctx.globalAlpha=Math.max(0,fin);
-      const b=195+Math.floor(Math.random()*60);
-      ctx.fillStyle='rgba('+b+','+b+','+b+',1)';
-      ctx.font=p.size+'px "Cormorant Garamond",serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(p.glyph,0,0); ctx.restore();
-      if(p.life>=p.maxLife||p.y<-40||p.x<-60||p.x>W+60)particles[i]=createParticle(true);
-    });
-    requestAnimationFrame(loop);
-  }
-  resize(); initParticles(); loop();
-  window.addEventListener('resize',()=>{resize();initParticles();});
-})();
-</script>
 </body>
 </html>
-
-
