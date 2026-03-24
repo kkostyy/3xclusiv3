@@ -16,6 +16,8 @@ REFERRAL_TIERS = [
 # Максимальная скидка
 REFERRAL_MAX_DISCOUNT = 15
 
+WEBAPP_URL: str = os.getenv("WEBAPP_URL", "https://3xclusiv3-production.up.railway.app")
+
 SIZE_CHART = {
     "XS": {"height": (148, 158), "weight": (40, 50)},
     "S":  {"height": (158, 165), "weight": (48, 58)},
