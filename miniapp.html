@@ -39,6 +39,30 @@
 }
 
 
+/* ═══ LIGHT THEME ═══ */
+[data-theme="light"] {
+  --bg: transparent;
+  --bg2: rgba(245,240,248,0.88);
+  --bg3: rgba(235,228,240,0.92);
+  --border: rgba(0,0,0,0.09);
+  --borderh: rgba(0,0,0,0.18);
+  --text: #1a1020;
+  --text2: rgba(26,16,32,0.50);
+  --text3: rgba(26,16,32,0.28);
+  --green: #1a4a2a;
+}
+[data-theme="light"] body { background: #f0ebf6; }
+[data-theme="light"] .nav { background: rgba(240,235,246,0.97); border-top-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .admin-nav { background: rgba(240,235,246,0.97); }
+[data-theme="light"] .more-sub, [data-theme="light"] .more-sub-a { background: transparent; }
+[data-theme="light"] #gothicCanvas { opacity: 0.38; filter: invert(1) hue-rotate(180deg); }
+[data-theme="light"] .card { background: rgba(245,240,250,0.92); border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .card::after { opacity: 0 !important; }
+[data-theme="light"] .inp { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.12); color: var(--text); }
+[data-theme="light"] .toast { background: rgba(240,235,246,0.97); color: var(--text); }
+[data-theme="light"] .cart-notify { background: rgba(245,240,250,0.97); }
+[data-theme="light"] header { background: rgba(240,235,246,0.85) !important; }
+
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
 html, body { height:100%; }
@@ -1099,6 +1123,10 @@ body.admin-mode #mainNav { display:none !important; }
 }
 /* Ensure all content is above canvas */
 header { position: relative; z-index: 1; }
+.view { position: relative; z-index: 1; }
+.more-sub { position: relative; z-index: 1; }
+.more-sub-a { position: relative; z-index: 1; }
+#gothicCanvas { transition: opacity 0.8s, filter 0.8s; }
 
 
 /* ═══ ADMIN FORM ═══ */
@@ -1548,16 +1576,27 @@ header { position: relative; z-index: 1; }
       </div>
     </div>
   </div>
-</div>
-
-<!-- Orders view merged into Cart tabs -->
-
   <!-- Appearance -->
   <div class="more-sub" id="moreAppearance">
     <button class="more-back" onclick="cancelAccent()"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
     <div class="sec-head"><div class="sec-title" data-i18n="appearanceTitle">оформление</div></div>
     <div style="padding:0 20px 20px">
-      <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:4px" data-i18n="accentLabel">цвет подсветки</div>
+
+      <!-- Theme switcher -->
+      <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:10px" data-i18n="themeLabel">тема</div>
+      <div style="display:flex;gap:8px;margin-bottom:22px">
+        <button id="themeBtnDark" onclick="setAppTheme('dark')" style="flex:1;background:none;border:1px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <span style="font-size:18px">☽</span>
+          <span data-i18n="themeDark">тёмная</span>
+        </button>
+        <button id="themeBtnLight" onclick="setAppTheme('light')" style="flex:1;background:none;border:1px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <span style="font-size:18px">☀</span>
+          <span data-i18n="themeLight">светлая</span>
+        </button>
+      </div>
+
+      <!-- Accent color section -->
+      <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:10px" data-i18n="accentLabel">цвет подсветки</div>
       <div class="accent-palette" id="userAccentPalette">
         <div class="accent-swatch" data-color="#cc2222" style="background:#cc2222" onclick="setUserAccent('#cc2222',this)"></div>
         <div class="accent-swatch" data-color="#e05c1a" style="background:#e05c1a" onclick="setUserAccent('#e05c1a',this)"></div>
@@ -1568,11 +1607,16 @@ header { position: relative; z-index: 1; }
         <div class="accent-swatch" data-color="#bf3f8e" style="background:#bf3f8e" onclick="setUserAccent('#bf3f8e',this)"></div>
         <div class="accent-swatch" data-color="#888888" style="background:#888888" onclick="setUserAccent('#888888',this)"></div>
       </div>
-      <div class="accent-custom-row">
-        <input type="color" class="accent-custom-inp" id="userAccentCustom" value="#cc2222" oninput="setUserAccent(this.value,null,true)">
-        <span style="font-size:9px;font-weight:200;letter-spacing:0.3em;color:var(--text3)" data-i18n="customColor">свой цвет</span>
+
+      <!-- Custom color row — opens sub-screen -->
+      <div class="accent-custom-row" onclick="openCustomColorPanel()" style="cursor:pointer;border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-top:8px;transition:border-color 0.3s">
+        <div id="customColorDot" style="width:22px;height:22px;border-radius:50%;background:var(--accent);border:2px solid rgba(255,255,255,0.18);flex-shrink:0"></div>
+        <span style="font-size:9px;font-weight:200;letter-spacing:0.3em;color:var(--text2)" data-i18n="customColor">свой цвет</span>
         <span id="userAccentHex" style="margin-left:auto;font-size:10px;font-weight:200;color:var(--text2);font-family:monospace">#CC2222</span>
+        <span style="color:var(--text3);font-size:14px;margin-left:6px">›</span>
       </div>
+
+      <!-- Preview -->
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
         <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;color:var(--text3);margin-bottom:12px;text-transform:uppercase" data-i18n="previewLabel">предпросмотр</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -1581,11 +1625,66 @@ header { position: relative; z-index: 1; }
           <span style="border:1px solid var(--red);color:var(--red);font-size:8px;letter-spacing:0.3em;padding:4px 10px;border-radius:99px;opacity:0.7" data-i18n="previewArchive">АРХИВ</span>
         </div>
       </div>
-      <button class="btn" style="width:100%;margin-top:20px" onclick="saveAccent()" data-i18n="saveAccentBtn">сохранить цвет</button>
+      <button class="btn" style="width:100%;margin-top:20px" onclick="saveAccent()" data-i18n="saveAccentBtn">сохранить</button>
     </div>
   </div>
 
+  <!-- Custom Color Picker sub-screen -->
+  <div class="more-sub" id="moreCustomColor">
+    <button class="more-back" onclick="closeCustomColorPanel()"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-title" data-i18n="customColor">свой цвет</div></div>
+    <div style="padding:0 20px 30px">
+      <!-- Big color preview circle -->
+      <div style="display:flex;justify-content:center;margin-bottom:24px">
+        <div id="bigColorPreview" style="width:88px;height:88px;border-radius:50%;background:var(--accent);border:3px solid rgba(255,255,255,0.15);box-shadow:0 0 40px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05);transition:background 0.2s"></div>
+      </div>
+      <!-- Color picker input -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:20px">
+        <input type="color" id="userAccentCustom" value="#cc2222" oninput="onCustomColorInput(this.value)" style="width:56px;height:56px;border-radius:14px;border:1px solid var(--border);background:none;cursor:pointer;padding:4px">
+        <div>
+          <div style="font-size:9px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:4px" data-i18n="customColor">свой цвет</div>
+          <div id="customColorHex" style="font-size:20px;font-weight:200;letter-spacing:0.12em;color:var(--text);font-family:monospace">#CC2222</div>
+        </div>
+      </div>
+      <!-- Quick palette in picker -->
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:8px" data-i18n="accentLabel">быстрый выбор</div>
+      <div class="accent-palette" id="customColorPalette" style="margin-bottom:20px">
+        <div class="accent-swatch" data-color="#cc2222" style="background:#cc2222" onclick="onCustomColorInput('#cc2222')"></div>
+        <div class="accent-swatch" data-color="#e05c1a" style="background:#e05c1a" onclick="onCustomColorInput('#e05c1a')"></div>
+        <div class="accent-swatch" data-color="#d4a017" style="background:#d4a017" onclick="onCustomColorInput('#d4a017')"></div>
+        <div class="accent-swatch" data-color="#3a9e4f" style="background:#3a9e4f" onclick="onCustomColorInput('#3a9e4f')"></div>
+        <div class="accent-swatch" data-color="#1a7bbf" style="background:#1a7bbf" onclick="onCustomColorInput('#1a7bbf')"></div>
+        <div class="accent-swatch" data-color="#7b3fbf" style="background:#7b3fbf" onclick="onCustomColorInput('#7b3fbf')"></div>
+        <div class="accent-swatch" data-color="#bf3f8e" style="background:#bf3f8e" onclick="onCustomColorInput('#bf3f8e')"></div>
+        <div class="accent-swatch" data-color="#888888" style="background:#888888" onclick="onCustomColorInput('#888888')"></div>
+      </div>
+      <!-- RGB sliders -->
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">RGB</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:9px;color:#e05555;font-weight:300;width:10px">R</span>
+          <input type="range" id="sliderR" min="0" max="255" value="204" oninput="onRgbSlider()" style="flex:1;accent-color:#e05555">
+          <span id="valR" style="font-size:9px;font-family:monospace;color:var(--text2);width:24px;text-align:right">204</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:9px;color:#55e055;font-weight:300;width:10px">G</span>
+          <input type="range" id="sliderG" min="0" max="255" value="34" oninput="onRgbSlider()" style="flex:1;accent-color:#55e055">
+          <span id="valG" style="font-size:9px;font-family:monospace;color:var(--text2);width:24px;text-align:right">34</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:9px;color:#5585e0;font-weight:300;width:10px">B</span>
+          <input type="range" id="sliderB" min="0" max="255" value="34" oninput="onRgbSlider()" style="flex:1;accent-color:#5585e0">
+          <span id="valB" style="font-size:9px;font-family:monospace;color:var(--text2);width:24px;text-align:right">34</span>
+        </div>
+      </div>
+      <button class="btn" style="width:100%" onclick="applyCustomColor()" data-i18n="saveAccentBtn">применить</button>
+    </div>
+  </div>
+
+
 </div>
+
+<!-- Orders view merged into Cart tabs -->
 
 <!-- PROFILE -->
 <div class="view" id="vProfile">
@@ -1713,6 +1812,7 @@ async function deleteCat(id) {
 const LANGS = {
   ru: {
     saveAccentBtn:'сохранить цвет',
+    themeLabel:'тема', themeDark:'тёмная', themeLight:'светлая',
     catalog:'Каталог', orders:'Заказы', cart:'Корзина', profile:'Профиль', more:'Ещё',
     cartTitle:'корзина', moreTitle:'ещё',
     size:'Размер', sizeDesc:'<span data-i18n="sizeDesc">подобрать по росту и весу</span>',
@@ -1924,6 +2024,7 @@ const LANGS = {
   },
   en: {
     saveAccentBtn:'save color',
+    themeLabel:'theme', themeDark:'dark', themeLight:'light',
     catalog:'Catalog', orders:'Orders', cart:'Cart', profile:'Profile', more:'More',
     cartTitle:'cart', moreTitle:'more',
     size:'Size', sizeDesc:'find by height and weight',
@@ -2200,6 +2301,7 @@ const LANGS = {
   },
   et: {
     saveAccentBtn:'salvesta värv',
+    themeLabel:'teema', themeDark:'tume', themeLight:'hele',
     catalog:'Kataloog', orders:'Tellimused', cart:'Ostukorv', profile:'Profiil', more:'Veel',
     addCart:'lisa korvi', noStock:'otsas', loading:'arhiivi laadimine',
     size:'Suurus', referrals:'Soovitused', notifications:'Teavitused',
@@ -2467,8 +2569,9 @@ function isEmojiGlyph(s) {
 }
 
 function init() {
-  applyTheme(true);
+  loadSavedTheme();
   loadUserAccent();
+  updateThemeBtns();
   updateCartNum();
 
   if (tg) {
@@ -2532,6 +2635,8 @@ function setUserAccent(hex, swatchEl, fromPicker) {
   }
   const lbl = document.getElementById('userAccentHex');
   if (lbl) lbl.textContent = hex.toUpperCase();
+  const dot = document.getElementById('customColorDot');
+  if (dot) dot.style.background = hex;
 }
 
 function saveAccent() {
@@ -2563,11 +2668,107 @@ function loadUserAccent() {
   if (lbl) lbl.textContent = saved.toUpperCase();
   const glyph = document.getElementById('appearanceGlyph');
   if (glyph) glyph.style.color = saved;
+  const dot = document.getElementById('customColorDot');
+  if (dot) dot.style.background = saved;
 }
 
 function applyTheme(dark) {
-  isDark = true; // always dark
-  document.documentElement.setAttribute('data-theme', 'dark');
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  updateThemeBtns();
+}
+
+function setAppTheme(mode) {
+  const dark = mode === 'dark';
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  localStorage.setItem('theme_3x', mode);
+  updateThemeBtns();
+}
+
+function updateThemeBtns() {
+  const dark = isDark;
+  const btnD = document.getElementById('themeBtnDark');
+  const btnL = document.getElementById('themeBtnLight');
+  if (!btnD || !btnL) return;
+  const onStyle = 'background:var(--accent);color:#fff;border-color:var(--accent)';
+  const offStyle = 'background:none;border-color:var(--border);color:var(--text2)';
+  btnD.style.cssText = btnD.style.cssText.replace(/background:[^;]+;color:[^;]+;border-color:[^;]+/, '');
+  btnL.style.cssText = btnL.style.cssText.replace(/background:[^;]+;color:[^;]+;border-color:[^;]+/, '');
+  if (dark) {
+    btnD.style.background = 'var(--accent)'; btnD.style.color = '#fff'; btnD.style.borderColor = 'var(--accent)';
+    btnL.style.background = 'none'; btnL.style.color = 'var(--text2)'; btnL.style.borderColor = 'var(--border)';
+  } else {
+    btnL.style.background = 'var(--accent)'; btnL.style.color = '#fff'; btnL.style.borderColor = 'var(--accent)';
+    btnD.style.background = 'none'; btnD.style.color = 'var(--text2)'; btnD.style.borderColor = 'var(--border)';
+  }
+}
+
+function loadSavedTheme() {
+  const saved = localStorage.getItem('theme_3x') || 'dark';
+  setAppTheme(saved);
+}
+
+function openCustomColorPanel() {
+  const cur = _pendingAccent || _savedAccent || '#cc2222';
+  syncCustomColorPanel(cur);
+  document.querySelectorAll('.more-sub').forEach(el => el.classList.remove('on'));
+  document.getElementById('moreCustomColor').classList.add('on');
+}
+
+function closeCustomColorPanel() {
+  document.querySelectorAll('.more-sub').forEach(el => el.classList.remove('on'));
+  document.getElementById('moreAppearance').classList.add('on');
+}
+
+function syncCustomColorPanel(hex) {
+  const picker = document.getElementById('userAccentCustom');
+  const bigPrev = document.getElementById('bigColorPreview');
+  const hexLbl = document.getElementById('customColorHex');
+  if (picker) picker.value = hex;
+  if (bigPrev) bigPrev.style.background = hex;
+  if (hexLbl) hexLbl.textContent = hex.toUpperCase();
+  // sync RGB sliders
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const sR=document.getElementById('sliderR'),sG=document.getElementById('sliderG'),sB=document.getElementById('sliderB');
+  const vR=document.getElementById('valR'),vG=document.getElementById('valG'),vB=document.getElementById('valB');
+  if(sR){sR.value=r;vR.textContent=r;}
+  if(sG){sG.value=g;vG.textContent=g;}
+  if(sB){sB.value=b;vB.textContent=b;}
+  // sync custom palette
+  document.querySelectorAll('#customColorPalette .accent-swatch').forEach(s => {
+    s.classList.toggle('on', s.dataset.color === hex);
+  });
+}
+
+function onCustomColorInput(hex) {
+  if (hex.length < 7) return;
+  setUserAccent(hex, null, true);
+  syncCustomColorPanel(hex);
+}
+
+function onRgbSlider() {
+  const r = parseInt(document.getElementById('sliderR').value);
+  const g = parseInt(document.getElementById('sliderG').value);
+  const b = parseInt(document.getElementById('sliderB').value);
+  document.getElementById('valR').textContent = r;
+  document.getElementById('valG').textContent = g;
+  document.getElementById('valB').textContent = b;
+  const hex = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+  setUserAccent(hex, null, true);
+  const bigPrev = document.getElementById('bigColorPreview');
+  const hexLbl = document.getElementById('customColorHex');
+  const picker = document.getElementById('userAccentCustom');
+  if (bigPrev) bigPrev.style.background = hex;
+  if (hexLbl) hexLbl.textContent = hex.toUpperCase();
+  if (picker) picker.value = hex;
+}
+
+function applyCustomColor() {
+  const cur = _pendingAccent || '#cc2222';
+  const dot = document.getElementById('customColorDot');
+  if (dot) dot.style.background = cur;
+  closeCustomColorPanel();
 }
 
 // ═══ TOAST ═══
@@ -3365,6 +3566,12 @@ function openMoreSub(id) {
   document.querySelectorAll('.more-sub').forEach(el => el.classList.remove('on'));
   const el = document.getElementById(id);
   if (el) el.classList.add('on');
+  if (id === 'moreAppearance') {
+    setTimeout(updateThemeBtns, 10);
+    const cur = _pendingAccent || _savedAccent || localStorage.getItem('accent_3x') || '#cc2222';
+    const dot = document.getElementById('customColorDot');
+    if (dot) dot.style.background = cur;
+  }
 }
 
 
@@ -5054,7 +5261,7 @@ init();
       <div class="more-item-a" onclick="openMoreSubA('aMoreSupport');loadSupport()">
         <div class="more-glyph">✦</div>
         <div class="more-info">
-          <div class="more-title" data-i18n="support">Поддержка<span style="display:none"> <span id="supportUnreadBadge" style="display:none;background:var(--accent);color:var(--bg);font-size:8px;border-radius:99px;padding:1px 6px;margin-left:4px;font-weight:300"></span></div>
+          <div class="more-title" data-i18n="support">Поддержка<span style="display:none"> <span id="supportUnreadBadge" style="display:none;background:var(--accent);color:var(--bg);font-size:8px;border-radius:99px;padding:1px 6px;margin-left:4px;font-weight:300"></span></span></div>
           <div class="more-sub-lbl" data-i18n="aHubSupport">входящие сообщения</div>
         </div>
         <div class="more-arrow">›</div>
@@ -5236,16 +5443,16 @@ init();
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <button class="adm-diag-btn" onclick="devCheckAPI()">
-            <span class="adm-diag-icon">◈</span data-i18n="aApiStatus">API статус
+            <span class="adm-diag-icon">◈</span><span data-i18n="aApiStatus">API статус</span>
           </button>
           <button class="adm-diag-btn" onclick="devReloadProducts()">
-            <span class="adm-diag-icon">↺</span data-i18n="aReloadProducts">товары
+            <span class="adm-diag-icon">↺</span><span data-i18n="aReloadProducts">товары</span>
           </button>
           <button class="adm-diag-btn" onclick="devReloadUser()">
-            <span class="adm-diag-icon">◇</span data-i18n="aReloadProfile">профиль
+            <span class="adm-diag-icon">◇</span><span data-i18n="aReloadProfile">профиль</span>
           </button>
           <button class="adm-diag-btn" onclick="devTestNotif()">
-            <span class="adm-diag-icon">†</span data-i18n="aTestToast">тест тоста
+            <span class="adm-diag-icon">†</span><span data-i18n="aTestToast">тест тоста</span>
           </button>
         </div>
       </div>
@@ -5268,7 +5475,6 @@ init();
     </div>
   </div>
 
-</div>
 </div>
 
 <!-- ADMIN SUBPAGES -->
@@ -5382,7 +5588,7 @@ init();
 
   function drawOrnaments(){
     ctx.save();
-    const c='rgba(255,255,255,';
+    const c=isLight?'rgba(40,10,60,':'rgba(255,255,255,';
     function flourish(cx,cy,sx,sy){
       ctx.save(); ctx.translate(cx,cy); ctx.scale(sx,sy);
       ctx.lineWidth=1.5; ctx.strokeStyle=c+'0.55)';
@@ -5418,13 +5624,20 @@ init();
   function loop(){
     frame++;
     ctx.clearRect(0,0,W,H);
-    const vg=ctx.createRadialGradient(W/2,H*0.38,0,W/2,H*0.5,Math.max(W,H)*0.88);
-    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(0.45,'rgba(0,0,0,0.22)'); vg.addColorStop(1,'rgba(0,0,0,0.88)');
-    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+    const isLight = document.documentElement.getAttribute('data-theme')==='light';
+    if(!isLight){
+      const vg=ctx.createRadialGradient(W/2,H*0.38,0,W/2,H*0.5,Math.max(W,H)*0.88);
+      vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(0.45,'rgba(0,0,0,0.22)'); vg.addColorStop(1,'rgba(0,0,0,0.88)');
+      ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+    }
     drawOrnaments();
-    // Cobwebs - white
+    // Cobwebs
     ctx.save();
-    webs.forEach(w=>{ctx.strokeStyle='rgba(255,255,255,'+Math.min(w.alpha*2,0.20)+')';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();});
+    webs.forEach(w=>{
+      const wc=isLight?'rgba(30,10,40,':'rgba(255,255,255,';
+      ctx.strokeStyle=wc+Math.min(w.alpha*(isLight?1.2:2),isLight?0.14:0.20)+')';
+      ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(w.x1,w.y1);ctx.lineTo(w.x2,w.y2);ctx.stroke();
+    });
     ctx.restore();
     // Chains - red
     ctx.save();
@@ -5456,8 +5669,13 @@ init();
         ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,p.size*1.6,0,Math.PI*2); ctx.fill();
         ctx.fillStyle='rgba(220,80,80,1)';
       } else {
-        const b=200+Math.floor(Math.random()*55);
-        ctx.fillStyle='rgba('+b+','+b+','+b+',1)';
+        if(isLight){
+          const b=40+Math.floor(Math.random()*60);
+          ctx.fillStyle='rgba('+b+','+b+','+b+',1)';
+        } else {
+          const b=200+Math.floor(Math.random()*55);
+          ctx.fillStyle='rgba('+b+','+b+','+b+',1)';
+        }
       }
       ctx.font=p.size+'px "Cormorant Garamond",serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText(p.glyph,0,0); ctx.restore();
