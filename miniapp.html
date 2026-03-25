@@ -76,6 +76,19 @@
 [data-theme="light"] .nav-btn { color: rgba(26,16,32,0.32); }
 [data-theme="light"] .nav-btn.on { color: var(--text); }
 
+/* ── LIGHT THEME: убираем все засветы и glow-эффекты ── */
+[data-theme="light"] .btn { box-shadow: none !important; }
+[data-theme="light"] .btn:hover, [data-theme="light"] .btn:active { box-shadow: none !important; background: rgba(0,0,0,0.04) !important; }
+[data-theme="light"] .inp:focus { box-shadow: none !important; border-color: rgba(0,0,0,0.25) !important; }
+[data-theme="light"] .card:active { box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important; }
+[data-theme="light"] .monogram { box-shadow: none !important; background: rgba(200,190,210,0.4) !important; border-color: rgba(0,0,0,0.08) !important; }
+[data-theme="light"] .admin-hub-card:active { box-shadow: none !important; border-color: rgba(0,0,0,0.15) !important; }
+[data-theme="light"] .logo { text-shadow: none !important; }
+[data-theme="light"] .card-cart-btn { box-shadow: none !important; }
+[data-theme="light"] .cart-notify { box-shadow: 0 4px 16px rgba(0,0,0,0.10) !important; }
+[data-theme="light"] .accent-swatch { box-shadow: none !important; }
+[data-theme="light"] #bigColorPreview { box-shadow: 0 2px 12px rgba(0,0,0,0.12) !important; }
+
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
 html, body { height:100%; }
@@ -102,7 +115,7 @@ body { font-family:'Jost',sans-serif; background:#040204; color:var(--text); min
 .rule-sym { font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--accent); opacity:0.5; font-style:italic; letter-spacing:0.4em; }
 
 /* VIEWS */
-.view { display:none; padding:0 0 90px; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; width:100%; }
+.view { display:none; padding:0 0 90px; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; width:100%; will-change:transform; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .view.on { display:block; }
 
 /* FILTER */
@@ -253,7 +266,7 @@ body { font-family:'Jost',sans-serif; background:#040204; color:var(--text); min
 
 
 /* SWIPE TRANSITIONS */
-.view { transition: transform 0.28s cubic-bezier(0.16,1,0.3,1), opacity 0.28s; }
+.view { transition: transform 0.32s cubic-bezier(0.25,1,0.35,1), opacity 0.32s cubic-bezier(0.25,1,0.35,1); }
 
 /* CART TABS */
 .cart-tabs { display:flex; padding:0; border-bottom:none; }
@@ -3107,11 +3120,17 @@ async function submitOrder() {
   if (!/^[3-8]\d{7}$/.test(phone)) { toast(t('enterPhone')); return; }
   if (!address) { toast(t('enterDistrict')); return; }
   const items = Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name }));
+  const btn = document.querySelector('#vCheckout .btn[onclick*="submitOrder"]') || document.querySelector('#vCheckout .btn');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
   try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
     const r = await fetch(`${API}/api/checkout`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone, address })
+      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone, address }),
+      signal: controller.signal
     });
+    clearTimeout(timer);
     const d = await r.json();
     if (d.ok) {
       cart = {}; saveCart(); updateCartNum(); switchView('catalog');
@@ -3121,7 +3140,10 @@ async function submitOrder() {
     } else toast(t('orderError') + (d.detail ? ': ' + d.detail : ''));
   } catch(e) {
     console.error('submitOrder error:', e);
-    toast('⚠️ ' + t('connError'));
+    if (e.name === 'AbortError') toast('⚠️ Время ожидания истекло — попробуйте снова');
+    else toast('⚠️ ' + t('connError'));
+  } finally {
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
   }
 }
 
@@ -3789,15 +3811,17 @@ function openAdminPage(key) {
 }
 
 function switchAdminView(v) {
-  const mainAdminViews = ['aDashboard','aOrders','aProducts','aCategories','aMore'];
+  const mainAdminViews = ['aDashboard','aOrders','aProducts','aMore'];
   const allAdminViews = ['aDashboard','aOrders','aProducts','aCategories','aMore','aAdjust','aWrite'];
   allAdminViews.forEach(k => {
     const el = document.getElementById('v' + k);
     if (el) el.classList.toggle('on', k === v);
   });
+  // highlight nav: categories highlights "More"
+  const navHighlight = v === 'aCategories' ? 'aMore' : v;
   mainAdminViews.forEach(k => {
     const nel = document.getElementById('naa' + k);
-    if (nel) nel.classList.toggle('on', k === v);
+    if (nel) nel.classList.toggle('on', k === navHighlight);
   });
 
   adminStack = [v];
@@ -3806,6 +3830,7 @@ function switchAdminView(v) {
   if (v === 'aProducts') loadAdminProducts();
   if (v === 'aMore') openMoreSubA('aMoreHub');
   if (v === 'aCategories') renderAdminCategories();
+  document.getElementById('adminNav').style.display = 'flex';
   window.scrollTo(0, 0);
 }
 
@@ -5275,27 +5300,169 @@ function showOrderAutoReply(orderId) {
   document.body.appendChild(modal);
 }
 
-// ═══ SWIPE NAVIGATION ═══
+// ═══ SWIPE NAVIGATION — SMOOTH ═══
 (function() {
   const TABS = ['catalog','cart','profile','more'];
-  let tx = 0, ty = 0, tt = 0;
-  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = Date.now(); }, {passive:true});
-  document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tx;
-    const dy = e.changedTouches[0].clientY - ty;
-    if (Date.now() - tt > 350 || Math.abs(dx) < 60 || Math.abs(dy)/Math.abs(dx) > 0.8) return;
-    // only swipe when inside a main view and not inside a horizontal scroll
-    const target = e.target; let el = target;
+  let tx = 0, ty = 0, tt = 0, dragging = false, startIdx = -1;
+  let activeEl = null, nextEl = null, dir = 0;
+
+  function getIdx() {
+    return TABS.findIndex(k => {
+      const v = document.getElementById('v'+k[0].toUpperCase()+k.slice(1));
+      return v && v.classList.contains('on');
+    });
+  }
+
+  function getView(k) {
+    return document.getElementById('v'+k[0].toUpperCase()+k.slice(1));
+  }
+
+  // Reset all views to natural state
+  function resetViews() {
+    TABS.forEach(k => {
+      const v = getView(k); if (!v) return;
+      v.style.transition = '';
+      v.style.transform = '';
+      v.style.opacity = '';
+      v.style.pointerEvents = '';
+      v.style.position = '';
+      v.style.top = '';
+      v.style.left = '';
+      v.style.right = '';
+      v.style.zIndex = '';
+    });
+    dragging = false; activeEl = null; nextEl = null; dir = 0;
+  }
+
+  document.addEventListener('touchstart', e => {
+    // Don't swipe inside scrollable horizontal areas or when not in main view
+    const idx = getIdx();
+    if (idx < 0) return;
+    // check if inside a main view
+    const mainViews = ['vCatalog','vCart','vProfile','vMore'];
+    let inMain = false;
+    let el = e.target;
     while (el && el !== document.body) {
-      if (el.scrollWidth > el.clientWidth + 5) return;
+      if (mainViews.some(id => el.id === id)) { inMain = true; break; }
       el = el.parentElement;
     }
-    const cur = TABS.find(k => { const v = document.getElementById('v'+k[0].toUpperCase()+k.slice(1)); return v && v.classList.contains('on'); });
-    if (!cur) return;
-    const idx = TABS.indexOf(cur);
-    if (dx < 0 && idx < TABS.length-1) switchView(TABS[idx+1]);
-    else if (dx > 0 && idx > 0) switchView(TABS[idx-1]);
-  }, {passive:true});
+    if (!inMain) return;
+
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+    tt = Date.now();
+    startIdx = idx;
+    dragging = false;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (startIdx < 0) return;
+    const dx = e.touches[0].clientX - tx;
+    const dy = e.touches[0].clientY - ty;
+
+    // Confirm horizontal intent
+    if (!dragging) {
+      if (Math.abs(dy) > Math.abs(dx) || Math.abs(dx) < 8) return;
+      // check not inside horizontal scroll
+      let el = e.target;
+      while (el && el !== document.body) {
+        if (el.scrollWidth > el.clientWidth + 5) { startIdx = -1; return; }
+        el = el.parentElement;
+      }
+      dragging = true;
+      dir = dx < 0 ? 1 : -1; // 1 = going right (next), -1 = going left (prev)
+      const nextIdx = startIdx - dir;
+      if (nextIdx < 0 || nextIdx >= TABS.length) { startIdx = -1; dragging = false; return; }
+
+      activeEl = getView(TABS[startIdx]);
+      nextEl = getView(TABS[nextIdx]);
+      if (!nextEl) { startIdx = -1; dragging = false; return; }
+
+      const W = window.innerWidth;
+      // Prepare next view
+      nextEl.classList.add('on');
+      nextEl.style.position = 'fixed';
+      nextEl.style.top = '0'; nextEl.style.left = '0'; nextEl.style.right = '0';
+      nextEl.style.zIndex = '50';
+      nextEl.style.transform = `translateX(${dir < 0 ? '-' : ''}${W}px)`;
+      nextEl.style.transition = 'none';
+      nextEl.style.pointerEvents = 'none';
+      nextEl.style.opacity = '1';
+
+      activeEl.style.position = 'fixed';
+      activeEl.style.top = '0'; activeEl.style.left = '0'; activeEl.style.right = '0';
+      activeEl.style.zIndex = '49';
+      activeEl.style.transition = 'none';
+      activeEl.style.pointerEvents = 'none';
+    }
+
+    if (!dragging || !activeEl || !nextEl) return;
+    const dx2 = e.touches[0].clientX - tx;
+    const W = window.innerWidth;
+    const pct = dx2 / W;
+    const clamp = Math.max(-1, Math.min(1, pct));
+
+    activeEl.style.transform = `translateX(${clamp * 35}%)`;
+    activeEl.style.opacity = String(1 - Math.abs(clamp) * 0.25);
+    nextEl.style.transform = `translateX(${(dir < 0 ? -1 : 1) * (1 - Math.abs(clamp)) * 100}%)`;
+    nextEl.style.opacity = String(0.6 + Math.abs(clamp) * 0.4);
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    if (!dragging || startIdx < 0 || !activeEl || !nextEl) {
+      // Simple tap swipe (no drag animation started)
+      const dx = e.changedTouches[0].clientX - tx;
+      const dy = e.changedTouches[0].clientY - ty;
+      const dt = Date.now() - tt;
+      if (dt < 350 && Math.abs(dx) >= 55 && Math.abs(dy)/Math.abs(dx) < 0.7) {
+        const idx = getIdx();
+        if (idx < 0) return;
+        let el2 = e.target;
+        while (el2 && el2 !== document.body) {
+          if (el2.scrollWidth > el2.clientWidth + 5) return;
+          el2 = el2.parentElement;
+        }
+        if (dx < 0 && idx < TABS.length-1) switchView(TABS[idx+1]);
+        else if (dx > 0 && idx > 0) switchView(TABS[idx-1]);
+      }
+      startIdx = -1;
+      return;
+    }
+
+    const dx = e.changedTouches[0].clientX - tx;
+    const W = window.innerWidth;
+    const threshold = W * 0.3;
+    const committed = Math.abs(dx) > threshold || (Math.abs(dx) > 30 && Date.now()-tt < 250);
+    const nextIdx = startIdx - dir;
+    const easing = 'cubic-bezier(0.25,1,0.35,1)';
+
+    if (committed && nextIdx >= 0 && nextIdx < TABS.length) {
+      // Commit
+      activeEl.style.transition = `transform 0.3s ${easing}, opacity 0.3s`;
+      nextEl.style.transition = `transform 0.3s ${easing}, opacity 0.3s`;
+      activeEl.style.transform = `translateX(${dir > 0 ? '' : '-'}30%)`;
+      activeEl.style.opacity = '0';
+      nextEl.style.transform = 'translateX(0)';
+      nextEl.style.opacity = '1';
+      setTimeout(() => {
+        resetViews();
+        switchView(TABS[nextIdx]);
+      }, 300);
+    } else {
+      // Snap back
+      activeEl.style.transition = `transform 0.25s ${easing}, opacity 0.25s`;
+      nextEl.style.transition = `transform 0.25s ${easing}, opacity 0.25s`;
+      activeEl.style.transform = 'translateX(0)';
+      activeEl.style.opacity = '1';
+      nextEl.style.transform = `translateX(${dir < 0 ? '-' : ''}100%)`;
+      nextEl.style.opacity = '0';
+      setTimeout(() => {
+        resetViews();
+        nextEl && nextEl.classList.remove('on');
+      }, 260);
+    }
+    startIdx = -1;
+  }, { passive: true });
 })();
 
 // ═══ DRAG SORT PRODUCTS ═══
@@ -5558,8 +5725,13 @@ init();
 
 <!-- CATEGORIES ADMIN -->
 <div class="view" id="vaCategories" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 100px;">
-  <div style="font-size:8px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">АДМИНИСТРАЦИЯ</div>
-  <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--text);margin-bottom:20px">Категории</div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+    <button onclick="switchAdminView('aMore')" style="background:none;border:none;color:var(--text3);font-family:'Cormorant Garamond',serif;font-size:22px;cursor:pointer;padding:0;line-height:1">←</button>
+    <div>
+      <div style="font-size:8px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;color:var(--text3)">АДМИНИСТРАЦИЯ</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--text)">Категории</div>
+    </div>
+  </div>
 
   <!-- Add new category -->
   <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px">
@@ -5599,6 +5771,14 @@ init();
   <div class="more-sub-a on" id="aMoreHub">
     <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title" data-i18n="moreTitle">ещё</div></div>
     <div class="more-wrap-a">
+      <div class="more-item-a" onclick="switchAdminView('aCategories')">
+        <div class="more-glyph">◈</div>
+        <div class="more-info">
+          <div class="more-title">Категории</div>
+          <div class="more-sub-lbl">управление разделами каталога</div>
+        </div>
+        <div class="more-arrow">›</div>
+      </div>
       <div class="more-item-a" onclick="openMoreSubA('aMoreReviews');loadReviews()">
         <div class="more-glyph">⋆</div>
         <div class="more-info">
@@ -5887,7 +6067,6 @@ init();
   <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard">Сводка</span></button>
   <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
   <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl" data-i18n="products">Товары</span></button>
-  <button class="nav-btn" id="naaCategories" onclick="switchAdminView('aCategories')"><span class="nav-sym">◈</span><span class="nav-lbl">Категории</span></button>
   <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
   <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin">Выйти</span></button>
 </nav>
