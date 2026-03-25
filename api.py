@@ -359,10 +359,31 @@ class CheckoutBody(BaseModel):
 async def checkout(body: CheckoutBody):
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
+        # Auto-migrate users table columns if missing
+        for col in ["username TEXT DEFAULT ''", "first_name TEXT DEFAULT ''"]:
+            try:
+                await db.execute(f"ALTER TABLE users ADD COLUMN {col}")
+                await db.commit()
+            except Exception:
+                pass
         async with db.execute("SELECT id FROM users WHERE telegram_id=?", (body.user_id,)) as cur:
             user = await cur.fetchone()
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            # Auto-register: user opened mini app but bot /start not called yet
+            try:
+                await db.execute(
+                    "INSERT OR IGNORE INTO users (telegram_id, username, first_name, language, balance) VALUES (?,?,?,?,?)",
+                    (body.user_id, body.username, body.name.split()[0] if body.name else "", "ru", 0)
+                )
+            except Exception:
+                # Fallback if columns don't exist yet
+                await db.execute(
+                    "INSERT OR IGNORE INTO users (telegram_id, language, balance) VALUES (?,?,?)",
+                    (body.user_id, "ru", 0)
+                )
+            await db.commit()
+            async with db.execute("SELECT id FROM users WHERE telegram_id=?", (body.user_id,)) as cur:
+                user = await cur.fetchone()
         cur = await db.execute(
             "INSERT INTO orders (user_id, total_price, status, customer_name, username, phone, address) VALUES (?,?,?,?,?,?,?)",
             (user["id"], body.total, "searching", body.name, body.username, body.phone, body.address)
@@ -1106,5 +1127,3 @@ async def proxy_photo(file_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
