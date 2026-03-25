@@ -42,31 +42,39 @@
 /* ═══ LIGHT THEME ═══ */
 [data-theme="light"] {
   --bg: #f0ebf6;
-  --bg2: rgba(245,240,248,0.88);
-  --bg3: rgba(235,228,240,0.92);
-  --border: rgba(0,0,0,0.09);
-  --borderh: rgba(0,0,0,0.18);
+  --bg2: rgba(255,252,255,0.95);
+  --bg3: rgba(235,228,242,0.90);
+  --border: rgba(0,0,0,0.08);
+  --borderh: rgba(0,0,0,0.16);
   --text: #1a1020;
-  --text2: rgba(26,16,32,0.50);
-  --text3: rgba(26,16,32,0.28);
-  --green: #1a4a2a;
+  --text2: rgba(26,16,32,0.52);
+  --text3: rgba(26,16,32,0.30);
+  --green: #1a5a2a;
 }
 [data-theme="light"] body { background: #f0ebf6; }
-[data-theme="light"] .nav { background: rgba(240,235,246,0.97); border-top-color: rgba(0,0,0,0.08); }
-[data-theme="light"] .admin-nav { background: rgba(240,235,246,0.97); }
+[data-theme="light"] .nav { background: rgba(245,240,252,0.98); border-top-color: rgba(0,0,0,0.07); box-shadow: 0 -2px 20px rgba(0,0,0,0.08); }
+[data-theme="light"] .admin-nav { background: rgba(245,240,252,0.98); }
 [data-theme="light"] .more-sub, [data-theme="light"] .more-sub-a { background: transparent; }
-[data-theme="light"] #gothicCanvas { opacity: 0.38; filter: invert(1) hue-rotate(180deg); }
-[data-theme="light"] .card { background: rgba(245,240,250,0.92); border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] #gothicCanvas { opacity: 0.18; filter: invert(1) hue-rotate(200deg) saturate(0.4); }
+[data-theme="light"] .card { background: #ffffff; border-color: rgba(0,0,0,0.07); box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06); }
 [data-theme="light"] .card::after { opacity: 0 !important; }
-[data-theme="light"] .inp { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.12); color: var(--text); }
-[data-theme="light"] .toast { background: rgba(240,235,246,0.97); color: var(--text); }
-[data-theme="light"] .cart-notify { background: rgba(245,240,250,0.97); }
-[data-theme="light"] header { background: rgba(240,235,246,0.85) !important; }
+[data-theme="light"] .card-void { color: rgba(26,16,32,0.4); border-bottom-color: rgba(26,16,32,0.15); }
+[data-theme="light"] .inp { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.12); color: var(--text); }
+[data-theme="light"] .toast { background: rgba(30,20,40,0.93); color: #f0ebf6; }
+[data-theme="light"] .cart-notify { background: rgba(255,252,255,0.98); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+[data-theme="light"] header { background: rgba(240,235,246,0.92) !important; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 [data-theme="light"] .lang-btn.on { background: #1a1020; color: #f0ebf6; }
 [data-theme="light"] .gender-btn.on { background: #1a1020; color: #f0ebf6; }
 [data-theme="light"] .cart-tab.on { color: var(--text); }
-[data-theme="light"] .gender-bar { background: rgba(255,255,255,0.5); }
-[data-theme="light"] .lang-sw { background: rgba(255,255,255,0.5); }
+[data-theme="light"] .gender-bar { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .lang-sw { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .more-item { box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
+[data-theme="light"] .more-item-a { box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
+[data-theme="light"] .rule-line { background: rgba(0,0,0,0.1); }
+[data-theme="light"] .card-img.loading { background: rgba(220,215,230,0.8); }
+[data-theme="light"] .cart-tab { background: rgba(245,240,250,0.8); }
+[data-theme="light"] .nav-btn { color: rgba(26,16,32,0.32); }
+[data-theme="light"] .nav-btn.on { color: var(--text); }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
@@ -85,7 +93,8 @@ body { font-family:'Jost',sans-serif; background:#040204; color:var(--text); min
 /* LANGUAGE SWITCHER */
 .lang-sw { display:flex; align-items:center; gap:2px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:20px; padding:3px; }
 .lang-btn { font-size:10px; font-weight:300; letter-spacing:0.12em; color:var(--text2); background:none; border:none; border-radius:16px; padding:5px 10px; cursor:pointer; transition:all 0.2s; text-transform:uppercase; }
-.lang-btn.on { background:var(--text); color:var(--bg); font-weight:400; }
+.lang-btn.on { background:#f0ece4; color:#0a0408; font-weight:400; }
+[data-theme="light"] .lang-btn.on { background: #1a1020; color: #f0ebf6; }
 
 /* DIVIDER */
 .rule { display:flex; align-items:center; gap:12px; padding:18px 20px; }
@@ -178,6 +187,7 @@ body { font-family:'Jost',sans-serif; background:#040204; color:var(--text); min
   animation: shimmer 1.6s infinite;
 }
 @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+@keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
 
 
 
@@ -684,11 +694,11 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 
 /* NAV */
 .nav { position:fixed; bottom:0; left:0; right:0; width:100%; background:rgba(5,3,8,0.97); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid rgba(180,150,200,0.1); border-radius:22px 22px 0 0; display:flex; z-index:9999; padding-bottom:env(safe-area-inset-bottom,0px); min-height:58px; box-sizing:border-box; box-shadow:0 -8px 40px rgba(0,0,0,0.6); }
-.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:var(--text3); position:relative; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:13px 0; min-height:56px; border:none; background:none; cursor:pointer; color:rgba(240,236,228,0.38); position:relative; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .nav-btn.on { color:var(--text); }
 .nav-btn::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:var(--accent); transform:scaleX(0); transition:transform 0.3s; }
 .nav-btn.on::before { transform:scaleX(1); }
-.nav-sym { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1; }
+.nav-sym { font-family:'Cormorant Garamond',serif; font-size:20px; font-style:italic; line-height:1; }
 .nav-lbl { font-size:8px; font-weight:200; letter-spacing:0.3em; text-transform:uppercase; }
 
 /* OVERLAY & PANELS */
@@ -861,7 +871,7 @@ textarea.inp { font-family:'Jost',sans-serif; font-size:14px; font-weight:200; m
 .more-item::before { content:''; position:absolute; top:0; left:20%; right:20%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.3s; }
 .more-item:active::before { opacity:0.4; }
 .more-item:active { border-color:var(--borderh); }
-.more-item-glyph { font-family:'Cormorant Garamond',serif; font-size:26px; font-style:italic; color:var(--accent); opacity:0.7; width:32px; text-align:center; flex-shrink:0; }
+.more-item-glyph { font-family:'Cormorant Garamond',serif; font-size:26px; font-style:italic; color:var(--accent); opacity:1; width:32px; text-align:center; flex-shrink:0; }
 .more-item-info { flex:1; }
 .more-item-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; color:var(--text); margin-bottom:3px; }
 .more-item-sub { font-size:9px; font-weight:200; letter-spacing:0.25em; color:var(--text3); }
@@ -1390,6 +1400,7 @@ header { position: relative; z-index: 1; }
     <button class="fb" data-cat="shoes" data-i18n="catShoes">Обувь</button>
     <button class="fb" data-cat="accessories" data-i18n="catAccessories">Аксессуары</button>
     <button class="fb" data-cat="used" data-i18n="catUsed">Б/у</button>
+    <button class="fb" onclick="refreshCatalogBtn(this)" id="catalogRefreshBtn" title="Обновить" style="margin-left:auto;padding:8px 10px 8px 0;opacity:0.5;font-size:13px;letter-spacing:0;font-family:inherit">↻</button>
   </div>
   <div class="gender-bar" id="genderBar">
     <button class="gender-btn on" data-gender="all" onclick="setGender('all')">Все</button>
@@ -1440,6 +1451,14 @@ header { position: relative; z-index: 1; }
   <div class="more-sub on" id="moreHub">
     <div class="sec-head"><div class="sec-num">✦</div><div class="sec-title" data-i18n="moreTitle">ещё</div></div>
     <div class="more-wrap">
+      <div class="more-item" onclick="openMoreSub('moreCats');renderMoreCats()">
+        <div class="more-item-glyph" style="color:var(--accent)">◈</div>
+        <div class="more-item-info">
+          <div class="more-item-title">Категории</div>
+          <div class="more-item-sub">выбрать раздел каталога</div>
+        </div>
+        <div class="more-item-arrow">›</div>
+      </div>
       <div class="more-item" onclick="openMoreSub('moreSize')">
         <div class="more-item-glyph">S</div>
         <div class="more-item-info">
@@ -1488,6 +1507,17 @@ header { position: relative; z-index: 1; }
         </div>
         <div class="more-item-arrow">›</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Categories folder -->
+  <div class="more-sub" id="moreCats">
+    <button class="more-back" onclick="openMoreSub('moreHub')"><span class="more-back-sym">←</span> <span data-i18n="back">назад</span></button>
+    <div class="sec-head"><div class="sec-title">категории</div></div>
+    <div style="padding:0 14px 20px">
+      <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">выберите раздел каталога</div>
+      <div id="moreCatsList" style="display:flex;flex-direction:column;gap:8px"></div>
+      <button onclick="switchView('catalog');openMoreSub('moreHub')" style="width:100%;margin-top:16px;background:none;border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text2);font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;cursor:pointer">← вернуться в каталог</button>
     </div>
   </div>
 
@@ -3170,6 +3200,14 @@ async function loadProducts() {
   renderGrid();
 }
 
+async function refreshCatalogBtn(btn) {
+  if (btn) { btn.style.opacity = '1'; btn.style.animation = 'spin 0.6s linear'; }
+  await loadProducts();
+  await loadCategories();
+  if (btn) { setTimeout(() => { btn.style.opacity = '0.5'; btn.style.animation = ''; }, 600); }
+  toast('✦ каталог обновлён');
+}
+
 function resolvePhotoUrl(photoId) {
   if (!photoId) return null;
   if (photoId.startsWith('data:') || photoId.startsWith('http')) return photoId;
@@ -3700,6 +3738,35 @@ function openMoreSub(id) {
     const dot = document.getElementById('customColorDot');
     if (dot) dot.style.background = cur;
   }
+}
+
+function renderMoreCats() {
+  const el = document.getElementById('moreCatsList');
+  if (!el) return;
+  const allCats = [{ id: 'all', label: 'Все', glyph: '◇' }].concat(
+    allCategories.map(id => ({ id, label: getCatLabel(id), glyph: catGlyph[id] || '✦' }))
+  );
+  el.innerHTML = allCats.map(c => {
+    const isActive = (activeCat === c.id);
+    return `<div onclick="selectCatFromMore('${c.id}')" style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid ${isActive ? 'var(--accent)' : 'var(--border)'};border-radius:14px;padding:14px 16px;cursor:pointer;transition:all 0.2s;${isActive ? 'box-shadow:0 0 0 1px var(--accent)' : ''}">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--accent);width:28px;text-align:center;flex-shrink:0">${c.glyph}</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--text);flex:1">${c.label}</span>
+      ${isActive ? '<span style="color:var(--accent);font-size:16px">✓</span>' : '<span style="color:var(--text3);font-family:\'Cormorant Garamond\',serif;font-size:18px">›</span>'}
+    </div>`;
+  }).join('');
+}
+
+function selectCatFromMore(id) {
+  activeCat = id;
+  // Sync filter bar
+  document.querySelectorAll('#filterBar .fb').forEach(b => b.classList.toggle('on', b.dataset.cat === id));
+  renderGrid();
+  // Go to catalog
+  setTimeout(() => {
+    switchView('catalog');
+    openMoreSub('moreHub');
+  }, 200);
+  renderMoreCats();
 }
 
 
@@ -5926,9 +5993,10 @@ init();
 
   window._particleControl = {
     start: function() {
+      if (window._particlesRunning) return; // already running
       window._particlesRunning = true;
       canvas.style.display = '';
-      loop();
+      resize(); initParticles(); loop();
     },
     stop: function() {
       window._particlesRunning = false;
@@ -5951,5 +6019,3 @@ init();
 
 </body>
 </html>
-
-
