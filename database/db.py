@@ -4,7 +4,9 @@ from config import DATABASE_PATH
 logger = logging.getLogger(__name__)
 
 def _p():
-    os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
+    dir_name = os.path.dirname(DATABASE_PATH)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
     return DATABASE_PATH
 
 async def init_db():
