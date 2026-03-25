@@ -41,7 +41,7 @@
 
 /* ═══ LIGHT THEME ═══ */
 [data-theme="light"] {
-  --bg: transparent;
+  --bg: #f0ebf6;
   --bg2: rgba(245,240,248,0.88);
   --bg3: rgba(235,228,240,0.92);
   --border: rgba(0,0,0,0.09);
@@ -62,6 +62,11 @@
 [data-theme="light"] .toast { background: rgba(240,235,246,0.97); color: var(--text); }
 [data-theme="light"] .cart-notify { background: rgba(245,240,250,0.97); }
 [data-theme="light"] header { background: rgba(240,235,246,0.85) !important; }
+[data-theme="light"] .lang-btn.on { background: #1a1020; color: #f0ebf6; }
+[data-theme="light"] .gender-btn.on { background: #1a1020; color: #f0ebf6; }
+[data-theme="light"] .cart-tab.on { color: var(--text); }
+[data-theme="light"] .gender-bar { background: rgba(255,255,255,0.5); }
+[data-theme="light"] .lang-sw { background: rgba(255,255,255,0.5); }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 button { touch-action:manipulation; } a { touch-action:manipulation; }
@@ -1475,7 +1480,7 @@ header { position: relative; z-index: 1; }
         </div>
         <div class="more-item-arrow">›</div>
       </div>
-      <div class="more-item" onclick="openMoreSub('moreAppearance')">
+      <div class="more-item" onclick="openMoreSub('moreAppearance'); setTimeout(syncParticlesUI,50)">
         <div class="more-item-glyph" id="appearanceGlyph" style="color:var(--red)">◈</div>
         <div class="more-item-info">
           <div class="more-item-title" data-i18n="appearance">Оформление</div>
@@ -1575,6 +1580,69 @@ header { position: relative; z-index: 1; }
         <div class="delivery-faq-a">Да, встреча в удобном для вас месте в пределах вашего района.</div>
       </div>
     </div>
+
+    <!-- ── Batch order info block ── -->
+    <div style="margin:0 20px 28px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;letter-spacing:0.08em;color:var(--text3);margin-bottom:14px;text-transform:uppercase">как работает закупка</div>
+
+      <!-- China batch info card -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-10px;right:-10px;font-size:64px;opacity:0.06;pointer-events:none">🇨🇳</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:22px">📦</span>
+          <div>
+            <div style="font-size:12px;font-weight:300;color:var(--text);letter-spacing:0.05em">Групповая закупка из Китая</div>
+            <div style="font-size:9px;font-weight:200;letter-spacing:0.15em;color:var(--text3);margin-top:2px">эксклюзивные цены · прямой поставщик</div>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--accent);opacity:0.7;width:20px;flex-shrink:0;padding-top:1px">I</div>
+            <div>
+              <div style="font-size:11px;font-weight:300;color:var(--text);margin-bottom:2px">Собираем 5 заказов</div>
+              <div style="font-size:9px;font-weight:200;letter-spacing:0.08em;color:var(--text3);line-height:1.5">Минимум 5 заказов — после этого оформляем закупку у поставщика в Китае</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--accent);opacity:0.7;width:20px;flex-shrink:0;padding-top:1px">II</div>
+            <div>
+              <div style="font-size:11px;font-weight:300;color:var(--text);margin-bottom:2px">Товар в пути ~3 недели</div>
+              <div style="font-size:9px;font-weight:200;letter-spacing:0.08em;color:var(--text3);line-height:1.5">Отправляем из Китая — обычно 18–25 дней до Эстонии. Держим вас в курсе.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--accent);opacity:0.7;width:20px;flex-shrink:0;padding-top:1px">III</div>
+            <div>
+              <div style="font-size:11px;font-weight:300;color:var(--text);margin-bottom:2px">Встреча и передача</div>
+              <div style="font-size:9px;font-weight:200;letter-spacing:0.08em;color:var(--text3);line-height:1.5">Как только товар прибыл — договариваемся о встрече в вашем районе.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="border-top:1px solid var(--border);margin:14px 0 12px"></div>
+
+        <!-- Notice -->
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <span style="font-size:14px;flex-shrink:0;margin-top:1px">⏳</span>
+          <div style="font-size:9px;font-weight:200;letter-spacing:0.08em;color:var(--text3);line-height:1.6">
+            Товары из раздела <span style="color:var(--text2)">«Архив» (Fashion Archive)</span> — в наличии и доставляются сразу. Товары под заказ — по схеме закупки выше.
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch progress pill -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">🛒</span>
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:300;color:var(--text);margin-bottom:3px">Текущая партия</div>
+          <div style="font-size:9px;font-weight:200;letter-spacing:0.1em;color:var(--text3)">Минимум для закупки: <span style="color:var(--accent)">5 заказов</span></div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text)">≥5</div>
+      </div>
+    </div>
   </div>
   <!-- Appearance -->
   <div class="more-sub" id="moreAppearance">
@@ -1608,6 +1676,20 @@ header { position: relative; z-index: 1; }
         <div class="accent-swatch" data-color="#888888" style="background:#888888" onclick="setUserAccent('#888888',this)"></div>
       </div>
 
+
+      <!-- Particles toggle -->
+      <div style="font-size:9px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;margin-top:22px">✦ летающие узоры</div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button id="particlesBtnOn" onclick="setParticles(true)" style="flex:1;background:none;border:1px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <span style="font-size:18px">✦</span>
+          <span>включены</span>
+        </button>
+        <button id="particlesBtnOff" onclick="setParticles(false)" style="flex:1;background:none;border:1px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;font-family:'Jost',sans-serif;font-size:8px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text2);transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <span style="font-size:18px">○</span>
+          <span>выключены</span>
+        </button>
+      </div>
+      <div style="font-size:9px;font-weight:200;letter-spacing:0.08em;color:var(--text3);margin-bottom:4px">Готические символы и узоры на фоне. Выключите для экономии батареи.</div>
       <!-- Custom color row — opens sub-screen -->
       <div class="accent-custom-row" onclick="openCustomColorPanel()" style="cursor:pointer;border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-top:8px;transition:border-color 0.3s">
         <div id="customColorDot" style="width:22px;height:22px;border-radius:50%;background:var(--accent);border:2px solid rgba(255,255,255,0.18);flex-shrink:0"></div>
@@ -1804,6 +1886,7 @@ async function deleteCat(id) {
     // Remove from filter bar
     document.querySelectorAll('#filterBar .fb').forEach(b => { if (b.dataset.cat === id) b.remove(); });
     refreshCatList();
+    renderAdminCategories();
     toast(t('aCatDeleted'));
   } catch { toast(t('errDefault')); }
 }
@@ -1851,7 +1934,7 @@ const LANGS = {
     loadingShort:'загрузка',
     aRefresh:'нажмите обновить', aRefreshBtn:'обновить',
     dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
-    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
+    dz2name:'🏘 Таллин — Районы', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
     dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
     dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
     deliveryPayment:'Оплата наличными при встрече с продавцом',
@@ -1953,7 +2036,7 @@ const LANGS = {
     deliveryPayment:'Оплата наличными при встрече с продавцом',
     // Delivery zones
     dz1name:'🏙 Таллин — Центр', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'В день заказа',
-    dz2name:'🏘 Таллин — Периферия', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
+    dz2name:'🏘 Таллин — Районы', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'В день заказа',
     dz3name:'🚌 Харьюмаа', dz3area:'Маарду, Саку, Кейла, Виймси', dz3time:'1–2 дня',
     dz4name:'🚗 Другие регионы', dz4area:'Тарту, Пярну, Нарва и другие', dz4time:'2–3 дня',
     // Appearance
@@ -2064,7 +2147,7 @@ const LANGS = {
     aRefresh:'press to refresh', aRefreshBtn:'refresh',
     previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
     dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
-    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
+    dz2name:'🏘 Tallinn — Districts', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saue, Keila, Viimsi', dz3time:'1–2 days',
     dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
     deliveryPayment:'Cash on delivery',
@@ -2232,7 +2315,7 @@ const LANGS = {
     msgPlaceholder:'Your message...', enterMsg:'enter message', msgSentOk:'✅ message sent',
     deliveryPayment:'Cash on delivery when meeting the seller',
     dz1name:'🏙 Tallinn — Centre', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Same day',
-    dz2name:'🏘 Tallinn — Suburbs', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
+    dz2name:'🏘 Tallinn — Districts', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Same day',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 days',
     dz4name:'🚗 Other regions', dz4area:'Tartu, Pärnu, Narva and others', dz4time:'2–3 days',
     previewLabel:'preview', previewNew:'NEW', previewArchive:'ARCHIVE',
@@ -2414,7 +2497,7 @@ const LANGS = {
     msgPlaceholder:'Teie sõnum...', enterMsg:'sisestage sõnum', msgSentOk:'✅ sõnum saadetud',
     deliveryPayment:'Tasumine sularahas müüjaga kohtudes',
     dz1name:'🏙 Tallinn — Keskus', dz1area:'Kesklinn, Põhja-Tallinn, Kalamaja', dz1time:'Tellimuse päeval',
-    dz2name:'🏘 Tallinn — Äärelinnad', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Tellimuse päeval',
+    dz2name:'🏘 Tallinn — Linnaosad', dz2area:'Lasnamäe, Mustamäe, Kristiine, Õismäe', dz2time:'Tellimuse päeval',
     dz3name:'🚌 Harjumaa', dz3area:'Maardu, Saku, Keila, Viimsi', dz3time:'1–2 päeva',
     dz4name:'🚗 Muud piirkonnad', dz4area:'Tartu, Pärnu, Narva ja teised', dz4time:'2–3 päeva',
     previewLabel:'eelvaade', previewNew:'UUS', previewArchive:'ARHIIV',
@@ -2678,6 +2761,30 @@ function applyTheme(dark) {
   updateThemeBtns();
 }
 
+function setParticles(on) {
+  localStorage.setItem('particles_3x', on ? '1' : '0');
+  if (window._particleControl) {
+    if (on) window._particleControl.start();
+    else window._particleControl.stop();
+  }
+  syncParticlesUI();
+  toast(on ? '✦ узоры включены' : '○ узоры выключены');
+}
+
+function syncParticlesUI() {
+  const on = localStorage.getItem('particles_3x') !== '0';
+  const btnOn  = document.getElementById('particlesBtnOn');
+  const btnOff = document.getElementById('particlesBtnOff');
+  if (btnOn) {
+    btnOn.style.borderColor = on ? 'var(--accent)' : 'var(--border)';
+    btnOn.style.color = on ? 'var(--text)' : 'var(--text2)';
+  }
+  if (btnOff) {
+    btnOff.style.borderColor = !on ? 'var(--accent)' : 'var(--border)';
+    btnOff.style.color = !on ? 'var(--text)' : 'var(--text2)';
+  }
+}
+
 function setAppTheme(mode) {
   const dark = mode === 'dark';
   isDark = dark;
@@ -2820,7 +2927,7 @@ function showCartNotify(p) {
     if (p.photo_id) {
       const src = p.photo_id.startsWith('data:') || p.photo_id.startsWith('http') ? p.photo_id
         : p.photo_id.startsWith('/uploads/') ? API + p.photo_id
-        : API + '/api/photo/' + p.photo_id;
+        : resolvePhotoUrl(p.photo_id);
       const fallback = catGlyphs[p.category] || '✦';
       imgEl.innerHTML = '<img src="' + src + '" onerror="this.parentElement.textContent=\'' + fallback + '\'">';
     } else {
@@ -2985,15 +3092,23 @@ async function submitOrder() {
       toast(`✅ ${t('orderLabel')} #${d.order_id} ${t('orderPlaced')}`, 4000);
       setTimeout(() => showOrderAutoReply(d.order_id), 700);
       fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
-    } else toast(t('orderError'));
-  } catch { toast(t('connError')); }
+    } else toast(t('orderError') + (d.detail ? ': ' + d.detail : ''));
+  } catch(e) {
+    console.error('submitOrder error:', e);
+    toast('⚠️ ' + t('connError') + ' — проверьте что API запущен и BOT_TOKEN задан в .env');
+  }
 }
 
 // ═══ PRODUCTS ═══
 let catLabel = { clothes: 'одежда', shoes: 'обувь', accessories: 'аксессуары', used: 'б/у вещи' };
 function getCatLabel(id) {
   const map = { clothes: t('catClothes'), shoes: t('catShoes'), accessories: t('catAccessories'), used: t('catUsed') || 'Б/у' };
-  return map[id] || catLabel[id] || id;
+  if (map[id]) return map[id];
+  // Multilingual custom category labels
+  if (window._catLabelI18n && window._catLabelI18n[id]) {
+    return window._catLabelI18n[id][currentLang] || window._catLabelI18n[id].ru || catLabel[id] || id;
+  }
+  return catLabel[id] || id;
 }
 let catGlyph  = { clothes: '👕', shoes: '👟', accessories: '👜', used: '♻' };
 let allCategories = ['clothes','shoes','accessories','used'];
@@ -3015,6 +3130,11 @@ async function loadCategories() {
       const id = c.id || c;
       catLabel[id] = c.label || c.name || id;
       catGlyph[id]  = c.glyph || c.emoji || '✦';
+      // Store multilingual labels for EN/ET switching
+      if (c.label_en || c.label_et) {
+        if (!window._catLabelI18n) window._catLabelI18n = {};
+        window._catLabelI18n[id] = { ru: c.label || id, en: c.label_en || c.label || id, et: c.label_et || c.label || id };
+      }
     });
     // Rebuild filter buttons
     const bar = document.getElementById('filterBar');
@@ -3050,9 +3170,16 @@ async function loadProducts() {
   renderGrid();
 }
 
+function resolvePhotoUrl(photoId) {
+  if (!photoId) return null;
+  if (photoId.startsWith('data:') || photoId.startsWith('http')) return photoId;
+  if (photoId.startsWith('/uploads/')) return API + photoId;
+  return API + '/api/photo/' + photoId;
+}
+
 function cardHtml(p) {
   const ph = p.photo_id
-    ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">'
+    ? '<img src="' + resolvePhotoUrl(p.photo_id) + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">'
     : '<span class="card-img-ph ' + (isEmojiGlyph(catGlyph[p.category]) ? 'emo' : 'sym') + '">' + (catGlyph[p.category] || '✦') + '</span>';
   const heart = wishIds.has(p.id) ? '❤️' : '🤍';
   return '<div class="card' + (!p.is_available ? ' void' : '') + '">'
@@ -3126,9 +3253,9 @@ function openDetail(pid) {
   if (!p) return;
   document.getElementById('detailBody').innerHTML =
     '<div class="detail-img" style="width:100%;aspect-ratio:3/4;background:var(--bg3);overflow:hidden;display:flex;align-items:center;justify-content:center;border-radius:16px;margin-bottom:4px;">'
-    + (p.photo_id ? '<img src="' + API + '/api/photo/' + p.photo_id + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (isEmojiGlyph(catGlyph[p.category]) ? catGlyph[p.category] : (catGlyph[p.category]||'✦')) + '</span>')
+    + (p.photo_id ? '<img src="' + resolvePhotoUrl(p.photo_id) + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">' : '<span style="font-family:Cormorant Garamond,serif;font-size:72px;font-style:italic;color:var(--text3);opacity:0.4">' + (isEmojiGlyph(catGlyph[p.category]) ? catGlyph[p.category] : (catGlyph[p.category]||'✦')) + '</span>')
     + '</div>'
-    + (p.photo_ids && p.photo_ids.length ? '<div style="display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;-ms-overflow-style:none">' + [p.photo_id ? API+'/api/photo/'+p.photo_id : null].concat(p.photo_ids.map(u => u.startsWith('/') ? API+u : u)).filter(Boolean).map((url,i) => '<img src="'+url+'" onclick="document.querySelector(\'#detailBody .detail-img img\').src=\''+url+'\';" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;cursor:pointer;border:' + (i===0?'1px solid var(--accent)':'1px solid var(--border)') + '">').join('') + '</div>' : '')
+    + (p.photo_ids && p.photo_ids.length ? '<div style="display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;-ms-overflow-style:none">' + [p.photo_id ? resolvePhotoUrl(p.photo_id) : null].concat(p.photo_ids.map(u => u.startsWith('/') ? API+u : u)).filter(Boolean).map((url,i) => '<img src="'+url+'" onclick="document.querySelector(\'#detailBody .detail-img img\').src=\''+url+'\';" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;cursor:pointer;border:' + (i===0?'1px solid var(--accent)':'1px solid var(--border)') + '">').join('') + '</div>' : '')
     + '<div class="detail-meta">'
     + '<div class="detail-cat">' + getCatLabel(p.category) + (p.gender && p.gender !== 'unisex' ? ' · ' + (p.gender === 'male' ? 'мужское' : 'женское') : '') + (p.is_used ? ' · б/у' : '') + ' / ' + String(p.id).padStart(4,'0') + '</div>'
     + '<div class="detail-name">' + p.name + '</div>'
@@ -3178,7 +3305,7 @@ async function loadWishlist() {
     if (!items.length) { grid.innerHTML = emptyState('♡', t('wishEmpty'), t('wishEmptyDesc') + ' ♡', t('goToCatalog'), "switchView('catalog')", 'de gustibus'); return; }
     grid.innerHTML = items.map(p => {
       const ph = p.photo_id
-        ? '<img src="' + API + '/api/photo/' + p.photo_id + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
+        ? '<img src="' + resolvePhotoUrl(p.photo_id) + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;">'
         : '<span class="card-img-ph ' + (isEmojiGlyph(catGlyph[p.category]) ? 'emo' : 'sym') + '">' + (catGlyph[p.category] || '✦') + '</span>';
       const addBtn = p.is_available
         ? '<button class="card-add" onclick="event.stopPropagation();doCart(' + p.id + ')">+</button>'
@@ -3557,6 +3684,7 @@ function switchView(v) {
   document.getElementById('mainNav').style.display = isMain ? '' : 'none';
   if (isMain) navStack = [v];
   if (v === 'more') openMoreSub('moreHub');
+  if (v === 'more') setTimeout(syncParticlesUI, 50);
   if (v === 'profile') { showSub('subMain'); loadProfile(); }
   if (v === 'cart') { renderCartPage(); switchCartTab('cart'); }
   window.scrollTo(0, 0);
@@ -3598,14 +3726,14 @@ function openAdminPage(key) {
 }
 
 function switchAdminView(v) {
-  const mainAdminViews = ['aDashboard','aOrders','aProducts','aMore'];
-  const allAdminViews = ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'];
+  const mainAdminViews = ['aDashboard','aOrders','aProducts','aCategories','aMore'];
+  const allAdminViews = ['aDashboard','aOrders','aProducts','aCategories','aMore','aAdjust','aWrite'];
   allAdminViews.forEach(k => {
     const el = document.getElementById('v' + k);
     if (el) el.classList.toggle('on', k === v);
   });
   mainAdminViews.forEach(k => {
-    const nel = document.getElementById('na' + k);
+    const nel = document.getElementById('naa' + k);
     if (nel) nel.classList.toggle('on', k === v);
   });
 
@@ -3614,6 +3742,7 @@ function switchAdminView(v) {
   if (v === 'aOrders') { setupAdminFilterListener(); loadAdminOrders(); }
   if (v === 'aProducts') loadAdminProducts();
   if (v === 'aMore') openMoreSubA('aMoreHub');
+  if (v === 'aCategories') renderAdminCategories();
   window.scrollTo(0, 0);
 }
 
@@ -3621,7 +3750,7 @@ function adminGoBack() {
   if (adminStack.length > 1) adminStack.pop();
   const prev = adminStack[adminStack.length - 1] || 'aDashboard';
   document.getElementById('adminNav').style.display = 'flex';
-  if (['aDashboard','aOrders','aProducts','aMore'].includes(prev)) {
+  if (['aDashboard','aOrders','aProducts','aCategories','aMore'].includes(prev)) {
     switchAdminView(prev);
   } else {
     openAdminPage(prev);
@@ -3642,7 +3771,7 @@ function openMoreSubA(id) {
 function exitAdmin() {
   if (_badgeTimer) { clearInterval(_badgeTimer); _badgeTimer = null; }
   // Hide all admin views
-  ['aDashboard','aOrders','aProducts','aMore','aAdjust','aWrite'].forEach(k => {
+  ['aDashboard','aOrders','aProducts','aCategories','aMore','aAdjust','aWrite'].forEach(k => {
     const el = document.getElementById('v' + k);
     if (el) el.classList.remove('on');
   });
@@ -4088,6 +4217,77 @@ function selectCat(btn) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   selectedCat = btn.dataset.cat;
+}
+
+function renderAdminCategories() {
+  const list = document.getElementById('aCatFullList');
+  if (!list) return;
+  const builtin = ['clothes','shoes','accessories','used'];
+  list.innerHTML = allCategories.map(id => {
+    const isBuiltin = builtin.includes(id);
+    return '<div style="display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px">'
+      + '<span style="font-size:22px;flex-shrink:0">' + (catGlyph[id] || '✦') + '</span>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div style="font-size:13px;font-weight:300;color:var(--text)">' + (catLabel[id] || id) + '</div>'
+      + '<div style="font-size:9px;letter-spacing:0.15em;color:var(--text3);margin-top:2px">' + id + (isBuiltin ? ' · встроенная' : '') + '</div>'
+      + '</div>'
+      + (!isBuiltin ? '<button onclick="deleteCat(\'' + id + '\')" style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--text3);font-size:13px;padding:6px 10px;cursor:pointer">×</button>' : '')
+      + '</div>';
+  }).join('');
+}
+
+async function addCategoryFull() {
+  const labelRu = document.getElementById('aCatLabelRu').value.trim();
+  const labelEn = document.getElementById('aCatLabelEn').value.trim();
+  const labelEt = document.getElementById('aCatLabelEt').value.trim();
+  const glyph = document.getElementById('aCatGlyphNew').value.trim() || '✦';
+  const customId = document.getElementById('aCatIdNew').value.trim();
+  if (!labelRu) { toast('Введите название на русском'); return; }
+  const label = labelRu; // primary label = RU
+  const id = customId
+    ? customId.toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'')
+    : labelEn
+      ? labelEn.toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'')
+      : labelRu.toLowerCase().replace(/[^a-zа-яёa-z0-9]/gi,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+  if (!id) { toast('Неверный ID'); return; }
+  try {
+    await fetch(`${API}/api/admin/categories`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ admin_id: userId, id, label, glyph,
+        label_en: labelEn || label, label_et: labelEt || label })
+    });
+    // Store translations for all 3 languages
+    catLabel[id] = label;
+    catGlyph[id] = glyph;
+    // Inject into translations so t() picks them up for EN/ET
+    if (window._translations) {
+      if (window._translations.en) window._translations.en['cat_' + id] = labelEn || label;
+      if (window._translations.et) window._translations.et['cat_' + id] = labelEt || label;
+      if (window._translations.ru) window._translations.ru['cat_' + id] = labelRu;
+    }
+    if (!allCategories.includes(id)) allCategories.push(id);
+    const grid = document.getElementById('aCatGrid');
+    if (grid) {
+      const btn = document.createElement('button');
+      btn.className = 'cat-btn'; btn.dataset.cat = id; btn.textContent = label;
+      btn.onclick = function(){ selectCat(this); };
+      grid.appendChild(btn);
+    }
+    const bar = document.getElementById('filterBar');
+    if (bar) {
+      const fb = document.createElement('button');
+      fb.className = 'fb'; fb.dataset.cat = id; fb.textContent = label;
+      bar.appendChild(fb);
+    }
+    document.getElementById('aCatLabelRu').value = '';
+    document.getElementById('aCatLabelEn').value = '';
+    document.getElementById('aCatLabelEt').value = '';
+    document.getElementById('aCatGlyphNew').value = '';
+    document.getElementById('aCatIdNew').value = '';
+    renderAdminCategories();
+    refreshCatList();
+    toast('✅ Категория «' + label + '» добавлена');
+  } catch { toast(t('aErrorApi')); }
 }
 
 async function addCategory() {
@@ -5244,6 +5444,43 @@ init();
     </div></div>
 </div>
 
+<!-- CATEGORIES ADMIN -->
+<div class="view" id="vaCategories" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 100px;">
+  <div style="font-size:8px;font-weight:200;letter-spacing:0.55em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">АДМИНИСТРАЦИЯ</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--text);margin-bottom:20px">Категории</div>
+
+  <!-- Add new category -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px">
+    <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">НОВАЯ КАТЕГОРИЯ</div>
+
+    <!-- Icon + ID row -->
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+      <input class="inp inp-sm" id="aCatGlyphNew" placeholder="🧥" style="width:54px;text-align:center;font-size:20px;margin-bottom:0;flex-shrink:0">
+      <input class="inp inp-sm" id="aCatIdNew" placeholder="ID (англ., напр. jackets)" style="flex:1;margin-bottom:0">
+    </div>
+
+    <!-- RU label -->
+    <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">🇷🇺 НАЗВАНИЕ (РУ)</div>
+    <input class="inp inp-sm" id="aCatLabelRu" placeholder="Куртки" style="margin-bottom:10px">
+
+    <!-- EN label -->
+    <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">🇬🇧 NAME (EN)</div>
+    <input class="inp inp-sm" id="aCatLabelEn" placeholder="Jackets" style="margin-bottom:10px">
+
+    <!-- ET label -->
+    <div style="font-size:7px;font-weight:200;letter-spacing:0.35em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">🇪🇪 NIMETUS (ET)</div>
+    <input class="inp inp-sm" id="aCatLabelEt" placeholder="Jakid" style="margin-bottom:14px">
+
+    <button onclick="addCategoryFull()" style="width:100%;background:none;border:1px solid var(--ra-004);color:var(--text);font-family:'Jost',sans-serif;font-size:9px;font-weight:200;letter-spacing:0.45em;text-transform:uppercase;padding:12px;border-radius:12px;cursor:pointer">
+      + ДОБАВИТЬ КАТЕГОРИЮ
+    </button>
+  </div>
+
+  <!-- Existing categories -->
+  <div style="font-size:8px;font-weight:200;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">ТЕКУЩИЕ КАТЕГОРИИ</div>
+  <div id="aCatFullList" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+
 <!-- MORE -->
 <div class="view" id="vaMore" style="overflow-y:auto;-webkit-overflow-scrolling:touch;">
   <!-- Hub -->
@@ -5516,6 +5753,7 @@ init();
   <button class="nav-btn" id="naaDashboard" onclick="switchAdminView('aDashboard')"><span class="nav-sym">◆</span><span class="nav-lbl" data-i18n="dashboard">Сводка</span></button>
   <button class="nav-btn" id="naaOrders" onclick="switchAdminView('aOrders')"><span class="nav-sym">II</span><span class="nav-lbl" data-i18n="orders">Заказы</span><span class="nav-cart-badge" id="aOrdersBadge"></span></button>
   <button class="nav-btn" id="naaProducts" onclick="switchAdminView('aProducts')"><span class="nav-sym">†</span><span class="nav-lbl" data-i18n="products">Товары</span></button>
+  <button class="nav-btn" id="naaCategories" onclick="switchAdminView('aCategories')"><span class="nav-sym">◈</span><span class="nav-lbl">Категории</span></button>
   <button class="nav-btn" id="naaMore" onclick="switchAdminView('aMore')"><span class="nav-sym">✦</span><span class="nav-lbl" data-i18n="more">Ещё</span></button>
   <button class="nav-btn" onclick="exitAdmin()"><span class="nav-sym" style="font-size:13px">✕</span><span class="nav-lbl" data-i18n="exitAdmin">Выйти</span></button>
 </nav>
@@ -5681,13 +5919,37 @@ init();
       ctx.fillText(p.glyph,0,0); ctx.restore();
       if(p.life>=p.maxLife||p.y<-40||p.x<-60||p.x>W+60)particles[i]=createParticle(true);
     });
-    requestAnimationFrame(loop);
+    if (window._particlesRunning !== false) requestAnimationFrame(loop);
   }
-  resize(); initParticles(); loop();
-  window.addEventListener('resize',()=>{resize();initParticles();});
+
+  window._particlesRunning = localStorage.getItem('particles_3x') !== '0';
+
+  window._particleControl = {
+    start: function() {
+      window._particlesRunning = true;
+      canvas.style.display = '';
+      loop();
+    },
+    stop: function() {
+      window._particlesRunning = false;
+      setTimeout(function(){ ctx.clearRect(0,0,W,H); }, 50);
+      canvas.style.display = 'none';
+    }
+  };
+
+  if (window._particlesRunning) {
+    canvas.style.display = '';
+    resize(); initParticles(); loop();
+  } else {
+    canvas.style.display = 'none';
+    resize(); initParticles();
+  }
+
+  window.addEventListener('resize', function(){ resize(); initParticles(); });
 })();
 </script>
 
 </body>
 </html>
+
 
