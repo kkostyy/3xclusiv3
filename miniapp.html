@@ -3143,12 +3143,14 @@ async function submitOrder() {
   if (!userId) { toast(t('openViaTg')); return; }
   const name = document.getElementById('coName').value.trim();
   const username = document.getElementById('coUser').value.trim().replace('@', '');
-  const phone = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g, '').replace(/^\+?372/, '');
+  const phoneRaw = document.getElementById('coPhone').value.trim().replace(/[\s\-\(\)]/g, '');
+  const phone = phoneRaw.replace(/^\+?372/, '');
   const address = document.getElementById('coAddr').value.trim();
   if (!name || name.split(' ').length < 2) { toast(t('enterName')); return; }
-  if (!username || username.length < 5) { toast(t('enterUsername')); return; }
-  if (!/^[3-8]\d{7}$/.test(phone)) { toast(t('enterPhone')); return; }
+  if (!username || username.length < 3) { toast(t('enterUsername')); return; }
+  if (!/^\d{7,8}$/.test(phone)) { toast(t('enterPhone')); return; }
   if (!address) { toast(t('enterDistrict')); return; }
+  if (Object.keys(cart).length === 0) { toast('корзина пуста'); return; }
   const items = Object.values(cart).map(i => ({ id: i.id, qty: i.qty, price: i.price, name: i.name }));
   const btn = document.querySelector('#vCheckout .btn[onclick*="submitOrder"]') || document.querySelector('#vCheckout .btn');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
@@ -3157,17 +3159,22 @@ async function submitOrder() {
     const timer = setTimeout(() => controller.abort(), 12000);
     const r = await fetch(`${API}/api/checkout`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone, address }),
+      body: JSON.stringify({ user_id: userId, items, total: cartTotal(), name, username, phone: phoneRaw, address }),
       signal: controller.signal
     });
     clearTimeout(timer);
-    const d = await r.json();
-    if (d.ok) {
+    let d;
+    try { d = await r.json(); } catch { d = {}; }
+    if (r.ok && d.ok) {
       cart = {}; saveCart(); updateCartNum(); switchView('catalog');
       toast(`✅ ${t('orderLabel')} #${d.order_id} ${t('orderPlaced')}`, 4000);
       setTimeout(() => showOrderAutoReply(d.order_id), 700);
       fetch(`${API}/api/addresses`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telegram_id: userId, label: address.substring(0, 20), address }) }).catch(() => {});
-    } else toast(t('orderError') + (d.detail ? ': ' + d.detail : ''));
+    } else {
+      const reason = d.detail || d.error || d.message || `HTTP ${r.status}`;
+      toast(t('orderError') + ': ' + reason, 4000);
+      console.error('checkout failed:', r.status, d);
+    }
   } catch(e) {
     console.error('submitOrder error:', e);
     if (e.name === 'AbortError') toast('⚠️ Время ожидания истекло — попробуйте снова');
@@ -4532,13 +4539,24 @@ let _editStockQty = 1, _editIsUsed = 0, _editExtraPhotos = [], _editExtraPhotosP
 async function loadAdminProducts() {
   await loadCategories();
   refreshCatList();
-  // Also rebuild edit cat grid with custom categories
+  // Rebuild edit cat grid dynamically from allCategories
   const editGrid = document.getElementById('eProdCatGrid');
   if (editGrid) {
-    const btns = editGrid.querySelectorAll('.cat-btn');
     const onCat = editGrid.querySelector('.cat-btn.on')?.dataset.cat || 'clothes';
-    // Keep existing buttons updated
-    btns.forEach(b => { b.textContent = getCatLabel(b.dataset.cat) || b.textContent; });
+    editGrid.innerHTML = allCategories.map(id =>
+      '<button class="cat-btn' + (id === onCat ? ' on' : '') + '" data-cat="' + id + '" onclick="selectEditCat(this)">'
+      + (catGlyph[id] && /\p{Emoji}/u.test(catGlyph[id]) ? catGlyph[id] + ' ' : '')
+      + getCatLabel(id) + '</button>'
+    ).join('');
+  }
+  // Also rebuild old aCatGrid (used in add-form fallback)
+  const addGrid = document.getElementById('aCatGrid');
+  if (addGrid) {
+    const onCat2 = addGrid.querySelector('.cat-btn.on')?.dataset.cat || 'clothes';
+    addGrid.innerHTML = allCategories.map(id =>
+      '<button class="cat-btn' + (id === onCat2 ? ' on' : '') + '" data-cat="' + id + '" onclick="selectCat(this)">'
+      + getCatLabel(id) + '</button>'
+    ).join('');
   }
   const el = document.getElementById('aProductsContent');
   try {
