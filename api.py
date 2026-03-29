@@ -896,21 +896,45 @@ async def save_settings(body: StoreSettings):
 @app.get("/api/categories")
 async def get_categories():
     """Return all product categories (built-in + custom)."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        try:
-            async with db.execute("SELECT id, label, glyph, label_en, label_et FROM categories ORDER BY sort_order") as cur:
-                rows = await cur.fetchall()
-            if rows:
-                return [{"id": r[0], "label": r[1], "glyph": r[2],
-                         "label_en": r[3] or r[1], "label_et": r[4] or r[1]} for r in rows]
-        except Exception:
-            pass
-    # Fallback: built-in categories
-    return [
-        {"id": "clothes",     "label": "Одежда",     "glyph": "👕", "label_en": "Clothes",     "label_et": "Riided"},
-        {"id": "shoes",       "label": "Обувь",       "glyph": "👟", "label_en": "Shoes",       "label_et": "Jalatsid"},
-        {"id": "accessories", "label": "Аксессуары", "glyph": "👜", "label_en": "Accessories", "label_et": "Aksessuaarid"},
+    built_in = [
+        ("clothes",     "Одежда",     "👕", 1,  "Clothes",     "Riided"),
+        ("shoes",       "Обувь",       "👟", 2,  "Shoes",       "Jalatsid"),
+        ("accessories", "Аксессуары", "👜", 3,  "Accessories", "Aksessuaarid"),
     ]
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Ensure table exists with all columns
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS categories (
+                id TEXT PRIMARY KEY,
+                label TEXT NOT NULL,
+                glyph TEXT DEFAULT '✦',
+                sort_order INTEGER DEFAULT 100,
+                label_en TEXT DEFAULT NULL,
+                label_et TEXT DEFAULT NULL
+            )
+        """)
+        for col in ["label_en TEXT DEFAULT NULL", "label_et TEXT DEFAULT NULL"]:
+            try:
+                await db.execute(f"ALTER TABLE categories ADD COLUMN {col}")
+            except Exception:
+                pass
+        # Seed built-ins if table is empty
+        async with db.execute("SELECT COUNT(*) FROM categories") as cur:
+            count = (await cur.fetchone())[0]
+        if count == 0:
+            for row in built_in:
+                await db.execute(
+                    "INSERT OR IGNORE INTO categories (id, label, glyph, sort_order, label_en, label_et) VALUES (?,?,?,?,?,?)",
+                    row
+                )
+        await db.commit()
+        async with db.execute("SELECT id, label, glyph, label_en, label_et FROM categories ORDER BY sort_order") as cur:
+            rows = await cur.fetchall()
+        if rows:
+            return [{"id": r[0], "label": r[1], "glyph": r[2],
+                     "label_en": r[3] or r[1], "label_et": r[4] or r[1]} for r in rows]
+    # Ultimate fallback
+    return [{"id": r[0], "label": r[1], "glyph": r[2], "label_en": r[4], "label_et": r[5]} for r in built_in]
 
 class NewCategory(BaseModel):
     admin_id: int
